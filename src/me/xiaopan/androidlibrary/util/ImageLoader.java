@@ -29,91 +29,49 @@ import android.widget.ImageView;
  * 图片加载器，可以从网络或者本地加载图片，并且无操作1分钟后自动清除缓存
  */
 public class ImageLoader {
-	/**
-	 * 软引用图片Map
-	 */
-	private static final ConcurrentHashMap<String, SoftReference<Bitmap>> softReferenceMap = new ConcurrentHashMap<String, SoftReference<Bitmap>>();
-	/**
-	 * 图片加载器的实例，用来实现单例模式
-	 */
-	private static ImageLoader imageLoaderInstance; 
-	/**
-	 * 图片视图集合，这个集合里的每个尚未加载完成的视图身上都会携带有他要显示的图片的地址，
-	 * 当每一个图片加载完成之后都会在这个列表中遍历找到所有携带有这个这个图片的地址的视图，并把图片显示到这个视图上
-	 */
-	private Set<ImageView> imageViewSet;
-	/**
-	 * 正在加载的Url列表，用来防止同一个URL重复加载
-	 */
-	private Set<String> loadingUrlSet;
-	/**
-	 * 等待加载的Url
-	 */
-	private Circle<ImageLoad> waitingLoadCircle;
-	/**
-	 * 自动清除缓存处理
-	 */
-	private AutoClearCacheHandle autoClearCacheHandle;
-	/**
-	 * 自动清除缓存处理器
-	 */
-	private Handler autoClearCacheHandler;
-	/**
-	 * 加载选项
-	 */
-	private Options loadOptions;
-	/**
-	 * 自动清除缓存
-	 */
-	private boolean autoClearCache = true;
-	/**
-	 * 默认图片的资源ID
-	 */
-	private int defaultDrawableResId = -5;
-	/**
-	 * 自动清除缓存倒计时时间，单位毫秒
-	 */
-	private long autoClearCacheTimerTime = 6000;
-	/**
-	 * 最大线程数
-	 */
-	private int maxThreadNumber = 10;
-	/**
-	 * 最大等待数
-	 */
-	private int maxWaitingNumber = 10;
-	/**
-	 * 获取显示图片动画的监听器
-	 */
-	private OnGetShowAnimationListener showImageListener;
+	private static final ConcurrentHashMap<String, SoftReference<Bitmap>> softReferenceMap = new ConcurrentHashMap<String, SoftReference<Bitmap>>();//软引用图片Map
+	private static ImageLoader imageLoaderInstance; //图片加载器的实例，用来实现单例模式
+	private Set<ImageView> imageViewSet;	//图片视图集合，这个集合里的每个尚未加载完成的视图身上都会携带有他要显示的图片的地址，当每一个图片加载完成之后都会在这个列表中遍历找到所有携带有这个这个图片的地址的视图，并把图片显示到这个视图上
+	private Set<String> loadingUrlSet;	//正在加载的Url列表，用来防止同一个URL被重复加载
+	private Circle<ImageLoadRequest> waitingLoadCircle;	//等待处理的加载请求
+	private AutoClearCacheRunnable autoClearCacheRunnable;	//自动清除缓存处理对象
+	private Handler autoClearCacheHandler;	//自动清除缓存处理器
+	private Options loadOptions;	//图片加载选项
+	private boolean autoClearCache = false;	//自动清除缓存，默认关闭此功能
+	private int defaultDrawableResId = -5;	//默认图片的资源ID
+	private long autoClearCacheTimerTime = 60000;	//自动清除缓存倒计时时间，单位毫秒。当1分钟之内没有任何操作就会自动清空缓存
+	private int maxThreadNumber = 30;	//最大线程数
+	private int maxWaitingNumber = 30;	//最大等待数
+	private OnGetShowAnimationListener showImageListener;	//获取显示图片动画的监听器
+	private int maxRetryCount = 10;	//最大重试次数
 	
 	/**
 	 * 创建图片加载器
-	 * @param defaultDrawableId 默认显示的图片
+	 * @param defaultDrawableResId 默认显示的图片
 	 */
-	public ImageLoader(int defaultDrawableId){
-		setDefaultDrawableResId(defaultDrawableId);
-		autoClearCacheHandler = new Handler();
-		autoClearCacheHandle = new AutoClearCacheHandle();
-		loadingUrlSet = new HashSet<String>();
-		setImageViewSet(new HashSet<ImageView>());
-		setWaitingLoadCircle(new Circle<ImageLoad>(getMaxWaitingNumber()));
+	public ImageLoader(int defaultDrawableResId){
+		this.defaultDrawableResId = defaultDrawableResId;//初始化默认图片的资源ID
+		this.autoClearCacheHandler = new Handler();//初始化自动清除缓存处理器
+		this.autoClearCacheRunnable = new AutoClearCacheRunnable();//初始化自动清除缓存处理对象
+		this.imageViewSet = new HashSet<ImageView>();//初始化图片视图集合
+		this.loadingUrlSet = new HashSet<String>();//初始化加载中URL集合
+		this.waitingLoadCircle = new Circle<ImageLoadRequest>(getMaxWaitingNumber());//初始化等待处理的加载请求集合
 		
-		//设置加载图片时的配置
-		setLoadOptions(new Options());
-//		getLoadOptions().inSampleSize = 2;
-		getLoadOptions().inPreferredConfig = Bitmap.Config.RGB_565;   
-		getLoadOptions().inPurgeable = true;  
-		getLoadOptions().inInputShareable = true;
+		this.loadOptions = new Options();//初始化图片加载选项
+//		this.loadOptions.inSampleSize = 2;
+		this.loadOptions.inPreferredConfig = Bitmap.Config.RGB_565;   
+		this.loadOptions.inPurgeable = true;  
+		this.loadOptions.inInputShareable = true;
 		
-		setShowImageListener(new OnGetShowAnimationListener() {
+		//设置默认的图片显示监听器
+		this.showImageListener = new OnGetShowAnimationListener() {
 			@Override
 			public Animation onGetShowAnimation() {
 				AlphaAnimation alphaAnimation = new AlphaAnimation(0.6f, 1.0f);
 				alphaAnimation.setDuration(500);
 				return alphaAnimation;
 			}
-		});
+		};
 	}
 	
 	/**
@@ -124,28 +82,30 @@ public class ImageLoader {
 	}
 	
 	/**
-	 * 获取图片加载器的实例
+	 * 获取图片加载器的实例，每执行一次此方法就会清除一次历史记录
 	 * @return 图片加载器的实例
 	 */
 	public static final ImageLoader getInstance(){
 		if(imageLoaderInstance == null){
 			imageLoaderInstance = new ImageLoader();
+		}else{
+			imageLoaderInstance.clearHistory();
 		}
-		imageLoaderInstance.clearHistory();
 		return imageLoaderInstance;
 	}
 	
 	/**
-	 * 获取图片加载器的实例
+	 * 获取图片加载器的实例，每执行一次此方法就会清除一次历史记录
 	 * @param defaultDrawableResId 默认的图片的资源ID
 	 * @return 图片加载器的实例
 	 */
 	public static final ImageLoader getInstance(int defaultDrawableResId){
 		if(imageLoaderInstance == null){
-			imageLoaderInstance = new ImageLoader();
+			imageLoaderInstance = new ImageLoader(defaultDrawableResId);
+		}else{
+			imageLoaderInstance.setDefaultDrawableResId(defaultDrawableResId);
+			imageLoaderInstance.clearHistory();
 		}
-		imageLoaderInstance.setDefaultDrawableResId(defaultDrawableResId);
-		imageLoaderInstance.clearHistory();
 		return imageLoaderInstance;
 	}
 	
@@ -157,7 +117,7 @@ public class ImageLoader {
 	 */
 	public final void fromNetwork(String imageUrl, ImageView imageView, boolean isCache){
 		if(imageUrl != null && imageView != null){
-			ImageLoad imageLoad = new ImageLoad();
+			ImageLoadRequest imageLoad = new ImageLoadRequest();
 			imageLoad.setUrl(imageUrl);
 			imageLoad.setAddress(imageUrl);
 			imageLoad.setImageView(imageView);
@@ -184,12 +144,12 @@ public class ImageLoader {
 	 */
 	public final void fromLocal(File localSourceFile, ImageView imageView, boolean isCache){
 		if(localSourceFile != null && imageView != null){
-			ImageLoad imageLoad = new ImageLoad();
+			ImageLoadRequest imageLoad = new ImageLoadRequest();
 			imageLoad.setLocalSourceFile(localSourceFile);
 			imageLoad.setAddress(localSourceFile.getPath());
 			imageLoad.setImageView(imageView);
 			imageLoad.setCache(isCache);
-			imageLoad.setLoadWay(LoadWay.FROM_NET);
+			imageLoad.setLoadWay(LoadWay.FROM_LOCAL);
 			load(imageLoad);
 		}
 	}
@@ -213,7 +173,7 @@ public class ImageLoader {
 	 */
 	public final void fromLocalByPriority(File localSourceFile, ImageView imageView, String imageUrl, boolean isSave, boolean isCache){
 		if(imageView != null && (localSourceFile != null || imageUrl != null)){
-			ImageLoad imageLoad = new ImageLoad();
+			ImageLoadRequest imageLoad = new ImageLoadRequest();
 			imageLoad.setLocalSourceFile(localSourceFile);
 			imageLoad.setImageView(imageView);
 			imageLoad.setUrl(imageUrl);
@@ -250,8 +210,8 @@ public class ImageLoader {
 	 * 加载
 	 * @param imageLoad 图片加载对象
 	 */
-	public final void load(ImageLoad imageLoad){
-		//尝试显示图片，如果显示失败，说明缓存中没有相应的图片，并且当前url尚未开始下载
+	public final void load(ImageLoadRequest imageLoad){
+		//尝试显示图片，如果显示失败（说明缓存中没有相应的图片）并且当前url尚未开始下载
 		if(!tryShowImage(imageLoad) && putLoadingImageLoad(imageLoad)){
 			//创建图片加载任务并启动
 			new ImageLoadTask(this).execute(imageLoad);
@@ -262,7 +222,7 @@ public class ImageLoader {
 	 * 尝试显示图片
 	 * @param imageLoad
 	 */
-	private final boolean tryShowImage(ImageLoad imageLoad){
+	private final boolean tryShowImage(ImageLoadRequest imageLoad){
 		boolean result = false;
 
 		//锁定当前显示视图
@@ -281,10 +241,7 @@ public class ImageLoader {
 			}
 	
 			//根据地址从缓存中获取图片
-			Bitmap bitmap = null;
-			if(imageLoad.isCache()){
-				bitmap = getBitmapFromCache(imageLoad.getAddress());
-			}
+			Bitmap bitmap = getBitmapFromCache(imageLoad.getAddress());
 		
 			//如果缓存中存在相对的图片就显示，否则显示默认图片或者显示空
 			if(bitmap != null){
@@ -304,9 +261,9 @@ public class ImageLoader {
 	
 	/**
 	 * 显示图片
-	 * @param imageView
-	 * @param bitmap
-	 * @param useAnimation
+	 * @param imageView 显示图片的视图
+	 * @param bitmap 要显示的图片
+	 * @param useAnimation 显示图片的时候是否使用动画
 	 */
 	private void showImage(final ImageView imageView, final Bitmap bitmap, boolean useAnimation){
 		//如果使用动画，就视图设置动画，否则清除动画
@@ -329,12 +286,12 @@ public class ImageLoader {
 	 * @param url 地址
 	 * @return true：放入成功，说明当前图片加载对象尚未开始加载；false：放入失败，说明当前图片加载对象正在加载，不可以重复加载
 	 */
-	public final boolean putLoadingImageLoad(ImageLoad imageLoad){
+	public final boolean putLoadingImageLoad(ImageLoadRequest imageLoad){
 		boolean result = false;
 		synchronized (loadingUrlSet) {
 			//如果尚未达到最大负荷，就将当前下载对象的地址添加到正在下载集合中，否则将当前下载对象添加到等待队列中
 			if(loadingUrlSet.size() < getMaxThreadNumber()){
-				result = loadingUrlSet.add(imageLoad.getAddress());
+				result = loadingUrlSet.add(imageLoad.getAddress());//如果放入失败，说明当前图片正在下载不必重复下载
 			}else{
 				synchronized (waitingLoadCircle) {
 					waitingLoadCircle.put(imageLoad);
@@ -349,7 +306,7 @@ public class ImageLoader {
 	 * @param imageLoad 图片加载对象
 	 * @return true：删除成功；false：删除失败，也许之前列表中不存在此图片加载对象。
 	 */
-	public final boolean removeLoadingImageLoad(ImageLoad imageLoad){
+	public final boolean removeLoadingImageLoad(ImageLoadRequest imageLoad){
 		synchronized (loadingUrlSet) {
 			return loadingUrlSet.remove(imageLoad.getAddress());
 		}
@@ -442,8 +399,8 @@ public class ImageLoader {
 	 */
 	public final void resetAutoClearCacheTimer() {
 		synchronized (autoClearCacheHandler) {
-			autoClearCacheHandler.removeCallbacks(autoClearCacheHandle);
-			autoClearCacheHandler.postDelayed(autoClearCacheHandle, getAutoClearCacheTimerTime());
+			autoClearCacheHandler.removeCallbacks(autoClearCacheRunnable);
+			autoClearCacheHandler.postDelayed(autoClearCacheRunnable, getAutoClearCacheTimerTime());
 		}
 	}
 	
@@ -463,9 +420,9 @@ public class ImageLoader {
 		if(this.autoClearCache != autoClearCache){
 			this.autoClearCache = autoClearCache;
 			synchronized (autoClearCacheHandler) {
-				autoClearCacheHandler.removeCallbacks(autoClearCacheHandle);
+				autoClearCacheHandler.removeCallbacks(autoClearCacheRunnable);
 				if(isAutoClearCache()){
-					autoClearCacheHandler.postDelayed(autoClearCacheHandle, getAutoClearCacheTimerTime());
+					autoClearCacheHandler.postDelayed(autoClearCacheRunnable, getAutoClearCacheTimerTime());
 				}
 			}
 		}
@@ -571,7 +528,7 @@ public class ImageLoader {
 	 * 获取等待加载队列
 	 * @return 等待加载队列
 	 */
-	public final Circle<ImageLoad> getWaitingLoadCircle() {
+	public final Circle<ImageLoadRequest> getWaitingLoadCircle() {
 		return waitingLoadCircle;
 	}
 
@@ -579,7 +536,7 @@ public class ImageLoader {
 	 * 设置等待加载队列
 	 * @param waitingLoadCircle 等待加载队列
 	 */
-	public final void setWaitingLoadCircle(Circle<ImageLoad> waitingLoadCircle) {
+	public final void setWaitingLoadCircle(Circle<ImageLoadRequest> waitingLoadCircle) {
 		this.waitingLoadCircle = waitingLoadCircle;
 	}
 	
@@ -599,10 +556,18 @@ public class ImageLoader {
 		this.showImageListener = showImageListener;
 	}
 	
+	public int getMaxRetryCount() {
+		return maxRetryCount;
+	}
+
+	public void setMaxRetryCount(int maxRetryCount) {
+		this.maxRetryCount = maxRetryCount;
+	}
+
 	/**
 	 * 自动清除缓存
 	 */
-	private class AutoClearCacheHandle implements Runnable{
+	private class AutoClearCacheRunnable implements Runnable{
 		@Override
 		public void run() {
 			ImageLoader.clearCache();
@@ -612,7 +577,7 @@ public class ImageLoader {
 	/**
 	 * 图片加载对象
 	 */
-	private class ImageLoad {
+	private class ImageLoadRequest {
 		private String url;
 		private File localSourceFile;
 		private String address;
@@ -699,7 +664,7 @@ public class ImageLoader {
 	/**
 	 * 图片加载任务
 	 */
-	private class ImageLoadTask extends AsyncTask<ImageLoad, Integer, ImageLoad> {
+	private class ImageLoadTask extends AsyncTask<ImageLoadRequest, Integer, ImageLoadRequest> {
 		/**
 		 * 图片加载器
 		 */
@@ -714,8 +679,8 @@ public class ImageLoader {
 		}
 		
 		@Override
-		protected ImageLoad doInBackground(ImageLoad... params) {
-			ImageLoad imageLoad = params[0];
+		protected ImageLoadRequest doInBackground(ImageLoadRequest... params) {
+			ImageLoadRequest imageLoad = params[0];
 			
 			//如果是从网络加载
 			if(imageLoad.getLoadWay() == LoadWay.FROM_NET){
@@ -742,7 +707,7 @@ public class ImageLoader {
 		}
 
 		@Override
-		protected void onPostExecute(ImageLoad imageLoad) {
+		protected void onPostExecute(ImageLoadRequest imageLoad) {
 			//结果不为null
 			if(imageLoad.getLoadResult() != null){
 				//如果需要缓存到内存中就将结果放到缓存Map中
@@ -768,7 +733,7 @@ public class ImageLoader {
 			
 			//从等待队列中取出等待下载的对象并执行
 			synchronized (imageLoader.getWaitingLoadCircle()) {
-				ImageLoad waitImageLoad = imageLoader.getWaitingLoadCircle().remove();
+				ImageLoadRequest waitImageLoad = imageLoader.getWaitingLoadCircle().remove();
 				if(waitImageLoad != null){
 					if(imageLoader.putLoadingImageLoad(waitImageLoad)){
 						new ImageLoadTask(imageLoader).execute(waitImageLoad);
@@ -783,14 +748,14 @@ public class ImageLoader {
 		 * @return 图片
 		 * @param saveFile 将下载好的图片保存到此文件中
 		 */
-		public final void downloadImage(final ImageLoad imageLoad, final Options loadOptions) {
+		public final void downloadImage(final ImageLoadRequest imageLoad, final Options loadOptions) {
 			HttpRequest httpRequest = new HttpRequest(imageLoad.getUrl());
 			httpRequest.setConnectTimeout(30000);
 			HttpClient.sendRequest(httpRequest, new HttpListener() {
 				
-				private File parentDir;
-				private boolean createNewDir;
-				private boolean createNewFile;
+				private File parentDir;//保存图片的文件的父目录
+				private boolean createNewDir;//true：父目录之前不存在是现在才创建的，当发生异常时需要删除
+				private boolean createNewFile;//true：保存图片的文件之前不存在是现在才创建的，当发生异常时需要删除
 				private InputStream inputStream;
 				private OutputStream outputStream;
 				
@@ -860,8 +825,9 @@ public class ImageLoader {
 					
 					//加载次数加1
 					imageLoad.setLoads(imageLoad.getLoads()+1);
-					//如果加载次数小于1说明本次是第一次加载，那么就再尝试一次
-					if(imageLoad.getLoads() < 1){
+					
+					//如果尚未达到最大重试次数，那么就再尝试一次
+					if(imageLoad.getLoads() < getMaxRetryCount()){
 						downloadImage(imageLoad, loadOptions);
 					}
 				}
