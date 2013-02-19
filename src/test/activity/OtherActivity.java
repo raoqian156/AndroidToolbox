@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 系统组件使用示例
+ * 其它示例
  * @author xiaopan
  *
  */
