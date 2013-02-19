@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.xiaopan.androidlibrary"
+    android:versionCode="215"
+    android:versionName="2.1.5" >
+
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.location.gps"/>
+
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name"  android:name="test.MyApplication" >
+        <activity android:name="test.activity.MainActivity" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+             </intent-filter>
+        </activity>
+        	<activity android:name="test.activity.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
+        	
+        	<activity android:name="test.activity.SystemWidgetActivity" android:label="@string/systemWidget_title"/>
+	        	<activity android:name="test.activity.TabHostActivity" android:label="@string/tabHost_title"/>
+	        	<activity android:name="test.activity.TabContentActivity"/>
+        	
+        	<activity android:name="test.activity.CustomWidgetActivity" android:label="@string/customWidget_title"/>
+	        	<activity android:name="test.activity.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
+	        	<activity android:name="test.activity.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
+	        	<activity android:name="test.activity.SlideTabActivity" android:label="@string/slideTab_title"/>
+        		<activity android:name="test.activity.CustomCameraActivity" android:screenOrientation="landscape" android:label="@string/customCamera_title" android:configChanges="keyboardHidden|orientation|screenSize"/>
+	        	<activity android:name="test.activity.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
+        	
+        	<activity android:name="test.activity.ToolsActivity" android:label="@string/tools_title"/>
+        		<activity android:name="test.activity.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
+        		<activity android:name="test.activity.BarcodeScannerActivity" android:label="@string/barcodeScanner_title"/>
+
+     		<activity android:name="test.activity.OtherActivity" android:label="@string/other_title"/>
+    </application>
+</manifest>

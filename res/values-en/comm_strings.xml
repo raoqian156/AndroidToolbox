@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">测试程序</string>
+    
+    <string name="comm_hint_connectionTimeout">网络连接超时！请重试！</string>
+    <string name="comm_hint_networkError">网络不可用，请检查您的网络设置！</string>
+    <string name="comm_hint_connectionError">连接失败！请重试！</string>
+    <string name="comm_hint_urlError">连接失败！请重试！</string>
+    <string name="comm_hint_unknownException">连接失败！请重试！</string>
+    <string name="comm_hint_getDataFailed">连接失败！请重试！</string>
+    <string name="comm_hint_parseFailed">连接失败！请重试！</string>
+    <string name="comm_hint_cameraOpenFailed">打开摄像头失败，请确保其他程序没有占用您的摄像头！</string>
+    <string name="comm_hint_reloadIn">正在重新加载！</string>
+    
+    <string name="comm_clickLoadMore">点击加载更多</string>
+    <string name="comm_pullUpLoadMore">上拉加载更多</string>
+    <string name="comm_firstLoad">首次加载</string>
+    <string name="comm_pullDownRefersh">下拉刷新</string>
+    <string name="comm_firstRefersh">首次刷新</string>
+</resources>

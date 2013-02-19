@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 提供最基本的常用样式标准 -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 布局 - 宽充满 - 高充满 -->
+    <style name="base_layout_fill_fill">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">fill_parent</item>
+    </style>
+    
+    <!-- 布局 - 宽充满 - 高包括 -->
+    <style name="base_layout_fill_wrap">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <!-- 布局 - 宽包括 - 高包括 -->
+    <style name="base_layout_wrap_wrap">
+       	<item name="android:layout_width">wrap_content</item>
+      	<item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <!-- 布局 - 宽包括 - 高充满 -->
+    <style name="base_layout_wrap_fill">
+       	<item name="android:layout_width">wrap_content</item>
+      	<item name="android:layout_height">fill_parent</item>
+    </style>
+    
+    <!-- 布局 - 宽充满 - 高充满 - 纵向 -->
+    <style name="base_layout_fill_fill_vertical">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">fill_parent</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽充满 - 高包括 - 纵向 -->
+    <style name="base_layout_fill_wrap_vertical">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">wrap_content</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽包括 - 高包括 - 纵向 -->
+    <style name="base_layout_wrap_wrap_vertical">
+       	<item name="android:layout_width">wrap_content</item>
+      	<item name="android:layout_height">wrap_content</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽包括 - 高充满 - 纵向 -->
+    <style name="base_layout_wrap_fill_vertical">
+       	<item name="android:layout_width">wrap_content</item>
+      	<item name="android:layout_height">fill_parent</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽权重 - 高包括 -->
+    <style name="base_layout_weight_wrap">
+       	<item name="android:layout_width">0dp</item>
+      	<item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_weight">1</item>
+    </style>
+    
+    <!-- 布局 - 宽权重 - 高包括 -->
+    <style name="base_layout_weight_fill">
+       	<item name="android:layout_width">0dp</item>
+      	<item name="android:layout_height">fill_parent</item>
+	    <item name="android:layout_weight">1</item>
+    </style>
+    
+    <!-- 布局 - 宽权重 - 高包括 - 纵向 -->
+    <style name="base_layout_weight_wrap_vertical">
+       	<item name="android:layout_width">0dp</item>
+      	<item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_weight">1</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽权重 - 高充满 - 纵向 -->
+    <style name="base_layout_weight_fill_vertical">
+       	<item name="android:layout_width">0dp</item>
+      	<item name="android:layout_height">fill_parent</item>
+	    <item name="android:layout_weight">1</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽包括 - 高权重 -->
+    <style name="base_layout_wrap_weight">
+       	<item name="android:layout_width">wrap_content</item>
+      	<item name="android:layout_height">0dp</item>
+	    <item name="android:layout_weight">1</item>
+    </style>
+    
+    <!-- 布局 - 宽充满 - 高权重 -->
+    <style name="base_layout_fill_weight">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">0dp</item>
+	    <item name="android:layout_weight">1</item>
+    </style>
+    
+    <!-- 布局 - 宽包括 - 高权重 - 纵向 -->
+    <style name="base_layout_wrap_weight_vertical">
+       	<item name="android:layout_width">wrap_content</item>
+      	<item name="android:layout_height">0dp</item>
+	    <item name="android:layout_weight">1</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+    <!-- 布局 - 宽充满 - 高权重 - 纵向 -->
+    <style name="base_layout_fill_weight_vertical">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">0dp</item>
+	    <item name="android:layout_weight">1</item>
+      	<item name="android:orientation">vertical</item>
+    </style>
+    
+	<!-- 布局 - 工具栏 -->
+	<style name="base_layout_toolbar" parent="@style/base_layout_fill_wrap">
+	    <item name="android:id">@id/base_layout_toolbar</item>
+	    <item name="android:minHeight">@dimen/base_layout_toolbar_minHeight</item>
+	    <item name="android:layout_height">@dimen/base_layout_toolbar_minHeight</item>
+	    <item name="android:gravity">center_vertical</item>
+	</style>
+	
+	<!-- 布局 - 正文 -->
+	<style name="base_layout_body" parent="@style/base_layout_fill_fill_vertical">
+	    <item name="android:id">@id/base_layout_body</item>
+	</style>
+	
+	<!-- 布局 - 正文 - 内容 - 没有内边距 -->
+	<style name="base_layout_body_content" parent="@style/base_layout_fill_fill_vertical">
+	    <item name="android:id">@id/base_layout_bodyContent</item>
+	</style>
+	
+	<!-- 布局 - 正文 - 内容 - 有内边距 -->
+	<style name="base_layout_body_content_padding" parent="@style/base_layout_body_content">
+	    <item name="android:padding">@dimen/base_layout_body_content_padding</item>
+	</style>
+    
+    <!-- 布局 - 高光 -->
+    <style name="base_layout_highLight">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/base_layout_highLight_height</item>
+	    <item name="android:background">@color/base_highLight</item>
+    </style>
+    
+    <!-- 布局 - 低光 -->
+    <style name="base_layout_lowLight">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/base_layout_lowLight_height</item>
+	    <item name="android:background">@color/base_lowLight</item>
+    </style>
+    
+    <!-- 布局 - 横向分割线 - 黑色 -->
+    <style name="base_layout_hr_black">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/base_layout_hr_black_height</item>
+        <item name="android:background">@color/base_black</item>
+    </style>
+    
+    <!-- 布局 - 列表为空时的提示视图 -->
+    <style name="base_layout_listEmptyHint" parent="@style/base_layout_wrap_wrap">
+        <item name="android:id">@id/base_layout_listEmptyHint</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">gone</item>
+	    <item name="android:gravity">center</item>  
+	    <item name="android:clickable">true</item>
+    </style>
+
+    <!-- 布局 - 正在加载的提示视图 -->
+    <style name="base_layout_loadingHint" parent="@style/base_layout_fill_fill">
+        <item name="android:id">@id/base_layout_loadingHint</item>
+        <item name="android:layout_gravity">center</item>
+	    <item name="android:gravity">center</item> 
+	    <item name="android:clickable">true</item>
+    </style>
+
+    <!-- 布局 - 正在加载的提示视图 - 默认隐藏的 -->
+    <style name="base_layout_loadingHint_gone" parent="@style/base_layout_loadingHint">
+        <item name="android:visibility">gone</item>
+    </style>
+	
+	<!-- 布局 - 列表项 -->
+	<style name="base_layout_listItem" parent="@style/base_layout_fill_wrap">
+	    <item name="android:minHeight">@dimen/base_layout_listItem_minHeight</item>
+	    <item name="android:paddingLeft">@dimen/base_padding_veryLarge</item>
+	    <item name="android:paddingTop">@dimen/base_padding_littleSmall</item>
+	    <item name="android:paddingRight">@dimen/base_padding_veryLarge</item>
+	    <item name="android:paddingBottom">@dimen/base_padding_littleSmall</item>
+	    <item name="android:gravity">center_vertical</item>
+	</style>
+	
+	<!-- 布局 - 列表头和尾 -->
+	<style name="base_layout_listHeaderAndFooter" parent="@style/base_layout_listItem">
+	    <item name="android:clickable">true</item>
+	</style>
+   
+	<!-- 列表 -->
+	<style name="base_list" parent="@style/base_layout_fill_wrap">
+	    <item name="android:cacheColorHint">@color/base_transparent</item>
+	    <item name="android:fastScrollEnabled">true</item>
+	    <item name="android:id">@android:id/list</item>
+	</style>
+    
+	<!-- 列表 - 充满的 -->
+	<style name="base_list_fill" parent="@style/base_layout_fill_fill">
+	    <item name="android:cacheColorHint">@color/base_transparent</item>
+	    <item name="android:fastScrollEnabled">true</item>
+	    <item name="android:id">@android:id/list</item>
+	</style>
+    
+	<!-- 列表 - 高度权重1 -->
+	<style name="base_list_weight" parent="@style/base_layout_fill_weight">
+	    <item name="android:cacheColorHint">@color/base_transparent</item>
+	    <item name="android:fastScrollEnabled">true</item>
+	    <item name="android:id">@android:id/list</item>
+	</style>
+   
+	<!-- 列表 - 有左右内边距 -->
+	<style name="base_list_padding" parent="@style/base_list">
+	    <item name="android:paddingLeft">@dimen/base_list_padding</item>
+	    <item name="android:paddingRight">@dimen/base_list_padding</item>
+	</style>
+   
+	<!-- 列表 - 充满的 - 有左右内边距 -->
+	<style name="base_list_fill_padding" parent="@style/base_list_fill">
+	    <item name="android:paddingLeft">@dimen/base_list_padding</item>
+	    <item name="android:paddingRight">@dimen/base_list_padding</item>
+	</style>
+   
+	<!-- 列表 - 高度权重1 - 有左右内边距 -->
+	<style name="base_list_weight_padding" parent="@style/base_list_weight">
+	    <item name="android:paddingLeft">@dimen/base_list_padding</item>
+	    <item name="android:paddingRight">@dimen/base_list_padding</item>
+	</style>
+   
+	<!-- 按钮 -->
+	<style name="base_button" parent="@style/base_layout_wrap_wrap">
+	    <item name="android:paddingLeft">@dimen/base_button_paddingLeft</item>
+	    <item name="android:paddingRight">@dimen/base_button_paddingLeft</item>
+	    <item name="android:gravity">center</item>
+	</style>
+	
+	<!-- 按钮 - 正文 -->
+	<style name="base_button_body" parent="@style/base_button">
+	    <item name="android:minWidth">@dimen/base_button_body_minWidth</item>
+	    <item name="android:minHeight">@dimen/base_button_body_minHeight</item>
+	    <item name="android:layout_margin">@dimen/base_button_body_margin</item>
+	</style>
+	
+    <!-- 按钮 - 活动栏 -->
+    <style name="base_button_actionBar" parent="@style/base_button">
+	    <item name="android:minWidth">@dimen/base_button_actionBar_minWidth</item>
+	    <item name="android:minHeight">@dimen/base_button_actionBar_minHeight</item>
+	    <item name="android:layout_height">@dimen/base_button_actionBar_minHeight</item>
+	    <item name="android:layout_margin">@dimen/base_button_actionBar_margin</item>
+    </style>
+	
+    <!-- 按钮 - 列表项 -->
+    <style name="base_button_listItem" parent="@style/base_button_actionBar">
+		<item name="android:minWidth">@dimen/base_button_listItem_minHeight</item>
+		<item name="android:minHeight">@dimen/base_button_listItem_minHeight</item>
+		<item name="android:focusable">false</item>
+		<item name="android:focusableInTouchMode">false</item>
+		<item name="android:layout_gravity">center_vertical</item>
+    </style>
+    
+    <!-- 按钮 - 列表项中的选择按钮 -->
+    <style name="base_button_listItemChoice" parent="@style/base_button_listItem">
+		<item name="android:clickable">false</item>
+        <item name="android:id">@id/base_button_listItemChoice</item>
+    </style>
+    
+	<!-- 阴影 - 向下 -->
+	<style name="base_shadow_down">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">@dimen/base_shadow_height</item>
+	    <item name="android:background">@drawable/base_shape_shadow_down</item>
+	</style>
+    
+	<!-- 阴影 - 向上 -->
+	<style name="base_shadow_up">
+       	<item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">@dimen/base_shadow_height</item>
+	    <item name="android:background">@drawable/base_shape_shadow_up</item>
+	</style>
+</resources>

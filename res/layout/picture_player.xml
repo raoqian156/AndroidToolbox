@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body" android:background="@color/base_gray">
+	<!-- 内容 -->
+    <LinearLayout style="@style/comm_layout_body_content">
+	    <me.xiaopan.androidlibrary.widget.PicturePlayer 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/picturePlayer_picturePlayer" />
+	    <TextView style="@style/base_layout_fill_weight" android:background="@color/base_blue"/>
+    </LinearLayout>
+    
+	<!-- 阴影 -->
+    <include layout="@layout/comm_shadow_down"/>
+</FrameLayout>        

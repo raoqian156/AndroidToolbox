@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+    <!-- 正文内容 -->
+    <TabHost style="@style/base_layout_fill_fill" android:id="@android:id/tabhost">
+        <LinearLayout style="@style/base_layout_fill_fill_vertical">
+	        <FrameLayout style="@style/base_layout_fill_weight" android:id="@android:id/tabcontent"/>
+    	    <TabWidget style="@style/base_layout_fill_wrap" android:id="@android:id/tabs" android:divider="@drawable/image_tabseparator" android:background="@drawable/backg_tabs"/>
+        </LinearLayout>
+    </TabHost>
+	
+	<!-- 阴影 -->
+    <include layout="@layout/comm_shadow_down"/>
+</FrameLayout>

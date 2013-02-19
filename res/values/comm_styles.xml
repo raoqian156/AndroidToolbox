@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 提供公共的样式标准 -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- 布局 - 正文 -->
+    <style name="comm_layout_body" parent="@style/base_layout_body">
+        <item name="android:background">@color/comm_body_backg</item>
+    </style>
+    
+    <!-- 布局 - 正文 - 内容 -->
+    <style name="comm_layout_body_content" parent="@style/base_layout_body_content">
+    </style>
+    
+    <!-- 布局 - 正文  - 内容 - 有内边距-->
+    <style name="comm_layout_body_content_padding" parent="@style/base_layout_body_content_padding">
+    </style>
+    
+	<!-- 布局 - 列表项 -->
+	<style name="comm_layout_istItem" parent="@style/base_layout_listItem">
+	</style>
+	
+	<!-- 布局 - 列表头和尾 -->
+	<style name="comm_layout_listHeaderAndFooter" parent="@style/base_layout_listHeaderAndFooter">
+	</style>
+    
+    <!-- 布局 - 加载中提示 -->
+    <style name="comm_layout_loadingHint" parent="@style/base_layout_loadingHint">
+         <item name="android:background">@color/comm_body_backg</item>
+    </style>
+    
+    <!-- 布局 - 加载中提示 - 默认隐藏的 -->
+    <style name="comm_layout_loadingHint_gone" parent="@style/base_layout_loadingHint_gone">
+         <item name="android:background">@color/comm_body_backg</item>
+    </style>
+    
+	<!-- 列表 -->
+	<style name="comm_list" parent="@style/base_list">
+	    <item name="android:divider">@drawable/backg_list_driver</item>
+	</style>
+    
+	<!-- 列表 - 充满的 -->
+	<style name="comm_list_fill" parent="@style/base_list_fill">
+	    <item name="android:divider">@drawable/backg_list_driver</item>
+	</style>
+    
+	<!-- 列表 - 高度权重1 -->
+	<style name="comm_list_weight" parent="@style/base_list_weight">
+	    <item name="android:divider">@drawable/backg_list_driver</item>
+	</style>
+   
+	<!-- 列表 - 有左右内边距 -->
+	<style name="comm_list_padding" parent="@style/base_list_padding">
+	    <item name="android:divider">@drawable/backg_list_driver</item>
+	</style>
+    
+	<!-- 列表 - 充满的 - 有左右内边距 -->
+	<style name="comm_list_fill_padding" parent="@style/base_list_fill_padding">
+	    <item name="android:divider">@drawable/backg_list_driver</item>
+	</style>
+    
+	<!-- 列表 - 高度权重1 - 有左右内边距 -->
+	<style name="comm_list_weight_padding" parent="@style/base_list_weight_padding">
+	    <item name="android:divider">@drawable/backg_list_driver</item>
+	</style>
+	
+	<!-- 按钮 -->
+	<style name="comm_button" parent="@style/base_button">
+	    <item name="android:textColor">@color/base_gray</item>
+	</style>
+	
+	<!-- 按钮 - 正文 -->
+	<style name="comm_button_body" parent="@style/base_button_body">
+	    <item name="android:textColor">@color/base_gray</item>
+	</style>
+	
+	<!-- 按钮 - 正文 - 宽度充满 -->
+	<style name="comm_button_body_widthFill" parent="@style/base_button_body">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:textColor">@color/base_gray</item>
+	</style>
+	
+    <!-- 按钮 - 活动栏 -->
+    <style name="comm_button_actionBar" parent="@style/base_button_actionBar">
+        <item name="android:textColor">@color/base_gray</item>
+    </style>
+	
+    <!-- 按钮 - 列表项 -->
+    <style name="comm_button_listItem" parent="@style/base_button_listItem">
+        <item name="android:textColor">@color/base_gray</item>
+    </style>
+    
+    <!-- 按钮 - 列表项中的选择按钮 -->
+    <style name="comm_button_listItemChoice" parent="@style/base_button_listItemChoice">
+        <item name="android:textColor">@color/base_gray</item>
+    </style>
+</resources>

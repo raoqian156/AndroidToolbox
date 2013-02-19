@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@id/comm_menu_exception" android:icon="@drawable/ic_cancel" android:title="抛出异常" android:showAsAction="ifRoom"/>
+    <item android:id="@id/base_menu_exit" android:icon="@drawable/ic_remove" android:title="@string/base_exit" android:showAsAction="ifRoom"/>
+</menu>

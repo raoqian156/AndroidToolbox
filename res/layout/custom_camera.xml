@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_layout_fill_fill">
+    <FrameLayout style="@style/base_layout_weight_fill">
+	    <SurfaceView style="@style/base_layout_fill_fill" android:id="@+id/surface_customCamera"/>
+	    <RelativeLayout style="@style/base_layout_fill_fill" android:padding="@dimen/base_padding_specialLarge">
+		    <ImageButton 
+		        style="@style/base_layout_wrap_wrap" 
+		        android:src="@drawable/ic_flash_off" 
+		        android:contentDescription="@string/base_image_contentDescription" 
+		        android:id="@+id/imageButton_customCamera_flashMode" 
+		        android:background="@drawable/shape_button_flash_mode"
+		        android:minWidth="50dp"
+		        android:layout_alignParentTop="true"
+		        />
+		    <TextView 
+		        style="@style/base_layout_fill_wrap" 
+		        android:gravity="center" 
+		        android:text="@string/customCamera_hint_focus" 
+		        android:textColor="@color/base_white" 
+		        android:textSize="@dimen/base_textSize_large"
+		        android:layout_alignParentBottom="true"
+		        />
+	    </RelativeLayout>
+    </FrameLayout>
+    
+    <FrameLayout style="@style/base_layout_wrap_fill">
+		<LinearLayout style="@style/base_layout_wrap_fill_vertical">
+		    <Button style="@style/base_layout_wrap_weight" android:text="@string/customCamera_button_remake" android:id="@+id/button_customCamera_remake" android:visibility="invisible"/>
+		    <Button style="@style/base_layout_wrap_weight" android:text="@string/base_confirm" android:id="@+id/button_customCamera_confirm" android:visibility="invisible"/>
+		</LinearLayout>
+		<Button style="@style/base_layout_wrap_fill" android:text="@string/customCamera_button_take" android:id="@+id/button_customCamera_take"/>
+    </FrameLayout>
+</LinearLayout>
