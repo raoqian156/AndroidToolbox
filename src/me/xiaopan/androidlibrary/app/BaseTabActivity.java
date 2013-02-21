@@ -75,6 +75,10 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	 * 创建时间
 	 */
 	private long createTime;
+	/**
+	 * 记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
+	 */
+	private long lastClickBackButtonTime;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,10 +146,36 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 		closeBroadcastReceiver();
 		super.onDestroy();
 	}
-
+	
 	@Override
 	public void onBackPressed() {
-		finishActivity();
+		if(isEnableDoubleClickBackButtonExitApplication()){
+			long currentMillisTime = System.currentTimeMillis();
+			//两次点击的间隔时间尚未超过规定的间隔时间将执行退出程序
+			if(lastClickBackButtonTime != 0 && (currentMillisTime - lastClickBackButtonTime) < onGetDoubleClickSpacingInterval()){
+				finishApplication();
+			}else{
+				onPromptExitApplication();
+				lastClickBackButtonTime = currentMillisTime;
+			}
+		}else{
+			finishActivity();
+		}
+	}
+	
+	@Override
+	public boolean isEnableDoubleClickBackButtonExitApplication(){
+		return false;
+	}
+	
+	@Override
+	public int onGetDoubleClickSpacingInterval(){
+		return 2000;
+	}
+	
+	@Override
+	public void onPromptExitApplication(){
+		toastS("2秒之内再次点击返回按钮将退出程序！");
 	}
 
 	@Override

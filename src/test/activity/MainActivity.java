@@ -61,4 +61,9 @@ public class MainActivity extends MyBaseActivity{
 	protected boolean isEnableBackHome() {
 		return false;
 	}
+
+	@Override
+	public boolean isEnableDoubleClickBackButtonExitApplication() {
+		return true;
+	}
 }

@@ -58,6 +58,24 @@ public interface BaseActivityInterface {
 	 */
 	String PRFERENCES_FIRST_USING = "FIRST_USING";
 	
+
+	/**
+	 * 是否启用双击返回按钮退出应用程序功能
+	 * @return
+	 */
+	public boolean isEnableDoubleClickBackButtonExitApplication();
+	
+	/**
+	 * 当启用双击返回按钮退出应用程序的功能时，通过此方法来获取双击的最大间隔时间
+	 * @return
+	 */
+	public int onGetDoubleClickSpacingInterval();
+	
+	/**
+	 * 当启用双击返回按钮退出应用程序的功能时，用户第一次点击返回按钮的时候提示用户再次点击将退出程序。
+	 */
+	public void onPromptExitApplication();
+	
 	/**
 	 * 主线程接收消息
 	 * @param message 要处理的消息
