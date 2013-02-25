@@ -78,7 +78,7 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	/**
 	 * 记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
 	 */
-	private long lastClickBackButtonTime;
+	private static long lastClickBackButtonTime;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
