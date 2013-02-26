@@ -44,6 +44,7 @@ public class SystemWidgetActivity extends MyBaseActivity{
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
 		activityItemList.add(new ActivityItem(getString(R.string.tabHost_title), TabHostActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

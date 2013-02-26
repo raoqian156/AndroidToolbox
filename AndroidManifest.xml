@@ -46,6 +46,7 @@
         	<activity android:name="test.activity.SystemWidgetActivity" android:label="@string/systemWidget_title"/>
 	        	<activity android:name="test.activity.TabHostActivity" android:label="@string/tabHost_title"/>
 	        	<activity android:name="test.activity.TabContentActivity"/>
+	        	<activity android:name="test.activity.ProgressBarActivity" android:label="@string/progressBar_title"/>
         	
         	<activity android:name="test.activity.CustomWidgetActivity" android:label="@string/customWidget_title"/>
 	        	<activity android:name="test.activity.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
