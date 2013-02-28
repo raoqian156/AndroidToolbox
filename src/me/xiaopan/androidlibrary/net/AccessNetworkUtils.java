@@ -2,12 +2,12 @@ package me.xiaopan.androidlibrary.net;
 
 import java.lang.reflect.Field;
 
-import com.google.gson.annotations.SerializedName;
-
 import me.xiaopan.javalibrary.net.HttpRequest;
 import me.xiaopan.javalibrary.net.HttpRequestMethod;
 import me.xiaopan.javalibrary.util.AnnotationUtils;
 import me.xiaopan.javalibrary.util.ClassUtils;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 访问网络工具箱

@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import test.net.MyResponseHandler;
-
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.app.BaseTabActivity;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
 import me.xiaopan.androidlibrary.net.Request;
 import me.xiaopan.androidlibrary.net.Response;
+import test.net.MyResponseHandler;
 import android.os.Bundle;
 import android.view.MenuItem;
 

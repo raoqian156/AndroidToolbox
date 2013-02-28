@@ -62,5 +62,6 @@
      		<activity android:name="test.activity.OtherActivity" android:label="@string/other_title"/>
      		<activity android:name="test.activity.DrawableActivity" android:label="@string/drawable_title"/>
 	     		<activity android:name="test.activity.ClipDrawableActivity" android:label="@string/clipDrawable_title"/>
+	     		<activity android:name="test.activity.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
     </application>
 </manifest>

@@ -11,7 +11,6 @@ import test.adapter.SimpleAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
@@ -105,12 +104,6 @@ public class SlideTabActivity extends MyBaseActivity{
 		pullListView.openListFooterReboundMode();
 		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));
 		return pullListView;
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.comm, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 
 	private class Tab{

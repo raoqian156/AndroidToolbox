@@ -9,7 +9,6 @@ import test.MyBaseActivity;
 import test.adapter.ActivityAdapter;
 import test.adapter.ActivityAdapter.ActivityItem;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -45,11 +44,5 @@ public class OtherActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.drawable_title), DrawableActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.comm, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 }

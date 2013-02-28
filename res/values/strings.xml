@@ -32,5 +32,6 @@
 	<string name="other_title">其它</string>
 	<string name="drawable_title">各种Drawable</string>
 	<string name="clipDrawable_title">Clip Drawable</string>
+	<string name="rotateDrawable_title">Rotate Drawable</string>
 
 </resources>

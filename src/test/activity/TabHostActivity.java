@@ -4,7 +4,6 @@ import me.xiaopan.androidlibrary.R;
 import test.MyBaseTabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
@@ -50,11 +49,5 @@ public class TabHostActivity extends MyBaseTabActivity {
 		tabSpec.setContent(intent);
 		
 		return tabSpec;
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.comm, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 }

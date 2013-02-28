@@ -3,10 +3,9 @@ package test.activity;
 import me.xiaopan.androidlibrary.R;
 import test.MyBaseActivity;
 import android.os.Bundle;
-import android.view.Menu;
 
 /**
- * TabHost使用示例Activity
+ * 进度条使用示例
  * @author xiaopan
  *
  */
@@ -23,11 +22,5 @@ public class ProgressBarActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.comm, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 }

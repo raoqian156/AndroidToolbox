@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 用来测试各种Drawable -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+    <LinearLayout style="@style/comm_layout_body_content_padding">
+    	<ImageView style="@style/base_layout_wrap_wrap" android:background="@drawable/rotate" android:contentDescription="@string/base_image_contentDescription"/>
+    </LinearLayout>
+    
+	<!-- 阴影 -->
+    <include layout="@layout/comm_shadow_down"/>
+</FrameLayout>

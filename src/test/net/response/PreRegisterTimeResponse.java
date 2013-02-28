@@ -1,8 +1,8 @@
 package test.net.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import me.xiaopan.androidlibrary.net.Response;
+
+import com.google.gson.annotations.SerializedName;
 
 public class PreRegisterTimeResponse extends Response{
 	@SerializedName("exhId")

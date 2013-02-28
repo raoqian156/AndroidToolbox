@@ -5,7 +5,6 @@ import test.MyBaseActivity;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.Menu;
 
 /**
  * Clip Drawable测试
@@ -13,7 +12,7 @@ import android.view.Menu;
  *
  */
 public class ClipDrawableActivity extends MyBaseActivity {
-	
+	private static final int INCREMENT = 200;
 	private ClipDrawable clipDrawableLeft;
 	private ClipDrawable clipDrawableRight;
 	private ClipDrawable clipDrawableTop;
@@ -42,10 +41,10 @@ public class ClipDrawableActivity extends MyBaseActivity {
 			@Override
 			public void run() {
 				int count = 0;
-				while(count++ < 10){
+				while(count++ < 50){
 					sendMessage();//发送一个消息给主线程
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -57,17 +56,11 @@ public class ClipDrawableActivity extends MyBaseActivity {
 	@Override
 	protected void onReceivedMessage(Message message) {
 		//当收到消息的时候就更改进度
-		clipDrawableLeft.setLevel(clipDrawableLeft.getLevel() + 1000);
-		clipDrawableRight.setLevel(clipDrawableLeft.getLevel() + 1000);
-		clipDrawableTop.setLevel(clipDrawableLeft.getLevel() + 1000);
-		clipDrawableBottom.setLevel(clipDrawableLeft.getLevel() + 1000);
-		clipDrawableCenterVertical.setLevel(clipDrawableLeft.getLevel() + 1000);
-		clipDrawableCenterHorizontal.setLevel(clipDrawableLeft.getLevel() + 1000);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.comm, menu);
-		return super.onCreateOptionsMenu(menu);
+		clipDrawableLeft.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
+		clipDrawableRight.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
+		clipDrawableTop.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
+		clipDrawableBottom.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
+		clipDrawableCenterVertical.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
+		clipDrawableCenterHorizontal.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
 	}
 }
