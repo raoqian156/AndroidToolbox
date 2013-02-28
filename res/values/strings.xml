@@ -33,5 +33,7 @@
 	<string name="drawable_title">各种Drawable</string>
 	<string name="clipDrawable_title">Clip Drawable</string>
 	<string name="rotateDrawable_title">Rotate Drawable</string>
-
+	
+	<string name="rotateDrawable_button_startRotary">开始旋转</string>
+	<string name="rotateDrawable_button_stopRotary">停止旋转</string>
 </resources>

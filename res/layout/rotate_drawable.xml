@@ -2,7 +2,23 @@
 <!-- 用来测试各种Drawable -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
     <LinearLayout style="@style/comm_layout_body_content_padding">
-    	<ImageView style="@style/base_layout_wrap_wrap" android:background="@drawable/rotate" android:contentDescription="@string/base_image_contentDescription"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<ImageView style="@style/base_layout_wrap_wrap" android:layout_gravity="center" android:background="@drawable/rotate" android:id="@+id/rotateDrawable_image" android:contentDescription="@string/base_image_contentDescription"/>
+    	
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<include layout="@layout/comm_space"/>
+    	<Button style="@style/base_layout_fill_wrap" android:text="@string/rotateDrawable_button_startRotary" android:id="@+id/rotateDrawable_button_rotaryControl"/>
     </LinearLayout>
     
 	<!-- 阴影 -->

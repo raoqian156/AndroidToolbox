@@ -84,7 +84,7 @@ public class AnimationUtils {
 	 * @return 一个根据中心点旋转的动画
 	 */
 	public static RotateAnimation getRotateAnimationByCenter(long durationMillis, AnimationListener animationListener){
-		return getRotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, durationMillis, animationListener);
+		return getRotateAnimation(0f, 359f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, durationMillis, animationListener);
 	}
 	
 	/**
