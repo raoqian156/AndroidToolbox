@@ -33,4 +33,9 @@ public class TabContentActivity extends MyBaseActivity {
 		pullListView.openListFooterReboundMode();
 		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));
 	}
+
+	@Override
+	protected boolean isRemoveTitleBar() {
+		return true;
+	}
 }
