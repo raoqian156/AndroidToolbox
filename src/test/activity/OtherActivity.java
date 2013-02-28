@@ -1,9 +1,13 @@
 package test.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.ReboundListView;
 import test.MyBaseActivity;
-import test.adapter.SimpleAdapter;
+import test.adapter.ActivityAdapter;
+import test.adapter.ActivityAdapter.ActivityItem;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -16,7 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
  *
  */
 public class OtherActivity extends MyBaseActivity{
-	private SimpleAdapter simpleAdapter;
+	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
 	
 	@Override
@@ -30,17 +34,17 @@ public class OtherActivity extends MyBaseActivity{
 		reboundListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				arg2 -= reboundListView.getHeaderViewsCount();
-				switch(arg2){
-				}
+				startActivity(activityItemList.get(arg2 - reboundListView.getHeaderViewsCount()).getAction());
 			}
 		});
 	}
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		simpleAdapter = new SimpleAdapter(getBaseContext(), new String[]{});
-		reboundListView.setAdapter(simpleAdapter);
+		activityItemList = new ArrayList<ActivityItem>();
+		activityItemList.add(new ActivityItem(getString(R.string.drawable_title), DrawableActivity.class));
+		
+		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
 	
 	@Override

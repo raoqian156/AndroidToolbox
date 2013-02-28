@@ -30,5 +30,7 @@
 		<string name="barcodeScanner_hint">请将条码置于扫描框内, 等待对焦完成！</string>
 		
 	<string name="other_title">其它</string>
+	<string name="drawable_title">各种Drawable</string>
+	<string name="clipDrawable_title">Clip Drawable</string>
 
 </resources>

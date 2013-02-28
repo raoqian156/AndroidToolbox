@@ -20,7 +20,6 @@ import android.widget.AdapterView.OnItemClickListener;
  *
  */
 public class CustomWidgetActivity extends MyBaseActivity{
-
 	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
 	
