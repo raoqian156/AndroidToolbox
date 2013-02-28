@@ -1,1 +1,1 @@
-Http地址：https://github.com/lldyllml/AndroidLibrary.git
+https://github.com/lldyllml/AndroidLibrary.git
