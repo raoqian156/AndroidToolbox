@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 提供最基本的常用尺寸标准 -->
+<!-- 常用的尺寸 -->
 <resources>
-    <dimen name="base_layout_toolbar_minHeight">48dp</dimen><!-- 布局 - 工具栏 - 最小高度 -->
-    <dimen name="base_layout_highLight_height">1dp</dimen><!-- 布局 - 高光 - 高光 -->
-    <dimen name="base_layout_lowLight_height">1dp</dimen><!-- 布局 - 高光 - 低光 -->
-    <dimen name="base_layout_hr_black_height">0.8dp</dimen><!-- 布局 - 横向分割线 - 黑色 - 高度 -->
-    <dimen name="base_layout_listItem_minHeight">48dp</dimen><!-- 布局 - 列表项 - 最小高度 -->
-    <dimen name="base_layout_body_content_padding">16dp</dimen><!-- 布局 - 正文 - 内容 - 内边距 -->
-    
-    <dimen name="base_shadow_height">6dp</dimen><!-- 阴影 - 高度 -->
-
-	<dimen name="base_list_padding">16dp</dimen><!-- 列表 - 内边距 -->
-	
-    <dimen name="base_button_paddingLeft">11dp</dimen><!-- 按钮 - 左内边距 -->
-    <dimen name="base_button_actionBar_minWidth">60dp</dimen><!-- 按钮 - 活动栏 - 最小宽度 -->
-    <dimen name="base_button_actionBar_minHeight">40dp</dimen><!-- 按钮 - 活动栏 - 最小高度 -->
-    <dimen name="base_button_actionBar_margin">4dp</dimen><!-- 按钮 - 活动栏 - 外边距 -->
-	<dimen name="base_button_body_minWidth">80dp</dimen><!--  按钮 - 正文 - 最小宽度 -->
-    <dimen name="base_button_body_minHeight">48dp</dimen><!-- 按钮 - 正文 - 最小高度 -->
-	<dimen name="base_button_body_margin">5dp</dimen><!--  按钮 - 正文 - 外边距 -->
-    <dimen name="base_button_listItem_minHeight">40dp</dimen><!-- 按钮 - 列表项 -最小高度 -->
+    <dimen name="base_layout_highLight_height">1dp</dimen><!-- 布局 - 高光 - 高度 -->
+    <dimen name="base_layout_lowLight_height">1dp</dimen><!-- 布局 - 低光 - 高度 -->
+    <dimen name="base_layout_blackLine_height">0.8dp</dimen><!-- 布局 - 黑色分割线 - 高度 -->
+    <dimen name="base_layout_shadow_height">6dp</dimen><!-- 布局 - 阴影 - 高度 -->
 
 	<dimen name="base_textSize_specialSmall">7sp</dimen><!-- 文字大小 - 特别小 -->
 	<dimen name="base_textSize_verySmall">10sp</dimen><!-- 文字大小 - 非常小 -->
@@ -63,5 +48,5 @@
     
     <dimen name="base_strokeWidth_small">0.5dp</dimen><!-- 描边宽度 - 小的 -->
     <dimen name="base_strokeWidth_default">1dp</dimen><!-- 描边宽度 - 默认 -->
-    <dimen name="base_strokeWidth_large">2dp</dimen><!-- 描边宽度 - 小大的 -->
+    <dimen name="base_strokeWidth_large">2dp</dimen><!-- 描边宽度 - 大的 -->
 </resources>

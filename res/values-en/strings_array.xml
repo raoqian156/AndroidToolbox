@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 私有的字符串数组 -->
 <resources>
     <string-array name="imageurls">
         <item>http://s1.dwstatic.com/group1/M00/08/08/374a74982965b745ad46d1f7c2b23ae0.jpg</item>

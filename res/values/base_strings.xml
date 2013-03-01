@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 提供基本的常用字符串 -->
+<!-- 常用的字符串 -->
 <resources>
     <!-- 注册、登录表单 -->
     <string name="base_account">账号</string>

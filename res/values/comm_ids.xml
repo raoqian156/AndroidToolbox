@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 公共的ID -->
 <resources>
+    <!-- 布局 -->
+	<item type="id" name="comm_layout_body"/>
+	<item type="id" name="comm_layout_bodyContent"/>
+    <item type="id" name="comm_layout_listEmptyHint"/>
+    <item type="id" name="comm_layout_loadingHint"/>
+	
+	<!-- 按钮 -->		    
+    <item type="id" name="comm_button_listItemChoice"/>
+    <item type="id" name="comm_button_return"/>
+    <item type="id" name="comm_button_next"/>
+    <item type="id" name="comm_button_continue"/>
+    <item type="id" name="comm_button_confirm"/>
+    <item type="id" name="comm_button_cancel"/>
+    <item type="id" name="comm_button_login"/>
+    <item type="id" name="comm_button_upload"/>
+    <item type="id" name="comm_button_download"/>
+    <item type="id" name="comm_button_send"/>
+	<item type="id" name="comm_button_nextStep"/>
+ 	<item type="id" name="comm_button_finish"/>
+ 	
+ 	<!-- 菜单 -->
+ 	<item type="id" name="comm_menu_checkUpdate"/>
+ 	<item type="id" name="comm_menu_settings"/>
+    <item type="id" name="comm_menu_exit"/>
     <item type="id" name="comm_menu_exception"/>
 </resources>

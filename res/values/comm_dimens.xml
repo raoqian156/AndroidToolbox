@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 公共尺寸 -->
+<!-- 公共的尺寸 -->
 <resources>
+    <dimen name="comm_layout_body_content_padding">16dp</dimen><!-- 布局 - 正文 - 内容 - 内边距 -->
+    <dimen name="comm_layout_listItem_minHeight">48dp</dimen><!-- 布局 - 列表项 - 最小高度 -->
+
+	<dimen name="comm_list_padding">16dp</dimen><!-- 列表 - 内边距 -->
+	
+    <dimen name="comm_button_paddingLeft">11dp</dimen><!-- 按钮 - 左内边距 -->
+    <dimen name="comm_button_actionBar_minWidth">60dp</dimen><!-- 按钮 - 活动栏 - 最小宽度 -->
+    <dimen name="comm_button_actionBar_minHeight">40dp</dimen><!-- 按钮 - 活动栏 - 最小高度 -->
+    <dimen name="comm_button_actionBar_margin">4dp</dimen><!-- 按钮 - 活动栏 - 外边距 -->
+	<dimen name="comm_button_body_minWidth">80dp</dimen><!--  按钮 - 正文 - 最小宽度 -->
+    <dimen name="comm_button_body_minHeight">48dp</dimen><!-- 按钮 - 正文 - 最小高度 -->
+	<dimen name="comm_button_body_margin">5dp</dimen><!--  按钮 - 正文 - 外边距 -->
+    <dimen name="comm_button_listItem_minHeight">40dp</dimen><!-- 按钮 - 列表项 -最小高度 -->
+    
     <dimen name="pull_height">90dp</dimen>
 </resources>

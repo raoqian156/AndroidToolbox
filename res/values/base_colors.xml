@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 提供基本的常用颜色标准 -->
+<!-- 常用的颜色 -->
 <resources>
     <!-- 白色 -->
 	<color name="base_white">#ffffffff</color>
