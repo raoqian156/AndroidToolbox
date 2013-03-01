@@ -8,7 +8,7 @@
     	<include layout="@layout/comm_space"/>
     	<include layout="@layout/comm_space"/>
     	<include layout="@layout/comm_space"/>
-    	<ImageView style="@style/base_layout_wrap_wrap" android:layout_gravity="center" android:background="@drawable/rotate" android:id="@+id/rotateDrawable_image" android:contentDescription="@string/base_image_contentDescription"/>
+    	<ImageView style="@style/base_layout_wrap_wrap" android:layout_gravity="center" android:background="@drawable/rotate_test" android:id="@+id/rotateDrawable_image" android:contentDescription="@string/base_image_contentDescription"/>
     	
     	<include layout="@layout/comm_space"/>
     	<include layout="@layout/comm_space"/>
@@ -18,7 +18,9 @@
     	<include layout="@layout/comm_space"/>
     	<include layout="@layout/comm_space"/>
     	<include layout="@layout/comm_space"/>
-    	<Button style="@style/base_layout_fill_wrap" android:text="@string/rotateDrawable_button_startRotary" android:id="@+id/rotateDrawable_button_rotaryControl"/>
+    	<Button style="@style/base_layout_fill_wrap" android:text="@string/base_start" android:id="@+id/rotateDrawable_button_rotaryControl"/>
+    	<include layout="@layout/comm_space"/>
+    	<Button style="@style/base_layout_fill_wrap" android:text="重置" android:id="@+id/rotateDrawable_button_reset"/>
     </LinearLayout>
     
 	<!-- 阴影 -->

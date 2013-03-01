@@ -1,7 +1,9 @@
 package test.activity;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.RotateDrawableController;
+import me.xiaopan.androidlibrary.util.DrawabLevelController;
+import me.xiaopan.androidlibrary.util.DrawabLevelController.Listener;
+import me.xiaopan.androidlibrary.util.DrawabLevelController.RepeatMode;
 import test.MyBaseActivity;
 import android.graphics.drawable.RotateDrawable;
 import android.os.Bundle;
@@ -17,13 +19,15 @@ import android.widget.Button;
 public class RotateDrawableActivity extends MyBaseActivity {
 	private RotateDrawable rotateDrawable;//旋转图片
 	private Button rotaryControlButton;//旋转控制按钮
-	private RotateDrawableController rotateDrawableController;
+	private Button resetButton;//旋转控制按钮
+	private DrawabLevelController drawableController;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.rotate_drawable);
 		rotateDrawable = (RotateDrawable) findViewById(R.id.rotateDrawable_image).getBackground();
 		rotaryControlButton = (Button) findViewById(R.id.rotateDrawable_button_rotaryControl);
+		resetButton = (Button) findViewById(R.id.rotateDrawable_button_reset);
 	}
 
 	@Override
@@ -31,21 +35,47 @@ public class RotateDrawableActivity extends MyBaseActivity {
 		rotaryControlButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(rotateDrawableController.isRotating()){
-					rotateDrawableController.stopRotate();
-					rotaryControlButton.setText(R.string.rotateDrawable_button_startRotary);
+				if(drawableController.isRunning()){
+					drawableController.pause();
 				}else{
-					rotateDrawableController.startRotate();
-					rotaryControlButton.setText(R.string.rotateDrawable_button_stopRotary);
+					if(!drawableController.start()){
+						toastS("已经达到最大重复次数，请使用重置功能重置执行次数！");
+					}
 				}
+			}
+		});
+		
+		resetButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				drawableController.reset();
+			}
+		});
+		
+		drawableController = new DrawabLevelController(this, rotateDrawable);
+		drawableController.setListener(new Listener() {
+			@Override
+			public void onStart() {
+				rotaryControlButton.setText(R.string.base_stop);
+			} 
+			
+			@Override
+			public void onReset() {
+				toastS("重置成功！");
+			}
+			
+			@Override
+			public void onPause() {
+				rotaryControlButton.setText(R.string.base_start);
 			}
 		});
 	}
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		rotateDrawableController = new RotateDrawableController(this, rotateDrawable);
-		rotateDrawableController.startRotate();
-		rotaryControlButton.setText(R.string.rotateDrawable_button_stopRotary);
+		drawableController.setRepeatMode(RepeatMode.REVERSE);
+//		drawableController.setMinLevel(5000);
+		drawableController.setRepeatCount(10);
+		drawableController.start();
 	}
 }
