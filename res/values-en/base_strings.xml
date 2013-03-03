@@ -76,6 +76,7 @@
 	<string name="base_open">Open</string>
     <string name="base_close">Close</string>
 	<string name="base_start">Start</string>
+	<string name="base_pause">Pause</string>
 	<string name="base_stop">Stop</string>
 	<string name="base_begin">Begin</string>
 	<string name="base_end">End</string>
@@ -115,6 +116,7 @@
     <string name="base_notOpen">Not  open</string>
     <string name="base_notClose">Not  close</string>
     <string name="base_notStart">Not  start</string>
+	<string name="base_notPause">Not pause</string>
     <string name="base_notStop">Not  stop</string>
     <string name="base_notBegin">Not  begin</string>
     <string name="base_notEnd">Not  end</string>
@@ -148,6 +150,7 @@
 	<string name="base_opened">Opened</string>
     <string name="base_closed">Closed</string>
 	<string name="base_started">Started</string>
+	<string name="base_paused">Paused</string>
 	<string name="base_stopped">Stoppped</string>
 	<string name="base_begined">Begined</string>
 	<string name="base_ended">Ended</string>
@@ -179,6 +182,7 @@
 	<string name="base_opening">Opening</string>
     <string name="base_closing">Closing</string>
 	<string name="base_starting">Starting</string>
+	<string name="base_pausing">Pausing</string>
 	<string name="base_stopping">Stopping</string>
 	<string name="base_beginning">Beginning</string>
 	<string name="base_ending">Ending</string>
@@ -217,6 +221,7 @@
 	<string name="base_openingLater">Opening, please later…</string>
     <string name="base_closingLater">Closing, please later…</string>
 	<string name="base_startingLater">Starting, please later…</string>
+	<string name="base_pausingLater">Pausing, please later…</string>
 	<string name="base_stoppingLater">Stopping, please later…</string>
 	<string name="base_beginningLater">Beginning, please later…</string>
 	<string name="base_endingLater">Ending, please later…</string>
