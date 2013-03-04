@@ -4,6 +4,7 @@
     <dimen name="base_layout_highLight_height">1dp</dimen><!-- 布局 - 高光 - 高度 -->
     <dimen name="base_layout_lowLight_height">1dp</dimen><!-- 布局 - 低光 - 高度 -->
     <dimen name="base_layout_blackLine_height">0.8dp</dimen><!-- 布局 - 黑色分割线 - 高度 -->
+    <dimen name="base_layout_space">10dp</dimen><!-- 布局 - 空格线 - 高度 -->
     <dimen name="base_layout_shadow_height">6dp</dimen><!-- 布局 - 阴影 - 高度 -->
 
 	<dimen name="base_textSize_specialSmall">7sp</dimen><!-- 文字大小 - 特别小 -->

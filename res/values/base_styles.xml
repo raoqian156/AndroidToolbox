@@ -133,6 +133,12 @@
         <item name="android:layout_height">@dimen/base_layout_blackLine_height</item>
         <item name="android:background">@color/base_black</item>
     </style>
+    
+    <!-- 布局 - 空格线 -->
+    <style name="base_layout_space">
+        <item name="android:layout_width">fill_parent</item>
+      	<item name="android:layout_height">@dimen/base_layout_space</item>
+    </style>
 	
 	<!-- 布局 - 阴影 - 向下 -->
 	<style name="base_layout_shadow_down">
