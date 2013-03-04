@@ -79,6 +79,11 @@ public abstract class MyBaseActivity extends BaseActivity {
 		return "http://124.193.150.46/exhmobile";
 	}
 	
+	@Override
+	public void onPromptExitApplication() {
+		toastL(R.string.comm_hint_exitHint);
+	}
+
 	public MyApplication getMyApplication(){
 		return (MyApplication) getApplication();
 	}

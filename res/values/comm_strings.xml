@@ -3,6 +3,8 @@
 <resources>
     <string name="app_name">测试程序</string>
     
+    <string name="comm_hint_exitHint">2秒内再按一次退出程序！</string>
+    <string name="comm_hint_checkUpdateing">正在检查更新，请稍后…</string>
     <string name="comm_hint_connectionTimeout">网络连接超时！请重试！</string>
     <string name="comm_hint_networkError">网络不可用，请检查您的网络设置！</string>
     <string name="comm_hint_connectionError">连接失败！请重试！</string>
@@ -11,7 +13,56 @@
     <string name="comm_hint_getDataFailed">连接失败！请重试！</string>
     <string name="comm_hint_parseFailed">连接失败！请重试！</string>
     <string name="comm_hint_cameraOpenFailed">打开摄像头失败，请确保其他程序没有占用您的摄像头！</string>
+    <string name="comm_hint_dowloadFailed">下载失败！</string>
+    <string name="comm_hint_cannot_little">%1$s 不能少于 %2$s 位！</string>
+    <string name="comm_hint_cannot_much">%1$s 不能多于 %2$s 位！</string>
     <string name="comm_hint_reloadIn">正在重新加载！</string>
+    
+    <string name="comm_editHint_name">请输入姓名</string>
+    <string name="comm_editHint_account">请输入手机号或邮箱</string>
+    <string name="comm_editHint_password">请输入密码</string>
+    <string name="comm_editHint_confirmPassword">请重复您的密码</string>
+    <string name="comm_editHint_mobilePhone">请输入手机号</string>
+    <string name="comm_editHint_verifyCode">请输入验证码</string>
+    <string name="comm_editHint_email">请输入邮箱</string>
+	<string name="comm_editHint_qqNumber">请输入QQ号</string>
+    <string name="comm_editHint_idNumber">请输入身份证号或军官号</string>
+    <string name="comm_editHint_zipcode">请输入邮编</string>
+    <string name="comm_editHint_address">请输入地址</string>
+    <string name="comm_editHint_area">请输入地区</string>
+    <string name="comm_editHint_company">请输入单位名称</string>
+    <string name="comm_editHint_dept">请输入部门</string>
+	<string name="comm_editHint_post">请输入职务</string>
+	<string name="comm_editHint_companyAddress">请输入公司地址</string>
+	<string name="comm_editHint_companyEmail">请输入公司邮箱</string>
+	<string name="comm_editHint_companyPhoneNumber">请输入公司电话</string>
+	<string name="comm_editHint_companyFax">请输入公司传真</string>
+	<string name="comm_editHint_companyWebHomeUrl">请输入公司网站</string>
+    <string name="comm_editHint_invoice">请输入发票抬头</string>
+    <string name="comm_editHint_search">请输入关键字</string>
+    
+	<string name="comm_key_name">姓名</string>
+	<string name="comm_key_account">账号</string>
+	<string name="comm_key_password">密码</string>
+    <string name="comm_key_confirmPassword">确认密码</string>
+	<string name="comm_key_mobileNumber">手机号</string>
+	<string name="comm_key_verifyCode">验证码</string>
+	<string name="comm_key_email">邮箱</string>
+	<string name="comm_key_qqNumber">QQ</string>
+	<string name="comm_key_idNumber">身份/军官证号</string>
+	<string name="comm_key_zipcode">邮编</string>
+	<string name="comm_key_address">地址</string>
+	<string name="comm_key_area">地区</string>
+	<string name="comm_key_companyName">单位名称</string>
+	<string name="comm_key_dept">部门</string>
+	<string name="comm_key_post">职务</string>
+	<string name="comm_key_companyAddress">公司地址</string>
+	<string name="comm_key_companyEmail">公司邮箱</string>
+	<string name="comm_key_companyPhoneNumber">公司电话</string>
+	<string name="comm_key_companyFax">公司传真</string>
+	<string name="comm_key_companyWebHomeUrl">公司网站</string>
+	<string name="comm_key_invoice">发票抬头</string>
+	<string name="comm_key_search">请输入关键字</string>
     
     <string name="comm_clickLoadMore">点击加载更多</string>
     <string name="comm_pullUpLoadMore">上拉加载更多</string>
