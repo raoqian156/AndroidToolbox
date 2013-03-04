@@ -257,4 +257,5 @@
 	<string name="base_dian">点</string>
 	<string name="base_none">无</string>	
 	<string name="base_hou">后</string>
+	<string name="base_colon">：</string>
 </resources>

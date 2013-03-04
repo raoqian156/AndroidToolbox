@@ -247,14 +247,15 @@
     <string name="base_exitingLater">Exiting, please later…</string>
 
 	<!-- 其它 -->
-	<string name="base_ge">Ge</string>
-	<string name="base_dian">Dian</string>
-	<string name="base_none">None</string>	
-	<string name="base_hou">Hou</string>
 	<string name="base_nextStep">Next Step</string>
 	<string name="base_lastStep">Last Step</string>
 	<string name="base_selectAll">Select All</string>
 	<string name="base_deselectAll">Deselect All</string>
 	<string name="base_image_contentDescription">This is a picture</string>
 	<string name="base_notNull">can\'t for empty!</string>
+	<string name="base_ge">Ge</string>
+	<string name="base_dian">Dian</string>
+	<string name="base_none">None</string>	
+	<string name="base_hou">Hou</string>
+	<string name="base_colon">：</string>
 </resources>
