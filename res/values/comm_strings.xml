@@ -39,7 +39,7 @@
 	<string name="comm_editHint_companyFax">请输入公司传真</string>
 	<string name="comm_editHint_companyWebHomeUrl">请输入公司网站</string>
     <string name="comm_editHint_invoice">请输入发票抬头</string>
-    <string name="comm_editHint_search">请输入关键字</string>
+    <string name="comm_editHint_keyword">请输入关键字</string>
     
 	<string name="comm_key_name">姓名</string>
 	<string name="comm_key_account">账号</string>
@@ -62,7 +62,7 @@
 	<string name="comm_key_companyFax">公司传真</string>
 	<string name="comm_key_companyWebHomeUrl">公司网站</string>
 	<string name="comm_key_invoice">发票抬头</string>
-	<string name="comm_key_search">关键字</string>
+	<string name="comm_key_keyword">关键字</string>
     
     <string name="comm_clickLoadMore">点击加载更多</string>
     <string name="comm_pullUpLoadMore">上拉加载更多</string>
