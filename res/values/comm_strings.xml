@@ -22,7 +22,7 @@
     <string name="comm_editHint_account">请输入手机号或邮箱</string>
     <string name="comm_editHint_password">请输入密码</string>
     <string name="comm_editHint_confirmPassword">请重复您的密码</string>
-    <string name="comm_editHint_mobilePhone">请输入手机号</string>
+    <string name="comm_editHint_mobileNumber">请输入手机号</string>
     <string name="comm_editHint_verifyCode">请输入验证码</string>
     <string name="comm_editHint_email">请输入邮箱</string>
 	<string name="comm_editHint_qqNumber">请输入QQ号</string>
@@ -30,7 +30,7 @@
     <string name="comm_editHint_zipcode">请输入邮编</string>
     <string name="comm_editHint_address">请输入地址</string>
     <string name="comm_editHint_area">请输入地区</string>
-    <string name="comm_editHint_company">请输入单位名称</string>
+    <string name="comm_editHint_companyName">请输入公司名称</string>
     <string name="comm_editHint_dept">请输入部门</string>
 	<string name="comm_editHint_post">请输入职务</string>
 	<string name="comm_editHint_companyAddress">请输入公司地址</string>
@@ -53,7 +53,7 @@
 	<string name="comm_key_zipcode">邮编</string>
 	<string name="comm_key_address">地址</string>
 	<string name="comm_key_area">地区</string>
-	<string name="comm_key_companyName">单位名称</string>
+	<string name="comm_key_companyName">公司名称</string>
 	<string name="comm_key_dept">部门</string>
 	<string name="comm_key_post">职务</string>
 	<string name="comm_key_companyAddress">公司地址</string>
@@ -62,7 +62,7 @@
 	<string name="comm_key_companyFax">公司传真</string>
 	<string name="comm_key_companyWebHomeUrl">公司网站</string>
 	<string name="comm_key_invoice">发票抬头</string>
-	<string name="comm_key_search">请输入关键字</string>
+	<string name="comm_key_search">关键字</string>
     
     <string name="comm_clickLoadMore">点击加载更多</string>
     <string name="comm_pullUpLoadMore">上拉加载更多</string>

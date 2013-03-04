@@ -148,7 +148,7 @@
         <item name="android:id">@id/comm_button_listItemChoice</item>
     </style>
     
-    <!-- 编辑器 -->
+   <!-- 编辑器 -->
     <style name="comm_edit" parent="@style/base_layout_weight_wrap">
         <item name="android:background">@drawable/backg_edit_normal</item>
         <item name="android:textSize">@dimen/base_textSize_default</item>
@@ -168,21 +168,30 @@
         <item name="android:inputType">textPassword</item>
     </style>
     
+    <!-- 编辑器 - 确认密码 -->
+    <style name="comm_edit_confirmPassword" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_confirmPassword</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+    
     <!-- 编辑器 - 姓名 -->
     <style name="comm_edit_name" parent="@style/comm_edit">
         <item name="android:hint">@string/comm_editHint_name</item>
     </style>
     
     <!-- 编辑器 - 手机号 -->
-    <style name="comm_edit_mobilePhone" parent="@style/comm_edit">
-        <item name="android:hint">@string/comm_editHint_mobilePhone</item>
+    <style name="comm_edit_mobileNumber" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_mobileNumber</item>
         <item name="android:maxLength">11</item>
         <item name="android:inputType">phone</item>
     </style>
     
-    <!-- 编辑器 - 地区 -->
-    <style name="comm_edit_area" parent="@style/comm_edit">
-        <item name="android:hint">@string/comm_editHint_area</item>
+    <!-- 编辑器 - 验证码 -->
+    <style name="comm_edit_verifyCode" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_verifyCode</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:inputType">number</item>
     </style>
     
     <!-- 编辑器 - 邮箱 -->
@@ -191,9 +200,26 @@
         <item name="android:inputType">textEmailAddress</item>
     </style>
     
+    <!-- 编辑器 - 地区 -->
+    <style name="comm_edit_area" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_area</item>
+    </style>
+    
+    <!-- 编辑器 - 地址 -->
+    <style name="comm_edit_address" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_address</item>
+    </style>
+    
+    <!-- 编辑器 - 邮编 -->
+    <style name="comm_edit_zipcode" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_zipcode</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:inputType">number</item>
+    </style>
+    
     <!-- 编辑器 - 公司名称 -->
-    <style name="comm_edit_company" parent="@style/comm_edit">
-        <item name="android:hint">@string/comm_editHint_company</item>
+    <style name="comm_edit_companyName" parent="@style/comm_edit">
+        <item name="android:hint">@string/comm_editHint_companyName</item>
     </style>
     
     <!-- 编辑器 - 发票抬头 -->
