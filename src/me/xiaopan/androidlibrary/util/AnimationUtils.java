@@ -245,7 +245,7 @@ public class AnimationUtils {
 	 * @param durationMillis 持续时间，毫秒
 	 * @param animationListener 动画监听器
 	 */
-	public static void inVisibilityView(final View view, long durationMillis, final AnimationListener animationListener){
+	public static void invisibleView(final View view, long durationMillis, final AnimationListener animationListener){
 		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
 		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
 			@Override
@@ -278,8 +278,8 @@ public class AnimationUtils {
 	 * @param view 被处理的视图
 	 * @param durationMillis 持续时间，毫秒
 	 */
-	public static void inVisibilityView(final View view, long durationMillis){
-		inVisibilityView(view, durationMillis, null);
+	public static void invisibleView(final View view, long durationMillis){
+		invisibleView(view, durationMillis, null);
 	}
 	
 	/**
@@ -287,16 +287,16 @@ public class AnimationUtils {
 	 * @param view 被处理的视图
 	 * @param animationListener 动画监听器
 	 */
-	public static void inVisibilityView(final View view, final AnimationListener animationListener){
-		inVisibilityView(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+	public static void invisibleView(final View view, final AnimationListener animationListener){
+		invisibleView(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
 	}
 	
 	/**
 	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
 	 * @param view 被处理的视图
 	 */
-	public static void inVisibilityView(final View view){
-		inVisibilityView(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+	public static void invisibleView(final View view){
+		invisibleView(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
 	}
 	
 	/**
