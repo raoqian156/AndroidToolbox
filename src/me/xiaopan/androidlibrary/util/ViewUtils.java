@@ -12,7 +12,9 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -25,6 +27,11 @@ import android.widget.ListView;
  *
  */
 public class ViewUtils {
+	/**
+	 * 默认透明度动画持续时间
+	 */
+	public static final long DEFAULT_ALPHA_ANIMATION_DURATION = 500;
+	
 	/**
 	 * 获取一个LinearLayout
 	 * @param context 上下文
@@ -200,11 +207,201 @@ public class ViewUtils {
 	}
 	
 	/**
+	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)）
+	 * @param view 被处理的视图
+	 * @param durationMillis 持续时间，毫秒
+	 * @param animationListener 动画监听器
+	 */
+	public static void invisibleViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
+		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
+		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				if(animationListener != null){
+					animationListener.onAnimationStart(animation);
+				}
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				if(animationListener != null){
+					animationListener.onAnimationRepeat(animation);
+				}
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				view.setVisibility(View.INVISIBLE);
+				if(animationListener != null){
+					animationListener.onAnimationEnd(animation);
+				}
+			}
+		});
+		view.startAnimation(hiddenAlphaAnimation);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)）
+	 * @param view 被处理的视图
+	 * @param durationMillis 持续时间，毫秒
+	 */
+	public static void invisibleViewByAlpha(final View view, long durationMillis){
+		invisibleViewByAlpha(view, durationMillis, null);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @param view 被处理的视图
+	 * @param animationListener 动画监听器
+	 */
+	public static void invisibleViewByAlpha(final View view, final AnimationListener animationListener){
+		invisibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @param view 被处理的视图
+	 */
+	public static void invisibleViewByAlpha(final View view){
+		invisibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)）
+	 * @param view 被处理的视图
+	 * @param durationMillis 持续时间，毫秒
+	 * @param animationListener 动画监听器
+	 */
+	public static void goneViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
+		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
+		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				if(animationListener != null){
+					animationListener.onAnimationStart(animation);
+				}
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				if(animationListener != null){
+					animationListener.onAnimationRepeat(animation);
+				}
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				view.setVisibility(View.GONE);
+				if(animationListener != null){
+					animationListener.onAnimationEnd(animation);
+				}
+			}
+		});
+		view.startAnimation(hiddenAlphaAnimation);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)）
+	 * @param view 被处理的视图
+	 * @param durationMillis 持续时间，毫秒
+	 */
+	public static void goneViewByAlpha(final View view, long durationMillis){
+		goneViewByAlpha(view, durationMillis, null);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @param view 被处理的视图
+	 * @param animationListener 动画监听器
+	 */
+	public static void goneViewByAlpha(final View view, final AnimationListener animationListener){
+		goneViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+	}
+	
+	/**
+	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @param view 被处理的视图
+	 */
+	public static void goneViewByAlpha(final View view){
+		goneViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+	}
+	
+	/**
+	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)）
+	 * @param view 被处理的视图
+	 * @param durationMillis 持续时间，毫秒
+	 * @param animationListener 动画监听器
+	 */
+	public static void visibleViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
+		AlphaAnimation showAlphaAnimation = AnimationUtils.getShowAlphaAnimation(durationMillis);
+		showAlphaAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				if(animationListener != null){
+					animationListener.onAnimationStart(animation);
+				}
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				if(animationListener != null){
+					animationListener.onAnimationRepeat(animation);
+				}
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				view.setVisibility(View.VISIBLE);
+				if(animationListener != null){
+					animationListener.onAnimationEnd(animation);
+				}
+			}
+		});
+		view.startAnimation(showAlphaAnimation);
+	}
+	
+	/**
+	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)）
+	 * @param view 被处理的视图
+	 * @param durationMillis 持续时间，毫秒
+	 */
+	public static void visibleViewByAlpha(final View view, long durationMillis){
+		visibleViewByAlpha(view, durationMillis, null);
+	}
+	
+	/**
+	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @param view 被处理的视图
+	 * @param animationListener 动画监听器
+	 */
+	public static void visibleViewByAlpha(final View view, final AnimationListener animationListener){
+		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+	}
+	
+	/**
+	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @param view 被处理的视图
+	 */
+	public static void visibleViewByAlpha(final View view){
+		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+	}
+	
+	/**
 	 * 将一个编辑器和一个视图绑定，当编辑器的内容为空时隐藏视图，反之显示视图，并且点击视图的时候清空编辑器的内容，另外视图的显示或隐藏都会伴随透明度渐变动画
 	 * @param editText
 	 * @param clearView
 	 */
 	public static void editClearBindByAlpha(final EditText editText, final View clearView){
+		if(StringUtils.isNotNullAndEmpty(editText.getEditableText().toString())){
+			if(clearView.getVisibility() != View.VISIBLE){
+				visibleViewByAlpha(clearView);
+			}
+		}else{
+			if(clearView.getVisibility() != View.INVISIBLE){
+				invisibleViewByAlpha(clearView);
+			}
+		}
+		
 		editText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -221,7 +418,7 @@ public class ViewUtils {
 				if(StringUtils.isNotNullAndEmpty(s.toString())){
 					if(clearView.getVisibility() != View.VISIBLE && clearView.getTag() == null){
 						clearView.setTag(false);
-						AnimationUtils.visibleViewByAlpha(clearView, new Animation.AnimationListener() {
+						visibleViewByAlpha(clearView, new Animation.AnimationListener() {
 							public void onAnimationStart(Animation animation) {
 								
 							}
@@ -240,7 +437,7 @@ public class ViewUtils {
 				}else{
 						clearView.clearAnimation();
 						clearView.setTag(null);
-						AnimationUtils.invisibleViewByAlpha(clearView);
+						invisibleViewByAlpha(clearView);
 				}
 			}
 		});
@@ -251,7 +448,5 @@ public class ViewUtils {
 				editText.setText("");
 			}
 		});
-		
-		editText.setText(editText.getEditableText().toString());
 	}
 }

@@ -16,10 +16,6 @@ public class AnimationUtils {
 	 * 默认动画持续时间
 	 */
 	public static final long DEFAULT_ANIMATION_DURATION = 1000;
-	/**
-	 * 默认透明度动画持续时间
-	 */
-	public static final long DEFAULT_ALPHA_ANIMATION_DURATION = 500;
 	
 	/**
 	 * 视图移动
@@ -151,20 +147,20 @@ public class AnimationUtils {
 	 * @param fromAlpha 开始时的透明度
 	 * @param toAlpha 结束时的透明度都
 	 * @param animationListener 动画监听器
-	 * @return 一个透明度渐变动画，默认持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @return 一个透明度渐变动画，默认持续时间为DEFAULT_ANIMATION_DURATION
 	 */
 	public static AlphaAnimation getAlphaAnimation(float fromAlpha, float toAlpha, AnimationListener animationListener){
-		return getAlphaAnimation(fromAlpha, toAlpha, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+		return getAlphaAnimation(fromAlpha, toAlpha, DEFAULT_ANIMATION_DURATION, animationListener);
 	}
 	
 	/**
 	 * 获取一个透明度渐变动画
 	 * @param fromAlpha 开始时的透明度
 	 * @param toAlpha 结束时的透明度都
-	 * @return 一个透明度渐变动画，默认持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @return 一个透明度渐变动画，默认持续时间为DEFAULT_ANIMATION_DURATION
 	 */
 	public static AlphaAnimation getAlphaAnimation(float fromAlpha, float toAlpha){
-		return getAlphaAnimation(fromAlpha, toAlpha, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+		return getAlphaAnimation(fromAlpha, toAlpha, DEFAULT_ANIMATION_DURATION, null);
 	}
 	
 	/**
@@ -189,18 +185,18 @@ public class AnimationUtils {
 	/**
 	 * 获取一个由完全显示变为不可见的透明度渐变动画
 	 * @param animationListener 动画监听器
-	 * @return 一个由完全显示变为不可见的透明度渐变动画，默认持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @return 一个由完全显示变为不可见的透明度渐变动画，默认持续时间为DEFAULT_ANIMATION_DURATION
 	 */
 	public static AlphaAnimation getHiddenAlphaAnimation(AnimationListener animationListener){
-		return getHiddenAlphaAnimation(DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+		return getHiddenAlphaAnimation(DEFAULT_ANIMATION_DURATION, animationListener);
 	}
 	
 	/**
 	 * 获取一个由完全显示变为不可见的透明度渐变动画
-	 * @return 一个由完全显示变为不可见的透明度渐变动画，默认持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @return 一个由完全显示变为不可见的透明度渐变动画，默认持续时间为DEFAULT_ANIMATION_DURATION
 	 */
 	public static AlphaAnimation getHiddenAlphaAnimation(){
-		return getHiddenAlphaAnimation(DEFAULT_ALPHA_ANIMATION_DURATION, null);
+		return getHiddenAlphaAnimation(DEFAULT_ANIMATION_DURATION, null);
 	}
 	
 	/**
@@ -225,197 +221,17 @@ public class AnimationUtils {
 	/**
 	 * 获取一个由不可见变为完全显示的透明度渐变动画
 	 * @param animationListener 动画监听器
-	 * @return 一个由不可见变为完全显示的透明度渐变动画，默认持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @return 一个由不可见变为完全显示的透明度渐变动画，默认持续时间为DEFAULT_ANIMATION_DURATION
 	 */
 	public static AlphaAnimation getShowAlphaAnimation(AnimationListener animationListener){
-		return getAlphaAnimation(0.0f, 1.0f, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
+		return getAlphaAnimation(0.0f, 1.0f, DEFAULT_ANIMATION_DURATION, animationListener);
 	}
 	
 	/**
 	 * 获取一个由不可见变为完全显示的透明度渐变动画
-	 * @return 一个由不可见变为完全显示的透明度渐变动画，默认持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
+	 * @return 一个由不可见变为完全显示的透明度渐变动画，默认持续时间为DEFAULT_ANIMATION_DURATION
 	 */
 	public static AlphaAnimation getShowAlphaAnimation(){
-		return getAlphaAnimation(0.0f, 1.0f, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 * @param animationListener 动画监听器
-	 */
-	public static void invisibleViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
-		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
-		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				view.setVisibility(View.INVISIBLE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(hiddenAlphaAnimation);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 */
-	public static void invisibleViewByAlpha(final View view, long durationMillis){
-		invisibleViewByAlpha(view, durationMillis, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 * @param animationListener 动画监听器
-	 */
-	public static void invisibleViewByAlpha(final View view, final AnimationListener animationListener){
-		invisibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 */
-	public static void invisibleViewByAlpha(final View view){
-		invisibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 * @param animationListener 动画监听器
-	 */
-	public static void goneViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
-		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
-		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				view.setVisibility(View.GONE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(hiddenAlphaAnimation);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 */
-	public static void goneViewByAlpha(final View view, long durationMillis){
-		goneViewByAlpha(view, durationMillis, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 * @param animationListener 动画监听器
-	 */
-	public static void goneViewByAlpha(final View view, final AnimationListener animationListener){
-		goneViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 */
-	public static void goneViewByAlpha(final View view){
-		goneViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 * @param animationListener 动画监听器
-	 */
-	public static void visibleViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
-		AlphaAnimation showAlphaAnimation = AnimationUtils.getShowAlphaAnimation(durationMillis);
-		showAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				view.setVisibility(View.VISIBLE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(showAlphaAnimation);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 */
-	public static void visibleViewByAlpha(final View view, long durationMillis){
-		visibleViewByAlpha(view, durationMillis, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 * @param animationListener 动画监听器
-	 */
-	public static void visibleViewByAlpha(final View view, final AnimationListener animationListener){
-		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 */
-	public static void visibleViewByAlpha(final View view){
-		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+		return getAlphaAnimation(0.0f, 1.0f, DEFAULT_ANIMATION_DURATION, null);
 	}
 }
