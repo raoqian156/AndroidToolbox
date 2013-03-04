@@ -1,14 +1,19 @@
 package me.xiaopan.androidlibrary.util;
 
 import me.xiaopan.javalibrary.util.ClassUtils;
+import me.xiaopan.javalibrary.util.StringUtils;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.Animation;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -192,5 +197,61 @@ public class ViewUtils {
 	 */
 	public static int getLinearLayoutHiehgt(LinearLayout linearLayout) {
 		return ((LinearLayout.LayoutParams)linearLayout.getLayoutParams()).height;
+	}
+	
+	/**
+	 * 将一个编辑器和一个视图绑定，当编辑器的内容为空时隐藏视图，反之显示视图，并且点击视图的时候清空编辑器的内容，另外视图的显示或隐藏都会伴随透明度渐变动画
+	 * @param editText
+	 * @param clearView
+	 */
+	public static void editClearBindByAlpha(final EditText editText, final View clearView){
+		editText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(StringUtils.isNotNullAndEmpty(s.toString())){
+					if(clearView.getVisibility() != View.VISIBLE && clearView.getTag() == null){
+						clearView.setTag(false);
+						AnimationUtils.visibleViewByAlpha(clearView, new Animation.AnimationListener() {
+							public void onAnimationStart(Animation animation) {
+								
+							}
+							
+							@Override
+							public void onAnimationRepeat(Animation animation) {
+								
+							}
+							
+							@Override
+							public void onAnimationEnd(Animation animation) {
+								clearView.setTag(null);
+							}
+						});
+					}
+				}else{
+						clearView.clearAnimation();
+						clearView.setTag(null);
+						AnimationUtils.invisibleViewByAlpha(clearView);
+				}
+			}
+		});
+		
+		clearView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				editText.setText("");
+			}
+		});
+		
+		editText.setText(editText.getEditableText().toString());
 	}
 }
