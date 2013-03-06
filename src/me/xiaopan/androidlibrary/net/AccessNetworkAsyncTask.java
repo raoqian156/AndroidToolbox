@@ -4,6 +4,9 @@ import me.xiaopan.javalibrary.net.HttpClient;
 import me.xiaopan.javalibrary.net.HttpListener;
 import me.xiaopan.javalibrary.net.HttpRequest;
 import me.xiaopan.javalibrary.net.HttpResponse;
+
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -24,7 +27,7 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 	
 	private int resultFlag = RESULT_EXCEPTION;//结果标记，默认异常
 	private Exception exception;//访问网络过程中发生的异常
-	private String failCode;//失败状态码
+	private ErrorInfo errorInfo;//错误信息
 	private Object resultObject;//结果对象
 	
 	/**
@@ -56,14 +59,15 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 			public void onHandleResponse(HttpResponse httpResponse) throws Exception {
 				//如果有响应处理器
 				if(responseHandler != null){
+					JSONObject responseJsonObject = new JSONObject(httpResponse.getString());;
 					//如果状态为成功
-					if(responseHandler.onIsSuccess(httpResponse)){
+					if(responseHandler.onIsSuccess(responseJsonObject)){
 						//调用响应处理器获取处理结果，并标记为成功
-						resultObject = responseHandler.onGetSuccessResult(httpResponse);
+						resultObject = responseHandler.onGetSuccessResult(responseJsonObject);
 						resultFlag = RESULT_SUCCESS;
 					}else{
 						//调用响应处理器获取失败状态码，并标记为失败
-						failCode = responseHandler.onGetFailStateCode(httpResponse);
+						errorInfo = responseHandler.onGetError(responseJsonObject);
 						resultFlag = RESULT_FAIL;
 					}
 				}else{
@@ -87,7 +91,7 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 	protected void onPostExecute(Integer result) {
 		switch(resultFlag){
 			case RESULT_SUCCESS : accessNetworkListener.success(resultObject); break;
-			case RESULT_FAIL : accessNetworkListener.onFail(Integer.valueOf(failCode)); break;
+			case RESULT_FAIL : accessNetworkListener.onError(errorInfo); break;
 			case RESULT_EXCEPTION : accessNetworkListener.onException(exception, context); break;
 		}
 		accessNetworkListener.onEnd();

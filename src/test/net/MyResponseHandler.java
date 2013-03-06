@@ -2,9 +2,9 @@ package test.net;
 
 import java.lang.reflect.Type;
 
+import me.xiaopan.androidlibrary.net.ErrorInfo;
 import me.xiaopan.androidlibrary.net.Response;
 import me.xiaopan.androidlibrary.net.ResponseHandler;
-import me.xiaopan.javalibrary.net.HttpResponse;
 
 import org.json.JSONObject;
 
@@ -18,7 +18,9 @@ import com.google.gson.Gson;
  *
  */
 public class MyResponseHandler implements ResponseHandler{
-	private JSONObject responseJsonObject;
+	private static final String STATUS = "status";
+	private static final String STATUS_VALUE_SUCCESS = "success";
+	private static final String RESULT = "result";
 	private Class<? extends Response> responseClass;
 	private Type responseType;
 	
@@ -31,40 +33,24 @@ public class MyResponseHandler implements ResponseHandler{
 	}
 	
 	@Override
-	public boolean onIsSuccess(HttpResponse httpResponse) throws Exception {
-		//获取JSON字符串
-		String responseJson = httpResponse.getString();
-		//打印LOG
-		Log.i("RESPONSE_JSON", responseJson);
-		//创建JSON对象
-		responseJsonObject = new JSONObject(responseJson);
-		//返回是否成功
-		return "correct".equals(responseJsonObject.getString("response"));
+	public boolean onIsSuccess(JSONObject responseJsonObject) throws Exception {
+		Log.i("响应", responseJsonObject.toString());
+		return STATUS_VALUE_SUCCESS.equals(responseJsonObject.getString(STATUS));
 	}
 
 	@Override
-	public Object onGetSuccessResult(HttpResponse httpResponse) throws Exception {
+	public Object onGetSuccessResult(JSONObject responseJsonObject) throws Exception {
+		Object result = null;
 		if(responseClass != null){
-			return new Gson().fromJson(responseJsonObject.getString("QuestionList"), responseClass);
+			result = new Gson().fromJson(responseJsonObject.getString(RESULT), responseClass);
 		}else if(responseType != null){
-			return new Gson().fromJson(responseJsonObject.getString("QuestionList"), responseType);
-		}else{
-			return null;
+			result = new Gson().fromJson(responseJsonObject.getString(RESULT), responseType);
 		}
+		return result;
 	}
 
 	@Override
-	public String onGetFailStateCode(HttpResponse httpResponse) throws Exception {
-		String failStateCode = null;
-		try{
-			failStateCode = responseJsonObject.getString("errorFlag");
-		}catch(Exception e){
-			try{
-				failStateCode = responseJsonObject.getString("error");
-			}catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-		return failStateCode;
+	public ErrorInfo onGetError(JSONObject responseJsonObject) throws Exception {
+		return new Gson().fromJson(responseJsonObject.getString(RESULT), ErrorInfo.class);
 	}
 }

@@ -3,6 +3,7 @@ package test.activity;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
+import me.xiaopan.androidlibrary.net.ErrorInfo;
 import test.MyBaseActivity;
 import test.net.MyAccessNetworkListener;
 import test.net.request.QestionnaireRequest;
@@ -40,20 +41,20 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	}
 	
 	private void loadData(){
-		accessNetwork(new QestionnaireRequest(), new TypeToken<List<QestionnaireResponse>>(){}.getType(), new MyAccessNetworkListener<List<QestionnaireResponse>>() {
+		accessNetwork(new QestionnaireRequest(), new TypeToken<List< QestionnaireResponse>>(){}.getType(), new MyAccessNetworkListener<List< QestionnaireResponse>>() {
 			@Override
 			public void onStart() {
 				showLoadingHintView();
 			}
 			
 			@Override
-			public void onSuccess(List<QestionnaireResponse> t) {
-				text.setText("Qestionnaire="+t.toString());
+			public void onSuccess(List< QestionnaireResponse> t) {
+				text.setText(t.toString());
 			}
 
 			@Override
-			public void onFail(int failStateCode) {
-				toastL("请求失败了，请重试！");
+			public void onError(ErrorInfo errorInfo) {
+				text.setText(errorInfo.toString());
 			}
 
 			@Override

@@ -21,10 +21,10 @@ public abstract class AccessNetworkListener<T> {
 	public abstract void onSuccess(T resultObject);
 	
 	/**
-	 * 当响应失败（此成功是服务器返回结果为失败的意思，例如：你要登陆但密码字段没传，所以服务器返回失败）
-	 * @param failStateCode 失败状态码
+	 * 当发生错误
+	 * @param errorInfo 错误信息
 	 */
-	public abstract void onFail(int failStateCode);
+	public abstract void onError(ErrorInfo errorInfo);
 	
 	/**
 	 * 当出现异常
