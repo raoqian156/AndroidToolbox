@@ -1,13 +1,11 @@
 package me.xiaopan.androidlibrary.util;
 
 import me.xiaopan.javalibrary.util.ClassUtils;
-import me.xiaopan.javalibrary.util.StringUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
