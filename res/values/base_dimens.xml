@@ -7,15 +7,15 @@
     <dimen name="base_layout_space">10dp</dimen><!-- 布局 - 空格线 - 高度 -->
     <dimen name="base_layout_shadow_height">6dp</dimen><!-- 布局 - 阴影 - 高度 -->
 
-	<dimen name="base_textSize_specialSmall">7sp</dimen><!-- 文字大小 - 特别小 -->
-	<dimen name="base_textSize_verySmall">10sp</dimen><!-- 文字大小 - 非常小 -->
-	<dimen name="base_textSize_littleSmall">12sp</dimen><!-- 文字大小 - 有点小 -->
-	<dimen name="base_textSize_small">14sp</dimen><!-- 文字大小 - 小的 -->
-	<dimen name="base_textSize_default">16sp</dimen><!-- 文字 -大小 -  默认 -->
-	<dimen name="base_textSize_large">18sp</dimen><!-- 文字大小 - 大的 -->
-	<dimen name="base_textSize_littleLarge">20sp</dimen><!-- 文字大小 - 有点大 -->
-	<dimen name="base_textSize_veryLarge">22sp</dimen><!-- 文字大小 - 非常大 -->
-	<dimen name="base_textSize_specialLarge">24sp</dimen><!-- 文字大小 - 特别大 -->
+	<dimen name="base_textSize_specialSmall">8sp</dimen><!-- 文字大小 - 特别小 -->
+	<dimen name="base_textSize_verySmall">12sp</dimen><!-- 文字大小 - 非常小 -->
+	<dimen name="base_textSize_littleSmall">14sp</dimen><!-- 文字大小 - 有点小 -->
+	<dimen name="base_textSize_small">16sp</dimen><!-- 文字大小 - 小的 -->
+	<dimen name="base_textSize_default">18sp</dimen><!-- 文字 -大小 -  默认 -->
+	<dimen name="base_textSize_large">20sp</dimen><!-- 文字大小 - 大的 -->
+	<dimen name="base_textSize_littleLarge">22sp</dimen><!-- 文字大小 - 有点大 -->
+	<dimen name="base_textSize_veryLarge">24sp</dimen><!-- 文字大小 - 非常大 -->
+	<dimen name="base_textSize_specialLarge">26sp</dimen><!-- 文字大小 - 特别大 -->
 	
 	<dimen name="base_padding_specialSmall">1dp</dimen><!-- 内边距 - 特别小 -->
 	<dimen name="base_padding_verySmall">2dp</dimen><!-- 内边距 - 非常小 -->
