@@ -14,7 +14,7 @@
 			<ImageView
 			    style="@style/base_layout_wrap_wrap" 
 			    android:id="@+id/loadmoreFooter_image" 
-			    android:src="@drawable/z_arrow_up" 
+			    android:src="@drawable/ic_pull_up" 
 			    android:visibility="visible"
 			    android:layout_marginLeft="-40dp" 
 			    android:layout_centerVertical="true" 

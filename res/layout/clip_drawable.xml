@@ -40,7 +40,7 @@
 	        
 	    <include layout="@layout/comm_space"/>
     	<TextView style="@style/base_layout_wrap_wrap" android:text="原图"/>
-    	<ImageView style="@style/base_layout_wrap_wrap" android:background="@drawable/image_testclamp" android:contentDescription="@string/base_image_contentDescription"/>
+    	<ImageView style="@style/base_layout_wrap_wrap" android:background="@drawable/image_test_clamp" android:contentDescription="@string/base_image_contentDescription"/>
     </LinearLayout>
     
 	<!-- 阴影 -->

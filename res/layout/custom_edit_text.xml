@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"  xmlns:custom="http://schemas.android.com/apk/res/me.xiaopan.androidlibrary" style="@style/comm_layout_body">
-    <LinearLayout style="@style/comm_layout_body_content_padding">
-    	<test.widget.MyEditText 
-    	    style="@style/base_layout_fill_wrap" 
-    	    android:minHeight="50dp"
-    	    android:background="@drawable/selector_edit"
-    	    android:padding="50dp"
-    	    android:drawableRight="@drawable/txt_search_clear"
-    	    custom:editName="账号："
-    	    android:hint="请输入手机号或邮箱" 
-    	    android:textColor="@color/base_black"/> 
-    	<test.widget.MyEditText 
-    	    style="@style/base_layout_fill_wrap" 
-    	    android:minHeight="50dp"
-    	    android:padding="10dp"
-    	    android:drawableRight="@drawable/txt_search_clear"
-    	    android:background="@drawable/selector_edit"
-    	    android:hint="请输入密码" 
-    	    android:textColor="@color/base_black"/>
-    	<test.widget.MyEditText 
-    	    style="@style/base_layout_fill_wrap" 
-    	    android:minHeight="50dp"
-    	    android:padding="10dp"
-    	    android:background="@drawable/selector_edit"
-    	    android:hint="请输入姓名" 
-    	    android:textColor="@color/base_black"/>
-    </LinearLayout>
-	<include layout="@layout/comm_shadow_down"/>
+    <ScrollView style="@style/base_layout_fill_fill">
+	    <LinearLayout style="@style/comm_layout_body_content_padding">
+	    	<test.widget.MyEditText style="@style/comm_edit_account" custom:editName="账号："/> 
+	    	<test.widget.MyEditText style="@style/comm_edit_password" custom:editName="密码："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_confirmPassword" custom:editName="确认密码："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_name" custom:editName="姓名："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_mobileNumber" custom:editName="手机号："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_verifyCode" custom:editName="验证码："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_email" custom:editName="邮箱："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_area" custom:editName="地区："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_address" custom:editName="地址："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_zipcode" custom:editName="邮编："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_companyName" custom:editName="公司名称："/>
+	    	<test.widget.MyEditText style="@style/comm_edit_idNumber" custom:editName="身份证号："/>
+	    </LinearLayout>
+    </ScrollView>
+
+   	<include layout="@layout/comm_shadow_down"/>
 </FrameLayout>

@@ -37,7 +37,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 			picture.setFile(getFileFromExternalCacheDir(NetUtils.getFileNameFromURL(url)));
 			pictures.add(picture);
 		} 
-		picturePlayer.setDefaultImageResId(R.drawable.wall_default_image);
+		picturePlayer.setDefaultImageResId(R.drawable.image_default);
 		picturePlayer.setPictures(pictures);
 		picturePlayer.setIndicator(new PointIndicator(getBaseContext()));
 		picturePlayer.setTowardsTheRight(false);

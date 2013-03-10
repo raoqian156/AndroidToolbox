@@ -57,12 +57,10 @@
         <item name="android:visibility">gone</item>
     </style>
     
-    
-    
 	<!-- 列表 -->
 	<style name="comm_list" parent="@style/base_layout_fill_wrap">
 	    <item name="android:id">@android:id/list</item>
-	    <item name="android:divider">@drawable/comm_backg_list_driver</item>
+	    <item name="android:divider">@drawable/list_driver</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
 	    <item name="android:fastScrollEnabled">true</item>
 	</style>
@@ -70,7 +68,7 @@
 	<!-- 列表 - 充满的 -->
 	<style name="comm_list_fill" parent="@style/base_layout_fill_fill">
 	    <item name="android:id">@android:id/list</item>
-	    <item name="android:divider">@drawable/comm_backg_list_driver</item>
+	    <item name="android:divider">@drawable/list_driver</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
 	    <item name="android:fastScrollEnabled">true</item>
 	</style>
@@ -78,7 +76,7 @@
 	<!-- 列表 - 高度权重1 -->
 	<style name="comm_list_weight" parent="@style/base_layout_fill_weight">
 	    <item name="android:id">@android:id/list</item>
-	    <item name="android:divider">@drawable/comm_backg_list_driver</item>
+	    <item name="android:divider">@drawable/list_driver</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
 	    <item name="android:fastScrollEnabled">true</item>
 	</style>
@@ -149,29 +147,34 @@
     </style>
     
    <!-- 编辑器 -->
-    <style name="comm_edit" parent="@style/base_layout_weight_wrap">
-        <item name="android:background">@drawable/backg_edit_normal</item>
+    <style name="comm_edit" parent="@style/base_layout_fill_wrap">
+        <item name="android:background">@drawable/selector_edit</item>
         <item name="android:textSize">@dimen/base_textSize_default</item>
         <item name="android:textColor">@color/base_black</item>
+        <item name="android:drawableRight">@drawable/ic_edit_clear</item>
+        <item name="android:minHeight">@dimen/comm_edit_minHeight</item>
+        <item name="android:minWidth">@dimen/comm_edit_minWidth</item>
+        <item name="android:paddingLeft">@dimen/base_padding_veryLarge</item>
+        <item name="android:paddingTop">@dimen/base_padding_large</item>
+        <item name="android:paddingRight">@dimen/base_padding_veryLarge</item>
+        <item name="android:paddingBottom">@dimen/base_padding_large</item>
+        <item name="android:singleLine">true</item>
     </style>
     
     <!-- 编辑器 - 账号 -->
     <style name="comm_edit_account" parent="@style/comm_edit">
         <item name="android:hint">@string/comm_editHint_account</item>
-        <item name="android:maxLength">20</item>
     </style>
     
     <!-- 编辑器 - 密码 -->
     <style name="comm_edit_password" parent="@style/comm_edit">
         <item name="android:hint">@string/comm_editHint_password</item>
-        <item name="android:maxLength">20</item>
         <item name="android:inputType">textPassword</item>
     </style>
     
     <!-- 编辑器 - 确认密码 -->
     <style name="comm_edit_confirmPassword" parent="@style/comm_edit">
         <item name="android:hint">@string/comm_editHint_confirmPassword</item>
-        <item name="android:maxLength">20</item>
         <item name="android:inputType">textPassword</item>
     </style>
     

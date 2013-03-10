@@ -19,7 +19,7 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 	protected void onPreInit(Bundle savedInstanceState) {
 		ApplicationExceptionHandler.getInstance().setContext(this);
 		if(!isRemoveTitleBar()){
-			getActionBar().setBackgroundDrawable(getDrawable(R.drawable.shape_comm_titlebar));
+			getActionBar().setBackgroundDrawable(getDrawable(R.drawable.shape_titlebar));
 			if(isEnableBackHome()){
 				getActionBar().setDisplayHomeAsUpEnabled(true);
 			}

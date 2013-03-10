@@ -3,13 +3,13 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- 文本 - 滑动选项卡 - 标题 -->
 	<style name="text_slideTab_title" parent="@style/base_layout_weight_wrap">
-	    <item name="android:textColor">@color/selector_color_slidetab_title</item>
+	    <item name="android:textColor">@color/selector_slidetab_title</item>
 	    <item name="android:gravity">center</item>
 	    <item name="android:paddingLeft">@dimen/base_padding_default</item>
 	    <item name="android:paddingTop">@dimen/base_padding_veryLarge</item>
 	    <item name="android:paddingRight">@dimen/base_padding_default</item>
 	    <item name="android:paddingBottom">@dimen/base_padding_veryLarge</item>
-	    <item name="android:background">@drawable/selector_backg_slidetab_title</item>
+	    <item name="android:background">@drawable/selector_slidetab_title</item>
 	</style>
 	
 	<!-- 文本 - 滑动选项卡 - 滑块 -->

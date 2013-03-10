@@ -86,7 +86,7 @@ public class MyPullUpLoadMoreListFooter extends AbsPullUpLoadMoreListFooter {
 		//显示箭头
 		ImageView imageView = (ImageView) contentView.findViewById(R.id.loadmoreFooter_image);
 		imageView.clearAnimation();
-		imageView.setImageResource(R.drawable.z_arrow_up);
+		imageView.setImageResource(R.drawable.ic_pull_up);
 		imageView.setVisibility(View.VISIBLE);
 
 		//隐藏进度条
