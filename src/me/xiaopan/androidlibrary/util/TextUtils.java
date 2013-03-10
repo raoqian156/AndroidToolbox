@@ -24,11 +24,10 @@ public class TextUtils {
 	
 	/**
 	 * 计算文本的高度
-	 * @param text 要计算的文本
 	 * @param textSize 文本大小
 	 * @return 文本的高度
 	 */
-	public static float measureTextHeight(String text, float textSize){
+	public static float measureTextHeight(float textSize){
 		Paint paint = new Paint();
 		paint.setTextSize(textSize);
 		FontMetrics fontMetrics = paint.getFontMetrics(); 
@@ -38,10 +37,9 @@ public class TextUtils {
 	/**
 	 * 计算文本的高度
 	 * @param paint 画笔
-	 * @param text 要计算的文本
 	 * @return 文本的高度
 	 */
-	public static float measureTextHeight(Paint paint, String text){
+	public static float measureTextHeight(Paint paint){
 		FontMetrics fontMetrics = paint.getFontMetrics(); 
 		return fontMetrics.bottom - fontMetrics.top;
 	}

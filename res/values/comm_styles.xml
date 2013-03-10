@@ -149,7 +149,7 @@
    <!-- 编辑器 -->
     <style name="comm_edit" parent="@style/base_layout_fill_wrap">
         <item name="android:background">@drawable/selector_edit</item>
-        <item name="android:textSize">@dimen/base_textSize_default</item>
+        <item name="android:textSize">@dimen/base_textSize_large</item>
         <item name="android:textColor">@color/base_black</item>
         <item name="android:drawableRight">@drawable/ic_edit_clear</item>
         <item name="android:minHeight">@dimen/comm_edit_minHeight</item>
