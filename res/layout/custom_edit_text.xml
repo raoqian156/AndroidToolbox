@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"  xmlns:custom="http://schemas.android.com/apk/res/me.xiaopan.androidlibrary" style="@style/comm_layout_body">
     <LinearLayout style="@style/comm_layout_body_content_padding">
-    	<test.widget.CustomEditText 
+    	<test.widget.MyEditText 
     	    style="@style/base_layout_fill_wrap" 
     	    android:minHeight="50dp"
     	    android:background="@drawable/selector_edit"
-    	    android:padding="10dp"
+    	    android:padding="50dp"
     	    android:drawableRight="@drawable/txt_search_clear"
     	    custom:editName="账号："
-    	    android:text="lldyllml"
     	    android:hint="请输入手机号或邮箱" 
     	    android:textColor="@color/base_black"/> 
-    	<test.widget.CustomEditText 
+    	<test.widget.MyEditText 
     	    style="@style/base_layout_fill_wrap" 
     	    android:minHeight="50dp"
     	    android:padding="10dp"
     	    android:drawableRight="@drawable/txt_search_clear"
     	    android:background="@drawable/selector_edit"
-    	    custom:editName="密码："
     	    android:hint="请输入密码" 
     	    android:textColor="@color/base_black"/>
+    	<test.widget.MyEditText 
+    	    style="@style/base_layout_fill_wrap" 
+    	    android:minHeight="50dp"
+    	    android:padding="10dp"
+    	    android:background="@drawable/selector_edit"
+    	    android:hint="请输入姓名" 
+    	    android:textColor="@color/base_black"/>
     </LinearLayout>
-    
 	<include layout="@layout/comm_shadow_down"/>
 </FrameLayout>
