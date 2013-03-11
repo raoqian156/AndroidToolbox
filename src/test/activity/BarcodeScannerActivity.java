@@ -3,6 +3,7 @@ package test.activity;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
+import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.Size;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
@@ -39,10 +40,11 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 	private int beepId;//哔哔音效
 	private CameraManager cameraManager;
 	private boolean hasSurface;
+	private long lastFocusTime;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.bar_code_scanner);
+		setContentView(R.layout.barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barCodeScanner);
 		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barCodeScanner);
 		resultText = (TextView) findViewById(R.id.text_barCodeScanner_result);
@@ -60,8 +62,6 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		//初始化相机管理器
 		cameraManager = new CameraManager();
 		cameraManager.setListener(this);
-		Size screenSize = AndroidUtils.getScreenSize(getBaseContext());
-		cameraManager.setPreviewSize(new Size(screenSize.getHeight(), screenSize.getWidth()));
 		
 		//初始化Surface持有器
 		surfaceView.getHolder().addCallback(this);
@@ -142,6 +142,12 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 			camera.setDisplayOrientation(90);
 		}
 		
+		//设置最佳的预览分辨率
+		Camera.Parameters parameters = camera.getParameters();
+		Size bestSize = CameraUtils.getBestPreviewSize(getBaseContext(), parameters);
+		parameters.setPictureSize(bestSize.getWidth(), bestSize.getHeight());
+		camera.setParameters(parameters);
+		
 		//如果解码器尚未创建的话，就创建解码器并设置其监听器
 		if(decoder == null){
 			decoder = new Decoder(getBaseContext(), camera.getParameters(), scanFrameView);
@@ -165,8 +171,12 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 	 * 对焦
 	 */
 	private void focus() {
-		resultText.setText(null);
-		cameraManager.autoFocus();
+		long currentTime = System.currentTimeMillis();
+		if(lastFocusTime == 0 || currentTime - lastFocusTime >= 3000){
+			resultText.setText(null);
+			cameraManager.autoFocus();
+			lastFocusTime = currentTime;
+		}
 	}
 	
 	@Override
