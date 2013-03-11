@@ -9,9 +9,13 @@
         </LinearLayout>
         
         <!-- 扫描框区 -->
-        <LinearLayout style="@style/base_layout_fill_weight">
+        <LinearLayout style="@style/base_layout_fill_weight" android:layout_weight="0.9">
             <LinearLayout style="@style/base_layout_weight_fill" android:background="@color/base_black_translucent"/>
-            <me.xiaopan.androidlibrary.util.barcode.ScanFrameView style="@style/base_layout_weight_fill"  android:id="@+id/scanningFrame_barCodeScanner"  android:layout_weight="7" android:background="@drawable/shape_scan_frame" />
+            <me.xiaopan.androidlibrary.util.barcode.ScanFrameView 
+                style="@style/base_layout_weight_fill"  
+                android:id="@+id/scanningFrame_barCodeScanner"  
+                android:layout_weight="4" 
+                android:background="@drawable/shape_scan_frame" />
             <LinearLayout style="@style/base_layout_weight_fill" android:background="@color/base_black_translucent"/>
         </LinearLayout>
         
