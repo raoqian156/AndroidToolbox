@@ -63,6 +63,29 @@
 	<string name="comm_key_companyWebHomeUrl">公司网站</string>
 	<string name="comm_key_invoice">发票抬头</string>
 	<string name="comm_key_keyword">关键字</string>
+	
+	<string name="comm_editName_name">姓名：</string>
+	<string name="comm_editName_account">账号：</string>
+	<string name="comm_editName_password">密码：</string>
+    <string name="comm_editName_confirmPassword">确认密码：</string>
+	<string name="comm_editName_mobileNumber">手机号：</string>
+	<string name="comm_editName_verifyCode">验证码：</string>
+	<string name="comm_editName_email">邮箱：</string>
+	<string name="comm_editName_qqNumber">QQ：</string>
+	<string name="comm_editName_idNumber">身份/军官证号：</string>
+	<string name="comm_editName_zipcode">邮编：</string>
+	<string name="comm_editName_address">地址：</string>
+	<string name="comm_editName_area">地区：</string>
+	<string name="comm_editName_companyName">单位名称：</string>
+	<string name="comm_editName_dept">部门：</string>
+	<string name="comm_editName_post">职务：</string>
+	<string name="comm_editName_companyAddress">公司地址：</string>
+	<string name="comm_editName_companyEmail">公司邮箱：</string>
+	<string name="comm_editName_companyPhoneNumber">公司电话：</string>
+	<string name="comm_editName_companyFax">公司传真：</string>
+	<string name="comm_editName_companyWebHomeUrl">公司网站：</string>
+	<string name="comm_editName_invoice">发票抬头：</string>
+	<string name="comm_editName_keyword">关键字：</string>
     
     <string name="comm_clickLoadMore">点击加载更多</string>
     <string name="comm_pullUpLoadMore">上拉加载更多</string>
