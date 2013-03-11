@@ -58,7 +58,7 @@
         	
         	<activity android:name="test.activity.ToolsActivity" android:label="@string/tools_title"/>
         		<activity android:name="test.activity.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
-        		<activity android:name="test.activity.BarcodeScannerActivity" android:label="@string/barcodeScanner_title"/>
+        		<activity android:name="test.activity.BarcodeScannerActivity" android:label="@string/barcodeScanner_title" android:screenOrientation="portrait"/>
 
      		<activity android:name="test.activity.OtherActivity" android:label="@string/other_title"/>
      		<activity android:name="test.activity.DrawableActivity" android:label="@string/drawable_title"/>
