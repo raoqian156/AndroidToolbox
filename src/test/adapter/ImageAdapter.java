@@ -18,7 +18,7 @@ public class ImageAdapter extends MyBaseAdapter {
 	public ImageAdapter(Context context){
 		super(context);
 		imageUrls = context.getResources().getStringArray(R.array.imageurls);
-		imageLoader = ImageLoader.getInstance(R.drawable.wall_default_image);
+		imageLoader = ImageLoader.getInstance(R.drawable.image_default);
 	}
 
 	@Override

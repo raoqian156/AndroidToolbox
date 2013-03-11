@@ -15,5 +15,8 @@
 	<dimen name="comm_button_body_margin">5dp</dimen><!--  按钮 - 正文 - 外边距 -->
     <dimen name="comm_button_listItem_minHeight">40dp</dimen><!-- 按钮 - 列表项 -最小高度 -->
     
+    <dimen name="comm_edit_minHeight">60dp</dimen>
+    <dimen name="comm_edit_minWidth">100dp</dimen>
+    
     <dimen name="pull_height">90dp</dimen>
 </resources>

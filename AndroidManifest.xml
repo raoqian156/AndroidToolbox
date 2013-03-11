@@ -54,6 +54,7 @@
 	        	<activity android:name="test.activity.SlideTabActivity" android:label="@string/slideTab_title"/>
         		<activity android:name="test.activity.CustomCameraActivity" android:screenOrientation="landscape" android:label="@string/customCamera_title" android:configChanges="keyboardHidden|orientation|screenSize"/>
 	        	<activity android:name="test.activity.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
+	        	<activity android:name="test.activity.CustomEditTextActivity" android:label="@string/customEditText_title"/>
         	
         	<activity android:name="test.activity.ToolsActivity" android:label="@string/tools_title"/>
         		<activity android:name="test.activity.ImageLoaderActivity" android:label="@string/imageLoader_title"/>

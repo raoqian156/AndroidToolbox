@@ -22,6 +22,7 @@
 			<string name="customCamera_button_remake">重拍</string>
 			<string name="customCamera_hint_focus">点击屏幕对焦！</string>
 	    <string name="picturePlayer_title">自动播放画廊</string>
+	    <string name="customEditText_title">自定义文本编辑器</string>
     
     <!-- 实用工具 -->
     <string name="tools_title">实用工具</string>

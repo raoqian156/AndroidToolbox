@@ -46,6 +46,7 @@ public class CustomWidgetActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.slideTab_title), SlideTabActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.customCamera_title), CustomCameraActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.picturePlayer_title), PicturePlayerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.customEditText_title), CustomEditTextActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
