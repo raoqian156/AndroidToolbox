@@ -20,8 +20,9 @@ public class AccessNetworkUtils {
 	 * @param request
 	 * @param defaultHostServerAddress 默认的主机地址，挡在request对象上取不到HostAddress注解时将使用此值
 	 * @return
+	 * @throws Exception 在Request对象上找不到Path注解
 	 */
-	public static HttpRequest toHttpRequest(Request request, String defaultHostServerAddress){
+	public static HttpRequest toHttpRequest(Request request, String defaultHostServerAddress) throws Exception{
 		Class<? extends Request> requestClass = request.getClass();
 		
 		//尝试从请求对象中获取地址注解的值
@@ -33,7 +34,7 @@ public class AccessNetworkUtils {
 		//尝试取得Path注解的值，如果没有就抛出异常
 		String path = AnnotationUtils.getAnnotaionValue(requestClass, Path.class);
 		if(path == null){
-			throw new IllegalArgumentException("Find no 'Path' annotaion");
+			throw new Exception("Find no 'Path' annotation");
 		}
 		
 		/*

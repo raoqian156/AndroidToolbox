@@ -393,7 +393,13 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	@Override
 	public final void accessNetwork(Request request, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener){
-		accessNetwork(AccessNetworkUtils.toHttpRequest(request, getHostServerAddress()), responseHandler, accessNetworkListener);
+		try{
+			accessNetwork(AccessNetworkUtils.toHttpRequest(request, getHostServerAddress()), responseHandler, accessNetworkListener);
+		}catch(Exception e){
+			if(accessNetworkListener != null){
+				accessNetworkListener.onException(e, this);
+			}
+		}
 	}
 	
 	@Override
