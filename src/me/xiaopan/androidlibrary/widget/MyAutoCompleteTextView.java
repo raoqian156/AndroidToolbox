@@ -10,32 +10,32 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 
 /**
- * <h2>自定义文本编辑器，可以在编辑器的左边加上名称比如（账号：）以及在右边加上一个清除图标，点击清除图标即可清除编辑器已输入的内容</h2>
+ * <h2>自定义自动完成文本编辑器，可以在编辑器的左边加上名称比如（账号：）以及在右边加上一个清除图标，点击清除图标即可清除编辑器已输入的内容</h2>
  * <br>使用方式：
  * <br>在布局中通过android:contentDescription属性指定左边的名称，通过android:drawableRight属性指定右边的清除图标即可
  * @author xiaopan
  *
  */
-public class MyEditText extends EditText {
+public class MyAutoCompleteTextView extends AutoCompleteTextView {
 	private boolean fromMe;
 	private Drawable clearDrawable;//清除图标
 	private MyTextWatcher myTextWatcher;
 	private OnTouchListener onTouchListener;
 	
-	public MyEditText(Context context, AttributeSet attrs, int defStyle) {
+	public MyAutoCompleteTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(attrs);
 	}
 
-	public MyEditText(Context context, AttributeSet attrs) {
+	public MyAutoCompleteTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(attrs);
 	}
 
-	public MyEditText(Context context) {
+	public MyAutoCompleteTextView(Context context) {
 		super(context);
 		init(null);
 	}
