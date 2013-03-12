@@ -83,13 +83,8 @@ public class CameraManager implements Camera.AutoFocusCallback, Camera.PreviewCa
 	 */
 	public void release(){
 		if (camera != null) {
-			camera.stopPreview();
-			try {
-				camera.setPreviewDisplay(null);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			camera.setPreviewCallback(null);
+			camera.stopPreview();
 			camera.release();
 			camera = null;
 		}

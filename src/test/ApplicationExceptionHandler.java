@@ -61,23 +61,23 @@ public class ApplicationExceptionHandler implements UncaughtExceptionHandler {
 					builder.setPositiveButton("发送", new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-//							//结束当前进程
-//							Process.killProcess(Process.myPid());
-//							//退出虚拟机
-//							System.exit(1);
+							//结束当前进程
+							android.os.Process.killProcess(android.os.Process.myPid());
+							//退出虚拟机
+							System.exit(1);
 							
-							defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
+//							defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
 						}
 					});
 					builder.setNegativeButton("不发送", new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-//							//结束当前进程
-//							Process.killProcess(Process.myPid());
-//							//退出虚拟机
-//							System.exit(1);
+							//结束当前进程
+							android.os.Process.killProcess(android.os.Process.myPid());
+							//退出虚拟机
+							System.exit(1);
 							
-							defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
+//							defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
 						}
 					});
 					builder.create().show();
