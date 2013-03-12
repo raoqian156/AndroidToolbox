@@ -1,6 +1,7 @@
 package me.xiaopan.androidlibrary.net;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import me.xiaopan.javalibrary.net.HttpRequest;
 import me.xiaopan.javalibrary.net.HttpRequestMethod;
@@ -49,29 +50,25 @@ public class AccessNetworkUtils {
 		
 		//循环处理所有字段
 		for(Field field : ClassUtils.getFileds(requestClass, true, true, true)){
-			//如果当前字段没有被弃用
-			if(!AnnotationUtils.existAnnotaion(field, Deprecated.class)){
-				/*
-				 * 初始化参数名
-				 */
-				//默认参数名字为序列化名字注解的值
-				String paramName = AnnotationUtils.getAnnotaionValue(field, SerializedName.class);
-				//但如果当前字段上没有使用序列化名字注解，就用字段的名字作为参数名
-				if(paramName == null){
-					paramName = field.getName();
-				}
+			try {
+				//获取字段的值
+				field.setAccessible(true);
+				Object value = field.get(request);
 				
-				/*
-				 * 获取字段的值作为参数值
-				 */
-				try {
-					field.setAccessible(true);
-					httpRequest.addParameter(paramName, field.get(request));
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
+				//如果当前字段没有被弃用并且不是static final的以及值不为null
+				if(!AnnotationUtils.existAnnotaion(field, Deprecated.class) && !(Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) && value != null){
+					//默认参数名字为序列化名字注解的值
+					String paramName = AnnotationUtils.getAnnotaionValue(field, SerializedName.class);
+					//但如果当前字段上没有使用序列化名字注解，就用字段的名字作为参数名
+					if(paramName == null){
+						paramName = field.getName();
+					}
+					
+					//添加请求参数
+					httpRequest.addParameter(paramName, value);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return httpRequest;
