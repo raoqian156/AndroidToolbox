@@ -7,6 +7,7 @@ import me.xiaopan.javalibrary.net.HttpRequest;
 import me.xiaopan.javalibrary.net.HttpRequestMethod;
 import me.xiaopan.javalibrary.util.AnnotationUtils;
 import me.xiaopan.javalibrary.util.ClassUtils;
+import me.xiaopan.javalibrary.util.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -53,10 +54,11 @@ public class AccessNetworkUtils {
 			try {
 				//获取字段的值
 				field.setAccessible(true);
-				Object value = field.get(request);
+				Object valueObject = field.get(request);
+				String value = valueObject != null?valueObject.toString():null;
 				
 				//如果当前字段没有被弃用并且不是static final的以及值不为null
-				if(!AnnotationUtils.existAnnotaion(field, Deprecated.class) && !(Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) && value != null){
+				if(!AnnotationUtils.existAnnotaion(field, Deprecated.class) && !(Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) && StringUtils.isNotNullAndEmpty(value)){
 					//默认参数名字为序列化名字注解的值
 					String paramName = AnnotationUtils.getAnnotaionValue(field, SerializedName.class);
 					//但如果当前字段上没有使用序列化名字注解，就用字段的名字作为参数名
