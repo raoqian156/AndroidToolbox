@@ -1034,8 +1034,9 @@ public interface BaseActivityInterface {
 		
 		@Override
 		public void handleMessage(Message msg) {
-			try{
-				switch(msg.what){
+			if(!activity.isFinishing()){
+				try{
+					switch(msg.what){
 					case SHOW_MESSAGE_DIALOG : activity.showDialog(BaseActivityInterface.DIALOG_MESSAGE, msg.getData()); break;
 					case CLOSE_MESSAGE_DIALOG : activity.dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); break;
 					case SHOW_PROGRESS_DIALOG : activity.showDialog(BaseActivityInterface.DIALOG_PROGRESS, msg.getData()); break;
@@ -1115,28 +1116,29 @@ public interface BaseActivityInterface {
 					case FINISH_ACTIVITY_ANIMATION : baseActivityInterface.onFinishActivity(msg.arg1, msg.arg2); break;
 					case START_ACTIVITY : 
 						baseActivityInterface.onStartActivity(
-							(Class<?>)msg.obj, 
-							msg.getData().getInt(MessageHandler.FLAG), 
-							msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
-							msg.getData().getBoolean(MessageHandler.IS_CLOSE), 
-							msg.getData().getInt(MessageHandler.IN_ANIMATION), 
-							msg.getData().getInt(MessageHandler.OUT_ANIMATION)
-						); 
+								(Class<?>)msg.obj, 
+								msg.getData().getInt(MessageHandler.FLAG), 
+								msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
+										msg.getData().getBoolean(MessageHandler.IS_CLOSE), 
+										msg.getData().getInt(MessageHandler.IN_ANIMATION), 
+										msg.getData().getInt(MessageHandler.OUT_ANIMATION)
+								); 
 						break;
 					case START_ACTIVITY_FOR_RESULT : 
 						baseActivityInterface.onStartActivityForResult(
-							(Class<?>)msg.obj, 
-							msg.getData().getInt(MessageHandler.REQUEST_CODE), 
-							msg.getData().getInt(MessageHandler.FLAG), 
-							msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
-							msg.getData().getInt(MessageHandler.IN_ANIMATION), 
-							msg.getData().getInt(MessageHandler.OUT_ANIMATION)
-						); 
+								(Class<?>)msg.obj, 
+								msg.getData().getInt(MessageHandler.REQUEST_CODE), 
+								msg.getData().getInt(MessageHandler.FLAG), 
+								msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
+										msg.getData().getInt(MessageHandler.IN_ANIMATION), 
+										msg.getData().getInt(MessageHandler.OUT_ANIMATION)
+								); 
 						break;
 					default :  baseActivityInterface.receiveMessage(msg); break;
+					}
+				}catch(Exception e){
+					e.printStackTrace();
 				}
-			}catch(Exception e){
-				e.printStackTrace();
 			}
 			super.handleMessage(msg);
 		}
