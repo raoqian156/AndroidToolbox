@@ -131,7 +131,6 @@ public class MyEditText extends EditText {
 							curY <= getHeight() - rightDrawableTop && 
 							getText().toString().length() > 0) {
 							setText("");
-							result = true;
 						}	
 					break;
 				}

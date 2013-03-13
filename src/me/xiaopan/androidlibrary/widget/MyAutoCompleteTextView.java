@@ -131,7 +131,6 @@ public class MyAutoCompleteTextView extends AutoCompleteTextView {
 							curY <= getHeight() - rightDrawableTop && 
 							getText().toString().length() > 0) {
 							setText("");
-							result = true;
 						}	
 					break;
 				}
