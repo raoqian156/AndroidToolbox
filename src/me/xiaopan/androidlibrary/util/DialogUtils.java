@@ -1,5 +1,6 @@
 package me.xiaopan.androidlibrary.util;
 
+import me.xiaopan.javalibrary.util.ClassUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -95,5 +96,14 @@ public class DialogUtils {
 	 */
 	public static AlertDialog showPrompt(Activity activity, String message){
 		return showAlert(activity, null, message, "OK", null, null, null, null, null, null, true, null, null);
+	}
+	
+	/**
+	 * 设置给定的对话框点击是否关闭
+	 * @param alertDialog 给定的对话框
+	 * @param close 点击是否关闭
+	 */
+	public static void setDialogClickClose(AlertDialog alertDialog, boolean close){
+		ClassUtils.setField(alertDialog, "mShowing", close, true, true);
 	}
 }

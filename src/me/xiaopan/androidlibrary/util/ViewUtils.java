@@ -87,15 +87,6 @@ public class ViewUtils {
     }
 	
 	/**
-	 * 设置给定的对话框点击是否关闭
-	 * @param alertDialog 给定的对话框
-	 * @param close 点击是否关闭
-	 */
-	public static void setDialogClickClose(AlertDialog alertDialog, boolean close){
-		ClassUtils.setField(alertDialog, "mShowing", close, true, true);
-	}
-	
-	/**
 	 * 给给定的视图注册长按提示监听器
 	 * @param context 上下文
 	 * @param view 给定的视图

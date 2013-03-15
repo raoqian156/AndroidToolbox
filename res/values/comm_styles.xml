@@ -225,11 +225,6 @@
         <item name="android:hint">@string/comm_editHint_companyName</item>
     </style>
     
-    <!-- 编辑器 - 发票抬头 -->
-    <style name="comm_edit_invoice" parent="@style/comm_edit">
-        <item name="android:hint">@string/comm_editHint_invoice</item>
-    </style>
-    
     <!-- 编辑器 - 身份证号 -->
     <style name="comm_edit_idNumber" parent="@style/comm_edit">
         <item name="android:hint">@string/comm_editHint_idNumber</item>
