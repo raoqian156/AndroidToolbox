@@ -4,10 +4,14 @@ import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.net.ErrorInfo;
+import me.xiaopan.androidlibrary.util.Logger;
 import test.MyBaseActivity;
 import test.net.MyAccessNetworkListener;
 import test.net.request.QestionnaireRequest;
 import test.net.response.QestionnaireResponse;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +45,12 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	}
 	
 	private void loadData(){
+		NetworkInfo networkInfo = ((ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+		if(networkInfo != null){
+			Logger.i("网络状态："+networkInfo.getState().name() + "; 网络类型："+networkInfo.getTypeName()+networkInfo.getType()+"; 网络副类型："+networkInfo.getSubtypeName()+networkInfo.getSubtype());
+		}else{
+			Logger.i("没有网络连接");
+		}
 		accessNetwork(new QestionnaireRequest(), new TypeToken<List< QestionnaireResponse>>(){}.getType(), new MyAccessNetworkListener<List< QestionnaireResponse>>() {
 			@Override
 			public void onStart() {

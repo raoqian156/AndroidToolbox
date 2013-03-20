@@ -37,13 +37,13 @@ public abstract class MyAccessNetworkListener<T> extends AccessNetworkListener<T
 		if(e instanceof SocketTimeoutException){
 			AndroidUtils.toastL(context, R.string.comm_hint_connectionTimeout);
 		}else if(e instanceof UnknownHostException){
-			if(NetworkUtils.isEnabled(context)){
+			if(NetworkUtils.isConnectedByState(context)){
 				AndroidUtils.toastL(context, R.string.comm_hint_connectionError);
 			}else{
 				AndroidUtils.toastL(context, R.string.comm_hint_networkError);
 			}
 		}else if(e instanceof ConnectException){
-			if(NetworkUtils.isEnabled(context)){
+			if(NetworkUtils.isConnectedByState(context)){
 				AndroidUtils.toastL(context, R.string.comm_hint_connectionError);
 			}else{
 				AndroidUtils.toastL(context, R.string.comm_hint_networkError);

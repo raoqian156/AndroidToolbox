@@ -2,16 +2,11 @@ package me.xiaopan.androidlibrary.util;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-import me.xiaopan.javalibrary.util.ClassUtils;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -136,82 +131,6 @@ public class SystemUtils {
 	 */
 	public static boolean setScreenDormantTime(Context context, int millis){
 		return Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, millis);
-	}
-	
-	
-	/**
-	 * 获取Wifi的状态，需要ACCESS_WIFI_STATE权限
-	 * @param context 上下文
-	 * @return 取值为WifiManager中的WIFI_STATE_ENABLED、WIFI_STATE_ENABLING、WIFI_STATE_DISABLED、WIFI_STATE_DISABLING、WIFI_STATE_UNKNOWN之一
-	 * @throws DeviceNotFoundException 没有找到wifi设备
-	 */
-	public static int getWifiState(Context context) throws DeviceNotFoundException{
-		WifiManager wifiManager = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
-		if(wifiManager == null){
-			throw new DeviceNotFoundException("wifi device not found!");
-		}
-		return wifiManager.getWifiState();
-	}
-	
-	/**
-	 * 判断Wifi是否打开，需要ACCESS_WIFI_STATE权限
-	 * @param context 上下文
-	 * @return true：打开；false：关闭
-	 * @throws DeviceNotFoundException 没有找到wifi设备
-	 */
-	public static boolean isWifiOpen(Context context) throws DeviceNotFoundException{
-		int wifiState = getWifiState(context);
-		return wifiState == WifiManager.WIFI_STATE_ENABLED || wifiState == WifiManager.WIFI_STATE_ENABLING ? true : false;
-	}
-	
-	/**
-	 * 设置Wifi，需要CHANGE_WIFI_STATE权限
-	 * @param context 上下文
-	 * @param enable wifi状态
-	 * @return 设置是否成功
-	 * @throws DeviceNotFoundException 
-	 */
-	public static boolean setWifi(Context context, boolean enable) throws DeviceNotFoundException{
-		boolean result = true;
-		//如果当前wifi的状态和要设置的状态不一样
-		if(isWifiOpen(context) != enable){
-			((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).setWifiEnabled(enable);
-		}
-		return result;
-	}
-	
-	/**
-	 * 判断移动网络是否打开，需要ACCESS_NETWORK_STATE权限
-	 * @param context 上下文
-	 * @return true：打开；false：关闭
-	 */
-	public static boolean isMobileNetworkOpen(Context context){
-		return (((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).isConnected();
-	}
-	
-	/**
-	 * 设置移动网络，需要CHANGE_NETWORK_STATE权限
-	 * @param context
-	 * @param eanble 状态
-	 * @return true：设置成功；false：设置失败
-	 */
-	public static boolean setMobileNetwork(Context context, boolean eanble){ 
-		boolean result = false;
-		ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		Method method = ClassUtils.getMethod(mConnectivityManager.getClass(), "setMobileDataEnabled", boolean.class);
-		try {
-			if(method != null){
-				method.invoke(mConnectivityManager, eanble);
-				result = true;
-			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
 	
 	/**

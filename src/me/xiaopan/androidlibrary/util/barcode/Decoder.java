@@ -119,7 +119,7 @@ public class Decoder {
 			try {
 				result = multiFormatReader.decodeWithState(bitmap);
 			} catch (ReaderException re) {
-				re.printStackTrace();
+//				re.printStackTrace();
 			} finally {
 				multiFormatReader.reset();
 			}

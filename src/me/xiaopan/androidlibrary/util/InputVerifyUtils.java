@@ -1,13 +1,32 @@
 package me.xiaopan.androidlibrary.util;
 
+import android.content.Context;
+import android.view.View;
 import android.widget.EditText;
 
 /**
- * 输入检查器
- * @author xiaopan
- *
+ * 输入验证工具箱
  */
-public class InputChecker {
+public class InputVerifyUtils {
+	/**
+	 * 验证给定的值是否合法
+	 * @param context 上下文
+	 * @param view 如果验证失败，将会晃动此视图一提醒用户
+	 * @param vlaue 验证的值
+	 * @param errorHint 不合法时提示的内容
+	 * @return 是否合法
+	 */
+	public static boolean valiNullAndEmpty(Context context, View view, String vlaue, String errorHint){
+		boolean result = true;
+		if(vlaue == null || "".equals(vlaue)){
+			if(errorHint != null && !"".equals(errorHint)){
+				AndroidUtils.toastS(context, errorHint);
+			}
+			AnimationUtils.shake(view);
+			result = false;
+		}
+		return result;
+	}
 	
 	/**
 	 * 检查普通的文本

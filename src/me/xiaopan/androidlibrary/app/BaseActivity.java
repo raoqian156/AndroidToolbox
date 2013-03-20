@@ -384,7 +384,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	/* ********************************************** 网络 ************************************************ */
 	@Override
 	public final void accessNetwork(HttpRequest httpRequest, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener){
-		if(NetworkUtils.isEnabled(getBaseContext())){
+		if(NetworkUtils.isConnectedByState(getBaseContext())){
 			new AccessNetworkAsyncTask(this, httpRequest, responseHandler, accessNetworkListener).execute(0);
 		}else{
 			accessNetworkListener.onNetworkNotAvailable(this);
@@ -405,7 +405,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	@Override
 	public final boolean isNetworkAvailable() {
 		boolean result = false;
-		result = NetworkUtils.isEnabled(getBaseContext());
+		result = NetworkUtils.isConnectedByState(getBaseContext());
 		if(!result){
 			onNetworkNotAvailable();
 		}

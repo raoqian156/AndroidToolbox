@@ -1,8 +1,6 @@
 package me.xiaopan.androidlibrary.util;
 
-import me.xiaopan.javalibrary.util.ClassUtils;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
