@@ -276,7 +276,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		public void run() {
 			if(scanFrameView != null){
 				scanFrameView.refresh();
-				handler.postDelayed(refreshScanFrameRunnable, 30);
+				handler.postDelayed(refreshScanFrameRunnable, 50);
 			}
 		}
 	}
