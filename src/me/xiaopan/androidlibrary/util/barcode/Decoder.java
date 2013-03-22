@@ -18,7 +18,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
@@ -118,7 +117,7 @@ public class Decoder {
 			//解码
 			try {
 				result = multiFormatReader.decodeWithState(bitmap);
-			} catch (ReaderException re) {
+			} catch (Exception re) {
 //				re.printStackTrace();
 			} finally {
 				multiFormatReader.reset();

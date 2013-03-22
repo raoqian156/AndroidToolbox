@@ -4,7 +4,6 @@ import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.Size;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.androidlibrary.util.barcode.ScanFrameView;
@@ -109,10 +108,12 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		}
 		
 		//设置最佳的预览分辨率
-		Camera.Parameters parameters = camera.getParameters();
-		Size bestSize = CameraUtils.getBestPreviewSize(getBaseContext(), parameters);
-		parameters.setPictureSize(bestSize.getWidth(), bestSize.getHeight());
-		camera.setParameters(parameters);
+		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
+		if(optimalPreviewSize != null){
+			Camera.Parameters parameters = camera.getParameters();
+			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+			camera.setParameters(parameters);
+		}
 		
 		//如果解码器尚未创建的话，就创建解码器并设置其监听器
 		if(decoder == null){

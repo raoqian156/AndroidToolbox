@@ -1,6 +1,6 @@
 package me.xiaopan.androidlibrary.util;
 
-import java.util.regex.Pattern;
+import java.util.List;
 
 import android.content.Context;
 import android.hardware.Camera;
@@ -12,85 +12,46 @@ import android.hardware.Camera;
  */
 public class CameraUtils {
 	/**
-	 * 用英文逗号分割的正则表达式
+	 * 获取最佳的预览尺寸
+	 * @param camera
+	 * @return
 	 */
-	private static final Pattern COMMA_PATTERN = Pattern.compile(",");
-	
-	/**
-	 * 获取最佳的预览分辨率
-	 * @param context 上下文，用来获取屏幕分辨率
-	 * @param cameraParameters 相机的参数
-	 * @return 最佳的预览分辨率
-	 */
-	public static Size getBestPreviewSize(Context context, Camera.Parameters cameraParameters) {
-		Size bestCameraPreviewSize = null;
-		
-		//获取当前设备所支持的预览大小，这是一个用','分割的字符串
-		String previewSizeValueString = cameraParameters.get("preview-size-values");
-		
-		// 貌似索尼的手机这个参数是preview-size-value
-		if (previewSizeValueString == null) {
-			previewSizeValueString = cameraParameters.get("preview-size-value");
-		}
-
-		//尝试查找最佳的预览分辨率
-		if (previewSizeValueString != null) {
-			bestCameraPreviewSize = findBestPreviewSizeValue(context, previewSizeValueString);
-		}
-
-		//如果查找失败了
-		if (bestCameraPreviewSize == null) {
+	public static Camera.Size getOptimalPreviewSize(Context context, Camera camera) {
+		Camera.Size optimalSize = null;
+		List<Camera.Size> supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
+		if (supportedPreviewSizes != null && supportedPreviewSizes.size() > 0){
 			Size screenSize = AndroidUtils.getScreenSize(context);
-			// 确保相机的分辨率是8的倍数（屏幕可能不是）
-			bestCameraPreviewSize = new Size((screenSize.getWidth() >> 3) << 3, (screenSize.getHeight() >> 3) << 3);
-		}
-
-		return bestCameraPreviewSize;
-	}
-
-	/**
-	 * 从一个字符串形似的分辨率集合中根据屏幕的尺寸查找最佳的预览分辨率
-	 * @param context 上下文，用来获取屏幕分辨率
-	 * @param previewSizeValueString 相机支持的预览尺寸的字符串集合
-	 * @return 从相机支持的预览尺寸的字符串集合中查找出的最佳的预览分辨率
-	 */
-	public static Size findBestPreviewSizeValue(Context context, CharSequence previewSizeValueString) {
-		int bestX = 0;
-		int bestY = 0;
-		int diff = Integer.MAX_VALUE;
-		Size screenSize = AndroidUtils.getScreenSize(context);
-		for (String previewSize : COMMA_PATTERN.split(previewSizeValueString)) {
-
-			previewSize = previewSize.trim();
-			int dimPosition = previewSize.indexOf('x');
-			if (dimPosition < 0) {
-				continue;
+			int screenWidth = screenSize.getHeight();
+			int screenHeight = screenSize.getWidth();
+			final double ASPECT_TOLERANCE = 0.1;
+			double minDiff = Double.MAX_VALUE;
+			
+			//计算最佳的宽高比例
+			double targetRatio = (double) screenWidth / screenHeight;
+			int targetHeight = screenHeight;
+			
+			//视图找到一个宽高和屏幕最接近的尺寸
+			for (Camera.Size size : supportedPreviewSizes) {
+				double ratio = (double) size.width / size.height;
+				if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
+				if (Math.abs(size.height - targetHeight) < minDiff) {
+					optimalSize = size;
+					minDiff = Math.abs(size.height - targetHeight);
+				}
 			}
-
-			int newX;
-			int newY;
-			try {
-				newX = Integer.parseInt(previewSize.substring(0, dimPosition));
-				newY = Integer.parseInt(previewSize.substring(dimPosition + 1));
-			} catch (NumberFormatException nfe) {
-				continue;
-			}
-
-			int newDiff = Math.abs(newX - screenSize.getWidth()) + Math.abs(newY - screenSize.getHeight());
-			if (newDiff == 0) {
-				bestX = newX;
-				bestY = newY;
-				break;
-			} else if (newDiff < diff) {
-				bestX = newX;
-				bestY = newY;
-				diff = newDiff;
+			
+			//当找不到的时候
+			if (optimalSize == null) {
+				minDiff = Double.MAX_VALUE;
+				for (Camera.Size size : supportedPreviewSizes) {
+					if (Math.abs(size.height - targetHeight) < minDiff) {
+						optimalSize = size;
+						minDiff = Math.abs(size.height - targetHeight);
+					}
+				}
 			}
 		}
 
-		if (bestX > 0 && bestY > 0) {
-			return new Size(bestX, bestY);
-		}
-		return null;
-	}
+        return optimalSize;
+    }
 }

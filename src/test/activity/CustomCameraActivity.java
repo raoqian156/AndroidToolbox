@@ -7,6 +7,7 @@ import java.util.List;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AnimationUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
+import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.Size;
 import me.xiaopan.javalibrary.util.FileUtils;
 import test.MyBaseActivity;
@@ -195,6 +196,13 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 			parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			setFlashModeImageButton(Camera.Parameters.FLASH_MODE_OFF);
 		}
+		
+		//设置最佳的预览分辨率
+		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
+		if(optimalPreviewSize != null){
+			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+		}
+		
 		camera.setParameters(parameters);
 	}
 
