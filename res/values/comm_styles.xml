@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 公共的样式 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    
     <!-- 布局 - 正文 -->
     <style name="comm_layout_body" parent="@style/base_layout_fill_fill_vertical">
         <item name="android:id">@id/comm_layout_body</item>
@@ -16,7 +15,7 @@
     <!-- 布局 - 正文  - 内容 - 有内边距-->
     <style name="comm_layout_body_content_padding" parent="@style/base_layout_fill_fill_vertical">
         <item name="android:id">@id/comm_layout_bodyContent</item>
-        <item name="android:padding">@dimen/comm_layout_body_content_padding</item>
+        <item name="android:padding">@dimen/base_padding_specialLarge</item>
     </style>
     
 	<!-- 布局 - 列表项 -->
@@ -60,7 +59,7 @@
 	<!-- 列表 -->
 	<style name="comm_list" parent="@style/base_layout_fill_wrap">
 	    <item name="android:id">@android:id/list</item>
-	    <item name="android:divider">@drawable/list_driver</item>
+	    <item name="android:divider">@drawable/list_divider</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
 	    <item name="android:fastScrollEnabled">true</item>
 	</style>
@@ -68,7 +67,7 @@
 	<!-- 列表 - 充满的 -->
 	<style name="comm_list_fill" parent="@style/base_layout_fill_fill">
 	    <item name="android:id">@android:id/list</item>
-	    <item name="android:divider">@drawable/list_driver</item>
+	    <item name="android:divider">@drawable/list_divider</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
 	    <item name="android:fastScrollEnabled">true</item>
 	</style>
@@ -76,30 +75,28 @@
 	<!-- 列表 - 高度权重1 -->
 	<style name="comm_list_weight" parent="@style/base_layout_fill_weight">
 	    <item name="android:id">@android:id/list</item>
-	    <item name="android:divider">@drawable/list_driver</item>
+	    <item name="android:divider">@drawable/list_divider</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
 	    <item name="android:fastScrollEnabled">true</item>
 	</style>
    
 	<!-- 列表 - 有左右内边距 -->
 	<style name="comm_list_padding" parent="@style/comm_list">
-	    <item name="android:paddingLeft">@dimen/comm_list_padding</item>
-	    <item name="android:paddingRight">@dimen/comm_list_padding</item>
+	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
+	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
 	</style>
     
 	<!-- 列表 - 充满的 - 有左右内边距 -->
 	<style name="comm_list_fill_padding" parent="@style/comm_list_fill">
-	    <item name="android:paddingLeft">@dimen/comm_list_padding</item>
-	    <item name="android:paddingRight">@dimen/comm_list_padding</item>
+	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
+	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
 	</style>
     
 	<!-- 列表 - 高度权重1 - 有左右内边距 -->
 	<style name="comm_list_weight_padding" parent="@style/comm_list_weight">
-	    <item name="android:paddingLeft">@dimen/comm_list_padding</item>
-	    <item name="android:paddingRight">@dimen/comm_list_padding</item>
+	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
+	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
 	</style>
-	
-	
 	
 	<!-- 按钮 -->
 	<style name="comm_button" parent="@style/base_layout_wrap_wrap">
