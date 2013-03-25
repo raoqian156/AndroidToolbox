@@ -136,10 +136,7 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		if(!hasSurface){
-			hasSurface = true;
-			startPreview();
-		}
+		
 	}
 
 	@Override
@@ -288,7 +285,12 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 	}
 	
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		if(!hasSurface){
+			hasSurface = true;
+			startPreview();
+		}
+	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {

@@ -1,13 +1,8 @@
 package test.activity;
 
 import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.Logger;
 import me.xiaopan.androidlibrary.util.MyCameraManager;
 import test.MyBaseActivity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.os.Bundle;
@@ -21,11 +16,10 @@ import android.view.View.OnClickListener;
  * @author xiaopan
  *
  */
-public class CameraPreviewActivity extends MyBaseActivity implements SurfaceHolder.Callback, Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
+public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
 	private SurfaceHolder surfaceHolder;
 	private MyCameraManager cameraManager;
-	private MyScreenReceiver myScreenReceiver;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -54,13 +48,9 @@ public class CameraPreviewActivity extends MyBaseActivity implements SurfaceHold
 		cameraManager.setPreviewCallback(this);
 		cameraManager.setRawPictureCallback(this);
 		cameraManager.setShutterCallback(this);
-		cameraManager.setSurfaceHolderCallback(this);
 		cameraManager.setErrorCallback(this);
 		cameraManager.setFaceDetectionListener(this);
 		cameraManager.setZoomChangeListener(this);
-		
-		myScreenReceiver = new MyScreenReceiver();
-		registerReceiver(myScreenReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));
 	}
 	
 	@Override
@@ -75,32 +65,6 @@ public class CameraPreviewActivity extends MyBaseActivity implements SurfaceHold
 		cameraManager.release();
 	}
 	
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		unregisterReceiver(myScreenReceiver);
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		
-	}
-	
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		
-	}
-
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
 
@@ -123,7 +87,7 @@ public class CameraPreviewActivity extends MyBaseActivity implements SurfaceHold
 
 	@Override
 	public void onInitCamera(Camera camera) {
-		
+		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
 	}
 
 	@Override
@@ -144,19 +108,5 @@ public class CameraPreviewActivity extends MyBaseActivity implements SurfaceHold
 	@Override
 	public void onError(int error, Camera camera) {
 		
-	}
-	
-	class MyScreenReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if(intent.getAction().equals(Intent.ACTION_SCREEN_OFF)){
-				Logger.w("锁屏");
-			}else if(intent.getAction().equals(Intent.ACTION_SCREEN_ON)){
-				Logger.w("开屏");
-//				int fangxiang = CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(CameraPreviewActivity.this, cameraManager.getCurrentCameraId());
-//				if(fangxiang == 90 ||fangxiang == 270){
-//				}
-			}
-		}
 	}
 }

@@ -23,7 +23,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	private int frontCameraId = -1;
 	private int backCameraId = -1;
 	private int currentCameraId = -1;
-	
 	private PreviewCallback previewCallback;
 	private JpegPictureCallback jpegPictureCallback;
 	private RawPictureCallback rawPictureCallback;
@@ -35,6 +34,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	private ErrorCallback errorCallback;
 	private FaceDetectionListener faceDetectionListener;
 	private OnZoomChangeListener zoomChangeListener;
+	public boolean resumeRestore;//是否需要在Activity Resume的时候恢复
 	
 	public MyCameraManager(SurfaceHolder surfaceHolder){
 		this.surfaceHolder = surfaceHolder;
@@ -62,10 +62,17 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	public void openBackCamera(){
 		try {
 			camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
-			if(initCameraCallback != null){
-				initCameraCallback.onInitCamera(camera);
-			}
 			currentCameraId = backCameraId;
+			//初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
+			//然而当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
+			//但是再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
+			//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
+			if(resumeRestore){
+				resumeRestore = false;
+				initCamera();
+				startPreview();
+				Logger.w("onResume - 初始化并开始预览");
+			}
 			Logger.w("打开后置摄像头");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,11 +95,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		if(frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
-				camera.setPreviewDisplay(surfaceHolder);
-				camera.setPreviewCallback(previewCallback);
-				if(initCameraCallback != null){
-					initCameraCallback.onInitCamera(camera);
-				}
 				currentCameraId = frontCameraId;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -107,6 +109,35 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		}else{
 			throw new Exception();
 		}
+	}
+	
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		Logger.w("SurfaceView创建");
+		if(surfaceHolderCallback != null){
+			surfaceHolderCallback.surfaceCreated(holder);
+		}
+		initCamera();
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		Logger.w("SurfaceView改变");
+		if(surfaceHolderCallback != null){
+			surfaceHolderCallback.surfaceChanged(holder, format, width, height);
+		}
+		startPreview();
+		Logger.w("surfaceChanged - 预览");
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		Logger.w("SurfaceView销毁");
+		if(surfaceHolderCallback != null){
+			surfaceHolderCallback.surfaceDestroyed(holder);
+		}
+		stopPreview();
+		resumeRestore = false;
 	}
 
 	/**
@@ -145,6 +176,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 			camera.release();
 			camera = null;
 		}
+		resumeRestore = true;
 	}
 	
 	/**
@@ -191,38 +223,21 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		}
 	}
 	
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		Logger.w("SurfaceView创建");
-		if(surfaceHolderCallback != null){
-			surfaceHolderCallback.surfaceCreated(holder);
-		}
+	/**
+	 * 初始化Camera
+	 */
+	private void initCamera(){
 		if(camera != null){
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
 				camera.setPreviewCallback(previewCallback);
+				if(initCameraCallback != null){
+					initCameraCallback.onInitCamera(camera);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		Logger.w("SurfaceView改变");
-		if(surfaceHolderCallback != null){
-			surfaceHolderCallback.surfaceChanged(holder, format, width, height);
-		}
-		startPreview();
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		Logger.w("SurfaceView销毁");
-		if(surfaceHolderCallback != null){
-			surfaceHolderCallback.surfaceDestroyed(holder);
-		}
-		stopPreview();
 	}
 	
 	/**
@@ -248,7 +263,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	public interface InitCameraCallback{
 		public void onInitCamera(Camera camera);
 	}
-
+	
 	public PreviewCallback getPreviewCallback() {
 		return previewCallback;
 	}
