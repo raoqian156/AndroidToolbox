@@ -94,6 +94,16 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 			try {
 				camera = Camera.open(frontCameraId);
 				currentCameraId = frontCameraId;
+				//初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
+				//当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
+				//然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
+				//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
+				//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
+				if(resumeRestore){
+					resumeRestore = false;
+					initCamera();
+					startPreview();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				if(camera != null){
