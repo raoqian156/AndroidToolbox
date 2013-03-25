@@ -5,6 +5,6 @@
 	    android:layout_height="100dp"
 	    android:id="@+id/listItem_image"/>
 	<RelativeLayout style="@style/base_layout_fill_fill" android:gravity="right">
-	    <CheckBox style="@style/comm_button_listItemChoice" android:layout_alignParentBottom="true"/>
+	    <CheckBox style="@style/comm_button_listItem_choice" android:layout_alignParentBottom="true"/>
 	</RelativeLayout>
 </FrameLayout>

@@ -6,7 +6,7 @@
 	    <me.xiaopan.androidlibrary.widget.PullListView style="@style/comm_list_weight_padding"/>
 	
 	    <!-- 变多变少按钮 -->
-        <Button style="@style/comm_button_body_widthFill" android:id="@+id/imageLoader_button"/>
+        <Button style="@style/comm_button_body_fill" android:id="@+id/imageLoader_button"/>
     </LinearLayout>
     
 	<!-- 阴影 -->
