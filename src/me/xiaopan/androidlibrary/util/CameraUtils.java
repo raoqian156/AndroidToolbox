@@ -2,8 +2,11 @@ package me.xiaopan.androidlibrary.util;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
+import android.view.OrientationEventListener;
 
 /**
  * 相机工具箱
@@ -13,6 +16,7 @@ import android.hardware.Camera;
 public class CameraUtils {
 	/**
 	 * 获取最佳的预览尺寸
+	 * @param context
 	 * @param camera
 	 * @return
 	 */
@@ -54,4 +58,82 @@ public class CameraUtils {
 
         return optimalSize;
     }
+	
+	/**
+	 * 根据当前窗口的显示方向设置相机的显示方向
+	 * @param activity 用来获取当前窗口的显示方向
+	 * @param cameraId 相机ID，用于区分是前置摄像头还是后置摄像头
+	 */
+	public static int getOptimalDisplayOrientationByWindowDisplayRotation(Activity activity, int cameraId) {      
+		Camera.CameraInfo info = new Camera.CameraInfo();      
+		Camera.getCameraInfo(cameraId, info);      
+		int degrees = WindowUtils.getDisplayRotation(activity);      
+		int result;
+		if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {          
+			result = (info.orientation + degrees) % 360;          
+			result = (360 - result) % 360;    
+		} else {
+			result = (info.orientation - degrees + 360) % 360;      
+		}      
+		return result;  
+	}
+	
+	/**
+	 * 根据当前窗口的显示方向设置相机的显示方向
+	 * @param activity 用来获取当前窗口的显示方向
+	 * @param cameraId 相机ID，用于区分是前置摄像头还是后置摄像头
+	 * @param camera
+	 */
+	public static void setDisplayOrientationByWindowDisplayRotation(Activity activity, int cameraId, Camera camera) {      
+		Camera.CameraInfo info = new Camera.CameraInfo();      
+		Camera.getCameraInfo(cameraId, info);      
+		int degrees = WindowUtils.getDisplayRotation(activity);      
+		int result;
+		if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {          
+			result = (info.orientation + degrees) % 360;          
+			result = (360 - result) % 360;    
+		} else {
+			result = (info.orientation - degrees + 360) % 360;      
+		}      
+		camera.setDisplayOrientation(result);  
+	}
+	
+	/**
+	 * @param orientation OrientationEventListener类中onOrientationChanged()方法的参数
+	 * @param cameraId
+	 * @return
+	 */
+	public static int getOptimalParametersOrientationByWindowDisplayRotation(int orientation, int cameraId) {
+		if (orientation != OrientationEventListener.ORIENTATION_UNKNOWN){
+			Camera.CameraInfo info = new Camera.CameraInfo();
+			Camera.getCameraInfo(cameraId, info);
+			orientation = (orientation + 45) / 90 * 90;
+			
+			//计算方向
+			int rotation = 0;
+			if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+				rotation = (info.orientation - orientation + 360) % 360;
+			} else {
+				rotation = (info.orientation + orientation) % 360;
+			}
+			return rotation;
+		}else{
+			return -1;
+		}
+	}
+	
+	/**
+	 *  OrientationEventListener类中onOrientationChanged()方法的参数
+	 * @param orientation
+	 * @param cameraId
+	 * @param camera
+	 */
+	public static void setParametersOrientationByWindowDisplayRotation(int orientation, int cameraId, Camera camera) {
+		int rotation = getOptimalParametersOrientationByWindowDisplayRotation(orientation, cameraId);
+		if(rotation >= 0){
+			Camera.Parameters parameters = camera.getParameters();
+			parameters.setRotation(rotation);
+			camera.setParameters(parameters);
+		}
+	}
 }

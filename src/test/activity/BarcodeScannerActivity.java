@@ -80,8 +80,8 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		cameraManager.setListener(this);
 		
 		//初始化Surface持有器
-		surfaceView.getHolder().addCallback(this);
 		surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		surfaceView.getHolder().addCallback(this);
 	}
 
 	@Override

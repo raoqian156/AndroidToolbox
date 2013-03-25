@@ -129,46 +129,28 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 	@Override
 	protected void onResume() {
 		super.onResume();
-		/*
-		 * 如果当前拥有Surface（在此之前Surface没有被销毁），就在这里去打开相机并开始预览、对焦
-		 */
 		if(hasSurface){
-			cameraManager.openCamera(surfaceView.getHolder());
-			cameraManager.startPreview();
-			cameraManager.autoFocus();
+			startPreview();
 		}
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		/*
-		 * 如果是第一次或者Surface之前被销毁了，就在这里去打开相机并开始预览、对焦
-		 */
 		if(!hasSurface){
 			hasSurface = true;
-			cameraManager.openCamera(surfaceView.getHolder());
-			cameraManager.startPreview();
-			cameraManager.autoFocus();
+			startPreview();
 		}
 	}
 
 	@Override
 	protected void onPause() {
-		/*
-		 * 当暂停的时候释放相机
-		 */
-		if(cameraManager != null){
-			cameraManager.release();
-		}
 		super.onPause();
+		stopPreview();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		/*
-		 * 当要销毁Activity的时候记得释放相机管理器
-		 */
 		cameraManager = null;
 	}
 
@@ -204,6 +186,24 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 		}
 		
 		camera.setParameters(parameters);
+	}
+	
+	/**
+	 * 开始预览
+	 */
+	private void startPreview(){
+		cameraManager.openCamera(surfaceView.getHolder());//打开摄像头
+		cameraManager.startPreview();//开始预览
+		cameraManager.autoFocus();// 自动对焦
+	}
+	
+	/**
+	 * 停止预览
+	 */
+	private void stopPreview(){
+		if(cameraManager != null){
+			cameraManager.release();
+		}
 	}
 
 	/**
