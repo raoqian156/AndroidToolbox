@@ -64,16 +64,15 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 			camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
 			currentCameraId = backCameraId;
 			//初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
-			//然而当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
-			//但是再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
+			//当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
+			//然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
 			//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
+			//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
 			if(resumeRestore){
 				resumeRestore = false;
 				initCamera();
 				startPreview();
-				Logger.w("onResume - 初始化并开始预览");
 			}
-			Logger.w("打开后置摄像头");
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(camera != null){
@@ -83,7 +82,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 			if(openCameraFailCallback != null){
 				openCameraFailCallback.onOpenCameraFail(e);
 			}
-			Logger.w("打开后置摄像头失败");
 		}
 	}
 	
@@ -113,7 +111,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		Logger.w("SurfaceView创建");
 		if(surfaceHolderCallback != null){
 			surfaceHolderCallback.surfaceCreated(holder);
 		}
@@ -122,17 +119,14 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		Logger.w("SurfaceView改变");
 		if(surfaceHolderCallback != null){
 			surfaceHolderCallback.surfaceChanged(holder, format, width, height);
 		}
 		startPreview();
-		Logger.w("surfaceChanged - 预览");
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		Logger.w("SurfaceView销毁");
 		if(surfaceHolderCallback != null){
 			surfaceHolderCallback.surfaceDestroyed(holder);
 		}
@@ -144,7 +138,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * 开始预览
 	 */
 	public void startPreview(){
-		Logger.w("开始预览");
 		if(camera != null){
 			camera.startPreview();
 		}
@@ -154,7 +147,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * 停止预览
 	 */
 	public void stopPreview(){
-		Logger.w("停止预览");
 		if(camera != null){
 			camera.stopPreview();
 		}
@@ -164,7 +156,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * 释放
 	 */
 	public void release(){
-		Logger.w("释放");
 		if (camera != null) {
 			camera.stopPreview();
 			try {
@@ -183,7 +174,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * 自动对焦
 	 */
 	public void autoFocus(){
-		Logger.w("自动对焦");
 		if(camera != null){
 			camera.autoFocus(autoFocusCallback);
 		}
@@ -193,7 +183,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * 拍照
 	 */
 	public void takePicture(){
-		Logger.w("拍照");
 		if(camera != null){
 			camera.takePicture(shutterCallback, rawPictureCallback, jpegPictureCallback);
 		}
@@ -204,7 +193,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * @param newFlashMode
 	 */
 	public void setFlashMode(String newFlashMode){
-		Logger.w("设置闪光模式："+newFlashMode);
 		stopPreview();
 		Parameters parameters = camera.getParameters();
 		parameters.setFlashMode(newFlashMode);
@@ -217,7 +205,6 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 * @param orientation
 	 */
 	public void setDisplayOrientation(int orientation){
-		Logger.w("设置方向："+orientation);
 		if(camera != null){
 			camera.setDisplayOrientation(orientation);
 		}
@@ -231,6 +218,9 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
 				camera.setPreviewCallback(previewCallback);
+				camera.setErrorCallback(errorCallback);
+				camera.setFaceDetectionListener(faceDetectionListener);
+				camera.setZoomChangeListener(zoomChangeListener);
 				if(initCameraCallback != null){
 					initCameraCallback.onInitCamera(camera);
 				}
@@ -264,40 +254,20 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		public void onInitCamera(Camera camera);
 	}
 	
-	public PreviewCallback getPreviewCallback() {
-		return previewCallback;
-	}
-
 	public void setPreviewCallback(PreviewCallback previewCallback) {
 		this.previewCallback = previewCallback;
-	}
-
-	public JpegPictureCallback getJpegPictureCallback() {
-		return jpegPictureCallback;
 	}
 
 	public void setJpegPictureCallback(JpegPictureCallback jpegPictureCallback) {
 		this.jpegPictureCallback = jpegPictureCallback;
 	}
 
-	public RawPictureCallback getRawPictureCallback() {
-		return rawPictureCallback;
-	}
-
 	public void setRawPictureCallback(RawPictureCallback rawPictureCallback) {
 		this.rawPictureCallback = rawPictureCallback;
 	}
 
-	public ShutterCallback getShutterCallback() {
-		return shutterCallback;
-	}
-
 	public void setShutterCallback(ShutterCallback shutterCallback) {
 		this.shutterCallback = shutterCallback;
-	}
-
-	public OpenCameraFailCallback getOpenCameraFailCallback() {
-		return openCameraFailCallback;
 	}
 
 	public void setOpenCameraFailCallback(
@@ -305,49 +275,24 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		this.openCameraFailCallback = openCameraFailCallback;
 	}
 
-	public InitCameraCallback getInitCameraCallback() {
-		return initCameraCallback;
-	}
-
 	public void setInitCameraCallback(InitCameraCallback initCameraCallback) {
 		this.initCameraCallback = initCameraCallback;
-	}
-
-	public AutoFocusCallback getAutoFocusCallback() {
-		return autoFocusCallback;
 	}
 
 	public void setAutoFocusCallback(AutoFocusCallback autoFocusCallback) {
 		this.autoFocusCallback = autoFocusCallback;
 	}
 
-	public SurfaceHolder.Callback getSurfaceHolderCallback() {
-		return surfaceHolderCallback;
-	}
-
-	public void setSurfaceHolderCallback(
-			SurfaceHolder.Callback surfaceHolderCallback) {
+	public void setSurfaceHolderCallback(SurfaceHolder.Callback surfaceHolderCallback) {
 		this.surfaceHolderCallback = surfaceHolderCallback;
-	}
-
-	public ErrorCallback getErrorCallback() {
-		return errorCallback;
 	}
 
 	public void setErrorCallback(ErrorCallback errorCallback) {
 		this.errorCallback = errorCallback;
 	}
 
-	public FaceDetectionListener getFaceDetectionListener() {
-		return faceDetectionListener;
-	}
-
 	public void setFaceDetectionListener(FaceDetectionListener faceDetectionListener) {
 		this.faceDetectionListener = faceDetectionListener;
-	}
-
-	public OnZoomChangeListener getZoomChangeListener() {
-		return zoomChangeListener;
 	}
 
 	public void setZoomChangeListener(OnZoomChangeListener zoomChangeListener) {
