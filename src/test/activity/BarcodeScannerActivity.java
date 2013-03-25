@@ -261,6 +261,9 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		hasSurface = false;
+		if(cameraManager != null){
+			cameraManager.stopPreview();
+		}
 	}
 	
 	@Override
