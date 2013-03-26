@@ -40,12 +40,12 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.custom_camera);
-		surfaceView = (SurfaceView) findViewById(R.id.surface_customCamera);
-		takeButton = (Button) findViewById(R.id.button_customCamera_take);
-		confirmButton = (Button) findViewById(R.id.button_customCamera_confirm);
-		remakeButton = (Button) findViewById(R.id.button_customCamera_remake);
-		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_customCamera_flashMode);
+		setContentView(R.layout.camera_preview);
+		surfaceView = (SurfaceView) findViewById(R.id.surface_cameraPreview);
+		takeButton = (Button) findViewById(R.id.button_cameraPreview_take);
+		confirmButton = (Button) findViewById(R.id.button_cameraPreview_confirm);
+		remakeButton = (Button) findViewById(R.id.button_cameraPreview_remake);
+		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_cameraPreview_flashMode);
 	}
 
 	@Override
@@ -173,8 +173,8 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 		}
 		
 		camera.setParameters(parameters);
-//		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
-		cameraManager.setDisplayOrientation(90);
+		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
+//		cameraManager.setDisplayOrientation(90);
 	}
 	
 	/**
