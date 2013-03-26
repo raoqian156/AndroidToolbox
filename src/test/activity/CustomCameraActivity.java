@@ -6,15 +6,14 @@ import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AnimationUtils;
-import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.Size;
+import me.xiaopan.androidlibrary.util.MyCameraManager;
 import me.xiaopan.javalibrary.util.FileUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
+import android.hardware.Camera.Face;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +28,7 @@ import android.widget.ImageButton;
  * @author xiaopan
  *
  */
-public class CustomCameraActivity extends MyBaseActivity implements CameraManager.Listener, SurfaceHolder.Callback{
+public class CustomCameraActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
 	private Button takeButton;
 	private Button confirmButton;
@@ -37,8 +36,7 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 	private ImageButton flashModeImageButton;
 	private List<String> supportedFlashModes;
 	private boolean readTakePhotos;//准备拍照
-	private CameraManager cameraManager;
-	private boolean hasSurface;
+	private MyCameraManager cameraManager;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -69,7 +67,6 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 			}
 		});
 		
-		//点击确定跳转到拍名片预登记界面
 		confirmButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -116,39 +113,29 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		//初始化相机管理器
-		cameraManager = new CameraManager();
-		cameraManager.setOutPictureSize(new Size(640, 480));
-		cameraManager.setListener(this);
-		
-		//初始化Surface持有器
-		surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS); 
-		surfaceView.getHolder().addCallback(this);
+		cameraManager = new MyCameraManager(surfaceView.getHolder());
+		cameraManager.setAutoFocusCallback(this);
+		cameraManager.setInitCameraCallback(this);
+		cameraManager.setJpegPictureCallback(this);
+		cameraManager.setOpenCameraFailCallback(this);
+		cameraManager.setPreviewCallback(this);
+		cameraManager.setRawPictureCallback(this);
+		cameraManager.setShutterCallback(this);
+		cameraManager.setErrorCallback(this);
+		cameraManager.setFaceDetectionListener(this);
+		cameraManager.setZoomChangeListener(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(hasSurface){
-			startPreview();
-		}
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		
+		cameraManager.openBackCamera();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		stopPreview();
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		cameraManager = null;
+		cameraManager.release();
 	}
 
 	@Override
@@ -164,6 +151,8 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 	@Override
 	public void onInitCamera(Camera camera) {
 		Parameters parameters = camera.getParameters();
+		
+		//设置闪光模式
 		supportedFlashModes = new ArrayList<String>(3);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_OFF);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_ON);
@@ -180,29 +169,14 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
 		if(optimalPreviewSize != null){
 			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+			parameters.setPictureSize(optimalPreviewSize.width, optimalPreviewSize.height);
 		}
 		
 		camera.setParameters(parameters);
+//		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
+		cameraManager.setDisplayOrientation(90);
 	}
 	
-	/**
-	 * 开始预览
-	 */
-	private void startPreview(){
-		cameraManager.openCamera(surfaceView.getHolder());//打开摄像头
-		cameraManager.startPreview();//开始预览
-		cameraManager.autoFocus();// 自动对焦
-	}
-	
-	/**
-	 * 停止预览
-	 */
-	private void stopPreview(){
-		if(cameraManager != null){
-			cameraManager.release();
-		}
-	}
-
 	/**
 	 * 设置闪光模式切换按钮
 	 * @param falshMode
@@ -279,21 +253,23 @@ public class CustomCameraActivity extends MyBaseActivity implements CameraManage
 	}
 
 	@Override
-	public void onException(Exception e) {
+	public void onOpenCameraFail(Exception e) {
 		toastL(R.string.comm_hint_cameraOpenFailed);
 		becauseExceptionFinishActivity();
 	}
-	
+
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		if(!hasSurface){
-			hasSurface = true;
-			startPreview();
-		}
+	public void onZoomChange(int zoomValue, boolean stopped, Camera camera) {
+		
 	}
 
 	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		hasSurface = false;
+	public void onFaceDetection(Face[] faces, Camera camera) {
+		
+	}
+
+	@Override
+	public void onError(int error, Camera camera) {
+		
 	}
 }

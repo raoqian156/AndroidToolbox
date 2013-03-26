@@ -24,8 +24,10 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	private int backCameraId = -1;
 	private int currentCameraId = -1;
 	private PreviewCallback previewCallback;
-	private JpegPictureCallback jpegPictureCallback;
 	private RawPictureCallback rawPictureCallback;
+	private JpegPictureCallback jpegPictureCallback;
+	private Camera.PictureCallback cameraRawPictureCallback;
+	private Camera.PictureCallback cameraJpegPictureCallback;
 	private ShutterCallback shutterCallback;
 	private OpenCameraFailCallback openCameraFailCallback;
 	private InitCameraCallback initCameraCallback;
@@ -54,6 +56,24 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 				}
 			}
 		}
+		
+		cameraRawPictureCallback = new Camera.PictureCallback() {
+			@Override
+			public void onPictureTaken(byte[] data, Camera camera) {
+				if(rawPictureCallback != null){
+					rawPictureCallback.onPictureTakenRaw(data, camera);
+				}
+			}
+		};
+		
+		cameraJpegPictureCallback = new Camera.PictureCallback() {
+			@Override
+			public void onPictureTaken(byte[] data, Camera camera) {
+				if(jpegPictureCallback != null){
+					jpegPictureCallback.onPictureTakenJpeg(data, camera);
+				}
+			}
+		};
 	}
 	
 	/**
@@ -150,6 +170,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	public void startPreview(){
 		if(camera != null){
 			camera.startPreview();
+			autoFocus();
 		}
 	}
 	
@@ -194,7 +215,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 */
 	public void takePicture(){
 		if(camera != null){
-			camera.takePicture(shutterCallback, rawPictureCallback, jpegPictureCallback);
+			camera.takePicture(shutterCallback, cameraRawPictureCallback, cameraJpegPictureCallback);
 		}
 	}
 	
@@ -243,12 +264,16 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	/**
 	 * RAW图片回调
 	 */
-	public interface RawPictureCallback extends Camera.PictureCallback{}
+	public interface RawPictureCallback{
+		public void onPictureTakenRaw(byte[] data, Camera camera);
+	}
 
 	/**
 	 * JPEG图片回调
 	 */
-	public interface JpegPictureCallback extends Camera.PictureCallback{}
+	public interface JpegPictureCallback{
+		public void onPictureTakenJpeg(byte[] data, Camera camera);
+	}
 	
 	/**
 	 * 打开摄像头失败回调

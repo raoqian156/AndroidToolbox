@@ -49,7 +49,6 @@ public class MainActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.other_title), OtherActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
-		startActivity(CameraPreviewActivity.class);
 	}
 	
 	@Override

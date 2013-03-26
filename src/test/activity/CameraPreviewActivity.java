@@ -6,7 +6,6 @@ import test.MyBaseActivity;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,13 +17,11 @@ import android.view.View.OnClickListener;
  */
 public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
-	private SurfaceHolder surfaceHolder;
 	private MyCameraManager cameraManager;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		surfaceView = new SurfaceView(getBaseContext());
-		surfaceHolder = surfaceView.getHolder();
 		setContentView(surfaceView);
 	}
 
@@ -40,7 +37,7 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		cameraManager = new MyCameraManager(surfaceHolder);
+		cameraManager = new MyCameraManager(surfaceView.getHolder());
 		cameraManager.setAutoFocusCallback(this);
 		cameraManager.setInitCameraCallback(this);
 		cameraManager.setJpegPictureCallback(this);
@@ -76,7 +73,12 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 	}
 
 	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {
+	public void onPictureTakenRaw(byte[] data, Camera camera) {
+		
+	}
+
+	@Override
+	public void onPictureTakenJpeg(byte[] data, Camera camera) {
 		
 	}
 
