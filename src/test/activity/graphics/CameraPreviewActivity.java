@@ -5,7 +5,7 @@ import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.MyCameraManager;
+import me.xiaopan.androidlibrary.util.CameraManager;
 import test.MyBaseActivity;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
@@ -21,11 +21,11 @@ import android.widget.ImageButton;
  * @author xiaopan
  *
  */
-public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
+public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.JpegPictureCallback, CameraManager.OpenCameraFailCallback, CameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
 	private ImageButton flashModeImageButton;
 	private List<String> supportedFlashModes;
-	private MyCameraManager cameraManager;
+	private CameraManager cameraManager;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		cameraManager = new MyCameraManager(surfaceView.getHolder());
+		cameraManager = new CameraManager(surfaceView.getHolder());
 		cameraManager.setAutoFocusCallback(this);
 		cameraManager.setInitCameraCallback(this);
 		cameraManager.setJpegPictureCallback(this);

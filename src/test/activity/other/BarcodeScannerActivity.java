@@ -2,7 +2,7 @@ package test.activity.other;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.MyCameraManager;
+import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.androidlibrary.util.barcode.ScanFrameView;
@@ -28,7 +28,7 @@ import com.google.zxing.ResultPointCallback;
  * @author xiaopan
  *
  */
-public class BarcodeScannerActivity extends MyBaseActivity implements Camera.ErrorCallback, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.PreviewStateCallback, ResultPointCallback, DecodeListener{
+public class BarcodeScannerActivity extends MyBaseActivity implements Camera.ErrorCallback, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.OpenCameraFailCallback, CameraManager.PreviewStateCallback, ResultPointCallback, DecodeListener{
 	private SurfaceView surfaceView;	//显示画面的视图
 	private ScanFrameView scanFrameView;//扫描框（取景器）
 	private TextView resultText;	//显示扫描结果
@@ -36,7 +36,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	private Decoder decoder;	//解码器
 	private SoundPool soundPool;//音效池
 	private int beepId;//哔哔音效
-	private MyCameraManager cameraManager;
+	private CameraManager cameraManager;
 	private long lastFocusTime;
 	private RefreshScanFrameRunnable refreshScanFrameRunnable;
 	private Handler handler;
@@ -63,7 +63,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
 		//初始化相机管理器
-		cameraManager = new MyCameraManager(surfaceView.getHolder());
+		cameraManager = new CameraManager(surfaceView.getHolder());
 		cameraManager.setAutoFocusCallback(this);
 		cameraManager.setInitCameraCallback(this);
 		cameraManager.setOpenCameraFailCallback(this);

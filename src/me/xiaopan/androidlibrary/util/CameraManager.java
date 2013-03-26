@@ -17,7 +17,7 @@ import android.view.SurfaceHolder;
  * 相机管理器
  * @author xiaopan
  */
-public class MyCameraManager implements SurfaceHolder.Callback{
+public class CameraManager implements SurfaceHolder.Callback{
 	private SurfaceHolder surfaceHolder;
 	private Camera camera;
 	private int frontCameraId = -1;
@@ -39,7 +39,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	private OnZoomChangeListener zoomChangeListener;
 	private boolean resumeRestore;//是否需要在Activity Resume的时候恢复
 	
-	public MyCameraManager(SurfaceHolder surfaceHolder){
+	public CameraManager(SurfaceHolder surfaceHolder){
 		this.surfaceHolder = surfaceHolder;
 		this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		this.surfaceHolder.addCallback(this);

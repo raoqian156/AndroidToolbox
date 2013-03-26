@@ -7,7 +7,7 @@ import java.util.List;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AnimationUtils;
 import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.MyCameraManager;
+import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.javalibrary.util.FileUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
@@ -27,7 +27,7 @@ import android.widget.ImageButton;
  * 拍照
  * @author xiaopan
  */
-public class TakePicturesActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
+public class TakePicturesActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.JpegPictureCallback, CameraManager.OpenCameraFailCallback, CameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
 	private Button takeButton;
 	private Button confirmButton;
@@ -35,7 +35,7 @@ public class TakePicturesActivity extends MyBaseActivity implements Camera.Shutt
 	private ImageButton flashModeImageButton;
 	private List<String> supportedFlashModes;
 	private boolean readTakePhotos;//准备拍照
-	private MyCameraManager cameraManager;
+	private CameraManager cameraManager;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class TakePicturesActivity extends MyBaseActivity implements Camera.Shutt
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		cameraManager = new MyCameraManager(surfaceView.getHolder());
+		cameraManager = new CameraManager(surfaceView.getHolder());
 		cameraManager.setAutoFocusCallback(this);
 		cameraManager.setInitCameraCallback(this);
 		cameraManager.setJpegPictureCallback(this);
