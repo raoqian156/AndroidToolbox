@@ -45,7 +45,7 @@ public class CameraManager implements SurfaceHolder.Callback{
 		this.surfaceHolder.addCallback(this);
 		
 		//获取前置和后置摄像头的ID
-		if(SystemUtils.getAPILevel() > 8){
+		if(SystemUtils.getAPILevel() >= 9){
 			int cameraNumbers = Camera.getNumberOfCameras();
 			CameraInfo cameraInfo = new CameraInfo();
 			for(int w = 0; w < cameraNumbers; w++){
@@ -257,8 +257,12 @@ public class CameraManager implements SurfaceHolder.Callback{
 				camera.setPreviewDisplay(surfaceHolder);
 				camera.setPreviewCallback(previewCallback);
 				camera.setErrorCallback(errorCallback);
-				camera.setFaceDetectionListener(faceDetectionListener);
-				camera.setZoomChangeListener(zoomChangeListener);
+				if(SystemUtils.getAPILevel() >= 14){
+					camera.setFaceDetectionListener(faceDetectionListener);
+				}
+				if(SystemUtils.getAPILevel() >= 8){
+					camera.setZoomChangeListener(zoomChangeListener);
+				}
 				if(initCameraCallback != null){
 					initCameraCallback.onInitCamera(camera);
 				}

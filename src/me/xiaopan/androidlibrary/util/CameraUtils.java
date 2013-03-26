@@ -62,20 +62,24 @@ public class CameraUtils {
 	/**
 	 * 根据当前窗口的显示方向设置相机的显示方向
 	 * @param activity 用来获取当前窗口的显示方向
-	 * @param cameraId 相机ID，用于区分是前置摄像头还是后置摄像头
+	 * @param cameraId 相机ID，用于区分是前置摄像头还是后置摄像头，在API级别xiaoyu9d系统下此参数无用
 	 */
 	public static int getOptimalDisplayOrientationByWindowDisplayRotation(Activity activity, int cameraId) {      
-		Camera.CameraInfo info = new Camera.CameraInfo();      
-		Camera.getCameraInfo(cameraId, info);      
 		int degrees = WindowUtils.getDisplayRotation(activity);      
-		int result;
-		if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {          
-			result = (info.orientation + degrees) % 360;          
-			result = (360 - result) % 360;    
-		} else {
-			result = (info.orientation - degrees + 360) % 360;      
-		}      
-		return result;  
+		if(SystemUtils.getAPILevel() >= 9){
+			Camera.CameraInfo info = new Camera.CameraInfo();      
+			Camera.getCameraInfo(cameraId, info);      
+			int result;
+			if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {          
+				result = (info.orientation + degrees) % 360;          
+				result = (360 - result) % 360;    
+			} else {
+				result = (info.orientation - degrees + 360) % 360;      
+			}      
+			return result;  
+		}else{
+			return 0; 
+		}
 	}
 	
 	/**

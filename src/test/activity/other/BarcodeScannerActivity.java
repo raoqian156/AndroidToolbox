@@ -1,8 +1,10 @@
 package test.activity.other;
 
 import me.xiaopan.androidlibrary.R;
+import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
+import me.xiaopan.androidlibrary.util.SystemUtils;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.androidlibrary.util.barcode.ScanFrameView;
@@ -97,15 +99,25 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	
 	@Override
 	public void onInitCamera(Camera camera) {
+		Camera.Parameters parameters = camera.getParameters();
+		
 		//设置最佳的预览分辨率
 		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
 		if(optimalPreviewSize != null){
-			Camera.Parameters parameters = camera.getParameters();
 			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
-			camera.setParameters(parameters);
 		}
 		
-		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
+		camera.setParameters(parameters);
+		
+		//设置预览界面旋转角度
+		if(SystemUtils.getAPILevel() >= 9){
+			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
+		}else{
+			//如果是当前竖屏就将预览角度顺时针旋转90度
+			if (!AndroidUtils.isLandscape(getBaseContext())) {
+				camera.setDisplayOrientation(90);
+			}
+		}
 		
 		//如果解码器尚未创建的话，就创建解码器并设置其监听器
 		if(decoder == null){
