@@ -14,16 +14,17 @@
 			<string name="slideTab_tab3">选项卡3</string>
 
 	<string name="graphicsList_title">图形</string>
-	    <string name="cameraPreview_title">相机</string>
-			<string name="customCamera_button_take">拍摄</string>
-			<string name="customCamera_button_remake">重拍</string>
-			<string name="customCamera_hint_focus">点击屏幕对焦！</string>
+	    <string name="cameraPreview_title">相机预览</string>
+		    <string name="cameraPreview_autoFocusHint">触摸屏幕对焦！</string>
 		<string name="clipDrawable_title">Clip Drawable</string>
 		<string name="rotateDrawable_title">Rotate Drawable</string>
 			<string name="rotateDrawable_button_startRotary">开始旋转</string>
 			<string name="rotateDrawable_button_stopRotary">停止旋转</string>
 
 	<string name="mediaList_title">多媒体</string>
+	<string name="takePicture_title">拍照</string>
+		<string name="takePictures_button_take">拍摄</string>
+		<string name="takePictures_button_remake">重拍</string>
 
 		
 	<string name="otherList_title">其它</string>

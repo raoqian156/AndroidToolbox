@@ -1,11 +1,14 @@
-package test.activity.graphics;
+package test.activity.media;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
+import me.xiaopan.androidlibrary.util.AnimationUtils;
 import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.MyCameraManager;
+import me.xiaopan.javalibrary.util.FileUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
@@ -14,24 +17,34 @@ import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 /**
- * 自定义相机
+ * 拍照
  * @author xiaopan
- *
  */
-public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
+public class TakePicturesActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
+	private Button takeButton;
+	private Button confirmButton;
+	private Button remakeButton;
 	private ImageButton flashModeImageButton;
 	private List<String> supportedFlashModes;
+	private boolean readTakePhotos;//准备拍照
 	private MyCameraManager cameraManager;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.camera_preview);
-		surfaceView = (SurfaceView) findViewById(R.id.surface_cameraPreview);
-		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_cameraPreview_flashMode);
+		setContentView(R.layout.take_pictures);
+		surfaceView = (SurfaceView) findViewById(R.id.surface_takePictures);
+		takeButton = (Button) findViewById(R.id.button_takePicture_take);
+		confirmButton = (Button) findViewById(R.id.button_takePictures_confirm);
+		remakeButton = (Button) findViewById(R.id.button_takePictures_remake);
+		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_takePictures_flashMode);
 	}
 
 	@Override
@@ -41,6 +54,47 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 			@Override
 			public void onClick(View v) {
 				cameraManager.autoFocus();
+			}
+		});
+		
+		//按下拍摄按钮的时候会先对焦，对完焦再拍照
+		takeButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				readTakePhotos = true;
+				cameraManager.autoFocus();
+			}
+		});
+		
+		confirmButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setResult(RESULT_OK);
+				finishActivity();
+			}
+		});
+		
+		//点击重拍，显示拍摄按钮遮盖确定、重拍按钮并开始预览
+		remakeButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AlphaAnimation alphaAnimation = AnimationUtils.getShowAlphaAnimation();
+				alphaAnimation.setAnimationListener(new AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {}
+					
+					@Override
+					public void onAnimationRepeat(Animation animation) {}
+					
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						takeButton.setVisibility(View.VISIBLE);
+						confirmButton.setVisibility(View.INVISIBLE);
+						remakeButton.setVisibility(View.INVISIBLE);
+					}
+				});
+				takeButton.startAnimation(alphaAnimation);
+				cameraManager.startPreview();
 			}
 		});
 		
@@ -140,7 +194,17 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 
 	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
-
+		//如果对焦成功
+		if(success){
+			//如果准备拍摄照片
+			if(readTakePhotos){
+				readTakePhotos = false;
+				cameraManager.takePicture();
+			}
+		}else{
+			//继续对焦
+			cameraManager.autoFocus();
+		}
 	}
 
 	@Override
@@ -155,7 +219,30 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 
 	@Override
 	public void onPictureTakenJpeg(byte[] data, Camera camera) {
-
+		//隐藏拍摄按钮露出确定、重拍按钮
+		confirmButton.setVisibility(View.VISIBLE);
+		remakeButton.setVisibility(View.VISIBLE);
+		AlphaAnimation alphaAnimation = AnimationUtils.getHiddenAlphaAnimation();
+		alphaAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				takeButton.setVisibility(View.GONE);
+			}
+		});
+		takeButton.startAnimation(alphaAnimation);
+		
+		//保存名片
+		try {
+			FileUtils.writeByte(getPhotoFile(), data, false);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

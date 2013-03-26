@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_layout_fill_fill">
-    <FrameLayout style="@style/base_layout_weight_fill">
-	    <SurfaceView style="@style/base_layout_fill_fill" android:id="@+id/surface_cameraPreview"/>
-	    <RelativeLayout style="@style/base_layout_fill_fill" android:padding="@dimen/base_padding_specialLarge">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_layout_fill_fill">
+    <!-- 预览层 -->
+    <SurfaceView style="@style/base_layout_fill_fill" android:id="@+id/surface_cameraPreview"/>
+    
+    <!-- 辅助功能区 -->
+    <LinearLayout style="@style/base_layout_fill_fill_vertical" android:padding="@dimen/base_padding_specialLarge">
+	    <!-- 辅助功能区 -->
+	    <LinearLayout style="@style/base_layout_fill_wrap">
 		    <ImageButton 
 		        style="@style/base_layout_wrap_wrap" 
 		        android:src="@drawable/ic_flash_off" 
@@ -10,24 +14,12 @@
 		        android:id="@+id/imageButton_cameraPreview_flashMode" 
 		        android:background="@drawable/shape_button_flash_mode"
 		        android:minWidth="50dp"
-		        android:layout_alignParentTop="true"
 		        />
-		    <TextView 
-		        style="@style/base_layout_fill_wrap" 
-		        android:gravity="center" 
-		        android:text="@string/customCamera_hint_focus" 
-		        android:textColor="@color/base_white" 
-		        android:textSize="@dimen/base_textSize_large"
-		        android:layout_alignParentBottom="true"
-		        />
-	    </RelativeLayout>
-    </FrameLayout>
-    
-    <FrameLayout style="@style/base_layout_wrap_fill">
-		<LinearLayout style="@style/base_layout_wrap_fill_vertical">
-		    <Button style="@style/base_layout_wrap_weight" android:text="@string/customCamera_button_remake" android:id="@+id/button_cameraPreview_remake" android:visibility="invisible"/>
-		    <Button style="@style/base_layout_wrap_weight" android:text="@string/base_confirm" android:id="@+id/button_cameraPreview_confirm" android:visibility="invisible"/>
-		</LinearLayout>
-		<Button style="@style/base_layout_wrap_fill" android:text="@string/customCamera_button_take" android:id="@+id/button_cameraPreview_take"/>
-    </FrameLayout>
-</LinearLayout>
+        </LinearLayout>
+        
+        <!-- 按钮区 -->
+	    <LinearLayout style="@style/base_layout_fill_weight" android:gravity="bottom">
+		    <TextView style="@style/base_layout_fill_wrap" android:text="@string/cameraPreview_autoFocusHint" android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

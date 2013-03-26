@@ -56,6 +56,7 @@
      		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
 			
     		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/mediaList_title"/>
+    		<activity android:name="test.activity.media.TakePicturesActivity" android:label="@string/takePicture_title" android:screenOrientation="portrait"/>
        		
        		<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
        		<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title"/>
