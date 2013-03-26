@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
  * @author xiaopan
  *
  */
-public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
+public class CameraTestActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.JpegPictureCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.RawPictureCallback{
 	private SurfaceView surfaceView;
 	private MyCameraManager cameraManager;
 	

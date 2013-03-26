@@ -65,6 +65,6 @@
 	     		<activity android:name="test.activity.ClipDrawableActivity" android:label="@string/clipDrawable_title"/>
 	     		<activity android:name="test.activity.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
 
-    		<activity android:name="test.activity.CameraPreviewActivity" android:label="@string/rotateDrawable_title"/>
+    		<activity android:name="test.activity.CameraTestActivity" android:label="@string/rotateDrawable_title"/>
     </application>
 </manifest>
