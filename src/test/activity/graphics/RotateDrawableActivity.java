@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.graphics;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.DrawabLevelController;

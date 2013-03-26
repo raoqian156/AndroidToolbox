@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.other;
 
 import java.util.List;
 

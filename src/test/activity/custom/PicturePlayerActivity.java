@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.custom;
 
 import java.util.ArrayList;
 import java.util.List;

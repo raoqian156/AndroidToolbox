@@ -6,6 +6,12 @@ import java.util.List;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.ReboundListView;
 import test.MyBaseActivity;
+import test.activity.animation.AnimationListActivity;
+import test.activity.custom.CustomListActivity;
+import test.activity.graphics.GraphicsListActivity;
+import test.activity.media.MediaListActivity;
+import test.activity.other.OtherListActivity;
+import test.activity.views.ViewsListActivity;
 import test.adapter.ActivityAdapter;
 import test.adapter.ActivityAdapter.ActivityItem;
 import android.os.Bundle;
@@ -42,11 +48,12 @@ public class MainActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.accessNetwork_title), AccessNetworkActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.systemWidget_title), SystemWidgetActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.customWidget_title), CustomWidgetActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.tools_title), ToolsActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.other_title), OtherActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.animationList_title), AnimationListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.graphicsList_title), GraphicsListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.mediaList_title), MediaListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.viewsList_title), ViewsListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.customList_title), CustomListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.otherList_title), OtherListActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

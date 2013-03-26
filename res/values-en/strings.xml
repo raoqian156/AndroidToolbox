@@ -1,30 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 私有的字符串 -->
 <resources>
-    <!-- 访问网络 -->
-    <string name="accessNetwork_title">访问网络</string>
-    
-    <!-- 系统组件使用示例 -->
-    <string name="systemWidget_title">系统组件使用示例</string>
-	    <string name="tabHost_title">TabHost使用示例</string>
-    
-    <!-- 自定义组件（特效） -->
-    <string name="customWidget_title">自定义组件（特效）</string>
-	    <string name="pullDownRefreshList_title">下拉刷新列表</string>
-	    <string name="clickLoadMoreList_title">点击加载更多列表</string>
-	    <string name="slideTab_title">滑动选项卡</string>
-			<string name="slideTab_tab1">选项卡1</string>
-			<string name="slideTab_tab2">选项卡2</string>
-			<string name="slideTab_tab3">选项卡3</string>
-	    <string name="customCamera_title">自定义相机</string>
-			<string name="customCamera_button_take">拍摄</string>
-			<string name="customCamera_button_remake">重拍</string>
-			<string name="customCamera_hint_focus">点击屏幕对焦！</string>
-	    <string name="picturePlayer_title">自动播放画廊</string>
-    
-    <!-- 实用工具 -->
-    <string name="tools_title">实用工具</string>
-	    <string name="imageLoader_title">图片批量加载器</string>
-	    <string name="barcodeScanner_title">条码扫描器</string>
-		<string name="barcodeScanner_hint">请将条码置于扫描框内, 等待对焦完成！</string>
 </resources>

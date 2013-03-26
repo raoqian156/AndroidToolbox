@@ -41,30 +41,30 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
              </intent-filter>
         </activity>
-        	<activity android:name="test.activity.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
-        	
-        	<activity android:name="test.activity.SystemWidgetActivity" android:label="@string/systemWidget_title"/>
-	        	<activity android:name="test.activity.TabHostActivity" android:label="@string/tabHost_title"/>
-	        	<activity android:name="test.activity.TabContentActivity"/>
-	        	<activity android:name="test.activity.ProgressBarActivity" android:label="@string/progressBar_title"/>
-        	
-        	<activity android:name="test.activity.CustomWidgetActivity" android:label="@string/customWidget_title"/>
-	        	<activity android:name="test.activity.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
-	        	<activity android:name="test.activity.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
-	        	<activity android:name="test.activity.SlideTabActivity" android:label="@string/slideTab_title"/>
-        		<activity android:name="test.activity.CustomCameraActivity" android:screenOrientation="portrait" android:label="@string/customCamera_title"/>
-	        	<activity android:name="test.activity.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
-	        	<activity android:name="test.activity.CustomEditTextActivity" android:label="@string/customEditText_title"/>
-        	
-        	<activity android:name="test.activity.ToolsActivity" android:label="@string/tools_title"/>
-        		<activity android:name="test.activity.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
-        		<activity android:name="test.activity.BarcodeScannerActivity" android:label="@string/barcodeScanner_title"/>
+        	<activity android:name="test.activity.animation.AnimationListActivity" android:label="@string/animationList_title"/>
 
-     		<activity android:name="test.activity.OtherActivity" android:label="@string/other_title"/>
-     		<activity android:name="test.activity.DrawableActivity" android:label="@string/drawable_title"/>
-	     		<activity android:name="test.activity.ClipDrawableActivity" android:label="@string/clipDrawable_title"/>
-	     		<activity android:name="test.activity.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
+        	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
+        	<activity android:name="test.activity.custom.CustomEditTextActivity" android:label="@string/customEditText_title"/>
+       		<activity android:name="test.activity.custom.CustomListActivity" android:label="@string/customList_title"/>
+        	<activity android:name="test.activity.custom.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
+        	<activity android:name="test.activity.custom.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
+        	<activity android:name="test.activity.custom.SlideTabActivity" android:label="@string/slideTab_title"/>
 
-    		<activity android:name="test.activity.CameraTestActivity" android:label="@string/rotateDrawable_title"/>
+       		<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/cameraPreview_title"/>
+     		<activity android:name="test.activity.graphics.ClipDrawableActivity" android:label="@string/clipDrawable_title"/>
+     		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/graphicsList_title"/>
+     		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
+			
+    		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/mediaList_title"/>
+       		
+       		<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
+       		<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title"/>
+       		<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
+     		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
+
+        	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/progressBar_title"/>
+        	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
+        	<activity android:name="test.activity.views.TabContentActivity"/>
+       		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
     </application>
 </manifest>

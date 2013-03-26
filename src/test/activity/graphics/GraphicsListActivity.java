@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.graphics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 自定义组件或特效界面
+ * 图形列表
  * @author xiaopan
  *
  */
-public class CustomWidgetActivity extends MyBaseActivity{
+public class GraphicsListActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
 	
@@ -41,12 +41,9 @@ public class CustomWidgetActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.pullDownRefreshList_title), PullDownRefreshListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.clickLoadMoreList_title), ClickLoadMoreListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.slideTab_title), SlideTabActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.customCamera_title), CustomCameraActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.picturePlayer_title), PicturePlayerActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.customEditText_title), CustomEditTextActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.cameraPreview_title), CameraPreviewActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.clipDrawable_title), ClipDrawableActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.rotateDrawable_title), RotateDrawableActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

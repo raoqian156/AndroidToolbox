@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.animation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 系统组件使用示例
+ * 动画
  * @author xiaopan
  *
  */
-public class SystemWidgetActivity extends MyBaseActivity{
-
+public class AnimationListActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
 	
@@ -42,8 +41,6 @@ public class SystemWidgetActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.tabHost_title), TabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

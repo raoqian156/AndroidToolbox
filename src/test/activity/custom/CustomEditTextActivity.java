@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.custom;
 
 import me.xiaopan.androidlibrary.R;
 import test.MyBaseActivity;

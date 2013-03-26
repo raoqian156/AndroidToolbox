@@ -1,13 +1,15 @@
-package test.activity;
+package test.activity.custom;
 
 import me.xiaopan.androidlibrary.R;
+import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMoreFinishListener;
+import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMoreListener;
 import me.xiaopan.androidlibrary.widget.AbsPullDownRefreshListHeader.PullDownRefreshFinishListener;
 import me.xiaopan.androidlibrary.widget.AbsPullDownRefreshListHeader.PullDownRefreshListener;
-import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreFinishListener;
-import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreListener;
+import me.xiaopan.androidlibrary.widget.PullListView;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
-import test.widget.PullDownRefreshListView;
+import test.widget.MyClickLoadMoreListFooter;
+import test.widget.MyPullDownRefreshListHeader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -15,19 +17,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * 下拉刷新列表
+ * 点击加载更多列表
  * @author xiaopan
  *
  */
-public class PullDownRefreshListActivity extends MyBaseActivity {
-	private PullDownRefreshListView pullDownRefreshListView;
+public class ClickLoadMoreListActivity extends MyBaseActivity {
+	private PullListView pullListView;
 	private SimpleAdapter textAdapter;
 	private Button button;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.pull_list);
-		pullDownRefreshListView = (PullDownRefreshListView) findViewById(android.R.id.list);
+		pullListView = (PullListView) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.pullList_button);
 	}
 
@@ -45,7 +47,7 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		//打开下拉刷新模式
-		pullDownRefreshListView.setPullDownRefreshListener(new PullDownRefreshListener() {
+		pullListView.openPullDownRefreshMode(new MyPullDownRefreshListHeader(getBaseContext()), new PullDownRefreshListener() {
 			@Override
 			public void onRefresh(final PullDownRefreshFinishListener pullDownRefreshFinishListener) {
 				new AsyncTask<String, String, String>(){
@@ -67,10 +69,10 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 			}
 		});
 		
-		//打开上拉加载更多模式
-		pullDownRefreshListView.setPullUpLoadMoreListener(new PullUpLoadMoreListener() {
+//		pullListView.setAllowRollToBotttomLoadMore(true);
+		pullListView.openClickLoadMoreMode(new MyClickLoadMoreListFooter(getBaseContext()), new ClickLoadMoreListener() {
 			@Override
-			public void onLoadMore(final PullUpLoadMoreFinishListener pullUpLoadMoreFinishListener) {
+			public void onLoadMore(final ClickLoadMoreFinishListener clickLoadMoreFinishListener) {
 				new AsyncTask<String, String, String>(){
 					@Override
 					protected String doInBackground(String... params) {
@@ -84,7 +86,7 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 
 					@Override
 					protected void onPostExecute(String result) {
-						pullUpLoadMoreFinishListener.finishLoadMore();
+						clickLoadMoreFinishListener.finishClickLoadMore();
 					}
 				}.execute("");
 			}
@@ -94,7 +96,7 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 		for(int i = 0; i < strings.length; i++){
 			strings[i] = "This is Title "+i; 
 		}
-		pullDownRefreshListView.setAdapter(textAdapter = new SimpleAdapter(getBaseContext(), strings));
+		pullListView.setAdapter(textAdapter = new SimpleAdapter(getBaseContext(), strings));
 		
 		handleButton(true);
 		
@@ -111,7 +113,7 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 
 			@Override
 			protected void onPostExecute(String result) {
-				pullDownRefreshListView.startRefresh();
+				pullListView.startClickLoadMore();
 			}
 		}.execute("");
 	}

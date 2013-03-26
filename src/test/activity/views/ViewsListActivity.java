@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 实用工具界面
+ * 系统组件使用示例
  * @author xiaopan
  *
  */
-public class ToolsActivity extends MyBaseActivity{
+public class ViewsListActivity extends MyBaseActivity{
 
 	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
@@ -42,11 +42,9 @@ public class ToolsActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.imageLoader_title), ImageLoaderActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.barcodeScanner_title), BarcodeScannerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.tabHost_title), TabHostActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
 		
-		reboundListView.openListHeaderReboundMode();
-		reboundListView.openListFooterReboundMode();
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
 }

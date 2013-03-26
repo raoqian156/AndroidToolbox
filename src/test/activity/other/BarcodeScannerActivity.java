@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.other;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AndroidUtils;

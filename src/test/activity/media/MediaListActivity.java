@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.media;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 其它示例
+ * 动画
  * @author xiaopan
  *
  */
-public class OtherActivity extends MyBaseActivity{
+public class MediaListActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
 	
@@ -41,7 +41,6 @@ public class OtherActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.drawable_title), DrawableActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

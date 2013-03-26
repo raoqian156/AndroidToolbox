@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.other;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 各种Drawable测试
+ * 其它示例
  * @author xiaopan
  *
  */
-public class DrawableActivity extends MyBaseActivity {
+public class OtherListActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
 	private ReboundListView reboundListView;
 	
@@ -41,8 +41,9 @@ public class DrawableActivity extends MyBaseActivity {
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.clipDrawable_title), ClipDrawableActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.rotateDrawable_title), RotateDrawableActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.accessNetwork_title), AccessNetworkActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.barcodeScanner_title), BarcodeScannerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.imageLoader_title), ImageLoaderActivity.class));
 		
 		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

@@ -1,4 +1,4 @@
-package test.activity;
+package test.activity.views;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.PullListView;
