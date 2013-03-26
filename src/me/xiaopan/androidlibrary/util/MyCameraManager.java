@@ -24,6 +24,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	private int backCameraId = -1;
 	private int currentCameraId = -1;
 	private PreviewCallback previewCallback;
+	private PreviewStateCallback previewStateCallback;
 	private RawPictureCallback rawPictureCallback;
 	private JpegPictureCallback jpegPictureCallback;
 	private Camera.PictureCallback cameraRawPictureCallback;
@@ -36,7 +37,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	private ErrorCallback errorCallback;
 	private FaceDetectionListener faceDetectionListener;
 	private OnZoomChangeListener zoomChangeListener;
-	public boolean resumeRestore;//是否需要在Activity Resume的时候恢复
+	private boolean resumeRestore;//是否需要在Activity Resume的时候恢复
 	
 	public MyCameraManager(SurfaceHolder surfaceHolder){
 		this.surfaceHolder = surfaceHolder;
@@ -171,6 +172,9 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		if(camera != null){
 			camera.startPreview();
 			autoFocus();
+			if(previewStateCallback != null){
+				previewStateCallback.onStartPreview();
+			}
 		}
 	}
 	
@@ -180,6 +184,9 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	public void stopPreview(){
 		if(camera != null){
 			camera.stopPreview();
+			if(previewStateCallback != null){
+				previewStateCallback.onStopPreview();
+			}
 		}
 	}
 	
@@ -188,7 +195,7 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 	 */
 	public void release(){
 		if (camera != null) {
-			camera.stopPreview();
+			stopPreview();
 			try {
 				camera.setPreviewDisplay(null);
 			} catch (IOException e) {
@@ -289,6 +296,14 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 		public void onInitCamera(Camera camera);
 	}
 	
+	/**
+	 * 预览状态回调
+	 */
+	public interface PreviewStateCallback{
+		public void onStartPreview();
+		public void onStopPreview();
+	}
+	
 	public void setPreviewCallback(PreviewCallback previewCallback) {
 		this.previewCallback = previewCallback;
 	}
@@ -332,6 +347,10 @@ public class MyCameraManager implements SurfaceHolder.Callback{
 
 	public void setZoomChangeListener(OnZoomChangeListener zoomChangeListener) {
 		this.zoomChangeListener = zoomChangeListener;
+	}
+
+	public void setPreviewStateCallback(PreviewStateCallback previewStateCallback) {
+		this.previewStateCallback = previewStateCallback;
 	}
 
 	public int getCurrentCameraId() {

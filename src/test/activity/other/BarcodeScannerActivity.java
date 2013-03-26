@@ -1,9 +1,8 @@
 package test.activity.other;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.AndroidUtils;
-import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.androidlibrary.util.CameraUtils;
+import me.xiaopan.androidlibrary.util.MyCameraManager;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.androidlibrary.util.barcode.ScanFrameView;
@@ -15,7 +14,6 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,11 +24,11 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
 
 /**
- * 条码扫描仪
+ * 条码扫描器
  * @author xiaopan
  *
  */
-public class BarcodeScannerActivity extends MyBaseActivity implements DecodeListener, CameraManager.Listener, ResultPointCallback, SurfaceHolder.Callback{
+public class BarcodeScannerActivity extends MyBaseActivity implements Camera.ErrorCallback, Camera.PreviewCallback, Camera.AutoFocusCallback, MyCameraManager.InitCameraCallback, MyCameraManager.OpenCameraFailCallback, MyCameraManager.PreviewStateCallback, ResultPointCallback, DecodeListener{
 	private SurfaceView surfaceView;	//显示画面的视图
 	private ScanFrameView scanFrameView;//扫描框（取景器）
 	private TextView resultText;	//显示扫描结果
@@ -38,8 +36,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 	private Decoder decoder;	//解码器
 	private SoundPool soundPool;//音效池
 	private int beepId;//哔哔音效
-	private CameraManager cameraManager;
-	private boolean hasSurface;
+	private MyCameraManager cameraManager;
 	private long lastFocusTime;
 	private RefreshScanFrameRunnable refreshScanFrameRunnable;
 	private Handler handler;
@@ -47,9 +44,9 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.barcode_scanner);
-		surfaceView = (SurfaceView) findViewById(R.id.surface_barCodeScanner);
-		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barCodeScanner);
-		resultText = (TextView) findViewById(R.id.text_barCodeScanner_result);
+		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
+		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
+		resultText = (TextView) findViewById(R.id.text_barcodeScanner_result);
 	}
 
 	@Override
@@ -65,6 +62,16 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
+		//初始化相机管理器
+		cameraManager = new MyCameraManager(surfaceView.getHolder());
+		cameraManager.setAutoFocusCallback(this);
+		cameraManager.setInitCameraCallback(this);
+		cameraManager.setOpenCameraFailCallback(this);
+		cameraManager.setPreviewCallback(this);
+		cameraManager.setPreviewStateCallback(this);
+		cameraManager.setErrorCallback(this);
+		
+		//初始化刷新扫描框的处理器
 		handler = new Handler();
 		refreshScanFrameRunnable = new RefreshScanFrameRunnable();
 		
@@ -74,39 +81,22 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		//初始化音效
 		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 		beepId = soundPool.load(getBaseContext(), R.raw.beep, 100);
-		
-		//初始化相机管理器
-		cameraManager = new CameraManager();
-		cameraManager.setListener(this);
-		
-		//初始化Surface持有器
-		surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		surfaceView.getHolder().addCallback(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(hasSurface){
-			startScan();
-		}
+		cameraManager.openBackCamera();
 	}
 	
 	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		if(!hasSurface){
-			hasSurface = true;
-			startScan();
-		}
+	protected void onPause() {
+		super.onPause();
+		cameraManager.release();
 	}
-
+	
 	@Override
 	public void onInitCamera(Camera camera) {
-		//如果是当前竖屏就将预览角度顺时针旋转90度
-		if (!AndroidUtils.isLandscape(getBaseContext())) {
-			camera.setDisplayOrientation(90);
-		}
-		
 		//设置最佳的预览分辨率
 		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
 		if(optimalPreviewSize != null){
@@ -115,18 +105,14 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 			camera.setParameters(parameters);
 		}
 		
+		cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
+		
 		//如果解码器尚未创建的话，就创建解码器并设置其监听器
 		if(decoder == null){
 			decoder = new Decoder(getBaseContext(), camera.getParameters(), scanFrameView);
 			decoder.setResultPointCallback(this);	//设置可疑点回调
 			decoder.setDecodeListener(this);	//设置解码监听器
 		}
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		stopScan();
 	}
 
 	@Override
@@ -146,26 +132,6 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 			resultText.setText(null);
 			cameraManager.autoFocus();
 			lastFocusTime = currentTime;
-		}
-	}
-	
-	/**
-	 * 开始扫描
-	 */
-	private void startScan(){
-		cameraManager.openCamera(surfaceView.getHolder());//打开摄像头
-		cameraManager.startPreview();//开始预览
-		startDecode();//开始解码
-	}
-	
-	/**
-	 * 停止扫描
-	 */
-	private void stopScan(){
-		stopRefreshScanFrame();
-		stopDecode();
-		if(cameraManager != null){
-			cameraManager.release();
 		}
 	}
 	
@@ -220,17 +186,41 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 
 	@Override
 	public void onDecodeSuccess(Result result, Bitmap barcodeBitmap) {
+		stopDecode();//停止解码
+		playSound();//播放音效
+		playVibrator();//发出震动提示
+		handleResult(result, barcodeBitmap);//处理结果
+	}
+	
+	/**
+	 * 处理结果
+	 * @param result
+	 * @param barcodeBitmap
+	 */
+	private void handleResult(Result result, Bitmap barcodeBitmap){
 		//显示扫描结果
 		resultText.setText(result.getBarcodeFormat().toString() + "：" + result.getText());
 		//将条码图片显示在扫描框中
 		scanFrameView.drawResultBitmap(barcodeBitmap);
+	}
+	
+	/**
+	 * 播放音效
+	 */
+	private void playSound(){
 		//播放音效
 		AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-		soundPool.play(beepId, audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), 100, 0, 1);
-		//发出震动提示
-		((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(200);
-		//停止解码
-		stopDecode();
+		if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+			float volume = (float) (((float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / 15) / 3.0);
+			soundPool.play(beepId, volume, volume, 100, 0, 1);
+		}
+	}
+	
+	/**
+	 * 震动
+	 */
+	private void playVibrator(){
+		((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(200);//发出震动提示
 	}
 
 	@Override
@@ -239,7 +229,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 	}
 
 	@Override
-	public void onException(Exception e) {
+	public void onOpenCameraFail(Exception e) {
 		toastL(R.string.comm_hint_cameraOpenFailed);
 		becauseExceptionFinishActivity();
 	}
@@ -254,31 +244,10 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		return true;
 	}
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		hasSurface = false;
-		if(cameraManager != null){
-			cameraManager.stopPreview();
-		}
-	}
-	
-	@Override
-	public void onShutter() {}
-
-	@Override
-	public void onPictureTakenJpeg(byte[] data, Camera camera) {}
-
-	@Override
-	public void onPictureTakenRaw(byte[] data, Camera camera) {}
-	
 	private class RefreshScanFrameRunnable implements Runnable{
 		@Override
 		public void run() {
-			if(scanFrameView != null){
+			if(scanFrameView != null && handler != null){
 				scanFrameView.refresh();
 				handler.postDelayed(refreshScanFrameRunnable, 50);
 			}
@@ -294,5 +263,20 @@ public class BarcodeScannerActivity extends MyBaseActivity implements DecodeList
 		refreshScanFrameRunnable = null;
 		handler = null;
 		super.onDestroy();
+	}
+
+	@Override
+	public void onStartPreview() {
+		startDecode();//开始解码
+	}
+
+	@Override
+	public void onStopPreview() {
+		stopDecode();//停止解码
+	}
+
+	@Override
+	public void onError(int error, Camera camera) {
+		
 	}
 }

@@ -59,7 +59,7 @@
     		<activity android:name="test.activity.media.TakePicturesActivity" android:label="@string/takePicture_title" android:screenOrientation="portrait"/>
        		
        		<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
-       		<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title"/>
+       		<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title" android:screenOrientation="portrait"/>
        		<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
      		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
 
