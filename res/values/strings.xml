@@ -31,6 +31,7 @@
     	<string name="accessNetwork_title">访问网络</string>
 	    <string name="barcodeScanner_title">条码扫描器</string>
 			<string name="barcodeScanner_hint">请将条码置于扫描框内！</string>
+			<string name="barcodeScanner_hint_notSupport">抱歉，您的设备不支持此功能！</string>
 	    <string name="imageLoader_title">图片批量加载器</string>
     
     <!-- 系统组件使用示例 -->

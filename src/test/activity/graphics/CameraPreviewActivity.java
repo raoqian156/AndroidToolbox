@@ -5,8 +5,8 @@ import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AndroidUtils;
-import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
+import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.SystemUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;

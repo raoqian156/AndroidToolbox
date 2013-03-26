@@ -231,11 +231,11 @@ public class CameraManager implements SurfaceHolder.Callback{
 	 * @param newFlashMode
 	 */
 	public void setFlashMode(String newFlashMode){
-		stopPreview();
-		Parameters parameters = camera.getParameters();
-		parameters.setFlashMode(newFlashMode);
-		camera.setParameters(parameters);
-		startPreview();
+		if(camera != null){
+			Parameters parameters = camera.getParameters();
+			parameters.setFlashMode(newFlashMode);
+			camera.setParameters(parameters);
+		}
 	}
 	
 	/**
@@ -308,6 +308,10 @@ public class CameraManager implements SurfaceHolder.Callback{
 		public void onStopPreview();
 	}
 	
+	public Camera getCamera() {
+		return camera;
+	}
+
 	public void setPreviewCallback(PreviewCallback previewCallback) {
 		this.previewCallback = previewCallback;
 	}

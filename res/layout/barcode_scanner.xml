@@ -11,17 +11,16 @@
         <!-- 扫描框区 -->
         <LinearLayout style="@style/base_layout_fill_weight" android:layout_weight="0.9">
             <LinearLayout style="@style/base_layout_weight_fill" android:background="@color/base_black_translucent"/>
-            <me.xiaopan.androidlibrary.util.barcode.ScanFrameView 
-                style="@style/base_layout_weight_fill"  
-                android:id="@+id/scanningFrame_barcodeScanner"  
-                android:layout_weight="4" 
-                android:background="@drawable/shape_scan_frame" />
+            <me.xiaopan.androidlibrary.util.barcode.ScanFrameView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_layout_weight_fill" android:background="@drawable/shape_scan_frame" android:layout_weight="4" />
             <LinearLayout style="@style/base_layout_weight_fill" android:background="@color/base_black_translucent"/>
         </LinearLayout>
         
         <!-- 提示区 -->
-        <LinearLayout style="@style/base_layout_fill_weight" android:background="@color/base_black_translucent" android:gravity="center">
-            <TextView style="@style/base_layout_wrap_wrap" android:textColor="@color/base_white" android:textSize="@dimen/base_textSize_default" android:text="@string/barcodeScanner_hint" />
+        <LinearLayout style="@style/base_layout_fill_weight_vertical" android:background="@color/base_black_translucent" android:gravity="center" android:padding="@dimen/base_padding_specialLarge">
+            <TextView style="@style/base_layout_wrap_weight" android:textColor="@color/base_white" android:textSize="@dimen/base_textSize_default" android:text="@string/barcodeScanner_hint"  android:gravity="center"/>
+        	<LinearLayout style="@style/base_layout_fill_wrap" android:gravity="center">
+        	    <CheckBox style="@style/base_layout_wrap_wrap" android:button="@drawable/selector_button_flash" android:id="@+id/checkBox_barcodeScanner_flash"/>
+        	</LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -140,4 +140,14 @@ public class CameraUtils {
 			camera.setParameters(parameters);
 		}
 	}
+	
+	/**
+	 * 判断给定的相机是否支持给定的闪光模式
+	 * @param camera 给定的相机
+	 * @param flashMode 给定的闪光模式
+	 * @return
+	 */
+	public static boolean isSupportFlashMode(Camera camera, String flashMode){
+		return camera != null?camera.getParameters().getSupportedFlashModes().contains(flashMode):false;
+	}
 }

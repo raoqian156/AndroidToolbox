@@ -2,8 +2,8 @@ package test.activity.other;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.AndroidUtils;
-import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
+import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.SystemUtils;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
@@ -19,6 +19,9 @@ import android.os.Vibrator;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
@@ -27,10 +30,9 @@ import com.google.zxing.ResultPointCallback;
 
 /**
  * 条码扫描器
- * @author xiaopan
- *
  */
 public class BarcodeScannerActivity extends MyBaseActivity implements Camera.ErrorCallback, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.OpenCameraFailCallback, CameraManager.PreviewStateCallback, ResultPointCallback, DecodeListener{
+	public static final String STATE_FLASH_CHECKED = "STATE_FLASH_CHECKED";
 	private SurfaceView surfaceView;	//显示画面的视图
 	private ScanFrameView scanFrameView;//扫描框（取景器）
 	private TextView resultText;	//显示扫描结果
@@ -42,6 +44,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	private long lastFocusTime;
 	private RefreshScanFrameRunnable refreshScanFrameRunnable;
 	private Handler handler;
+	private CheckBox flashButton;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
 		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
 		resultText = (TextView) findViewById(R.id.text_barcodeScanner_result);
+		flashButton = (CheckBox) findViewById(R.id.checkBox_barcodeScanner_flash);
 	}
 
 	@Override
@@ -60,10 +64,21 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 				startDecode();//开始解码
 			}
 		});
+		
+		flashButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				setFlashMode(isChecked);
+			}
+		});
 	}
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
+		if(savedInstanceState != null){
+			flashButton.setChecked(savedInstanceState.getBoolean(STATE_FLASH_CHECKED));
+		}
+		
 		//初始化相机管理器
 		cameraManager = new CameraManager(surfaceView.getHolder());
 		cameraManager.setAutoFocusCallback(this);
@@ -89,6 +104,22 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	protected void onResume() {
 		super.onResume();
 		cameraManager.openBackCamera();
+		setFlashMode(flashButton.isChecked());
+	}
+	
+	private void setFlashMode(boolean torck){
+		if(cameraManager != null){
+			if(torck){
+				if(CameraUtils.isSupportFlashMode(cameraManager.getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
+					cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+				}else{
+					toastL(R.string.barcodeScanner_hint_notSupport);
+					flashButton.setChecked(false);
+				}
+			}else{
+				cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			}
+		}
 	}
 	
 	@Override
@@ -99,15 +130,13 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	
 	@Override
 	public void onInitCamera(Camera camera) {
-		Camera.Parameters parameters = camera.getParameters();
-		
 		//设置最佳的预览分辨率
 		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
 		if(optimalPreviewSize != null){
+			Camera.Parameters parameters = camera.getParameters();
 			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+			camera.setParameters(parameters);
 		}
-		
-		camera.setParameters(parameters);
 		
 		//设置预览界面旋转角度
 		if(SystemUtils.getAPILevel() >= 9){
@@ -139,11 +168,13 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	 * 自动对焦
 	 */
 	private void autoFocus() {
-		long currentTime = System.currentTimeMillis();
-		if(lastFocusTime == 0 || currentTime - lastFocusTime >= 3000){
-			resultText.setText(null);
-			cameraManager.autoFocus();
-			lastFocusTime = currentTime;
+		if(cameraManager != null){
+			long currentTime = System.currentTimeMillis();
+			if(lastFocusTime == 0 || currentTime - lastFocusTime >= 3000){
+				resultText.setText(null);
+				cameraManager.autoFocus();
+				lastFocusTime = currentTime;
+			}
 		}
 	}
 	
@@ -290,5 +321,11 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	@Override
 	public void onError(int error, Camera camera) {
 		
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(STATE_FLASH_CHECKED, flashButton.isChecked());
+		super.onSaveInstanceState(outState);
 	}
 }
