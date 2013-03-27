@@ -32,7 +32,7 @@ import com.google.zxing.ResultPointCallback;
  * 条码扫描器
  */
 public class BarcodeScannerActivity extends MyBaseActivity implements Camera.ErrorCallback, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.OpenCameraFailCallback, CameraManager.PreviewStateCallback, ResultPointCallback, DecodeListener{
-	public static final String STATE_FLASH_CHECKED = "STATE_FLASH_CHECKED";
+	private static final String STATE_FLASH_CHECKED = "STATE_FLASH_CHECKED";
 	private SurfaceView surfaceView;	//显示画面的视图
 	private ScanFrameView scanFrameView;//扫描框（取景器）
 	private TextView resultText;	//显示扫描结果
