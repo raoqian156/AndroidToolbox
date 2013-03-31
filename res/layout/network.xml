@@ -3,7 +3,7 @@
     <!-- 正文内容 -->
     <ScrollView style="@style/base_layout_fill_fill">
         <LinearLayout style="@style/comm_layout_body_content_padding">
-	    	<TextView style="@style/base_layout_fill_fill" android:id="@+id/tv_network" android:autoLink="web"/>
+	    	<TextView style="@style/comm_text" android:id="@+id/tv_network" android:autoLink="all"/>
         </LinearLayout>
     </ScrollView>
     

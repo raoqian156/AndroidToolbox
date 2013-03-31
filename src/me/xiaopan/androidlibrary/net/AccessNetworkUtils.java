@@ -42,7 +42,7 @@ public class AccessNetworkUtils {
 		/*
 		 * 组织HttpRequest对象
 		 */
-		HttpRequest httpRequest = new HttpRequest(hostServerAddress + "/" + path);
+		HttpRequest httpRequest = new HttpRequest(hostServerAddress + (StringUtils.startsWithIgnoreCase(hostServerAddress, "/")?"":"/") + path);
 		
 		//如果有Post注解就设置请求方式为POST
 		if(AnnotationUtils.existAnnotaion(requestClass, Post.class)){

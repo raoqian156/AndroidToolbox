@@ -76,7 +76,7 @@ public abstract class MyBaseActivity extends BaseActivity {
 
 	@Override
 	public String getHostServerAddress(){
-		return "http://124.193.150.46/exhmobile";
+		return "http://m.weather.com.cn/data";
 	}
 	
 	@Override

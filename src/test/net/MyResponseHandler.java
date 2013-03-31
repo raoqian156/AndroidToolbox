@@ -5,10 +5,9 @@ import java.lang.reflect.Type;
 import me.xiaopan.androidlibrary.net.ErrorInfo;
 import me.xiaopan.androidlibrary.net.Response;
 import me.xiaopan.androidlibrary.net.ResponseHandler;
+import me.xiaopan.androidlibrary.util.Logger;
 
 import org.json.JSONObject;
-
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -18,8 +17,8 @@ import com.google.gson.Gson;
  *
  */
 public class MyResponseHandler implements ResponseHandler{
-	private static final String STATUS = "status";
-	private static final String STATUS_VALUE_SUCCESS = "success";
+//	private static final String STATUS = "status";
+//	private static final String STATUS_VALUE_SUCCESS = "success";
 	private static final String RESULT = "result";
 	private Class<? extends Response> responseClass;
 	private Type responseType;
@@ -34,17 +33,25 @@ public class MyResponseHandler implements ResponseHandler{
 	
 	@Override
 	public boolean onIsSuccess(JSONObject responseJsonObject) throws Exception {
-		Log.i("响应", responseJsonObject.toString());
-		return STATUS_VALUE_SUCCESS.equals(responseJsonObject.getString(STATUS));
+		Logger.i("响应", responseJsonObject.toString());
+//		return STATUS_VALUE_SUCCESS.equals(responseJsonObject.getString(STATUS));
+		return true;
 	}
 
 	@Override
 	public Object onGetSuccessResult(JSONObject responseJsonObject) throws Exception {
+//		Object result = null;
+//		if(responseClass != null){
+//			result = new Gson().fromJson(responseJsonObject.getString(RESULT), responseClass);
+//		}else if(responseType != null){
+//			result = new Gson().fromJson(responseJsonObject.getString(RESULT), responseType);
+//		}
+//		return result;
 		Object result = null;
 		if(responseClass != null){
-			result = new Gson().fromJson(responseJsonObject.getString(RESULT), responseClass);
+			result = new Gson().fromJson(responseJsonObject.getString("weatherinfo"), responseClass);
 		}else if(responseType != null){
-			result = new Gson().fromJson(responseJsonObject.getString(RESULT), responseType);
+			result = new Gson().fromJson(responseJsonObject.getString("weatherinfo"), responseType);
 		}
 		return result;
 	}

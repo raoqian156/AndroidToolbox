@@ -50,11 +50,7 @@
 	    <item name="android:gravity">center</item> 
 	    <item name="android:clickable">true</item>
          <item name="android:background">@color/comm_body_backg</item>
-    </style>
-    
-    <!-- 布局 - 正在加载的提示视图 - 默认隐藏的 -->
-    <style name="comm_layout_loadingHint_gone" parent="@style/comm_layout_loadingHint">
-        <item name="android:visibility">gone</item>
+         <item name="android:visibility">gone</item>
     </style>
     
     
