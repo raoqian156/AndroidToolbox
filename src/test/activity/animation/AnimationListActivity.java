@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.ReboundListView;
 import test.MyBaseActivity;
 import test.adapter.ActivityAdapter;
 import test.adapter.ActivityAdapter.ActivityItem;
@@ -12,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 /**
  * 动画
@@ -20,12 +20,12 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public class AnimationListActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
-	private ReboundListView listView;
+	private ListView listView;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.comm_simple_rebound_list);
-		listView = (ReboundListView) findViewById(android.R.id.list);
+		setContentView(R.layout.comm_simple_list_rebound);
+		listView = (ListView) findViewById(android.R.id.list);
 	}
 
 	@Override
