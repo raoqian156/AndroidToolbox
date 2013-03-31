@@ -20,20 +20,20 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public class AnimationListActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
-	private ReboundListView reboundListView;
+	private ReboundListView listView;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.comm_simple_rebound_list);
-		reboundListView = (ReboundListView) findViewById(android.R.id.list);
+		listView = (ReboundListView) findViewById(android.R.id.list);
 	}
 
 	@Override
 	public void onInitListener(Bundle savedInstanceState) {
-		reboundListView.setOnItemClickListener(new OnItemClickListener() {
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				startActivity(activityItemList.get(arg2 - reboundListView.getHeaderViewsCount()).getAction());
+				startActivity(activityItemList.get(arg2 - listView.getHeaderViewsCount()).getAction());
 			}
 		});
 	}
@@ -42,6 +42,6 @@ public class AnimationListActivity extends MyBaseActivity{
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
 		
-		reboundListView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
+		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
 }

@@ -35,9 +35,8 @@ public class ActivityAdapter extends MyBaseAdapter{
 		ViewHolder viewHolder;
 		if(convertView == null){
 			viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(conetxt).inflate(android.R.layout.simple_list_item_1, null);
-			viewHolder.name = (TextView) convertView.findViewById(android.R.id.text1);
-			viewHolder.name.setTextColor(conetxt.getResources().getColor(R.color.base_gray));
+			convertView = LayoutInflater.from(conetxt).inflate(R.layout.comm_simple_list_item, null);
+			viewHolder.name = (TextView) convertView;
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();

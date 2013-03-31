@@ -68,12 +68,12 @@
     
 	<!-- 列表 - 充满的 -->
 	<style name="comm_list_fill" parent="@style/comm_list">
-	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">fill_parent</item>
 	</style>
     
 	<!-- 列表 - 高度权重1 -->
 	<style name="comm_list_weight" parent="@style/comm_list">
-	    <item name="android:layout_width">0dp</item>
+	    <item name="android:layout_height">0dp</item>
 	    <item name="android:layout_weight">1</item>
 	</style>
    
