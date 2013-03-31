@@ -8,8 +8,8 @@
 	    android:id="@+id/loadmoreFooter_layout_body">
 		<RelativeLayout style="@style/base_layout_fill_fill">
 			<LinearLayout style="@style/base_layout_wrap_wrap_vertical" android:gravity="center" android:id="@+id/loadmoreFooter_layout_hint" android:layout_centerInParent="true">
-			    <TextView style="@style/base_layout_wrap_wrap" android:id="@+id/loadmoreFooter_text_refreshHint" android:text="@string/comm_pullUpLoadMore"/>
-			    <TextView style="@style/base_layout_wrap_wrap" android:id="@+id/loadmoreFooter_text_timeHint" android:text="@string/comm_firstLoad"  android:gravity="center" android:minWidth="150dp"/>
+			    <TextView style="@style/comm_text" android:id="@+id/loadmoreFooter_text_refreshHint" android:text="@string/comm_pullUpLoadMore"/>
+			    <TextView style="@style/comm_text" android:id="@+id/loadmoreFooter_text_timeHint" android:text="@string/comm_firstLoad"  android:gravity="center" android:minWidth="150dp"/>
 			</LinearLayout>
 			<ImageView
 			    style="@style/base_layout_wrap_wrap" 

@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_layout_fill_wrap" android:gravity="center" android:padding="@dimen/base_padding_littleLarge">
 	<ProgressBar  android:layout_width="wrap_content" android:layout_height="wrap_content" style="?android:attr/progressBarStyleSmallInverse" android:id="@+id/clickLoadMore_progress" android:visibility="gone" />
 	<TextView 
-	    style="@style/base_layout_wrap_wrap" 
+	    style="@style/comm_text" 
 	    android:text="@string/comm_clickLoadMore" 
 	    android:id="@+id/clickLoadMore_text" 
-	    android:textSize="@dimen/base_textSize_default"
 	    android:layout_marginLeft="@dimen/base_margin_default"
 	    android:layout_marginRight="@dimen/base_margin_default"
 	    />

@@ -7,6 +7,7 @@ import me.xiaopan.javalibrary.net.HttpResponse;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -17,10 +18,11 @@ import android.os.AsyncTask;
  */
 public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>{
 	private static final int RESULT_SUCCESS = 101;//结果标记 - 成功了
-	private static final int RESULT_FAIL = 102;//结果标记 - 失败了
+	private static final int RESULT_ERROR = 102;//结果标记 - 失败了
 	private static final int RESULT_EXCEPTION = 103;//结果标记 - 异常了
 	
 	private Context context;//上下文
+	private Activity activity;
 	private HttpRequest httpRequest;//请求对象
 	private ResponseHandler responseHandler;//响应处理器
 	private AccessNetworkListener<?> accessNetworkListener;//监听器
@@ -39,6 +41,9 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 	 */
 	public AccessNetworkAsyncTask(Context context, HttpRequest httpRequest, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener){
 		this.context = context;
+		if(this.context instanceof Activity){
+			activity = (Activity) this.context;
+		}
 		this.httpRequest = httpRequest;
 		this.responseHandler = responseHandler;
 		this.accessNetworkListener = accessNetworkListener;
@@ -46,7 +51,9 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 	
 	@Override
 	protected void onPreExecute() {
-		accessNetworkListener.onStart();
+		if(activity == null || !activity.isFinishing()){
+			accessNetworkListener.onStart();
+		}
 	}
 	
 	@Override
@@ -68,7 +75,7 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 					}else{
 						//调用响应处理器获取失败状态码，并标记为失败
 						errorInfo = responseHandler.onGetError(responseJsonObject);
-						resultFlag = RESULT_FAIL;
+						resultFlag = RESULT_ERROR;
 					}
 				}else{
 					throw new Exception();
@@ -89,11 +96,13 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 
 	@Override
 	protected void onPostExecute(Integer result) {
-		switch(resultFlag){
-			case RESULT_SUCCESS : accessNetworkListener.success(resultObject); break;
-			case RESULT_FAIL : accessNetworkListener.onError(errorInfo); break;
-			case RESULT_EXCEPTION : accessNetworkListener.onException(exception, context); break;
+		if(activity == null || !activity.isFinishing()){
+			switch(resultFlag){
+				case RESULT_SUCCESS : accessNetworkListener.success(resultObject); break;
+				case RESULT_ERROR : accessNetworkListener.onError(errorInfo); break;
+				case RESULT_EXCEPTION : accessNetworkListener.onException(exception, context); break;
+			}
+			accessNetworkListener.onEnd();
 		}
-		accessNetworkListener.onEnd();
 	}
 }
