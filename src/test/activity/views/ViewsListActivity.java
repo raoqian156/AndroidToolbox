@@ -44,6 +44,7 @@ public class ViewsListActivity extends MyBaseActivity{
 		activityItemList = new ArrayList<ActivityItem>();
 		activityItemList.add(new ActivityItem(getString(R.string.tabHost_title), TabHostActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.viewPager_title), ViewPagerActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

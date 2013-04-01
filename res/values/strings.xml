@@ -39,4 +39,5 @@
     <string name="viewsList_title">视图</string>
 		<string name="progressBar_title">进度条</string>
 	    <string name="tabHost_title">选项卡</string>
+	    <string name="viewPager_title">View Pager（滑动选项卡）</string>
 </resources>

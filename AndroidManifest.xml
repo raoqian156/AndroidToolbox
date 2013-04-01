@@ -67,6 +67,7 @@
         	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/progressBar_title"/>
         	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
         	<activity android:name="test.activity.views.TabContentActivity"/>
+        	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/viewPager_title"/>
        		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
     </application>
 </manifest>
