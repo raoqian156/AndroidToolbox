@@ -30,5 +30,5 @@ public interface ResponseHandler {
 	 * @return 错误信息
 	 * @throws Exception 
 	 */
-	public ErrorInfo onGetError(JSONObject responseJsonObject) throws Exception;
+	public ErrorInfo onGetErrorInfo(JSONObject responseJsonObject) throws Exception;
 }

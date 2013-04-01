@@ -57,7 +57,7 @@ public class MyResponseHandler implements ResponseHandler{
 	}
 
 	@Override
-	public ErrorInfo onGetError(JSONObject responseJsonObject) throws Exception {
+	public ErrorInfo onGetErrorInfo(JSONObject responseJsonObject) throws Exception {
 		return new Gson().fromJson(responseJsonObject.getString(RESULT), ErrorInfo.class);
 	}
 }

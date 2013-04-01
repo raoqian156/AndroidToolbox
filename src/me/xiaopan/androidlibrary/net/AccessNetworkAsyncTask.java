@@ -65,7 +65,7 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 				public void onHandleResponse(HttpResponse httpResponse) throws Exception {
 					//如果有响应处理器
 					if(responseHandler != null){
-						JSONObject responseJsonObject = new JSONObject(httpResponse.getString());;
+						JSONObject responseJsonObject = new JSONObject(httpResponse.getString());
 						//如果状态为成功
 						if(responseHandler.onIsSuccess(responseJsonObject)){
 							//调用响应处理器获取处理结果，并标记为成功
@@ -73,7 +73,7 @@ public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>
 							resultFlag = RESULT_SUCCESS;
 						}else{
 							//调用响应处理器获取失败状态码，并标记为失败
-							errorInfo = responseHandler.onGetError(responseJsonObject);
+							errorInfo = responseHandler.onGetErrorInfo(responseJsonObject);
 							resultFlag = RESULT_ERROR;
 						}
 					}else{
