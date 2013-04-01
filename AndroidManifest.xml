@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.xiaopan.androidlibrary"
-    android:versionCode="226"
-    android:versionName="2.2.6" >
+    android:versionCode="227"
+    android:versionName="2.2.7" >
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
     
@@ -60,6 +60,7 @@
        		
        		<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
        		<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title" android:screenOrientation="portrait"/>
+       		<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/downloadImage_title"/>
        		<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
      		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
 

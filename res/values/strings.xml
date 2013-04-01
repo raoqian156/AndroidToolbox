@@ -29,6 +29,7 @@
 		
 	<string name="otherList_title">其它</string>
     	<string name="accessNetwork_title">访问网络</string>
+    	<string name="downloadImage_title">下载图片</string>
 	    <string name="barcodeScanner_title">条码扫描器</string>
 			<string name="barcodeScanner_hint">请将条码置于扫描框内！</string>
 			<string name="barcodeScanner_hint_notSupport">抱歉，您的设备不支持此功能！</string>

@@ -42,6 +42,7 @@ public class OtherListActivity extends MyBaseActivity{
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
 		activityItemList.add(new ActivityItem(getString(R.string.accessNetwork_title), AccessNetworkActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.downloadImage_title), DownloadImageActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.barcodeScanner_title), BarcodeScannerActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.imageLoader_title), ImageLoaderActivity.class));
 		
