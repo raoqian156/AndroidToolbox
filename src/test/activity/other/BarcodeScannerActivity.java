@@ -31,7 +31,7 @@ import com.google.zxing.ResultPointCallback;
 /**
  * 条码扫描器
  */
-public class BarcodeScannerActivity extends MyBaseActivity implements Camera.ErrorCallback, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.OpenCameraFailCallback, CameraManager.PreviewStateCallback, ResultPointCallback, DecodeListener{
+public class BarcodeScannerActivity extends MyBaseActivity implements CameraManager.CameraCallback, Camera.PreviewCallback, ResultPointCallback, DecodeListener{
 	private static final String STATE_FLASH_CHECKED = "STATE_FLASH_CHECKED";
 	private SurfaceView surfaceView;	//显示画面的视图
 	private ScanFrameView scanFrameView;//扫描框（取景器）
@@ -41,10 +41,19 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	private SoundPool soundPool;//音效池
 	private int beepId;//哔哔音效
 	private CameraManager cameraManager;
-	private long lastFocusTime;
 	private RefreshScanFrameRunnable refreshScanFrameRunnable;
 	private Handler handler;
 	private CheckBox flashButton;
+
+	@Override
+	protected boolean isRemoveTitleBar() {
+		return true;
+	}
+
+	@Override
+	protected boolean isFullScreen() {
+		return true;
+	}
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -68,7 +77,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 		flashButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				setFlashMode(isChecked);
+				setEnableTorckFlashMode(isChecked);
 			}
 		});
 	}
@@ -80,13 +89,8 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 		}
 		
 		//初始化相机管理器
-		cameraManager = new CameraManager(surfaceView.getHolder());
-		cameraManager.setAutoFocusCallback(this);
-		cameraManager.setInitCameraCallback(this);
-		cameraManager.setOpenCameraFailCallback(this);
-		cameraManager.setPreviewCallback(this);
-		cameraManager.setPreviewStateCallback(this);
-		cameraManager.setErrorCallback(this);
+		cameraManager = new CameraManager(surfaceView.getHolder(), this);
+		cameraManager.setFocusIntervalTime(3000);
 		
 		//初始化刷新扫描框的处理器
 		handler = new Handler();
@@ -104,22 +108,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	protected void onResume() {
 		super.onResume();
 		cameraManager.openBackCamera();
-		setFlashMode(flashButton.isChecked());
-	}
-	
-	private void setFlashMode(boolean torck){
-		if(cameraManager != null){
-			if(torck){
-				if(CameraUtils.isSupportFlashMode(cameraManager.getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
-					cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-				}else{
-					toastL(R.string.barcodeScanner_hint_notSupport);
-					flashButton.setChecked(false);
-				}
-			}else{
-				cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-			}
-		}
+		setEnableTorckFlashMode(flashButton.isChecked());
 	}
 	
 	@Override
@@ -127,9 +116,29 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 		super.onPause();
 		cameraManager.release();
 	}
+
+	@Override
+	protected void onDestroy() {
+		cameraManager = null;
+		soundPool.release();
+		soundPool = null;
+		decoder = null;
+		refreshScanFrameRunnable = null;
+		handler = null;
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(STATE_FLASH_CHECKED, flashButton.isChecked());
+		super.onSaveInstanceState(outState);
+	}
 	
 	@Override
 	public void onInitCamera(Camera camera) {
+		//设置预览回调
+		camera.setPreviewCallback(this);
+		
 		//设置最佳的预览分辨率
 		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
 		if(optimalPreviewSize != null){
@@ -157,27 +166,65 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	}
 
 	@Override
+	public void onOpenCameraException(Exception e) {
+		toastL(R.string.comm_hint_cameraOpenFailed);
+		becauseExceptionFinishActivity();
+	}
+
+	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
 		//如果没有对好就继续对
 		if (!success) {
-			autoFocus();
+			cameraManager.autoFocus();
 		}
 	}
 
-	/**
-	 * 自动对焦
-	 */
-	private void autoFocus() {
-		if(cameraManager != null){
-			long currentTime = System.currentTimeMillis();
-			if(lastFocusTime == 0 || currentTime - lastFocusTime >= 3000){
-				resultText.setText(null);
-				cameraManager.autoFocus();
-				lastFocusTime = currentTime;
-			}
+	@Override
+	public void onStartPreview() {
+		startDecode();//开始解码
+	}
+
+	@Override
+	public void onStopPreview() {
+		stopDecode();//停止解码
+	}
+	
+	@Override
+	public void onPreviewFrame(byte[] data, Camera camera) {
+		//如果允许解码，就尝试解码
+		if (allowDecode) {
+			decoder.tryDecode(data);
 		}
 	}
 	
+	@Override
+	public void foundPossibleResultPoint(ResultPoint arg0) {
+		scanFrameView.addPossibleResultPoint(arg0);
+	}
+
+	@Override
+	public void onDecodeSuccess(Result result, Bitmap barcodeBitmap) {
+		stopDecode();//停止解码
+		playSound();//播放音效
+		playVibrator();//发出震动提示
+		handleResult(result, barcodeBitmap);//处理结果
+	}
+
+	@Override
+	public void onDecodeFail() {
+		cameraManager.autoFocus();//继续对焦
+	}
+
+	private class RefreshScanFrameRunnable implements Runnable{
+		@Override
+		public void run() {
+			if(scanFrameView != null && handler != null){
+				scanFrameView.refresh();
+				handler.postDelayed(refreshScanFrameRunnable, 50);
+			}
+		}
+	}
+
 	/**
 	 * 开始解码
 	 */
@@ -185,7 +232,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 		if(decoder != null){
 			allowDecode = true;//设置允许解码
 			startRefreshScanFrame();//开始刷新扫描框
-			autoFocus();// 自动对焦
+			cameraManager.autoFocus();// 自动对焦
 		}
 	}
 	
@@ -212,27 +259,6 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	 */
 	public void stopRefreshScanFrame(){
 		handler.removeCallbacks(refreshScanFrameRunnable);
-	}
-	
-	@Override
-	public void onPreviewFrame(byte[] data, Camera camera) {
-		//如果允许解码，就尝试解码
-		if (allowDecode) {
-			decoder.tryDecode(data);
-		}
-	}
-	
-	@Override
-	public void foundPossibleResultPoint(ResultPoint arg0) {
-		scanFrameView.addPossibleResultPoint(arg0);
-	}
-
-	@Override
-	public void onDecodeSuccess(Result result, Bitmap barcodeBitmap) {
-		stopDecode();//停止解码
-		playSound();//播放音效
-		playVibrator();//发出震动提示
-		handleResult(result, barcodeBitmap);//处理结果
 	}
 	
 	/**
@@ -265,67 +291,23 @@ public class BarcodeScannerActivity extends MyBaseActivity implements Camera.Err
 	private void playVibrator(){
 		((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(200);//发出震动提示
 	}
-
-	@Override
-	public void onDecodeFail() {
-		autoFocus();//继续对焦
-	}
-
-	@Override
-	public void onOpenCameraFail(Exception e) {
-		toastL(R.string.comm_hint_cameraOpenFailed);
-		becauseExceptionFinishActivity();
-	}
-
-	@Override
-	protected boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	protected boolean isFullScreen() {
-		return true;
-	}
-
-	private class RefreshScanFrameRunnable implements Runnable{
-		@Override
-		public void run() {
-			if(scanFrameView != null && handler != null){
-				scanFrameView.refresh();
-				handler.postDelayed(refreshScanFrameRunnable, 50);
+	
+	/**
+	 * 设置是否激活常亮闪光模式
+	 * @param enable
+	 */
+	private void setEnableTorckFlashMode(boolean enable){
+		if(cameraManager != null){
+			if(enable){
+				if(CameraUtils.isSupportFlashMode(cameraManager.getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
+					cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+				}else{
+					toastL(R.string.barcodeScanner_hint_notSupport);
+					flashButton.setChecked(false);
+				}
+			}else{
+				cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			}
 		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		cameraManager = null;
-		soundPool.release();
-		soundPool = null;
-		decoder = null;
-		refreshScanFrameRunnable = null;
-		handler = null;
-		super.onDestroy();
-	}
-
-	@Override
-	public void onStartPreview() {
-		startDecode();//开始解码
-	}
-
-	@Override
-	public void onStopPreview() {
-		stopDecode();//停止解码
-	}
-
-	@Override
-	public void onError(int error, Camera camera) {
-		
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean(STATE_FLASH_CHECKED, flashButton.isChecked());
-		super.onSaveInstanceState(outState);
 	}
 }

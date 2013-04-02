@@ -10,7 +10,6 @@ import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.SystemUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
-import android.hardware.Camera.Face;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -23,11 +22,21 @@ import android.widget.ImageButton;
  * @author xiaopan
  *
  */
-public class CameraPreviewActivity extends MyBaseActivity implements Camera.ShutterCallback, Camera.ErrorCallback, Camera.FaceDetectionListener, Camera.OnZoomChangeListener, Camera.PreviewCallback, Camera.AutoFocusCallback, CameraManager.InitCameraCallback, CameraManager.JpegPictureCallback, CameraManager.OpenCameraFailCallback, CameraManager.RawPictureCallback{
+public class CameraPreviewActivity extends MyBaseActivity implements CameraManager.CameraCallback{
 	private SurfaceView surfaceView;
 	private ImageButton flashModeImageButton;
 	private List<String> supportedFlashModes;
 	private CameraManager cameraManager;
+
+	@Override
+	protected boolean isRemoveTitleBar() {
+		return true;
+	}
+
+	@Override
+	protected boolean isFullScreen() {
+		return true;
+	}
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -60,17 +69,7 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		cameraManager = new CameraManager(surfaceView.getHolder());
-		cameraManager.setAutoFocusCallback(this);
-		cameraManager.setInitCameraCallback(this);
-		cameraManager.setJpegPictureCallback(this);
-		cameraManager.setOpenCameraFailCallback(this);
-		cameraManager.setPreviewCallback(this);
-		cameraManager.setRawPictureCallback(this);
-		cameraManager.setShutterCallback(this);
-		cameraManager.setErrorCallback(this);
-		cameraManager.setFaceDetectionListener(this);
-		cameraManager.setZoomChangeListener(this);
+		cameraManager = new CameraManager(surfaceView.getHolder(), this);
 	}
 
 	@Override
@@ -86,13 +85,9 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 	}
 
 	@Override
-	protected boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	protected boolean isFullScreen() {
-		return true;
+	protected void onDestroy() {
+		cameraManager = null;
+		super.onDestroy();
 	}
 	
 	@Override
@@ -131,6 +126,27 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 			}
 		}
 	}
+
+	@Override
+	public void onOpenCameraException(Exception e) {
+		toastL(R.string.comm_hint_cameraOpenFailed);
+		becauseExceptionFinishActivity();
+	}
+
+	@Override
+	public void onAutoFocus(boolean success, Camera camera) {
+		
+	}
+
+	@Override
+	public void onStartPreview() {
+		
+	}
+
+	@Override
+	public void onStopPreview() {
+		
+	}
 	
 	/**
 	 * 设置闪光模式切换按钮
@@ -147,51 +163,5 @@ public class CameraPreviewActivity extends MyBaseActivity implements Camera.Shut
 			flashModeImageButton.setImageResource(R.drawable.ic_flash_on);
 			flashModeImageButton.setTag(Camera.Parameters.FLASH_MODE_ON);
 		}
-	}
-
-	@Override
-	public void onAutoFocus(boolean success, Camera camera) {
-
-	}
-
-	@Override
-	public void onPreviewFrame(byte[] data, Camera camera) {
-		
-	}
-
-	@Override
-	public void onShutter() {
-		
-	}
-
-	@Override
-	public void onPictureTakenJpeg(byte[] data, Camera camera) {
-
-	}
-
-	@Override
-	public void onPictureTakenRaw(byte[] data, Camera camera) {
-		
-	}
-
-	@Override
-	public void onOpenCameraFail(Exception e) {
-		toastL(R.string.comm_hint_cameraOpenFailed);
-		becauseExceptionFinishActivity();
-	}
-
-	@Override
-	public void onZoomChange(int zoomValue, boolean stopped, Camera camera) {
-		
-	}
-
-	@Override
-	public void onFaceDetection(Face[] faces, Camera camera) {
-		
-	}
-
-	@Override
-	public void onError(int error, Camera camera) {
-		
 	}
 }

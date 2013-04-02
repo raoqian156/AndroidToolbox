@@ -3,13 +3,9 @@ package me.xiaopan.androidlibrary.util;
 import java.io.IOException;
 
 import android.hardware.Camera;
-import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.ErrorCallback;
-import android.hardware.Camera.FaceDetectionListener;
-import android.hardware.Camera.OnZoomChangeListener;
 import android.hardware.Camera.Parameters;
-import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.view.SurfaceHolder;
 
@@ -17,32 +13,22 @@ import android.view.SurfaceHolder;
  * 相机管理器
  * @author xiaopan
  */
-public class CameraManager implements SurfaceHolder.Callback{
+public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCallback{
 	private SurfaceHolder surfaceHolder;
 	private Camera camera;
 	private int frontCameraId = -1;
 	private int backCameraId = -1;
 	private int currentCameraId = -1;
-	private PreviewCallback previewCallback;
-	private PreviewStateCallback previewStateCallback;
-	private RawPictureCallback rawPictureCallback;
-	private JpegPictureCallback jpegPictureCallback;
-	private Camera.PictureCallback cameraRawPictureCallback;
-	private Camera.PictureCallback cameraJpegPictureCallback;
-	private ShutterCallback shutterCallback;
-	private OpenCameraFailCallback openCameraFailCallback;
-	private InitCameraCallback initCameraCallback;
-	private AutoFocusCallback autoFocusCallback;
-	private SurfaceHolder.Callback surfaceHolderCallback;
-	private ErrorCallback errorCallback;
-	private FaceDetectionListener faceDetectionListener;
-	private OnZoomChangeListener zoomChangeListener;
+	private CameraCallback cameraCallback;
 	private boolean resumeRestore;//是否需要在Activity Resume的时候恢复
+	private int focusIntervalTime;//两次对焦的间隔时间
+	private long lastFocusTime;//上次对焦的时间
 	
-	public CameraManager(SurfaceHolder surfaceHolder){
+	public CameraManager(SurfaceHolder surfaceHolder, CameraCallback cameraCallback){
 		this.surfaceHolder = surfaceHolder;
 		this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		this.surfaceHolder.addCallback(this);
+		this.cameraCallback = cameraCallback;
 		
 		//获取前置和后置摄像头的ID
 		if(SystemUtils.getAPILevel() >= 9){
@@ -57,24 +43,6 @@ public class CameraManager implements SurfaceHolder.Callback{
 				}
 			}
 		}
-		
-		cameraRawPictureCallback = new Camera.PictureCallback() {
-			@Override
-			public void onPictureTaken(byte[] data, Camera camera) {
-				if(rawPictureCallback != null){
-					rawPictureCallback.onPictureTakenRaw(data, camera);
-				}
-			}
-		};
-		
-		cameraJpegPictureCallback = new Camera.PictureCallback() {
-			@Override
-			public void onPictureTaken(byte[] data, Camera camera) {
-				if(jpegPictureCallback != null){
-					jpegPictureCallback.onPictureTakenJpeg(data, camera);
-				}
-			}
-		};
 	}
 	
 	/**
@@ -100,8 +68,8 @@ public class CameraManager implements SurfaceHolder.Callback{
 				camera.release();
 				camera = null;
 			}
-			if(openCameraFailCallback != null){
-				openCameraFailCallback.onOpenCameraFail(e);
+			if(cameraCallback != null){
+				cameraCallback.onOpenCameraException(e);
 			}
 		}
 	}
@@ -131,8 +99,8 @@ public class CameraManager implements SurfaceHolder.Callback{
 					camera.release();
 					camera = null;
 				}
-				if(openCameraFailCallback != null){
-					openCameraFailCallback.onOpenCameraFail(e);
+				if(cameraCallback != null){
+					cameraCallback.onOpenCameraException(e);
 				}
 			}
 		}else{
@@ -142,27 +110,25 @@ public class CameraManager implements SurfaceHolder.Callback{
 	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		if(surfaceHolderCallback != null){
-			surfaceHolderCallback.surfaceCreated(holder);
-		}
 		initCamera();
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		if(surfaceHolderCallback != null){
-			surfaceHolderCallback.surfaceChanged(holder, format, width, height);
-		}
 		startPreview();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		if(surfaceHolderCallback != null){
-			surfaceHolderCallback.surfaceDestroyed(holder);
-		}
 		stopPreview();
 		resumeRestore = false;
+	}
+
+	@Override
+	public void onAutoFocus(boolean success, Camera camera) {
+		if(cameraCallback != null){
+			cameraCallback.onAutoFocus(success, camera);
+		}
 	}
 
 	/**
@@ -172,8 +138,8 @@ public class CameraManager implements SurfaceHolder.Callback{
 		if(camera != null){
 			camera.startPreview();
 			autoFocus();
-			if(previewStateCallback != null){
-				previewStateCallback.onStartPreview();
+			if(cameraCallback != null){
+				cameraCallback.onStartPreview();
 			}
 		}
 	}
@@ -184,8 +150,8 @@ public class CameraManager implements SurfaceHolder.Callback{
 	public void stopPreview(){
 		if(camera != null){
 			camera.stopPreview();
-			if(previewStateCallback != null){
-				previewStateCallback.onStopPreview();
+			if(cameraCallback != null){
+				cameraCallback.onStopPreview();
 			}
 		}
 	}
@@ -213,16 +179,27 @@ public class CameraManager implements SurfaceHolder.Callback{
 	 */
 	public void autoFocus(){
 		if(camera != null){
-			camera.autoFocus(autoFocusCallback);
+			if(focusIntervalTime > 0){
+				long currentTime = System.currentTimeMillis();
+				if(lastFocusTime == 0 || currentTime - lastFocusTime >= focusIntervalTime){
+					camera.autoFocus(this);
+					lastFocusTime = currentTime;
+				}
+			}else{
+				camera.autoFocus(this);
+			}
 		}
 	}
 	
 	/**
 	 * 拍照
+	 * @param shutter 快门回调
+	 * @param raw RAW格式图片回调
+	 * @param jpeg JPEG格式图片回调
 	 */
-	public void takePicture(){
+	public void takePicture(ShutterCallback shutter, PictureCallback raw, PictureCallback jpeg){
 		if(camera != null){
-			camera.takePicture(shutterCallback, cameraRawPictureCallback, cameraJpegPictureCallback);
+			camera.takePicture(shutter, raw, jpeg);
 		}
 	}
 	
@@ -255,16 +232,8 @@ public class CameraManager implements SurfaceHolder.Callback{
 		if(camera != null){
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
-				camera.setPreviewCallback(previewCallback);
-				camera.setErrorCallback(errorCallback);
-				if(SystemUtils.getAPILevel() >= 14){
-					camera.setFaceDetectionListener(faceDetectionListener);
-				}
-				if(SystemUtils.getAPILevel() >= 8){
-					camera.setZoomChangeListener(zoomChangeListener);
-				}
-				if(initCameraCallback != null){
-					initCameraCallback.onInitCamera(camera);
+				if(cameraCallback != null){
+					cameraCallback.onInitCamera(camera);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -273,37 +242,25 @@ public class CameraManager implements SurfaceHolder.Callback{
 	}
 	
 	/**
-	 * RAW图片回调
+	 * 获取两次对焦的间隔时间
+	 * @return 两次对焦的间隔时间，单位毫秒
 	 */
-	public interface RawPictureCallback{
-		public void onPictureTakenRaw(byte[] data, Camera camera);
+	public int getFocusIntervalTime() {
+		return focusIntervalTime;
 	}
 
 	/**
-	 * JPEG图片回调
+	 * 设置两次对焦的间隔时间
+	 * @param focusIntervalTime 两次对焦的间隔时间，单位毫秒
 	 */
-	public interface JpegPictureCallback{
-		public void onPictureTakenJpeg(byte[] data, Camera camera);
+	public void setFocusIntervalTime(int focusIntervalTime) {
+		this.focusIntervalTime = focusIntervalTime;
 	}
-	
-	/**
-	 * 打开摄像头失败回调
-	 */
-	public interface OpenCameraFailCallback{
-		public void onOpenCameraFail(Exception e);
-	}
-	
-	/**
-	 * 初始化相机回调
-	 */
-	public interface InitCameraCallback{
+
+	public interface CameraCallback{
 		public void onInitCamera(Camera camera);
-	}
-	
-	/**
-	 * 预览状态回调
-	 */
-	public interface PreviewStateCallback{
+		public void onAutoFocus(boolean success, Camera camera);
+		public void onOpenCameraException(Exception e);
 		public void onStartPreview();
 		public void onStopPreview();
 	}
@@ -312,53 +269,8 @@ public class CameraManager implements SurfaceHolder.Callback{
 		return camera;
 	}
 
-	public void setPreviewCallback(PreviewCallback previewCallback) {
-		this.previewCallback = previewCallback;
-	}
-
-	public void setJpegPictureCallback(JpegPictureCallback jpegPictureCallback) {
-		this.jpegPictureCallback = jpegPictureCallback;
-	}
-
-	public void setRawPictureCallback(RawPictureCallback rawPictureCallback) {
-		this.rawPictureCallback = rawPictureCallback;
-	}
-
-	public void setShutterCallback(ShutterCallback shutterCallback) {
-		this.shutterCallback = shutterCallback;
-	}
-
-	public void setOpenCameraFailCallback(
-			OpenCameraFailCallback openCameraFailCallback) {
-		this.openCameraFailCallback = openCameraFailCallback;
-	}
-
-	public void setInitCameraCallback(InitCameraCallback initCameraCallback) {
-		this.initCameraCallback = initCameraCallback;
-	}
-
-	public void setAutoFocusCallback(AutoFocusCallback autoFocusCallback) {
-		this.autoFocusCallback = autoFocusCallback;
-	}
-
-	public void setSurfaceHolderCallback(SurfaceHolder.Callback surfaceHolderCallback) {
-		this.surfaceHolderCallback = surfaceHolderCallback;
-	}
-
-	public void setErrorCallback(ErrorCallback errorCallback) {
-		this.errorCallback = errorCallback;
-	}
-
-	public void setFaceDetectionListener(FaceDetectionListener faceDetectionListener) {
-		this.faceDetectionListener = faceDetectionListener;
-	}
-
-	public void setZoomChangeListener(OnZoomChangeListener zoomChangeListener) {
-		this.zoomChangeListener = zoomChangeListener;
-	}
-
-	public void setPreviewStateCallback(PreviewStateCallback previewStateCallback) {
-		this.previewStateCallback = previewStateCallback;
+	public void setCameraCallback(CameraCallback cameraCallback) {
+		this.cameraCallback = cameraCallback;
 	}
 
 	public int getCurrentCameraId() {
