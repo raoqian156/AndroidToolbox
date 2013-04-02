@@ -4,25 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
+import test.MyBaseFragmentActivity;
 import test.activity.adapter.ImageFragmentPagerAdapter;
 import test.activity.fragment.ImageFragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 
-public class ViewPagerActivity extends FragmentActivity {
+public class ViewPagerActivity extends MyBaseFragmentActivity {
 	private ViewPager viewPager;
 	private PagerTabStrip pagerTabStrip;
 	private List<ImageFragment> testFragmentList;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.view_pager);
 		viewPager = (ViewPager) findViewById(R.id.viewPager_viewPager);
 		pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTab_viewPager);
-	
+	}
+
+	@Override
+	protected void onInitListener(Bundle savedInstanceState) {
+		
+	}
+
+	@Override
+	protected void onInitData(Bundle savedInstanceState) {
 		testFragmentList = new ArrayList<ImageFragment>();
 		testFragmentList.add(new ImageFragment("页面1", R.drawable.liuyifei1));
 		testFragmentList.add(new ImageFragment("页面2", R.drawable.liuyifei2));

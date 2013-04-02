@@ -1,5 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent">
-    <android.support.v4.view.ViewPager  android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/viewPager_viewPager">
-        <android.support.v4.view.PagerTabStrip android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/pagerTab_viewPager"/>
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+    <android.support.v4.view.ViewPager style="@style/base_layout_fill_fill" android:id="@+id/viewPager_viewPager">
+        <android.support.v4.view.PagerTabStrip style="@style/base_layout_fill_wrap" android:id="@+id/pagerTab_viewPager"/>
     </android.support.v4.view.ViewPager>
-</RelativeLayout>
+    
+    <include layout="@layout/comm_shadow_down" />
+</FrameLayout>
