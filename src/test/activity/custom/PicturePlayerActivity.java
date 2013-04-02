@@ -16,13 +16,17 @@ import android.os.Bundle;
  * @author xiaopan
  */
 public class PicturePlayerActivity extends MyBaseActivity {
-	private PicturePlayer picturePlayer;
+	private PicturePlayer picturePlayerToLeft;
+	private PicturePlayer picturePlayerToRight;
+	private PicturePlayer picturePlayerToNoCycle;
 	private List<Picture> pictures;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.picture_player);
-		picturePlayer = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer);
+		picturePlayerToLeft = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_toLeft);
+		picturePlayerToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_toRight);
+		picturePlayerToNoCycle = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_noCycle);
 	}
 
 	@Override
@@ -36,22 +40,38 @@ public class PicturePlayerActivity extends MyBaseActivity {
 			Picture picture = new Picture(url);
 			picture.setFile(getFileFromExternalCacheDir(NetUtils.getFileNameFromURL(url)));
 			pictures.add(picture);
-		} 
-		picturePlayer.setDefaultImageResId(R.drawable.image_default);
-		picturePlayer.setPictures(pictures);
-		picturePlayer.setIndicator(new PointIndicator(getBaseContext()));
-		picturePlayer.setTowardsTheRight(false);
+		}
+		
+		picturePlayerToLeft.setDefaultImageResId(R.drawable.image_default);
+		picturePlayerToRight.setDefaultImageResId(R.drawable.image_default);
+		picturePlayerToNoCycle.setDefaultImageResId(R.drawable.image_default);
+		
+		picturePlayerToLeft.setPictures(pictures);
+		picturePlayerToRight.setPictures(pictures);
+		picturePlayerToNoCycle.setPictures(pictures);
+		
+		picturePlayerToLeft.setIndicator(new PointIndicator(getBaseContext()));
+		picturePlayerToRight.setIndicator(new PointIndicator(getBaseContext()));
+		picturePlayerToNoCycle.setIndicator(new PointIndicator(getBaseContext()));
+		
+		picturePlayerToLeft.setTowardsTheRight(true);
+		picturePlayerToRight.setTowardsTheRight(false);
+		picturePlayerToNoCycle.setLoopPlayback(false);
 	}
 
 	@Override
 	protected void onResume() {
-		picturePlayer.startPaly();
+		picturePlayerToLeft.startPaly();
+		picturePlayerToRight.startPaly();
+		picturePlayerToNoCycle.startPaly();
 		super.onPause();
 	}
 
 	@Override
 	protected void onPause() {
-		picturePlayer.stopPaly();
+		picturePlayerToLeft.stopPaly();
+		picturePlayerToRight.stopPaly();
+		picturePlayerToNoCycle.stopPaly();
 		super.onPause();
 	}
 }
