@@ -20,6 +20,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	private PicturePlayer picturePlayerCircleLeftToRight;
 	private PicturePlayer picturePlayerCircleRightToLeft;
 	private PicturePlayer picturePlayerSwingLeftToRight;
+	private PicturePlayer picturePlayerSwingRightToLeft;
 	private List<Picture> pictures;
 	
 	@Override
@@ -28,6 +29,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 		picturePlayerCircleLeftToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_leftToRight);
 		picturePlayerCircleRightToLeft = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_rightToLeft);
 		picturePlayerSwingLeftToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_leftToRight);
+		picturePlayerSwingRightToLeft = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_rightToLeft);
 	}
 
 	@Override
@@ -46,22 +48,22 @@ public class PicturePlayerActivity extends MyBaseActivity {
 		picturePlayerCircleLeftToRight.setDefaultImageResId(R.drawable.image_default);
 		picturePlayerCircleRightToLeft.setDefaultImageResId(R.drawable.image_default);
 		picturePlayerSwingLeftToRight.setDefaultImageResId(R.drawable.image_default);
+		picturePlayerSwingRightToLeft.setDefaultImageResId(R.drawable.image_default);
 		
 		picturePlayerCircleLeftToRight.setPictures(pictures);
 		picturePlayerCircleRightToLeft.setPictures(pictures);
 		picturePlayerSwingLeftToRight.setPictures(pictures);
+		picturePlayerSwingRightToLeft.setPictures(pictures);
 		
 		picturePlayerCircleLeftToRight.setIndicator(new PointIndicator(getBaseContext()));
 		picturePlayerCircleRightToLeft.setIndicator(new PointIndicator(getBaseContext()));
 		picturePlayerSwingLeftToRight.setIndicator(new PointIndicator(getBaseContext()));
-		
-//		picturePlayerToLeft.setTowardsTheRight(true);
-//		picturePlayerToRight.setTowardsTheRight(false);
-//		picturePlayerToNoCycle.setLoopPlayback(false);
+		picturePlayerSwingRightToLeft.setIndicator(new PointIndicator(getBaseContext()));
 		
 		picturePlayerCircleLeftToRight.setPlayWay(PlayWay.CIRCLE_LEFT_TO_RIGHT);
 		picturePlayerCircleRightToLeft.setPlayWay(PlayWay.CIRCLE_RIGHT_TO_LEFT);
 		picturePlayerSwingLeftToRight.setPlayWay(PlayWay.SWING_LEFT_TO_RIGHT);
+		picturePlayerSwingRightToLeft.setPlayWay(PlayWay.SWING_RIGHT_TO_LEFT);
 	}
 
 	@Override
@@ -69,6 +71,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 		picturePlayerCircleLeftToRight.startPaly();
 		picturePlayerCircleRightToLeft.startPaly();
 		picturePlayerSwingLeftToRight.startPaly();
+		picturePlayerSwingRightToLeft.startPaly();
 		super.onPause();
 	}
 
@@ -77,6 +80,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 		picturePlayerCircleLeftToRight.stopPaly();
 		picturePlayerCircleRightToLeft.stopPaly();
 		picturePlayerSwingLeftToRight.stopPaly();
+		picturePlayerSwingRightToLeft.stopPaly();
 		super.onPause();
 	}
 }

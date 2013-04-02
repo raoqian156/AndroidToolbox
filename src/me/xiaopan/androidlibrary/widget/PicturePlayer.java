@@ -40,7 +40,7 @@ public class PicturePlayer extends FrameLayout{
 	private PlayWay playWay = PlayWay.CIRCLE_LEFT_TO_RIGHT;//播放方式，默认是从左往右转圈
 	
 	private boolean loadFinish;//加载成功
-	private boolean currentTowardsTheRight = true;//当前向右播放
+	private boolean currentTowardsTheRight;//当前向右播放
 	private Handler switchHandler;//切换处理器
 	private SwitchHandle switchHandle;//切换处理
 
@@ -102,12 +102,16 @@ public class PicturePlayer extends FrameLayout{
 				
 				//初始化默认选中项
 				int defaultPosition = 0;
-				if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){//如果播放方式是从左向右转圈那么默认选中项是最中间那一组的第一张
-					defaultPosition = ((Integer.MAX_VALUE/pictures.size())/2)*pictures.size();
-				}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){//如果播放方式是从右向左转圈那么默认选中项是最中间那一组的最后一张
-					defaultPosition = ((Integer.MAX_VALUE/pictures.size())/2)*pictures.size() + pictures.size() -1;
-				}else if(playWay == PlayWay.SWING_RIGHT_TO_LEFT){//如果播放方式是从右向左摇摆那么默认选中项是第一组的第一张
-					defaultPosition = pictures.size() -1;
+				if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){//如果播放方式是从左向右转圈
+					defaultPosition = ((Integer.MAX_VALUE/pictures.size())/2)*pictures.size();//那么默认选中项是最中间那一组的第一张
+				}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){//如果播放方式是从右向左转圈
+					defaultPosition = ((Integer.MAX_VALUE/pictures.size())/2)*pictures.size() + pictures.size() -1;//那么默认选中项是最中间那一组的最后一张
+				}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT){//如果播放方式是从左向右摇摆
+					defaultPosition = 0;//那么默认选中项是第一组的第一张
+					currentTowardsTheRight = true;//播放方向将是向右
+				}else if(playWay == PlayWay.SWING_RIGHT_TO_LEFT){//如果播放方式是从右向左摇摆
+					defaultPosition = pictures.size() -1;//那么默认选中项是第一组的最后一张
+					currentTowardsTheRight = false;//播放方向将是向左
 				}
 				gallery.setSelection(defaultPosition);
 				
@@ -150,14 +154,6 @@ public class PicturePlayer extends FrameLayout{
 	}
 	
 	/**
-	 * 获取选中项的位置
-	 * @return 选中项的位置
-	 */
-	public int getSelectedItemPosition(){
-		return getRealSelectedItemPosition(gallery.getSelectedItemPosition());
-	}
-	
-	/**
 	 * 获取指示器
 	 * @return 指示器
 	 */
@@ -165,6 +161,10 @@ public class PicturePlayer extends FrameLayout{
 		return indicator;
 	}
 	
+	/**
+	 * 设置指示器
+	 * @param indicator 指示器
+	 */
 	public void setIndicator(Indicator indicator) {
 		this.indicator = indicator;
 	}
@@ -369,6 +369,7 @@ public class PicturePlayer extends FrameLayout{
 			switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN: stopPaly(); break;
 				case MotionEvent.ACTION_UP: startPaly(); break;
+				case MotionEvent.ACTION_CANCEL: startPaly(); break;
 				default: break;
 			}
 			return super.onTouchEvent(event);
@@ -445,7 +446,7 @@ public class PicturePlayer extends FrameLayout{
 				gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
 			}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){
 				gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
-			}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT){
+			}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT || playWay == PlayWay.SWING_RIGHT_TO_LEFT){
 				//如果当前是向右播放
 				if(currentTowardsTheRight){
 					//如果到最后一个了
