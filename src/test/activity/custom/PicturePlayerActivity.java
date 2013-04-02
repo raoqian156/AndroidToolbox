@@ -6,6 +6,7 @@ import java.util.List;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.PicturePlayer;
 import me.xiaopan.androidlibrary.widget.PicturePlayer.Picture;
+import me.xiaopan.androidlibrary.widget.PicturePlayer.PlayWay;
 import me.xiaopan.javalibrary.util.NetUtils;
 import test.MyBaseActivity;
 import test.widget.PointIndicator;
@@ -16,17 +17,17 @@ import android.os.Bundle;
  * @author xiaopan
  */
 public class PicturePlayerActivity extends MyBaseActivity {
-	private PicturePlayer picturePlayerToLeft;
-	private PicturePlayer picturePlayerToRight;
-	private PicturePlayer picturePlayerToNoCycle;
+	private PicturePlayer picturePlayerCircleLeftToRight;
+	private PicturePlayer picturePlayerCircleRightToLeft;
+	private PicturePlayer picturePlayerSwingLeftToRight;
 	private List<Picture> pictures;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.picture_player);
-		picturePlayerToLeft = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_toLeft);
-		picturePlayerToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_toRight);
-		picturePlayerToNoCycle = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_noCycle);
+		picturePlayerCircleLeftToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_leftToRight);
+		picturePlayerCircleRightToLeft = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_rightToLeft);
+		picturePlayerSwingLeftToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_leftToRight);
 	}
 
 	@Override
@@ -42,36 +43,40 @@ public class PicturePlayerActivity extends MyBaseActivity {
 			pictures.add(picture);
 		}
 		
-		picturePlayerToLeft.setDefaultImageResId(R.drawable.image_default);
-		picturePlayerToRight.setDefaultImageResId(R.drawable.image_default);
-		picturePlayerToNoCycle.setDefaultImageResId(R.drawable.image_default);
+		picturePlayerCircleLeftToRight.setDefaultImageResId(R.drawable.image_default);
+		picturePlayerCircleRightToLeft.setDefaultImageResId(R.drawable.image_default);
+		picturePlayerSwingLeftToRight.setDefaultImageResId(R.drawable.image_default);
 		
-		picturePlayerToLeft.setPictures(pictures);
-		picturePlayerToRight.setPictures(pictures);
-		picturePlayerToNoCycle.setPictures(pictures);
+		picturePlayerCircleLeftToRight.setPictures(pictures);
+		picturePlayerCircleRightToLeft.setPictures(pictures);
+		picturePlayerSwingLeftToRight.setPictures(pictures);
 		
-		picturePlayerToLeft.setIndicator(new PointIndicator(getBaseContext()));
-		picturePlayerToRight.setIndicator(new PointIndicator(getBaseContext()));
-		picturePlayerToNoCycle.setIndicator(new PointIndicator(getBaseContext()));
+		picturePlayerCircleLeftToRight.setIndicator(new PointIndicator(getBaseContext()));
+		picturePlayerCircleRightToLeft.setIndicator(new PointIndicator(getBaseContext()));
+		picturePlayerSwingLeftToRight.setIndicator(new PointIndicator(getBaseContext()));
 		
-		picturePlayerToLeft.setTowardsTheRight(true);
-		picturePlayerToRight.setTowardsTheRight(false);
-		picturePlayerToNoCycle.setLoopPlayback(false);
+//		picturePlayerToLeft.setTowardsTheRight(true);
+//		picturePlayerToRight.setTowardsTheRight(false);
+//		picturePlayerToNoCycle.setLoopPlayback(false);
+		
+		picturePlayerCircleLeftToRight.setPlayWay(PlayWay.CIRCLE_LEFT_TO_RIGHT);
+		picturePlayerCircleRightToLeft.setPlayWay(PlayWay.CIRCLE_RIGHT_TO_LEFT);
+		picturePlayerSwingLeftToRight.setPlayWay(PlayWay.SWING_LEFT_TO_RIGHT);
 	}
 
 	@Override
 	protected void onResume() {
-		picturePlayerToLeft.startPaly();
-		picturePlayerToRight.startPaly();
-		picturePlayerToNoCycle.startPaly();
+		picturePlayerCircleLeftToRight.startPaly();
+		picturePlayerCircleRightToLeft.startPaly();
+		picturePlayerSwingLeftToRight.startPaly();
 		super.onPause();
 	}
 
 	@Override
 	protected void onPause() {
-		picturePlayerToLeft.stopPaly();
-		picturePlayerToRight.stopPaly();
-		picturePlayerToNoCycle.stopPaly();
+		picturePlayerCircleLeftToRight.stopPaly();
+		picturePlayerCircleRightToLeft.stopPaly();
+		picturePlayerSwingLeftToRight.stopPaly();
 		super.onPause();
 	}
 }

@@ -3,23 +3,23 @@
 	<!-- 内容 -->
     <ScrollView style="@style/base_layout_fill_fill">
 	    <LinearLayout style="@style/comm_layout_body_content">
-		    <TextView style="@style/comm_text_fill" android:text="从右往左循环："/>
+		    <TextView style="@style/comm_text_fill" android:text="从左往右转圈："/>
 		    <me.xiaopan.androidlibrary.widget.PicturePlayer 
 		        android:layout_width="fill_parent"
 		        android:layout_height="150dp"
-		        android:id="@+id/picturePlayer_picturePlayer_toLeft" />
+		        android:id="@+id/picturePlayer_picturePlayer_circle_leftToRight" />
 		    
-		    <TextView style="@style/comm_text_fill" android:text="从左往右循环："/>
+		    <TextView style="@style/comm_text_fill" android:text="从右往左转圈："/>
 		    <me.xiaopan.androidlibrary.widget.PicturePlayer 
 		        android:layout_width="fill_parent"
 		        android:layout_height="150dp"
-		        android:id="@+id/picturePlayer_picturePlayer_toRight" />
+		        android:id="@+id/picturePlayer_picturePlayer_circle_rightToLeft" />
 		    
-		    <TextView style="@style/comm_text_fill" android:text="来回摇摆："/>
+		    <TextView style="@style/comm_text_fill" android:text="从左往右摇摆："/>
 		    <me.xiaopan.androidlibrary.widget.PicturePlayer 
 		        android:layout_width="fill_parent"
 		        android:layout_height="150dp"
-		        android:id="@+id/picturePlayer_picturePlayer_noCycle" />
+		        android:id="@+id/picturePlayer_picturePlayer_swing_leftToRight" />
 	    </LinearLayout>
     </ScrollView>
     
