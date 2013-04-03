@@ -6,6 +6,8 @@ import java.util.List;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.AbsPullDownRefreshListHeader.PullDownRefreshFinishListener;
 import me.xiaopan.androidlibrary.widget.AbsPullDownRefreshListHeader.PullDownRefreshListener;
+import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreFinishListener;
+import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreListener;
 import me.xiaopan.androidlibrary.widget.PullListView;
 import me.xiaopan.javalibrary.util.DateTimeUtils;
 import test.MyBaseActivity;
@@ -18,7 +20,7 @@ import android.os.Bundle;
  * @author xiaopan
  *
  */
-public class PullDownRefreshListActivity extends MyBaseActivity {
+public class PullDownAndUpActivity extends MyBaseActivity {
 	public static final String[] CONTENS = new String[20];
 	private PullListView pullListView;
 	private SimpleAdapter simpleAdapter;
@@ -26,7 +28,7 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.pull_down_refresh_list);
+		setContentView(R.layout.pull_down_and_up_list);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 	}
 
@@ -52,6 +54,33 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 						pullDownRefreshFinishListener.finishRefresh();
 						for(int w = result.length - 1; w >= 0; w--){
 							contents.add(0, result[w]);
+						}
+						simpleAdapter.notifyDataSetChanged();
+					}
+				}.execute("");
+			}
+		});
+		
+		//设置上拉加载更多监听器
+		pullListView.setPullUpLoadMoreListener(new PullUpLoadMoreListener() {
+			@Override
+			public void onLoadMore(final PullUpLoadMoreFinishListener pullUpLoadMoreFinishListener) {
+				new AsyncTask<String, String, String[]>(){
+					@Override
+					protected String[] doInBackground(String... params) {
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						return PullDownRefreshListActivity.getContents();
+					}
+					
+					@Override
+					protected void onPostExecute(String[] result) {
+						pullUpLoadMoreFinishListener.finishLoadMore();
+						for(int w = 0; w < result.length; w++){
+							contents.add(result[w]);
 						}
 						simpleAdapter.notifyDataSetChanged();
 					}

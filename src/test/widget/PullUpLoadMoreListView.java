@@ -6,23 +6,23 @@ import android.util.AttributeSet;
 import android.widget.ListAdapter;
 
 /**
- * 下拉刷新列表
+ * 上拉加载更多列表
  * @author xiaopan
  *
  */
-public class PullDownRefreshListView extends PullListView {
+public class PullUpLoadMoreListView extends PullListView {
 
-	public PullDownRefreshListView(Context context) {
+	public PullUpLoadMoreListView(Context context) {
 		super(context);
 	}
 
-	public PullDownRefreshListView(Context context, AttributeSet attrs) {
+	public PullUpLoadMoreListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
 	@Override
 	public void setAdapter(ListAdapter adapter) {
-		openPullDownRefreshMode(new MyPullDownRefreshListHeader(getContext()), null);//打开下拉刷新模式
+		openPullUpLoadMoreMode(new MyPullUpLoadMoreListFooter(getContext()), null);//打开上拉加载更多模式
 		super.setAdapter(adapter);
 	}
 }

@@ -1,5 +1,7 @@
 package test.adapter;
 
+import java.util.List;
+
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.MyBaseAdapter;
 import android.content.Context;
@@ -10,11 +12,11 @@ import android.widget.TextView;
 
 public class SimpleAdapter extends MyBaseAdapter {
 	private boolean full = true;
-	private String[] strings;
+	private List<String> contents;
 	
-	public SimpleAdapter(Context context, String[] strings){
+	public SimpleAdapter(Context context, List<String> contents){
 		super(context);
-		this.strings = strings;
+		this.contents = contents;
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class SimpleAdapter extends MyBaseAdapter {
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.text.setText(strings[realPosition]);
+		viewHolder.text.setText(contents.get(realPosition));
 		return convertView;
 	}
 	
@@ -38,12 +40,12 @@ public class SimpleAdapter extends MyBaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		return strings[position];
+		return contents.get(position);
 	}
 	
 	@Override
 	public int getRealCount() {
-		return isFull()?strings.length:3;
+		return isFull()?contents.size():3;
 	}
 
 	public boolean isFull() {

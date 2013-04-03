@@ -19,10 +19,6 @@ public class ReboundListView extends PullListView {
 		super(context, attrs);
 	}
 
-	public ReboundListView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
-
 	@Override
 	public void setAdapter(ListAdapter adapter) {
 		openListHeaderReboundMode();//打开列表头反弹模式

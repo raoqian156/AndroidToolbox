@@ -1,5 +1,8 @@
 package test.activity.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.PullListView;
 import test.MyBaseActivity;
@@ -25,9 +28,9 @@ public class TabContentActivity extends MyBaseActivity {
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
 		String tabIndex = getIntent().getStringExtra(PARAM_TAB_INDEX);
-		String[] contents = new String[20];
-		for(int w = 0; w < contents.length; w++){
-			contents[w] = "这是选项卡 "+tabIndex+" 的第 "+w+" 条数据";
+		List<String> contents = new ArrayList<String>(20);
+		for(int w = 0; w < contents.size(); w++){
+			contents.add("这是选项卡 "+tabIndex+" 的第 "+w+" 条数据");
 		}
 		pullListView.openListHeaderReboundMode();
 		pullListView.openListFooterReboundMode();

@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -25,141 +26,35 @@ import android.widget.Scroller;
  *
  */
 public class PullListView extends ListView implements PullDownRefreshFinishListener, PullUpLoadMoreFinishListener, ClickLoadMoreFinishListener{
-	/**
-	 * 拉伸偏移，模拟出拉橡皮筋的感觉来
-	 */
-	public static final float OFFSET_RADIO = 0.35f;
-	/**
-	 * 回滚持续时间
-	 */
-	public static final int ROLLBACK_DURATION = 300;
-	/**
-	 * 上一个触摸点的Y坐标
-	 */
-	private float lastYPosition;
-	/**
-	 * 打开了下拉刷新模式
-	 */
-	private boolean openedPullDownRefreshMode;
-	/**
-	 * 打开了上拉加载更多模式
-	 */
-	private boolean openedPullUpLoadMoreMode;
-	/**
-	 * 打开了列表头反弹模式
-	 */
-	private boolean openedListHeaderReboundMode;
-	/**
-	 * 打开了列表尾反弹模式
-	 */
-	private boolean openedListFooterReboundMode;
-	/**
-	 * 打开了点击加载更多模式
-	 */
-	private boolean openedClickLoadMoreMode;
-	/**
-	 * 列表充满
-	 */
-	private boolean full;
-	/**
-	 * 需要更新列表尾的高度
-	 */
-	private boolean needUpdateFooterHeight;
-	/**
-	 * 回滚中
-	 */
-	private boolean rollBacking;
-	/**
-	 * 第一次滚动
-	 */
-	private boolean firstScroll = true;
-	/**
-	 * 初始化
-	 */
-	private boolean init;
-	/**
-	 * 允许滚动到底部的时候直接开始加载更多
-	 */
-	private boolean allowRollToBotttomLoadMore;
-	/**
-	 * 允许处理点击加载更多列表尾
-	 */
-	private boolean allowHandleClickLoadMoreListFooter;
-	/**
-	 * 处理列表头或者列表尾
-	 */
-	private boolean handleHeaderOrFooter;
-	/**
-	 * 记录点击加载更多列表尾的Top
-	 */
-	private int clickLoadMoreListFooterLastTop;
-	/**
-	 * 记录点击加载更多列表尾的Bottom
-	 */
-	private int clickLoadMoreListFooterLastBottom;
-	/**
-	 * 计数
-	 */
-	private int count;
-	/**
-	 * 当前每页显示条目数
-	 */
-	private int lastVisibleItemCount;
-	/**
-	 * 总条目数
-	 */
-	private int lastTotalItemCount;
-	/**
-	 * 上拉加载更多列表尾临时高度
-	 */
-	private int listFooterTempHeight;
-	/**
-	 * 回滚滚动器
-	 */
-	private Scroller rollBackScroller;
-	/**
-	 * 当前操作对象
-	 */
-	private OperandsEnum operands = OperandsEnum.NO;
-	/**
-	 * 上次操作对象，当开始回滚时将该对象赋值为当前操作的对象，并将当前操作对象清空，如果在回滚的过程中中断了那么需要将用上次操作对象来恢复当前操作对象
-	 */
-	private OperandsEnum lastOperands = OperandsEnum.NO;
-	/**
-	 * 上拉加载更多列表尾
-	 */
-	private AbsPullUpLoadMoreListFooter pullUpLoadMoreListFooter;
-	/**
-	 * 上拉加载更多监听器
-	 */
-	private PullUpLoadMoreListener pullUpLoadMoreListener;
-	/**
-	 * 下拉刷新列表头
-	 */
-	private AbsPullDownRefreshListHeader pullDownRefreshListHeader;
-	/**
-	 * 下拉刷新监听器
-	 */
-	private PullDownRefreshListener pullDownRefreshListener;
-	/**
-	 * 回滚对象
-	 */
-	private AbsPullListHeaderAndFoooter rollbackObject;
-	/**
-	 * 滚动监听器
-	 */
-	private OnScrollListener onScrollListener;
-	/**
-	 * 点击加载更多列表尾
-	 */
-	private AbsClickLoadMoreListFooter clickLoadMoreListFooter; 
-	/**
-	 * 点击加载更多列表尾监听器
-	 */
-	private ClickLoadMoreListener clickLoadMoreListener;
-	private int lastListHeight;
-	private boolean autoRefresh; 
+	public static final float OFFSET_RADIO = 0.35f;//拉伸偏移，模拟出拉橡皮筋的感觉来
+	public static final int ROLLBACK_DURATION = 300;//回滚持续时间
+	private int listFooterTempHeight;//上拉加载更多列表尾临时高度
+	private float lastYPosition;//上一个触摸点的Y坐标
+	private boolean init;//是否正在初始化
+	boolean full;//列表充满
+	private boolean firstScroll = true;//第一次滚动
+	private boolean rollBacking;//回滚中
+	private boolean autoRefresh;
 	private boolean autoLoadMore; 
+	private boolean openedPullDownRefreshMode;//打开了下拉刷新模式
+	private boolean openedPullUpLoadMoreMode;//打开了上拉加载更多模式
+	private boolean openedListHeaderReboundMode;//打开了列表头反弹模式
+	private boolean openedListFooterReboundMode;//打开了列表尾反弹模式
+	private boolean openedClickLoadMoreMode;//打开了点击加载更多模式
+	private boolean allowRollToBotttomLoadMore;//允许滚动到底部的时候直接开始加载更多
+	private boolean handleHeaderOrFooter;//处理列表头或者列表尾
+	private Scroller rollBackScroller;//回滚滚动器
+	private OperandEnum currentOperand = OperandEnum.NONE;//当前操作对象
+	private OperandEnum lastOperand = OperandEnum.NONE;//上次操作对象，当开始回滚时将该对象赋值为当前操作的对象，并将当前操作对象清空，如果在回滚的过程中中断了那么需要将用上次操作对象来恢复当前操作对象
+	private AbsPullUpLoadMoreListFooter pullUpLoadMoreListFooter;//上拉加载更多列表尾
+	private PullUpLoadMoreListener pullUpLoadMoreListener;//上拉加载更多监听器
+	private AbsPullDownRefreshListHeader pullDownRefreshListHeader;//下拉刷新列表头
+	private PullDownRefreshListener pullDownRefreshListener;//下拉刷新监听器
+	private AbsPullListHeaderAndFoooter rollbackObject;//回滚对象
+	private AbsClickLoadMoreListFooter clickLoadMoreListFooter; //点击加载更多列表尾
+	private ClickLoadMoreListener clickLoadMoreListener;//点击加载更多列表尾监听器
+	private PullScrollListener pullScrollListener;
+	OnScrollListener onScrollListener;//滚动监听器
 	
 	public PullListView(Context context) {
 		super(context);
@@ -171,106 +66,15 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 		init();
 	}
 
-	public PullListView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init();
-	}
-	
 	/**
 	 * 初始化
 	 */
 	private void init(){
-		init = true;
+		//初始化回滚滚动器
 		rollBackScroller = new Scroller(getContext(), new AccelerateDecelerateInterpolator());
-		setOnScrollListener(new OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				if(onScrollListener != null){
-					onScrollListener.onScrollStateChanged(view, scrollState);
-				}
-			}
-			
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				/*
-				 * 处理上拉加载更多列表尾，当列表未充满时，用列表尾将列表充满；当列表已充满时将列表尾的高度设为0
-				 */
-				if(isOpenedPullUpLoadMoreMode()){
-					//判断是否需要更新列表尾高度
-					int newListHeight = getHeight();
-					if(lastListHeight == 0){
-						lastListHeight = newListHeight;
-					}
-					//如果列表高度有变化
-					if(lastListHeight != newListHeight){
-						needUpdateFooterHeight = true;
-					}else{
-						//如果新的总条目数跟之前记录的总条目数不一样的时候，就标记为需要更新列表尾高度
-						needUpdateFooterHeight = totalItemCount != lastTotalItemCount?true:needUpdateFooterHeight;
-					}
-					//记录列表高度、每页显示条目数、以及记录总条目数
-					lastListHeight = newListHeight;
-					
-					//如果需要修改上拉加载更多列表尾的高度
-					if(needUpdateFooterHeight){
-						//标记为不需要再更新上拉加载更多列表尾的高度了
-						needUpdateFooterHeight = false;
-						
-						//如果列表没有充满，就修改上拉加载更多列表尾的最小高度使其可以正好充满列表
-						if(visibleItemCount == totalItemCount){
-							getPullUpLoadMoreListFooter().setMinHeight(getPullUpLoadMoreListFooter().getVisiableHeight() + (getBottom() - getPaddingBottom() - getPullUpLoadMoreListFooter().getBottom()));
-							//如果已经充满了，就修改上拉加载更多列表尾的最小高度为0
-						}else{
-							getPullUpLoadMoreListFooter().setMinHeight(0);
-						}
-						
-						//以最快的速度回滚上拉加载更多列表尾到最小高度
-//						getPullUpLoadMoreListFooter().setVisiableHeight(getPullUpLoadMoreListFooter().getMinHeight());
-//						invalidate();
-						rollback(getPullUpLoadMoreListFooter(), 0l);
-					}
-				}
-				
-				/*
-				 * 处理滚动到底部的时候直接出发点击加载更多列表尾的加载事件
-				 */
-				//如果允许当列表滚动的底部的时候就开始加载更多
-				if(isOpenedClickLoadMoreMode() && isAllowRollToBotttomLoadMore() && getClickLoadMoreListener() != null && full){
-					boolean constant = clickLoadMoreListFooterLastTop == getClickLoadMoreListFooter().getTop() && clickLoadMoreListFooterLastBottom == getClickLoadMoreListFooter().getBottom();
-					//如果允许加载
-					if(allowHandleClickLoadMoreListFooter){
-						//如果点击加载列表尾显示出来了
-						if(!constant && getClickLoadMoreListFooter().getState() == AbsClickLoadMoreListFooter.State.NORMAL){
-							allowHandleClickLoadMoreListFooter = false;
-							getClickLoadMoreListFooter().intoLoadingState();
-							getClickLoadMoreListener().onLoadMore(PullListView.this);
-						}
-					}else{
-						//如果连续三次没有显示出来
-						if(constant){
-							if(count++ > 9){
-								count = 0;
-								allowHandleClickLoadMoreListFooter = true;
-							}
-						}else{
-							count = 0;
-						}
-					}
-					
-					//记录Top和Bottom
-					clickLoadMoreListFooterLastTop = getClickLoadMoreListFooter().getTop();
-					clickLoadMoreListFooterLastBottom = getClickLoadMoreListFooter().getBottom();
-				}
-				
-				if(onScrollListener != null){
-					onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-				}
-				
-				//每页显示条目数、总条目数
-				lastVisibleItemCount = visibleItemCount;
-				lastTotalItemCount = totalItemCount;
-			}
-		});
+		//标记为初始化开始
+		init = true;
+		setOnScrollListener(pullScrollListener = new PullScrollListener(this));
 	}
 
 	@Override
@@ -305,29 +109,29 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 				 * 此举为了防止在未充满状态下列表头或者列表尾在由加载中状态回滚时被打断 
 				 */
 				//如果正在回滚下拉刷新列表头
-				if(lastOperands == OperandsEnum.HEADER){
+				if(lastOperand == OperandEnum.HEADER){
 					//如果下拉刷新列表头不在由加载中变为正常的状态中
 					if(!getPullDownRefreshListHeader().isLoadingToNormalState()){
 						//强制停止滚动
 						rollBackScroller.abortAnimation(); 
 						//恢复当前操作的对象，因为之后弹起的时候处理回滚时要用到
-						operands = lastOperands;
+						currentOperand = lastOperand;
 					}
 				//如果正在回滚上拉加载更多列表尾
-				}else if(lastOperands == OperandsEnum.FOOTER){
+				}else if(lastOperand == OperandEnum.FOOTER){
 					//如果上拉加载更多列表尾不在由加载中变为正常的状态中
 					if(!getPullUpLoadMoreListFooter().isLoadingToNormalState()){
 						//强制停止滚动
 						rollBackScroller.abortAnimation(); 
 						//恢复当前操作的对象，因为之后弹起的时候处理回滚时要用到
-						operands = lastOperands;
+						currentOperand = lastOperand;
 					}
 				}
 			}
 		}else{
 			firstScroll = false;
 			//判断列表是否充满
-			full = lastVisibleItemCount < lastTotalItemCount;
+			full = pullScrollListener.isFull();
 		}
 	}
 	
@@ -357,29 +161,29 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 			}
 		}else{
 			//如果是第一次滑动
-			if(operands == OperandsEnum.NO){
+			if(currentOperand == OperandEnum.NONE){
 				//如果是上拉
 				if(distanceY < 0){
 					//如果下拉刷新列表头正在刷新中就禁止滑动上拉刷新列表尾
 //					if(!(isOpenedPullDownRefreshMode() && getPullDownRefreshListHeader().isLoadingState())){
 						//标记当前操作的对象是上拉加载更多列表尾
-						operands = OperandsEnum.FOOTER;
+						currentOperand = OperandEnum.FOOTER;
 						//试图处理上拉加载更多列表尾
 						tryHandlePullUpLoadMoreListFooter(distanceY);
 //					}
 				//如果是下拉
 				}else if(distanceY > 0){
 					//标记当前操作的对象是下拉刷新列表头
-					operands = OperandsEnum.HEADER;
+					currentOperand = OperandEnum.HEADER;
 					//试图处理下拉刷新列表头
 					tryHandlePullDownRefreshListHeader(distanceY);
 				}
 			//如果当前操作的对象是下拉刷新列表头
-			}else if(operands == OperandsEnum.HEADER){
+			}else if(currentOperand == OperandEnum.HEADER){
 				//试图处理下拉刷新列表头
 				tryHandlePullDownRefreshListHeader(distanceY);
 			//如果当前处理的对象是上拉加载更多列表尾
-			}else if(operands == OperandsEnum.FOOTER){
+			}else if(currentOperand == OperandEnum.FOOTER){
 				//试图处理上拉加载更多列表尾
 				tryHandlePullUpLoadMoreListFooter(distanceY);
 			}
@@ -410,27 +214,27 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 			}
 		}else{
 			//如果当前操作的是下拉刷新列表头
-			if(operands == OperandsEnum.HEADER){
+			if(currentOperand == OperandEnum.HEADER){
 				//如果打开了下拉刷新模式
 				if(isOpenedPullDownRefreshMode()){
 					//试图回滚下拉刷新列表头
 					tryRollback(getPullDownRefreshListHeader());
 				}
 				//记录当前操作的对象
-				lastOperands = operands;
+				lastOperand = currentOperand;
 				//将当前操作的对象清空
-				operands = OperandsEnum.NO;
+				currentOperand = OperandEnum.NONE;
 			//如果当前操作的是上拉加载更多列表尾
-			}else if(operands == OperandsEnum.FOOTER){
+			}else if(currentOperand == OperandEnum.FOOTER){
 				//如果打开了下拉刷新模式
 				if(isOpenedPullUpLoadMoreMode()){
 					//试图回滚上拉加载更多列表尾
 					tryRollback(getPullUpLoadMoreListFooter());
 				}
 				//记录当前操作的对象
-				lastOperands = operands;
+				lastOperand = currentOperand;
 				//将当前操作的对象清空
-				operands = OperandsEnum.NO;
+				currentOperand = OperandEnum.NONE;
 			}
 		}
 	}
@@ -553,7 +357,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * @param pullListHeaderAndFoooter 列表头或列表尾
 	 * @param duration 持续时间
 	 */
-	private void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, long duration){
+	void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, long duration){
 		rollback(pullListHeaderAndFoooter, pullListHeaderAndFoooter.getRollbackFinalHeight(), duration);
 	}
 
@@ -588,7 +392,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 				if(rollBacking){
 					//标记为已经停止滚动了
 					rollBacking = false;
-					lastOperands = OperandsEnum.NO;
+					lastOperand = OperandEnum.NONE;
 					//如果之前滚动的是列表头
 					if(rollbackObject.isListHeader()){
 						//如果之前执行的是自动滚动刷新列表头，就再次滚动执行刷新
@@ -892,7 +696,9 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 		if(clickLoadMoreListFooter != null){
 			openedClickLoadMoreMode = true;
 			this.clickLoadMoreListFooter = clickLoadMoreListFooter;
-			setClickLoadMoreListener(clickLoadMoreListener);
+			if(clickLoadMoreListener != null){
+				setClickLoadMoreListener(clickLoadMoreListener);
+			}
 		}
 	}
 	
@@ -1029,7 +835,106 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * @author xiaopan
 	 *
 	 */
-	private enum OperandsEnum{
-		NO, HEADER, FOOTER;
+	private enum OperandEnum{
+		NONE, HEADER, FOOTER;
+	}
+}
+
+class PullScrollListener implements OnScrollListener{
+	private PullListView pullListView;
+	private int count;//计数
+	private int lastListHeight;//记录列表的高度
+	private int lastTotalItemCount;///记录列表的总条目数
+	private int lastVisibleItemCount;///记录列表每页显示的条目数
+	private int clickLoadMoreListFooterLastTop;//记录点击加载更多列表尾的Top
+	private int clickLoadMoreListFooterLastBottom;//记录点击加载更多列表尾的Bottom
+	private boolean allowHandleClickLoadMoreListFooter;//允许处理点击加载更多列表尾
+	
+	public PullScrollListener(PullListView pullListView){
+		this.pullListView = pullListView;
+	}
+	
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if(pullListView.onScrollListener != null){
+			pullListView.onScrollListener.onScrollStateChanged(view, scrollState);
+		}
+	}
+	
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		/*
+		 * 如果开启了上拉加载更多功能的话，就要保证列表是充满状态，如果不充满的话就要用列表尾将列表充满；当列表已充满时将列表尾的高度将恢复为0
+		 */
+		if(pullListView.isOpenedPullUpLoadMoreMode()){
+			/*
+			 * 判断是否需要更新列表尾的高度
+			 */
+			int newListHeight = pullListView.getHeight();					
+			lastListHeight = lastListHeight == 0?newListHeight:lastListHeight;					//当第一次执行的时候，初始化上一次滚动时列表的高度
+			
+			//如果列表高度有变化或者列表总条目数有变化，那么就开始更新列表尾的高度
+			if(newListHeight != lastListHeight || totalItemCount != lastTotalItemCount){
+				int newMinHeight = 0;//默认新的最小高度为0，适合于列表充满状态
+				
+				//如果列表没有充满，就修改新的最小高度使其可以正好充满列表
+				if(visibleItemCount >= totalItemCount){
+					newMinHeight = pullListView.getPullUpLoadMoreListFooter().getVisiableHeight() + (pullListView.getBottom() - pullListView.getPaddingBottom() - pullListView.getPullUpLoadMoreListFooter().getBottom());
+				}
+				pullListView.getPullUpLoadMoreListFooter().setMinHeight(newMinHeight);
+				
+				//以最快的速度回滚列表尾
+				pullListView.rollback(pullListView.getPullUpLoadMoreListFooter(), 0l);
+			}
+			
+			lastListHeight = newListHeight;																			//记录列表高度
+		}
+		
+		/*
+		 * 如果开启了点击加载更多功能也允许当列表滚动到底部的时候自动触发加载更多功能，以及列表是充满状态的话，就判断是否滚动到了底部，条件满足的话就触发加载更多功能
+		 */
+		if(pullListView.isOpenedClickLoadMoreMode() && pullListView.isAllowRollToBotttomLoadMore() && pullListView.getClickLoadMoreListener() != null && pullListView.full){
+			boolean constant = clickLoadMoreListFooterLastTop == pullListView.getClickLoadMoreListFooter().getTop() && clickLoadMoreListFooterLastBottom == pullListView.getClickLoadMoreListFooter().getBottom();
+			
+			//如果允许加载
+			if(allowHandleClickLoadMoreListFooter){
+				//如果点击加载列表尾显示出来了并且装态是非加载状态
+				if(!constant && pullListView.getClickLoadMoreListFooter().getState() == AbsClickLoadMoreListFooter.State.NORMAL){
+					allowHandleClickLoadMoreListFooter = false;
+					pullListView.getClickLoadMoreListFooter().intoLoadingState();
+					pullListView.getClickLoadMoreListener().onLoadMore(pullListView);
+				}
+			}else{
+				//如果连续三次没有显示出来
+				if(constant){
+					if(count++ > 9){
+						count = 0;
+						allowHandleClickLoadMoreListFooter = true;
+					}
+				}else{
+					count = 0;
+				}
+			}
+			
+			//记录Top和Bottom
+			clickLoadMoreListFooterLastTop = pullListView.getClickLoadMoreListFooter().getTop();
+			clickLoadMoreListFooterLastBottom = pullListView.getClickLoadMoreListFooter().getBottom();
+		}
+		
+		//每页显示条目数、总条目数
+		lastVisibleItemCount = visibleItemCount;
+		lastTotalItemCount = totalItemCount;
+		
+		if(pullListView.onScrollListener != null){
+			pullListView.onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+		}
+	}
+	
+	/**
+	 * 判断列表是否充满
+	 * @return 列表是否充满
+	 */
+	public boolean isFull(){
+		return lastVisibleItemCount < lastTotalItemCount;//如果当前显示的条目数小于总条目数说明列表当前是充满状态
 	}
 }

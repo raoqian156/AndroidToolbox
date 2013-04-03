@@ -41,7 +41,10 @@ public class CustomListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
+		activityItemList.add(new ActivityItem(getString(R.string.reboundList_title), ReboundListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.pullDownRefreshList_title), PullDownRefreshListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.pullUpLoadMoreList_title), PullUpLoadMoreListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.pullDownAndUpList_title), PullDownAndUpActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.clickLoadMoreList_title), ClickLoadMoreListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.picturePlayer_title), PicturePlayerActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.customEditText_title), CustomEditTextActivity.class));

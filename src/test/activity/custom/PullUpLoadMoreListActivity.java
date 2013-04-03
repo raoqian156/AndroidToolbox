@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMoreFinishListener;
-import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMoreListener;
+import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreFinishListener;
+import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreListener;
 import me.xiaopan.androidlibrary.widget.PullListView;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
@@ -16,28 +16,27 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * 点击加载更多列表
- * @author xiaopan
- *
+ * 上拉加载更多列表
  */
-public class ClickLoadMoreListActivity extends MyBaseActivity {
+public class PullUpLoadMoreListActivity extends MyBaseActivity {
 	private PullListView pullListView;
-	private SimpleAdapter simpleAdapter;
+	private SimpleAdapter textAdapter;
 	private List<String> contents;
 	private Button button;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.click_load_more_list);
+		setContentView(R.layout.pull_up_load_more_list);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.pullList_button);
 	}
 
 	@Override
 	public void onInitListener(Bundle savedInstanceState) {
-		pullListView.setClickLoadMoreListener(new ClickLoadMoreListener() {
+		//设置上拉加载更多监听器
+		pullListView.setPullUpLoadMoreListener(new PullUpLoadMoreListener() {
 			@Override
-			public void onLoadMore(final ClickLoadMoreFinishListener clickLoadMoreFinishListener) {
+			public void onLoadMore(final PullUpLoadMoreFinishListener pullUpLoadMoreFinishListener) {
 				new AsyncTask<String, String, String[]>(){
 					@Override
 					protected String[] doInBackground(String... params) {
@@ -51,11 +50,11 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 					
 					@Override
 					protected void onPostExecute(String[] result) {
-						clickLoadMoreFinishListener.finishClickLoadMore();
+						pullUpLoadMoreFinishListener.finishLoadMore();
 						for(int w = 0; w < result.length; w++){
 							contents.add(result[w]);
 						}
-						simpleAdapter.notifyDataSetChanged();
+						textAdapter.notifyDataSetChanged();
 					}
 				}.execute("");
 			}
@@ -65,7 +64,7 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 			@Override
 			public void onClick(View v) {
 				handleButton(!((Boolean) button.getTag()));
-				pullListView.setAllowRollToBotttomLoadMore(!(Boolean) button.getTag());
+				textAdapter.notifyDataSetChanged();
 			}
 		});
 	}
@@ -76,17 +75,18 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 		for(String string : PullDownRefreshListActivity.getContents()){
 			contents.add(string);
 		}
-		pullListView.setAdapter(simpleAdapter = new SimpleAdapter(getBaseContext(), contents));
+		pullListView.setAdapter(textAdapter = new SimpleAdapter(getBaseContext(), contents));
 		
 		handleButton(true);
 	}
 	
 	private void handleButton(boolean isFull){
 		button.setTag(isFull);
+		textAdapter.setFull((Boolean) button.getTag());
 		if((Boolean) button.getTag()){
-			button.setText("开启滚动到底部自动加载");
+			button.setText("变少");
 		}else{
-			button.setText("关闭滚动到底部自动加载");
+			button.setText("变多");
 		}
 	}
 }

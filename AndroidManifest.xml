@@ -43,11 +43,14 @@
         </activity>
         	<activity android:name="test.activity.animation.AnimationListActivity" android:label="@string/animationList_title"/>
 
-        	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
         	<activity android:name="test.activity.custom.CustomEditTextActivity" android:label="@string/customEditText_title"/>
        		<activity android:name="test.activity.custom.CustomListActivity" android:label="@string/customList_title"/>
         	<activity android:name="test.activity.custom.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
+        	<activity android:name="test.activity.custom.ReboundListActivity" android:label="@string/reboundList_title"/>
         	<activity android:name="test.activity.custom.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
+        	<activity android:name="test.activity.custom.PullUpLoadMoreListActivity" android:label="@string/pullUpLoadMoreList_title"/>
+        	<activity android:name="test.activity.custom.PullDownAndUpActivity" android:label="@string/pullDownAndUpList_title"/>
+        	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
         	<activity android:name="test.activity.custom.SlideTabActivity" android:label="@string/slideTab_title"/>
 
        		<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/cameraPreview_title"/>

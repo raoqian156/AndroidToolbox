@@ -4,10 +4,13 @@
     <string name="animationList_title">动画</string>
 
     <string name="customList_title">自定义视图</string>
-	    <string name="clickLoadMoreList_title">点击加载更多列表</string>
 	    <string name="customEditText_title">自定义文本编辑器</string>
 	    <string name="picturePlayer_title">自动播放画廊</string>
+	    <string name="reboundList_title">反弹列表</string>
 	    <string name="pullDownRefreshList_title">下拉刷新列表</string>
+	    <string name="pullUpLoadMoreList_title">上拉加载更多列表</string>
+	    <string name="pullDownAndUpList_title">下拉刷新和上拉加载更多列表</string>
+	    <string name="clickLoadMoreList_title">点击加载更多列表</string>
 	    <string name="slideTab_title">滑动选项卡</string>
 			<string name="slideTab_tab1">选项卡1</string>
 			<string name="slideTab_tab2">选项卡2</string>

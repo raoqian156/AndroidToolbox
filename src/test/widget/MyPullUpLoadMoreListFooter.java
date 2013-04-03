@@ -95,7 +95,7 @@ public class MyPullUpLoadMoreListFooter extends AbsPullUpLoadMoreListFooter {
 		
 		//改变主提示文字为“下拉刷新”
 		TextView refreshHintText = (TextView) contentView.findViewById(R.id.loadmoreFooter_text_refreshHint);
-		refreshHintText.setText("上拉加载");
+		refreshHintText.setText("上拉加载更多");
 	}
 	
 	@Override

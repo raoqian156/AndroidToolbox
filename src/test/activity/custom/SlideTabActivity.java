@@ -95,11 +95,11 @@ public class SlideTabActivity extends MyBaseActivity{
 	
 	private View createTabContent(int index){
 		index++;
-		PullListView pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list);
-		String[] contents = new String[20];
-		for(int w = 0; w < contents.length; w++){
-			contents[w] = "这是选项卡 "+index+" 的第 "+w+" 条数据";
+		List<String> contents = new ArrayList<String>(20);
+		for(int w = 0; w < contents.size(); w++){
+			contents.add("这是选项卡 "+index+" 的第 "+w+" 条数据");
 		}
+		PullListView pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list);
 		pullListView.openListHeaderReboundMode();
 		pullListView.openListFooterReboundMode();
 		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));
