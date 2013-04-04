@@ -20,8 +20,7 @@ import android.widget.TextView;
  * 滑动选项卡
  * @author xiaopan
  */
-public class SlideTabActivity extends MyBaseActivity{
-
+public class SlideTabHostActivity extends MyBaseActivity{
 	private ViewPager viewPager;
 	private List<View> tabContentList;
 	private List<Tab> tabList;
@@ -30,7 +29,7 @@ public class SlideTabActivity extends MyBaseActivity{
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.slide_tab);
+		setContentView(R.layout.slide_tabhost);
 		viewPager = (ViewPager) findViewById(R.id.pager_slideTab);
 		tabList = new ArrayList<Tab>();
 		tabList.add(new Tab(0, (TextView) findViewById(R.id.text_slideTab_title0), (TextView) findViewById(R.id.text_slideTab_slideBlock0)));
@@ -96,7 +95,7 @@ public class SlideTabActivity extends MyBaseActivity{
 	private View createTabContent(int index){
 		index++;
 		List<String> contents = new ArrayList<String>(20);
-		for(int w = 0; w < contents.size(); w++){
+		for(int w = 0; w < 20; w++){
 			contents.add("这是选项卡 "+index+" 的第 "+w+" 条数据");
 		}
 		PullListView pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list);

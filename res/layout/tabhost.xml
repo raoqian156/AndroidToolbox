@@ -4,7 +4,7 @@
     <TabHost style="@style/base_layout_fill_fill" android:id="@android:id/tabhost">
         <LinearLayout style="@style/base_layout_fill_fill_vertical">
 	        <FrameLayout style="@style/base_layout_fill_weight" android:id="@android:id/tabcontent"/>
-    	    <TabWidget style="@style/base_layout_fill_wrap" android:id="@android:id/tabs" android:divider="@drawable/tabs_separator" android:background="@drawable/tabs_background_normal"/>
+    	    <TabWidget style="@style/base_layout_fill_wrap" android:id="@android:id/tabs" android:divider="@drawable/tabs_divider" android:background="@drawable/tabs_background_normal"/>
         </LinearLayout>
     </TabHost>
 	

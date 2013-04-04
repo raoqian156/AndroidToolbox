@@ -11,7 +11,7 @@
 	    <string name="pullUpLoadMoreList_title">上拉加载更多列表</string>
 	    <string name="pullDownAndUpList_title">下拉刷新和上拉加载更多列表</string>
 	    <string name="clickLoadMoreList_title">点击加载更多列表</string>
-	    <string name="slideTab_title">滑动选项卡</string>
+	    <string name="slideTabHost_title">滑动选项卡</string>
 			<string name="slideTab_tab1">选项卡1</string>
 			<string name="slideTab_tab2">选项卡2</string>
 			<string name="slideTab_tab3">选项卡3</string>
@@ -39,8 +39,9 @@
 	    <string name="imageLoader_title">图片批量加载器</string>
     
     <!-- 系统组件使用示例 -->
-    <string name="viewsList_title">视图</string>
-		<string name="progressBar_title">进度条</string>
-	    <string name="tabHost_title">选项卡</string>
-	    <string name="viewPager_title">View Pager（滑动选项卡）</string>
+    <string name="viewsList_title">Views</string>
+		<string name="progressBar_title">ProgressBar</string>
+	    <string name="tabHost_title">TabHost</string>
+	    <string name="fragmentTabHost_title">FragmentTabHost</string>
+	    <string name="viewPager_title">View Pager</string>
 </resources>

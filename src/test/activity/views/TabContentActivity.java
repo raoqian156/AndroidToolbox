@@ -16,8 +16,7 @@ public class TabContentActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list);
-		setContentView(pullListView);
+		setContentView(pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list));
 	}
 
 	@Override
@@ -29,7 +28,7 @@ public class TabContentActivity extends MyBaseActivity {
 	protected void onInitData(Bundle savedInstanceState) {
 		String tabIndex = getIntent().getStringExtra(PARAM_TAB_INDEX);
 		List<String> contents = new ArrayList<String>(20);
-		for(int w = 0; w < contents.size(); w++){
+		for(int w = 0; w < 20; w++){
 			contents.add("这是选项卡 "+tabIndex+" 的第 "+w+" 条数据");
 		}
 		pullListView.openListHeaderReboundMode();

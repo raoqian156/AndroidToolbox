@@ -43,6 +43,7 @@ public class ViewsListActivity extends MyBaseActivity{
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
 		activityItemList.add(new ActivityItem(getString(R.string.tabHost_title), TabHostActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.fragmentTabHost_title), FragmentTabHostActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.viewPager_title), ViewPagerActivity.class));
 		

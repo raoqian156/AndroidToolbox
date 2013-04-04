@@ -83,7 +83,7 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 	public void onPromptExitApplication() {
 		toastL(R.string.comm_hint_exitHint);
 	}
-	
+
 	public MyApplication getMyApplication(){
 		return (MyApplication) getApplication();
 	}

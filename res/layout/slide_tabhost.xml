@@ -6,20 +6,20 @@
         <LinearLayout style="@style/base_layout_fill_wrap_vertical" android:paddingLeft="@dimen/base_padding_specialLarge" android:paddingRight="@dimen/base_padding_specialLarge">
 	        <!-- 标题 -->
 	        <LinearLayout style="@style/base_layout_fill_wrap">
-	            <TextView style="@style/text_slideTab_title" android:text="@string/slideTab_tab1" android:id="@+id/text_slideTab_title0"/>
+	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab1" android:id="@+id/text_slideTab_title0"/>
 	            <include layout="@layout/comm_tab_divider"/>
-	            <TextView style="@style/text_slideTab_title" android:text="@string/slideTab_tab2" android:id="@+id/text_slideTab_title1"/>
+	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab2" android:id="@+id/text_slideTab_title1"/>
 	            <include layout="@layout/comm_tab_divider"/>
-	            <TextView style="@style/text_slideTab_title" android:text="@string/slideTab_tab3" android:id="@+id/text_slideTab_title2"/>
+	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab3" android:id="@+id/text_slideTab_title2"/>
 	        </LinearLayout>
 	        
 	        <!-- 滑动条 -->
 	        <LinearLayout android:layout_width="fill_parent" android:layout_height="2dp" android:background="@color/base_gray_translucent">
-        		<TextView  style="@style/text_slideTab_slideBlock" android:id="@+id/text_slideTab_slideBlock0"/>
+        		<TextView  style="@style/text_slideTabHost_slideBlock" android:id="@+id/text_slideTab_slideBlock0"/>
 	            <include layout="@layout/comm_tab_divider" android:visibility="invisible"/>
-	            <TextView style="@style/text_slideTab_slideBlock" android:id="@+id/text_slideTab_slideBlock1" android:background="@color/base_transparent"/>
+	            <TextView style="@style/text_slideTabHost_slideBlock" android:id="@+id/text_slideTab_slideBlock1" android:background="@color/base_transparent"/>
 	            <include layout="@layout/comm_tab_divider" android:visibility="invisible"/>
-	            <TextView style="@style/text_slideTab_slideBlock" android:id="@+id/text_slideTab_slideBlock2" android:background="@color/base_transparent"/>
+	            <TextView style="@style/text_slideTabHost_slideBlock" android:id="@+id/text_slideTab_slideBlock2" android:background="@color/base_transparent"/>
         	</LinearLayout>
         </LinearLayout>
         
