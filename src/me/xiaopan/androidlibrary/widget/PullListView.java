@@ -328,9 +328,11 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * @param duration 持续时间
 	 */
 	private void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, int begainHeight, int endHeight, long duration){
-		rollbackObject = pullListHeaderAndFoooter;
-		rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, (int) duration);
-		invalidate();
+		if(begainHeight != endHeight){
+			rollbackObject = pullListHeaderAndFoooter;
+			rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, (int) duration);
+			invalidate();
+		}
 	}
 	
 	/**
@@ -873,8 +875,8 @@ class PullScrollListener implements OnScrollListener{
 			int newListHeight = pullListView.getHeight();					
 			lastListHeight = lastListHeight == 0?newListHeight:lastListHeight;					//当第一次执行的时候，初始化上一次滚动时列表的高度
 			
-			//如果列表高度有变化或者列表总条目数有变化，那么就开始更新列表尾的高度
-			if(newListHeight != lastListHeight || totalItemCount != lastTotalItemCount){
+			//如果列表高度有变化或者列表总条目数有变化，并且列表的充满状态也发生了改变，那么就开始更新列表尾的高度
+			if(newListHeight != lastListHeight || totalItemCount != lastTotalItemCount && !(isFull() && visibleItemCount < totalItemCount)){
 				int newMinHeight = 0;//默认新的最小高度为0，适合于列表充满状态
 				
 				//如果列表没有充满，就修改新的最小高度使其可以正好充满列表
