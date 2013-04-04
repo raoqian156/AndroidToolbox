@@ -1,9 +1,6 @@
 package me.xiaopan.androidlibrary.util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -13,8 +10,6 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -374,95 +369,5 @@ public class ViewUtils {
 	 */
 	public static void visibleViewByAlpha(final View view){
 		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
-	 * 将一个编辑器和一个视图绑定，当编辑器的内容为空时隐藏视图，反之显示视图，并且点击视图的时候清空编辑器的内容，另外视图的显示或隐藏都会伴随透明度渐变动画
-	 * @param editText
-	 * @param clearView
-	 */
-	public static void editClearBindByAlpha(final EditText editText, final View clearView){
-		if(editText.getEditableText().toString().length() > 0){
-			if(clearView.getVisibility() != View.VISIBLE){
-				visibleViewByAlpha(clearView);
-			}
-		}else{
-			if(clearView.getVisibility() != View.INVISIBLE){
-				invisibleViewByAlpha(clearView);
-			}
-		}
-		
-		editText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				if(s.toString().length() > 0){
-					if(clearView.getVisibility() != View.VISIBLE && clearView.getTag() == null){
-						clearView.setTag(false);
-						visibleViewByAlpha(clearView, new Animation.AnimationListener() {
-							public void onAnimationStart(Animation animation) {
-								
-							}
-							
-							@Override
-							public void onAnimationRepeat(Animation animation) {
-								
-							}
-							
-							@Override
-							public void onAnimationEnd(Animation animation) {
-								clearView.setTag(null);
-							}
-						});
-					}
-				}else{
-						clearView.clearAnimation();
-						clearView.setTag(null);
-						invisibleViewByAlpha(clearView);
-				}
-			}
-		});
-		
-		clearView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				editText.setText("");
-			}
-		});
-	}
-	
-	/**
-	 * 开启软键盘
-	 * @param context 
-	 * @param editText 接收文字输入的编辑器
-	 */
-	public static void openSoftKeyboard(Context context, EditText editText){
-		InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-	}
-	
-	/**
-	 * 关闭软键盘
-	 * @param context
-	 */
-	public static void closeSoftKeyboard(Activity activity){
-		try{
-			InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-			//如果软键盘已经开启
-			if(inputMethodManager.isActive()){
-				inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 }

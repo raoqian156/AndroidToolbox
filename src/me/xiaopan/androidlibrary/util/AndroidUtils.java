@@ -566,14 +566,10 @@ public class AndroidUtils {
 	 * @param context
 	 */
 	public static void closeSoftKeyboard(Activity activity){
-		try{
-			InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-			//如果软键盘已经开启
-			if(inputMethodManager.isActive()){
-				inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
+		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//如果软键盘已经开启
+		if(inputMethodManager.isActive()){
+			inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 	}
 	

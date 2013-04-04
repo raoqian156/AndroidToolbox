@@ -1035,109 +1035,105 @@ public interface BaseActivityInterface {
 		@Override
 		public void handleMessage(Message msg) {
 			if(!activity.isFinishing()){
-				try{
-					switch(msg.what){
-						case SHOW_MESSAGE_DIALOG : activity.showDialog(BaseActivityInterface.DIALOG_MESSAGE, msg.getData()); break;
-						case CLOSE_MESSAGE_DIALOG : activity.dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); break;
-						case SHOW_PROGRESS_DIALOG : activity.showDialog(BaseActivityInterface.DIALOG_PROGRESS, msg.getData()); break;
-						case CLOSE_PROGRESS_DIALOG : activity.dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); break;
-						case SHOW_LOADING_HINT_VIEW : 
-							//如果尚未初始化加载中提示视图。并且加载中视图ID是合法的，就获取加载中提示视图
-							if(baseActivityInterface.getLoadingHintView() == null && baseActivityInterface.getLoadingHintViewId() != 0){
-								baseActivityInterface.setLoadingHintView(activity.findViewById(baseActivityInterface.getLoadingHintViewId()));
-							}
-							
-							//如果已经获取了加载中提示视图并且尚未显示
-							if(baseActivityInterface.getLoadingHintView() != null && baseActivityInterface.getLoadingHintView().getVisibility() != View.VISIBLE){
-								baseActivityInterface.getLoadingHintView().setVisibility(View.VISIBLE);
-								//标记加载未完成
-								baseActivityInterface.setLoadFinished(false);
-							}
-							break;
-						case CLOSE_LOADING_HINT_VIEW : 
-							//如果尚未初始化加载中提示视图。并且加载中视图ID是合法的，就获取加载中提示视图
-							if(baseActivityInterface.getLoadingHintView() == null && baseActivityInterface.getLoadingHintViewId() != 0){
-								baseActivityInterface.setLoadingHintView(activity.findViewById(baseActivityInterface.getLoadingHintViewId()));
-							}
-							
-							//如果加载中提示视图正在显示
-							if(baseActivityInterface.getLoadingHintView() != null && baseActivityInterface.getLoadingHintView().getVisibility() != View.GONE){
-								baseActivityInterface.getLoadingHintView().startAnimation(AnimationUtils.getHiddenAlphaAnimation(500, new AnimationListener() {
-									@Override
-									public void onAnimationStart(Animation animation) {}
-									@Override
-									public void onAnimationRepeat(Animation animation) {}
-									@Override
-									public void onAnimationEnd(Animation animation) {
-										baseActivityInterface.getLoadingHintView().setVisibility(View.GONE);
-									}
-								}));
-								//标记加载完成
-								baseActivityInterface.setLoadFinished(true);
-							}
-							break;
-						case SHOW_LIST_EMPTY_HINT_VIEW : 
-							//如果尚未初始化列表为空提示视图。并且列表为空提示ID是合法的，就获取列表为空提示视图
-							if(baseActivityInterface.getListEmptyHintView() == null && baseActivityInterface.getListEmptyHintViewId() != 0){
-								baseActivityInterface.setListEmptyHintView(activity.findViewById(baseActivityInterface.getListEmptyHintViewId()));
-								baseActivityInterface.getListEmptyHintView().setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										baseActivityInterface.clickListEmptyHintView();
-									}
-								});
-							}
-							
-							//如果已经获取了列表为空提示视图并且尚未显示
-							if(baseActivityInterface.getListEmptyHintView() != null && baseActivityInterface.getListEmptyHintView().getVisibility() != View.VISIBLE){
-								baseActivityInterface.getListEmptyHintView().setVisibility(View.VISIBLE);
-							}
-							break;
-						case CLOSE_LIST_EMPTY_HINT_VIEW : 
-							//如果尚未初始化列表为空提示视图。并且列表为空提示ID是合法的，就获取列表为空提示视图
-							if(baseActivityInterface.getListEmptyHintView() == null && baseActivityInterface.getListEmptyHintViewId() != 0){
-								baseActivityInterface.setListEmptyHintView(activity.findViewById(baseActivityInterface.getListEmptyHintViewId()));
-								baseActivityInterface.getListEmptyHintView().setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										baseActivityInterface.clickListEmptyHintView();
-									}
-								});
-							}
-							
-							//如果列表为空提示视图正在显示，就隐藏掉
-							if(baseActivityInterface.getListEmptyHintView() != null && baseActivityInterface.getListEmptyHintView().getVisibility() != View.GONE){
-								baseActivityInterface.getListEmptyHintView().setVisibility(View.GONE);
-							}
-							break;
-						case TOAST : Toast.makeText(activity, (String)msg.obj, msg.arg1).show(); break;
-						case BECAUSE_EXCEPTION_FINISH_ACTIVITY : baseActivityInterface.onBecauseExceptionFinishActivity(); break;
-						case FINISH_ACTIVITY : baseActivityInterface.onFinishActivity(); break;
-						case FINISH_ACTIVITY_ANIMATION : baseActivityInterface.onFinishActivity(msg.arg1, msg.arg2); break;
-						case START_ACTIVITY : 
-							baseActivityInterface.onStartActivity(
-									(Class<?>)msg.obj, 
-									msg.getData().getInt(MessageHandler.FLAG), 
-									msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
-											msg.getData().getBoolean(MessageHandler.IS_CLOSE), 
-											msg.getData().getInt(MessageHandler.IN_ANIMATION), 
-											msg.getData().getInt(MessageHandler.OUT_ANIMATION)
-									); 
-							break;
-						case START_ACTIVITY_FOR_RESULT : 
-							baseActivityInterface.onStartActivityForResult(
-									(Class<?>)msg.obj, 
-									msg.getData().getInt(MessageHandler.REQUEST_CODE), 
-									msg.getData().getInt(MessageHandler.FLAG), 
-									msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
-											msg.getData().getInt(MessageHandler.IN_ANIMATION), 
-											msg.getData().getInt(MessageHandler.OUT_ANIMATION)
-									); 
-							break;
-						default :  baseActivityInterface.receiveMessage(msg); break;
-					}
-				}catch(Exception e){
-					e.printStackTrace();
+				switch(msg.what){
+					case SHOW_MESSAGE_DIALOG : activity.showDialog(BaseActivityInterface.DIALOG_MESSAGE, msg.getData()); break;
+					case CLOSE_MESSAGE_DIALOG : activity.dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); break;
+					case SHOW_PROGRESS_DIALOG : activity.showDialog(BaseActivityInterface.DIALOG_PROGRESS, msg.getData()); break;
+					case CLOSE_PROGRESS_DIALOG : activity.dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); break;
+					case SHOW_LOADING_HINT_VIEW : 
+						//如果尚未初始化加载中提示视图。并且加载中视图ID是合法的，就获取加载中提示视图
+						if(baseActivityInterface.getLoadingHintView() == null && baseActivityInterface.getLoadingHintViewId() != 0){
+							baseActivityInterface.setLoadingHintView(activity.findViewById(baseActivityInterface.getLoadingHintViewId()));
+						}
+						
+						//如果已经获取了加载中提示视图并且尚未显示
+						if(baseActivityInterface.getLoadingHintView() != null && baseActivityInterface.getLoadingHintView().getVisibility() != View.VISIBLE){
+							baseActivityInterface.getLoadingHintView().setVisibility(View.VISIBLE);
+							//标记加载未完成
+							baseActivityInterface.setLoadFinished(false);
+						}
+						break;
+					case CLOSE_LOADING_HINT_VIEW : 
+						//如果尚未初始化加载中提示视图。并且加载中视图ID是合法的，就获取加载中提示视图
+						if(baseActivityInterface.getLoadingHintView() == null && baseActivityInterface.getLoadingHintViewId() != 0){
+							baseActivityInterface.setLoadingHintView(activity.findViewById(baseActivityInterface.getLoadingHintViewId()));
+						}
+						
+						//如果加载中提示视图正在显示
+						if(baseActivityInterface.getLoadingHintView() != null && baseActivityInterface.getLoadingHintView().getVisibility() != View.GONE){
+							baseActivityInterface.getLoadingHintView().startAnimation(AnimationUtils.getHiddenAlphaAnimation(500, new AnimationListener() {
+								@Override
+								public void onAnimationStart(Animation animation) {}
+								@Override
+								public void onAnimationRepeat(Animation animation) {}
+								@Override
+								public void onAnimationEnd(Animation animation) {
+									baseActivityInterface.getLoadingHintView().setVisibility(View.GONE);
+								}
+							}));
+							//标记加载完成
+							baseActivityInterface.setLoadFinished(true);
+						}
+						break;
+					case SHOW_LIST_EMPTY_HINT_VIEW : 
+						//如果尚未初始化列表为空提示视图。并且列表为空提示ID是合法的，就获取列表为空提示视图
+						if(baseActivityInterface.getListEmptyHintView() == null && baseActivityInterface.getListEmptyHintViewId() != 0){
+							baseActivityInterface.setListEmptyHintView(activity.findViewById(baseActivityInterface.getListEmptyHintViewId()));
+							baseActivityInterface.getListEmptyHintView().setOnClickListener(new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									baseActivityInterface.clickListEmptyHintView();
+								}
+							});
+						}
+						
+						//如果已经获取了列表为空提示视图并且尚未显示
+						if(baseActivityInterface.getListEmptyHintView() != null && baseActivityInterface.getListEmptyHintView().getVisibility() != View.VISIBLE){
+							baseActivityInterface.getListEmptyHintView().setVisibility(View.VISIBLE);
+						}
+						break;
+					case CLOSE_LIST_EMPTY_HINT_VIEW : 
+						//如果尚未初始化列表为空提示视图。并且列表为空提示ID是合法的，就获取列表为空提示视图
+						if(baseActivityInterface.getListEmptyHintView() == null && baseActivityInterface.getListEmptyHintViewId() != 0){
+							baseActivityInterface.setListEmptyHintView(activity.findViewById(baseActivityInterface.getListEmptyHintViewId()));
+							baseActivityInterface.getListEmptyHintView().setOnClickListener(new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									baseActivityInterface.clickListEmptyHintView();
+								}
+							});
+						}
+						
+						//如果列表为空提示视图正在显示，就隐藏掉
+						if(baseActivityInterface.getListEmptyHintView() != null && baseActivityInterface.getListEmptyHintView().getVisibility() != View.GONE){
+							baseActivityInterface.getListEmptyHintView().setVisibility(View.GONE);
+						}
+						break;
+					case TOAST : Toast.makeText(activity, (String)msg.obj, msg.arg1).show(); break;
+					case BECAUSE_EXCEPTION_FINISH_ACTIVITY : baseActivityInterface.onBecauseExceptionFinishActivity(); break;
+					case FINISH_ACTIVITY : baseActivityInterface.onFinishActivity(); break;
+					case FINISH_ACTIVITY_ANIMATION : baseActivityInterface.onFinishActivity(msg.arg1, msg.arg2); break;
+					case START_ACTIVITY : 
+						baseActivityInterface.onStartActivity(
+								(Class<?>)msg.obj, 
+								msg.getData().getInt(MessageHandler.FLAG), 
+								msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
+										msg.getData().getBoolean(MessageHandler.IS_CLOSE), 
+										msg.getData().getInt(MessageHandler.IN_ANIMATION), 
+										msg.getData().getInt(MessageHandler.OUT_ANIMATION)
+								); 
+						break;
+					case START_ACTIVITY_FOR_RESULT : 
+						baseActivityInterface.onStartActivityForResult(
+								(Class<?>)msg.obj, 
+								msg.getData().getInt(MessageHandler.REQUEST_CODE), 
+								msg.getData().getInt(MessageHandler.FLAG), 
+								msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, 
+										msg.getData().getInt(MessageHandler.IN_ANIMATION), 
+										msg.getData().getInt(MessageHandler.OUT_ANIMATION)
+								); 
+						break;
+					default :  baseActivityInterface.receiveMessage(msg); break;
 				}
 			}
 			super.handleMessage(msg);
