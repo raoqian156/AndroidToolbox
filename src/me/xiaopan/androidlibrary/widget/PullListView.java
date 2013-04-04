@@ -491,6 +491,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 			});
 			getClickLoadMoreListFooter().setClickable(true);
 			addFooterView(getClickLoadMoreListFooter());
+			handleHeaderOrFooter = true;
 		}
 		
 		//添加上拉加载更多列表尾
