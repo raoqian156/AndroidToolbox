@@ -1,8 +1,8 @@
-package test.activity.service;
+package test.service;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.AndroidUtils;
 import test.MyApplication;
+import test.activity.views.FloatingWindowActivity;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -20,15 +21,15 @@ import android.view.WindowManager.LayoutParams;
  * 悬浮窗Service 该服务会在后台一直运行一个悬浮的透明的窗体。
  * @author
  */
-public class NetworkSpeedFloatingWindowService extends Service{
+public class FloatingWindowService extends Service implements OnClickListener{
+	public static float CLICK_DIS = 5f;
 	private int statusBarHeight;// 状态栏高度
-	private float[] temp = new float[] { 0f, 0f };
+	private float[] tempPosition = new float[] {0f,0f,0f,0f};//用来记录按下时的点的相对与其父元素的位置以及相对于屏幕的位置
 	private View floatingWindowView;//悬浮窗视图
 	private boolean floatingWindowViewAdded = false;//悬浮窗视图是否已经添加到窗口管理器中了
 	private WindowManager.LayoutParams floatingWindowParams;//悬浮窗的参数
 	private WindowManager windowManager;//窗口管理器
 	private MyApplication myApplication;
-	private boolean click;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -49,56 +50,20 @@ public class NetworkSpeedFloatingWindowService extends Service{
 		floatingWindowParams.format = PixelFormat.TRANSPARENT;//设置悬浮窗的背景为透明
 		floatingWindowParams.gravity = Gravity.LEFT | Gravity.TOP;//设置悬浮窗开始显示的位置在左上角
 
-		floatingWindowView = LayoutInflater.from(this).inflate(R.layout.network_speed_floating_window, null);
+		floatingWindowView = LayoutInflater.from(this).inflate(R.layout.floating_window_view, null);
 		floatingWindowView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				int eventaction = event.getAction();
-				switch (eventaction) {
-					case MotionEvent.ACTION_DOWN: // 按下事件，记录按下时手指在悬浮窗的XY坐标值
-						click = true;
-						temp[0] = event.getX();
-						temp[1] = event.getY();
-						break;
-					case MotionEvent.ACTION_MOVE://当移动的时候，就更新悬浮窗的位置
-						click = false;
-						//更新新的X轴的坐标
-						floatingWindowParams.x = (int) (event.getRawX() - temp[0]);
-						
-						//更新新的Y轴的坐标
-						if(statusBarHeight == 0){//状态栏高度不能立即取，不然得到的值是0
-							View rootView  = floatingWindowView.getRootView();
-							Rect rect = new Rect();
-							rootView.getWindowVisibleDisplayFrame(rect);
-							statusBarHeight = rect.top;
-						}
-						floatingWindowParams.y = (int) (event.getRawY() - temp[1]) - statusBarHeight;//y轴的位置要减去状态栏的高度，因为我们不可以将悬浮窗拖到状态栏去
-						
-						updateFloatingWindow();
-						break;
-					case MotionEvent.ACTION_UP:
-						if(click || event.getRawX() - temp[0] < 10 || event.getRawY() - temp[1] < 10){
-							AndroidUtils.toastL(getBaseContext(), "你有病啊，你点我干嘛！");
-						}
-						break;
-					case MotionEvent.ACTION_CANCEL:
-						if(click || event.getRawX() - temp[0] < 10 || event.getRawY() - temp[1] < 10){
-							AndroidUtils.toastL(getBaseContext(), "你有病啊，你点我干嘛！");
-						}
-						break;
+				switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: onDownHandle(event); break;
+					case MotionEvent.ACTION_MOVE: onMoveHandle(event); break;
+					case MotionEvent.ACTION_UP: onUpOrCancelHandle(event); break;
+					case MotionEvent.ACTION_CANCEL: onUpOrCancelHandle(event); break;
+					default: break;
 				}
 				return false;
 			}
 		});
-		
-//		floatingWindowView.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(click){
-//					AndroidUtils.toastL(getBaseContext(), "你有病啊，你点我干嘛！");
-//				}
-//			}
-//		});
 	}
 
 	@Override
@@ -113,6 +78,37 @@ public class NetworkSpeedFloatingWindowService extends Service{
 		super.onDestroy();
 		myApplication.setNetworkSpeedFloatingWindowDisplay(false);
 		closeFloatingWindow();
+	}
+	
+	private void onDownHandle(MotionEvent event){
+		floatingWindowView.setBackgroundResource(R.drawable.ic_floating_pressed);
+		tempPosition[0] = event.getX();
+		tempPosition[1] = event.getY();
+		tempPosition[2] = event.getRawX();
+		tempPosition[3] = event.getRawY();
+	}
+	
+	private void onMoveHandle(MotionEvent event){
+		//更新新的X轴的坐标
+		floatingWindowParams.x = (int) (event.getRawX() - tempPosition[0]);
+		
+		//更新新的Y轴的坐标
+		if(statusBarHeight == 0){//状态栏高度不能立即取，不然得到的值是0
+			View rootView  = floatingWindowView.getRootView();
+			Rect rect = new Rect();
+			rootView.getWindowVisibleDisplayFrame(rect);
+			statusBarHeight = rect.top;
+		}
+		floatingWindowParams.y = (int) (event.getRawY() - tempPosition[1]) - statusBarHeight;//y轴的位置要减去状态栏的高度，因为我们不可以将悬浮窗拖到状态栏去
+		
+		updateFloatingWindow();
+	}
+	
+	private void onUpOrCancelHandle(MotionEvent event){
+		floatingWindowView.setBackgroundResource(R.drawable.ic_floating_normal);
+		if(Math.abs(event.getRawX() - tempPosition[2]) <= CLICK_DIS || Math.abs(event.getRawY() - tempPosition[3]) <= CLICK_DIS){
+			onClick(floatingWindowView);
+		}
 	}
 
 	/**
@@ -135,5 +131,13 @@ public class NetworkSpeedFloatingWindowService extends Service{
 			windowManager.removeView(floatingWindowView);
 			floatingWindowViewAdded = false;
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent(getBaseContext(), FloatingWindowActivity.class); 
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 }

@@ -46,6 +46,7 @@ public class ViewsListActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.fragmentTabHost_title), FragmentTabHostActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.viewPager_title), ViewPagerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.floatingWindow_title), FloatingWindowActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

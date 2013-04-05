@@ -68,7 +68,6 @@
        		<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/downloadImage_title"/>
        		<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
      		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
-     		<activity android:name="test.activity.other.FloatingActivity" android:label="@string/floating_title"/>
 
         	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/progressBar_title"/>
         	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
@@ -76,7 +75,8 @@
         	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/viewPager_title"/>
        		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
        		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/fragmentTabHost_title"/>
+     		<activity android:name="test.activity.views.FloatingWindowActivity" android:label="@string/floatingWindow_title"/>
        		
-       		<service android:name="test.activity.service.NetworkSpeedFloatingWindowService"/>
+       		<service android:name="test.service.FloatingWindowService"/>
     </application>
 </manifest>

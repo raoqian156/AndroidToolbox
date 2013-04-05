@@ -45,7 +45,6 @@ public class OtherListActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.downloadImage_title), DownloadImageActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.barcodeScanner_title), BarcodeScannerActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.imageLoader_title), ImageLoaderActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.floating_title), FloatingActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

@@ -1,22 +1,22 @@
-package test.activity.other;
+package test.activity.views;
 
 import me.xiaopan.androidlibrary.R;
 import test.MyBaseActivity;
-import test.activity.service.NetworkSpeedFloatingWindowService;
+import test.service.FloatingWindowService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class FloatingActivity extends MyBaseActivity {
+public class FloatingWindowActivity extends MyBaseActivity {
 	private Button button;
 	private Intent networkSpeedFloatingService;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.floating);
-		button = (Button) findViewById(R.id.button_floating);
+		setContentView(R.layout.floating_window);
+		button = (Button) findViewById(R.id.button_floatingWindow);
 	}
 
 	@Override
@@ -26,10 +26,10 @@ public class FloatingActivity extends MyBaseActivity {
 			public void onClick(View v) {
 				if(getMyApplication().isNetworkSpeedFloatingWindowDisplay()){
 					stopService(networkSpeedFloatingService);
-					button.setText("打开网速悬浮窗");
+					button.setText("打开悬浮窗");
 				}else{
 					startService(networkSpeedFloatingService);
-					button.setText("关闭网速悬浮窗");
+					button.setText("关闭悬浮窗");
 				}
 			}
 		});
@@ -37,15 +37,15 @@ public class FloatingActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		networkSpeedFloatingService = new Intent(this, NetworkSpeedFloatingWindowService.class);
+		networkSpeedFloatingService = new Intent(this, FloatingWindowService.class);
 		uodateButtonText(getMyApplication().isNetworkSpeedFloatingWindowDisplay());
 	}
 
 	public void uodateButtonText(boolean state){
 		if(state){
-			button.setText("关闭网速悬浮窗");
+			button.setText("关闭悬浮窗");
 		}else{
-			button.setText("打开网速悬浮窗");
+			button.setText("打开悬浮窗");
 		}
 	}
 }
