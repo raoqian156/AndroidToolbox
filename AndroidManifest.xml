@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -66,6 +67,7 @@
        		<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/downloadImage_title"/>
        		<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
      		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
+     		<activity android:name="test.activity.other.FloatingActivity" android:label="@string/floating_title"/>
 
         	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/progressBar_title"/>
         	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
@@ -73,5 +75,7 @@
         	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/viewPager_title"/>
        		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
        		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/fragmentTabHost_title"/>
+       		
+       		<service android:name="test.activity.service.NetworkSpeedFloatingWindowService"/>
     </application>
 </manifest>

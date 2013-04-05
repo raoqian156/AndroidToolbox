@@ -1,5 +1,5 @@
 待办：
 	添加悬浮窗的实现。
-	添加使用FragmentTabhost的实现。
 	
 已办：
+	添加使用FragmentTabhost的实现。
