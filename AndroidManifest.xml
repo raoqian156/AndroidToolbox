@@ -52,6 +52,7 @@
         	<activity android:name="test.activity.custom.PullUpLoadMoreListActivity" android:label="@string/pullUpLoadMoreList_title"/>
         	<activity android:name="test.activity.custom.PullDownAndUpActivity" android:label="@string/pullDownAndUpList_title"/>
         	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
+        	<activity android:name="test.activity.custom.PullDownRefreshAndClickLoadMoreActivity" android:label="@string/pullDownRefreshAndClickLoadMoreList_title"/>
         	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/slideTabHost_title"/>
 
        		<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/cameraPreview_title"/>

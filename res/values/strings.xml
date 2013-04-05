@@ -11,6 +11,7 @@
 	    <string name="pullUpLoadMoreList_title">上拉加载更多列表</string>
 	    <string name="pullDownAndUpList_title">下拉刷新和上拉加载更多列表</string>
 	    <string name="clickLoadMoreList_title">点击加载更多列表</string>
+	    <string name="pullDownRefreshAndClickLoadMoreList_title">下拉刷新和点击加载更多列表</string>
 	    <string name="slideTabHost_title">滑动选项卡</string>
 			<string name="slideTab_tab1">选项卡1</string>
 			<string name="slideTab_tab2">选项卡2</string>
