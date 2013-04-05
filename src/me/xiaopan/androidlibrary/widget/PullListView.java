@@ -6,6 +6,7 @@ import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMore
 import me.xiaopan.androidlibrary.widget.AbsPullDownRefreshListHeader.PullDownRefreshFinishListener;
 import me.xiaopan.androidlibrary.widget.AbsPullDownRefreshListHeader.PullDownRefreshListener;
 import me.xiaopan.androidlibrary.widget.AbsPullListHeaderAndFoooter.OnStateChangeListener;
+import me.xiaopan.androidlibrary.widget.AbsPullListHeaderAndFoooter.State;
 import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreFinishListener;
 import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreListener;
 import android.content.Context;
@@ -336,22 +337,22 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	}
 	
 	/**
-	 * 回滚
+	 * 回滚到指定的最终高度
 	 * @param pullListHeaderAndFoooter 列表头或列表尾
 	 * @param finalHeight 最终高度
 	 * @param duration 持续时间
 	 */
-	private void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, int finalHeight, long duration){
+	private void rollbackToFinalHeight(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, int finalHeight, long duration){
 		rollback(pullListHeaderAndFoooter, pullListHeaderAndFoooter.getVisiableHeight(), finalHeight, ROLLBACK_DURATION);
 	}
 
 	/**
-	 * 回滚
+	 * 回滚到指定的最终高度
 	 * @param pullListHeaderAndFoooter 列表头或列表尾
 	 * @param finalHeight 最终高度
 	 */
-	private void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, int finalHeight){
-		rollback(pullListHeaderAndFoooter, finalHeight, ROLLBACK_DURATION);
+	private void rollbackToFinalHeight(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, int finalHeight){
+		rollbackToFinalHeight(pullListHeaderAndFoooter, finalHeight, ROLLBACK_DURATION);
 	}
 
 	/**
@@ -360,7 +361,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * @param duration 持续时间
 	 */
 	void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter, long duration){
-		rollback(pullListHeaderAndFoooter, pullListHeaderAndFoooter.getRollbackFinalHeight(), duration);
+		rollbackToFinalHeight(pullListHeaderAndFoooter, pullListHeaderAndFoooter.getRollbackFinalHeight(), duration);
 	}
 
 	/**
@@ -368,7 +369,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * @param pullListHeaderAndFoooter 列表头或列表尾
 	 */
 	private void rollback(AbsPullListHeaderAndFoooter pullListHeaderAndFoooter){
-		rollback(pullListHeaderAndFoooter, pullListHeaderAndFoooter.getRollbackFinalHeight());
+		rollbackToFinalHeight(pullListHeaderAndFoooter, pullListHeaderAndFoooter.getRollbackFinalHeight());
 	}
 	
 	@Override
@@ -530,9 +531,10 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * 开启刷新
 	 */
 	public void startRefresh(){
-		if(isOpenedPullDownRefreshMode()){
+		if(isOpenedPullDownRefreshMode() && getPullDownRefreshListHeader().getState() == State.NORMAL && getPullDownRefreshListener() != null){
 			autoRefresh = true;
-			rollback(getPullDownRefreshListHeader(), getPullDownRefreshListHeader().getOriginalHeight());
+			setSelection(0);
+			rollbackToFinalHeight(getPullDownRefreshListHeader(), getPullDownRefreshListHeader().getOriginalHeight());
 		}
 	}
 	
@@ -540,9 +542,10 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 * 开启加载更多
 	 */
 	public void startLoadMore(){
-		if(isOpenedPullUpLoadMoreMode()){
+		if(isOpenedPullUpLoadMoreMode() && getPullUpLoadMoreListFooter().getState() == State.NORMAL && getPullUpLoadMoreListener() != null){
 			autoLoadMore = true;
-			rollback(getPullUpLoadMoreListFooter(), getPullUpLoadMoreListFooter().getOriginalHeight());
+			setSelection(getCount() - 1);
+			rollbackToFinalHeight(getPullUpLoadMoreListFooter(), getPullUpLoadMoreListFooter().getOriginalHeight());
 		}
 	}
 	
@@ -551,6 +554,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	 */
 	public void startClickLoadMore(){
 		if(isOpenedClickLoadMoreMode() && getClickLoadMoreListFooter().getState() == AbsClickLoadMoreListFooter.State.NORMAL && getClickLoadMoreListener() != null){
+			setSelection(getCount() - 1);
 			getClickLoadMoreListFooter().intoLoadingState();
 			getClickLoadMoreListener().onLoadMore(PullListView.this);
 		}

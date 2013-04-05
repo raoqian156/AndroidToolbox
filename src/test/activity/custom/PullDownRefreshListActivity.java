@@ -12,6 +12,8 @@ import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 /**
  * 下拉刷新列表
@@ -75,5 +77,22 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 			CONTENS[i] = currentTime+"第"+(i+1)+"条"; 
 		}
 		return CONTENS;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.pull_down, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_pullDown_refresh :
+				pullListView.startRefresh();
+				break;
+			default: break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

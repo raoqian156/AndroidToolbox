@@ -11,6 +11,8 @@ import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -88,5 +90,22 @@ public class PullUpLoadMoreListActivity extends MyBaseActivity {
 		}else{
 			button.setText("变多");
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.pull_up, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_pullUp_load :
+				pullListView.startLoadMore();
+				break;
+			default: break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

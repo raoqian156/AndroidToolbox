@@ -11,6 +11,8 @@ import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -88,5 +90,22 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 		}else{
 			button.setText("关闭滚动到底部自动加载");
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.click_load, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_clickLoad_load :
+				pullListView.startClickLoadMore();
+				break;
+			default: break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
