@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
+import com.umeng.analytics.MobclickAgent;
+
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.app.BaseActivity;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
@@ -24,6 +26,19 @@ public abstract class MyBaseActivity extends BaseActivity {
 				getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		}
+		MobclickAgent.onError(this);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 	@Override

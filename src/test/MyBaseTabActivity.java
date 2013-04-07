@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
+import com.umeng.analytics.MobclickAgent;
+
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.app.BaseTabActivity;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
@@ -13,6 +15,7 @@ import test.net.MyResponseHandler;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+@SuppressWarnings("deprecation")
 public abstract class MyBaseTabActivity extends BaseTabActivity {
 
 	@Override
@@ -24,6 +27,19 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 				getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		}
+		MobclickAgent.onError(this);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 	@Override

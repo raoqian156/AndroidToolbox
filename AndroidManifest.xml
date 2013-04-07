@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.xiaopan.androidlibrary"
-    android:versionCode="231"
-    android:versionName="2.3.1" >
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="me.xiaopan.androidlibrary" android:versionCode="231" android:versionName="2.3.1" >
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
     
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -42,41 +38,39 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
              </intent-filter>
         </activity>
-        	<activity android:name="test.activity.animation.AnimationListActivity" android:label="@string/animationList_title"/>
-
-        	<activity android:name="test.activity.custom.CustomEditTextActivity" android:label="@string/customEditText_title"/>
-       		<activity android:name="test.activity.custom.CustomListActivity" android:label="@string/customList_title"/>
-        	<activity android:name="test.activity.custom.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
-        	<activity android:name="test.activity.custom.ReboundListActivity" android:label="@string/reboundList_title"/>
-        	<activity android:name="test.activity.custom.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
-        	<activity android:name="test.activity.custom.PullUpLoadMoreListActivity" android:label="@string/pullUpLoadMoreList_title"/>
-        	<activity android:name="test.activity.custom.PullDownAndUpActivity" android:label="@string/pullDownAndUpList_title"/>
-        	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
-        	<activity android:name="test.activity.custom.PullDownRefreshAndClickLoadMoreActivity" android:label="@string/pullDownRefreshAndClickLoadMoreList_title"/>
-        	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/slideTabHost_title"/>
-
-       		<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/cameraPreview_title"/>
-     		<activity android:name="test.activity.graphics.ClipDrawableActivity" android:label="@string/clipDrawable_title"/>
-     		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/graphicsList_title"/>
-     		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
-			
-    		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/mediaList_title"/>
-    		<activity android:name="test.activity.media.TakePicturesActivity" android:label="@string/takePicture_title" android:screenOrientation="portrait"/>
-       		
-       		<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
-       		<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title" android:screenOrientation="portrait"/>
-       		<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/downloadImage_title"/>
-       		<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
-     		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
-
-        	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/progressBar_title"/>
-        	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
-        	<activity android:name="test.activity.views.TabContentActivity"/>
-        	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/viewPager_title"/>
-       		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
-       		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/fragmentTabHost_title"/>
-     		<activity android:name="test.activity.views.FloatingWindowActivity" android:label="@string/floatingWindow_title"/>
-       		
-       		<service android:name="test.service.FloatingWindowService"/>
+       	<activity android:name="test.activity.animation.AnimationListActivity" android:label="@string/animationList_title"/>
+       	<activity android:name="test.activity.custom.CustomEditTextActivity" android:label="@string/customEditText_title"/>
+    	<activity android:name="test.activity.custom.CustomListActivity" android:label="@string/customList_title"/>
+       	<activity android:name="test.activity.custom.PicturePlayerActivity" android:label="@string/picturePlayer_title"/>
+       	<activity android:name="test.activity.custom.ReboundListActivity" android:label="@string/reboundList_title"/>
+       	<activity android:name="test.activity.custom.PullDownRefreshListActivity" android:label="@string/pullDownRefreshList_title"/>
+       	<activity android:name="test.activity.custom.PullUpLoadMoreListActivity" android:label="@string/pullUpLoadMoreList_title"/>
+       	<activity android:name="test.activity.custom.PullDownAndUpActivity" android:label="@string/pullDownAndUpList_title"/>
+       	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/clickLoadMoreList_title"/>
+       	<activity android:name="test.activity.custom.PullDownRefreshAndClickLoadMoreActivity" android:label="@string/pullDownRefreshAndClickLoadMoreList_title"/>
+       	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/slideTabHost_title"/>
+    	<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/cameraPreview_title"/>
+   		<activity android:name="test.activity.graphics.ClipDrawableActivity" android:label="@string/clipDrawable_title"/>
+   		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/graphicsList_title"/>
+   		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/rotateDrawable_title"/>
+   		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/mediaList_title"/>
+   		<activity android:name="test.activity.media.TakePicturesActivity" android:label="@string/takePicture_title" android:screenOrientation="portrait"/>
+     	<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/accessNetwork_title"/>
+     	<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/barcodeScanner_title" android:screenOrientation="portrait"/>
+     	<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/downloadImage_title"/>
+    	<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/imageLoader_title"/>
+   		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/otherList_title"/>
+       	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/progressBar_title"/>
+       	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
+       	<activity android:name="test.activity.views.TabContentActivity"/>
+      	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/viewPager_title"/>
+   		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
+   		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/fragmentTabHost_title"/>
+  		<activity android:name="test.activity.views.FloatingWindowActivity" android:label="@string/floatingWindow_title"/>
+     		
+    	<service android:name="test.service.FloatingWindowService"/>
+        
+	    <meta-data android:name="UMENG_APPKEY" android:value="51610b7b56240b2228004d73"/>
+    	<meta-data android:name="UMENG_CHANNEL" android:value="GUAN_FANG"/>
     </application>
 </manifest>
