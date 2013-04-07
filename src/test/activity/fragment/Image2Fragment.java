@@ -1,7 +1,7 @@
 package test.activity.fragment;
 
+import me.xiaopan.androidlibrary.app.BaseFragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 /**
  * 图片碎片
  */
-public class Image2Fragment extends Fragment {
+public class Image2Fragment extends BaseFragment {
 	public static final String PARAM_REQUIRED_IMAHE_RES_ID = "PARAM_REQUIRED_IMAHE_RES_ID";
 	
 	@Override

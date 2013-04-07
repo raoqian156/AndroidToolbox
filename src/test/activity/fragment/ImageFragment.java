@@ -1,7 +1,7 @@
 package test.activity.fragment;
 
+import me.xiaopan.androidlibrary.app.BaseFragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 /**
  * 图片碎片
  */
-public class ImageFragment extends Fragment {
+public class ImageFragment extends BaseFragment {
 	private String title;
 	private int resId;
 	
