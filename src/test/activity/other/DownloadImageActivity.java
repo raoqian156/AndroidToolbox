@@ -35,7 +35,7 @@ public class DownloadImageActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		new DownloadImageAsyncTask(this, "http://imgsrc.baidu.com/forum/wh%3D1024%2C768/sign=de1cd357d0a20cf446c5f6de463b7f1a/157d9e2f0708283898ae88c4b899a9014d08f145.jpg", new DownloadImageListener() {
+		new DownloadImageAsyncTask(this, "http://e.hiphotos.baidu.com/album/w%3D2048/sign=4a605579d1160924dc25a51be03f34fa/1f178a82b9014a900a9e7492a8773912b31bee79.jpg", new DownloadImageListener() {
 			@Override
 			public void onStart() {
 				progressBar.setVisibility(View.VISIBLE);

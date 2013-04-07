@@ -3,9 +3,10 @@
     <!-- 正文内容 -->
     <FrameLayout style="@style/base_layout_fill_fill">
 		<ImageView 
-		    style="@style/base_layout_wrap_wrap" 
+		    style="@style/base_layout_fill_fill" 
 		    android:id="@+id/image_downloadImage" 
 		    android:layout_gravity="center" 
+		    android:scaleType="fitCenter"
 		    android:contentDescription="@string/base_image_contentDescription"/>
 		<ProgressBar 
 		    style="@android:style/Widget.ProgressBar.Horizontal" 
