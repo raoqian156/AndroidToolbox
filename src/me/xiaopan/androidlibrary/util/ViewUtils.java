@@ -1,6 +1,9 @@
 package me.xiaopan.androidlibrary.util;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -10,6 +13,7 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -369,5 +373,14 @@ public class ViewUtils {
 	 */
 	public static void visibleViewByAlpha(final View view){
 		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
+	}
+	
+	/**
+	 * 设置输入框的光标到末尾
+	 * @param editText
+	 */
+	public static final void setSelectionToEnd(EditText editText){
+		Editable editable = editText.getEditableText();
+		Selection.setSelection((Spannable) editable, editable.toString().length());
 	}
 }

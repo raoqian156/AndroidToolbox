@@ -559,6 +559,7 @@ public class AndroidUtils {
 		editText.requestFocus();
 		InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+		ViewUtils.setSelectionToEnd(editText);
 	}
 	
 	/**
