@@ -265,14 +265,14 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	 * 设置状态
 	 * @param on 开启还是关闭
 	 */
-	private void setState(boolean on){
+	public void setState(boolean on){
 		setState(on, on?offLeft:onLeft);
 	}
 	
 	/**
 	 * 切换状态
 	 */
-	private void switchState(){
+	public void switchState(){
 		setState(!isOn());
 	}
 }
