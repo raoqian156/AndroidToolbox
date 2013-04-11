@@ -1,27 +1,27 @@
 package test.activity.custom;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.BasePreference;
 import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton;
 import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
 import test.MyBaseActivity;
+import test.widget.Preference;
 import android.os.Bundle;
 
 public class SlidingToggleButtonActivity extends MyBaseActivity {
-	private BasePreference preference;
-	private BasePreference preference1;
-	private BasePreference preference2;
-	private BasePreference preference3;
-	private BasePreference preference4;
+	private Preference preference;
+	private Preference preference1;
+	private Preference preference2;
+	private Preference preference3;
+	private Preference preference4;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.sliding_toggle_button);
-		preference = (BasePreference) findViewById(R.id.preference_slidingToggle);
-		preference1 = (BasePreference) findViewById(R.id.preference_slidingToggle1);
-		preference2 = (BasePreference) findViewById(R.id.preference_slidingToggle2);
-		preference3 = (BasePreference) findViewById(R.id.preference_slidingToggle3);
-		preference4 = (BasePreference) findViewById(R.id.preference_slidingToggle4);
+		preference = (Preference) findViewById(R.id.preference_slidingToggle);
+		preference1 = (Preference) findViewById(R.id.preference_slidingToggle1);
+		preference2 = (Preference) findViewById(R.id.preference_slidingToggle2);
+		preference3 = (Preference) findViewById(R.id.preference_slidingToggle3);
+		preference4 = (Preference) findViewById(R.id.preference_slidingToggle4);
 	}
 
 	@Override
@@ -49,9 +49,9 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 			public void onCheckedChanage(BaseSlidingToggleButton slidingToggleButton, boolean isChecked) {
 				preference2.setSubtitle(isChecked?"开启":"关闭");
 				if(isChecked){
-					preference4.setType(BasePreference.TYPE_NEXT);
+					preference4.setType(Preference.TYPE_NEXT);
 				}else{
-					preference4.setType(BasePreference.TYPE_NONE);
+					preference4.setType(Preference.TYPE_NONE);
 				}
 			}
 		});

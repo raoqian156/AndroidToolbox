@@ -1,10 +1,10 @@
-package me.xiaopan.androidlibrary.widget;
+package test.widget;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.Colors;
+import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton;
 import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
 import me.xiaopan.javalibrary.util.StringUtils;
-import test.widget.SlidingToggleButton;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils.TruncateAt;
@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BasePreference extends LinearLayout{
+public class Preference extends LinearLayout{
 	/**
 	 * 此类型会在选项的右边放置一个箭头
 	 */
@@ -44,14 +44,14 @@ public class BasePreference extends LinearLayout{
 	private int type;
 	private boolean defaultChecked;
 
-	public BasePreference(Context context) {
+	public Preference(Context context) {
 		super(context);
 		init(null);
 	}
 	
-	public BasePreference(Context context, AttributeSet attrs) {
+	public Preference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BasePreference);
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.Preference);
 		init(typedArray);
 		typedArray.recycle();
 	}
@@ -70,7 +70,7 @@ public class BasePreference extends LinearLayout{
 		titleText.setSingleLine();
 		titleText.setEllipsize(TruncateAt.MARQUEE);
 		if(typedArray != null){
-			titleText.setText(typedArray.getString(R.styleable.BasePreference_title));
+			titleText.setText(typedArray.getString(R.styleable.Preference_title));
 		}
 		linearLayout.addView(titleText);
 		
@@ -85,7 +85,7 @@ public class BasePreference extends LinearLayout{
 		subtitleText.setSingleLine();
 		subtitleText.setEllipsize(TruncateAt.END);
 		if(typedArray != null){
-			setSubtitle(typedArray.getString(R.styleable.BasePreference_subtitle));
+			setSubtitle(typedArray.getString(R.styleable.Preference_subtitle));
 		}else{
 			setSubtitle(null);
 		}
@@ -94,12 +94,12 @@ public class BasePreference extends LinearLayout{
 		addView(linearLayout, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.FILL_PARENT, 1));
 		
 		if(typedArray != null){
-			defaultChecked = typedArray.getBoolean(R.styleable.BasePreference_checked, defaultChecked);
+			defaultChecked = typedArray.getBoolean(R.styleable.Preference_checked, defaultChecked);
 		}
 		
 		//设置类型，会根据不同的类型在右边添加不同的视图
 		if(typedArray != null){
-			setType(typedArray.getInt(R.styleable.BasePreference_type, TYPE_NONE));
+			setType(typedArray.getInt(R.styleable.Preference_type, TYPE_NONE));
 		}else{
 			setType(TYPE_NONE);
 		}
