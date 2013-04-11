@@ -16,6 +16,7 @@
 			<string name="slideTab_tab1">选项卡1</string>
 			<string name="slideTab_tab2">选项卡2</string>
 			<string name="slideTab_tab3">选项卡3</string>
+		<string name="slidingToggleButton">滑动开关按钮</string>
 
 	<string name="graphicsList_title">图形</string>
 	    <string name="cameraPreview_title">相机预览</string>

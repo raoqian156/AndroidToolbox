@@ -16,4 +16,25 @@
 	<style name="text_slideTabHost_slideBlock" parent="@style/base_layout_weight_wrap">
 	    <item name="android:background">@color/base_orange_dark</item>
 	</style>
+	
+    <style name="preference_complete">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:background">@drawable/selector_preference_complete</item>
+        <item name="android:clickable">true</item>
+    </style>
+    
+    <style name="preference_header" parent="@style/preference_complete">
+        <item name="android:background">@drawable/selector_preference_header</item>
+    </style>
+    
+    <style name="preference_center" parent="@style/preference_complete">
+        <item name="android:background">@drawable/selector_preference_center</item>
+    </style>
+    
+    <style name="preference_footer" parent="@style/preference_complete">
+        <item name="android:background">@drawable/selector_preference_footer</item>
+    </style>
 </resources>
