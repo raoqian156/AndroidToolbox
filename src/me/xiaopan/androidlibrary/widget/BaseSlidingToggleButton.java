@@ -1,14 +1,12 @@
 package me.xiaopan.androidlibrary.widget;
 
-import me.xiaopan.androidlibrary.R;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -20,8 +18,7 @@ import android.widget.Scroller;
 /**
  * 滑动开关按钮
  */
-@SuppressLint("DrawAllocation")
-public class SlidingToggleButton extends View implements OnGestureListener, OnDoubleTapListener{
+public abstract class BaseSlidingToggleButton extends View implements OnGestureListener, OnDoubleTapListener{
 	private static final int DURATION = 300;
 	private static final int MIN_ROLLING_DISTANCE = 30;//滚动最小生效距离
 	private GestureDetector gestureDetector;//手势识别器
@@ -48,18 +45,61 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	private boolean pendingSetState;//在调用setState()来设置初始状态的时候，如果onLeft字段还没有初始化（在Activity的onCreate()中调用此setState的时候就会出现这种情况），那么就将此字段标记为true，等到在onDraw()方法中初始化onLeft字段是，会检查此字段，如果为true就会再次调用setState()设置初始状态
 	private boolean pendingChecked;//记录默认状态值
 
-	public SlidingToggleButton(Context context) {
+	public BaseSlidingToggleButton(Context context) {
 		super(context);
+		init();
+	}
+	
+	public BaseSlidingToggleButton(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init();
+	}
+	
+	private final void init(){
 		gestureDetector = new GestureDetector(getContext(), this);
 		gestureDetector.setOnDoubleTapListener(this);
-		backgroundNormalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_background_normal);
-		backgroundDisableBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_background_disable);
-		backgroundMaskBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_mask_background);
-		frameBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_frame);
-		sliderNormalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slilder_normal);
-		sliderPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slilder_pressed);
-		sliderDisableBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slilder_disable);
-		sliderMaskBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_mask_slider);
+		
+		backgroundNormalBitmap = onGetBackgroundNormalBitmap();
+		if(backgroundNormalBitmap == null){
+			throw new RuntimeException("onGetBackgroundNormalBitmap() The return value cannot be null");
+		}
+		
+		backgroundDisableBitmap = onGetBackgroundDisableBitmap();
+		if(backgroundDisableBitmap == null){
+			backgroundDisableBitmap = backgroundNormalBitmap;
+		}
+		
+		backgroundMaskBitmap = onGetBackgroundMasklBitmap();
+		if(backgroundMaskBitmap == null){
+			throw new RuntimeException("onGetBackgroundMasklBitmap() The return value cannot be null");
+		}
+		
+		frameBitmap = onGetFrameBitmap();
+		if(frameBitmap == null){
+			throw new RuntimeException("onGetFrameBitmap() The return value cannot be null");
+		}
+		
+		sliderNormalBitmap = onGetSliderNormalBitmap();
+		if(sliderNormalBitmap == null){
+			throw new RuntimeException("onGetSliderNormalBitmap() The return value cannot be null");
+		}
+		
+		sliderPressedBitmap = onGetSliderPressedBitmap();
+		if(sliderPressedBitmap == null){
+			sliderPressedBitmap = sliderNormalBitmap;
+		}
+		
+		
+		sliderDisableBitmap = onGetSliderDisableBitmap();
+		if(sliderDisableBitmap == null){
+			sliderDisableBitmap = sliderNormalBitmap;
+		}
+		
+		sliderMaskBitmap = onGetSliderMaskBitmap();
+		if(sliderMaskBitmap == null){
+			throw new RuntimeException("onGetSliderMaskBitmap() The return value cannot be null");
+		}
+		
 		paint = new Paint();
 		paint.setFilterBitmap(false);
 		porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
@@ -314,11 +354,64 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 		setChecked(!isChecked());
 	}
 	
+	/**
+	 * 设置选中状态改变监听器
+	 * @param onCheckedChanageListener 选中状态改变监听器
+	 */
 	public void setOnCheckedChanageListener(OnCheckedChanageListener onCheckedChanageListener) {
 		this.onCheckedChanageListener = onCheckedChanageListener;
 	}
 
+	/**
+	 * 选中状态改变监听器
+	 */
 	public interface OnCheckedChanageListener{
-		public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked);
+		/**
+		 * 当选中状态发生改变
+		 * @param slidingToggleButton
+		 * @param isChecked 是否选中
+		 */
+		public void onCheckedChanage(BaseSlidingToggleButton slidingToggleButton, boolean isChecked);
 	}
+	
+	/**
+	 * 获取正常状态时的背景图片
+	 * @return
+	 */
+	public abstract Bitmap onGetBackgroundNormalBitmap();
+	/**
+	 * 获取禁用状态时的背景图片
+	 * @return
+	 */
+	public abstract Bitmap onGetBackgroundDisableBitmap();
+	/**
+	 * 获取背景遮罩图片
+	 * @return
+	 */
+	public abstract Bitmap onGetBackgroundMasklBitmap();
+	/**
+	 * 获取框架图片
+	 * @return
+	 */
+	public abstract Bitmap onGetFrameBitmap();
+	/**
+	 * 获取正常状态时的滑块图片
+	 * @return
+	 */
+	public abstract Bitmap onGetSliderNormalBitmap();
+	/**
+	 * 获取按下状态时的滑块图片
+	 * @return
+	 */
+	public abstract Bitmap onGetSliderPressedBitmap();
+	/**
+	 * 获取禁用状态时的滑块图片
+	 * @return
+	 */
+	public abstract Bitmap onGetSliderDisableBitmap();
+	/**
+	 * 获取滑块遮罩图片
+	 * @return
+	 */
+	public abstract Bitmap onGetSliderMaskBitmap();
 }

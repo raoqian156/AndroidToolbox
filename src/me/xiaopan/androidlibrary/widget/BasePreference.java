@@ -2,8 +2,9 @@ package me.xiaopan.androidlibrary.widget;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.Colors;
-import me.xiaopan.androidlibrary.widget.SlidingToggleButton.OnCheckedChanageListener;
+import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
 import me.xiaopan.javalibrary.util.StringUtils;
+import test.widget.SlidingToggleButton;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils.TruncateAt;
@@ -16,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Preference extends LinearLayout{
+public class BasePreference extends LinearLayout{
 	/**
 	 * 此类型会在选项的右边放置一个箭头
 	 */
@@ -34,7 +35,7 @@ public class Preference extends LinearLayout{
 	private TextView subtitleText;
 	private ImageButton nextImageButton;
 	private ImageView arrowImage;
-	private SlidingToggleButton slidingToggleButton;
+	private BaseSlidingToggleButton slidingToggleButton;
 	private boolean init;
 	private boolean clickSwitchToggleState = true;
 	private OnClickListener onNextButtonClickListener;
@@ -43,10 +44,20 @@ public class Preference extends LinearLayout{
 	private int type;
 	private boolean defaultChecked;
 
-	public Preference(Context context, AttributeSet attrs) {
+	public BasePreference(Context context) {
+		super(context);
+		init(null);
+	}
+	
+	public BasePreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BasePreference);
+		init(typedArray);
+		typedArray.recycle();
+	}
+	
+	private void init(TypedArray typedArray){
 		setGravity(Gravity.CENTER_VERTICAL);
-		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.Preference);
 		
 		LinearLayout linearLayout = new LinearLayout(getContext());
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -58,7 +69,9 @@ public class Preference extends LinearLayout{
 		titleText.setTextColor(getContext().getResources().getColor(R.color.base_black));
 		titleText.setSingleLine();
 		titleText.setEllipsize(TruncateAt.MARQUEE);
-		titleText.setText(typedArray.getString(R.styleable.Preference_title));
+		if(typedArray != null){
+			titleText.setText(typedArray.getString(R.styleable.BasePreference_title));
+		}
 		linearLayout.addView(titleText);
 		
 		//间隔
@@ -66,22 +79,30 @@ public class Preference extends LinearLayout{
 		linearLayout.addView(space, new LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 7));
 		
 		//副标题
-		subtitleText = new TextView(context);
+		subtitleText = new TextView(getContext());
 		subtitleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.base_textSize_littleSmall));
 		subtitleText.setTextColor(getContext().getResources().getColor(R.color.base_gray_dark));
 		subtitleText.setSingleLine();
 		subtitleText.setEllipsize(TruncateAt.END);
-		setSubtitle(typedArray.getString(R.styleable.Preference_subtitle));
+		if(typedArray != null){
+			setSubtitle(typedArray.getString(R.styleable.BasePreference_subtitle));
+		}else{
+			setSubtitle(null);
+		}
 		linearLayout.addView(subtitleText);
 		
 		addView(linearLayout, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.FILL_PARENT, 1));
 		
-		defaultChecked = typedArray.getBoolean(R.styleable.Preference_checked, defaultChecked);
+		if(typedArray != null){
+			defaultChecked = typedArray.getBoolean(R.styleable.BasePreference_checked, defaultChecked);
+		}
 		
 		//设置类型，会根据不同的类型在右边添加不同的视图
-		setType(typedArray.getInt(R.styleable.Preference_type, TYPE_NONE));
-		
-		typedArray.recycle();
+		if(typedArray != null){
+			setType(typedArray.getInt(R.styleable.BasePreference_type, TYPE_NONE));
+		}else{
+			setType(TYPE_NONE);
+		}
 		
 		//设置点击监听器
 		init = true;
@@ -196,7 +217,7 @@ public class Preference extends LinearLayout{
 					slidingToggleButton = new SlidingToggleButton(getContext());
 					slidingToggleButton.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 						@Override
-						public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+						public void onCheckedChanage(BaseSlidingToggleButton slidingToggleButton, boolean isOn) {
 							if(onCheckedChanageListener != null){
 								onCheckedChanageListener.onCheckedChanage(slidingToggleButton, isOn);
 							}

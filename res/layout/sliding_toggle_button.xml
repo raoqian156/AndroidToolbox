@@ -2,15 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body" xmlns:app="http://schemas.android.com/apk/res/me.xiaopan.androidlibrary">
     <ScrollView style="@style/base_layout_fill_fill">
         <LinearLayout style="@style/comm_layout_body_content_topPadding">
-            <me.xiaopan.androidlibrary.widget.Preference style="@style/preference_complete" android:id="@+id/preference_slidingToggle" app:title="允许推送" app:type="toggle"/>
+            <me.xiaopan.androidlibrary.widget.BasePreference style="@style/preference_complete" android:id="@+id/preference_slidingToggle" app:title="允许推送" app:type="toggle"/>
             
             <include layout="@layout/comm_space"/>
             <include layout="@layout/comm_space"/>
             
-            <me.xiaopan.androidlibrary.widget.Preference style="@style/preference_header" android:id="@+id/preference_slidingToggle1" app:checked="true" app:title="推送每日要闻" app:type="toggle"/>
-            <me.xiaopan.androidlibrary.widget.Preference style="@style/preference_center" android:id="@+id/preference_slidingToggle2" app:title="推送离线消息" app:type="toggle"/>
-            <me.xiaopan.androidlibrary.widget.Preference style="@style/preference_center" android:id="@+id/preference_slidingToggle3" app:checked="true" app:title="推送广告" app:type="toggle"/>
-            <me.xiaopan.androidlibrary.widget.Preference style="@style/preference_footer" android:id="@+id/preference_slidingToggle4" app:title="推送天气预报" app:type="toggle"/>
+            <me.xiaopan.androidlibrary.widget.BasePreference style="@style/preference_header" android:id="@+id/preference_slidingToggle1" app:checked="true" app:title="推送每日要闻" app:type="toggle"/>
+            <me.xiaopan.androidlibrary.widget.BasePreference style="@style/preference_center" android:id="@+id/preference_slidingToggle2" app:title="推送离线消息" app:type="toggle"/>
+            <me.xiaopan.androidlibrary.widget.BasePreference style="@style/preference_center" android:id="@+id/preference_slidingToggle3" app:checked="true" app:title="推送广告" app:type="toggle"/>
+            <me.xiaopan.androidlibrary.widget.BasePreference style="@style/preference_footer" android:id="@+id/preference_slidingToggle4" app:title="推送天气预报" app:type="toggle"/>
         </LinearLayout>
     </ScrollView>
     
