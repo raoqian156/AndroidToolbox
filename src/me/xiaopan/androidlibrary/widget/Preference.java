@@ -2,6 +2,7 @@ package me.xiaopan.androidlibrary.widget;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.util.Colors;
+import me.xiaopan.androidlibrary.widget.SlidingToggleButton.OnStateChanageListener;
 import me.xiaopan.javalibrary.util.StringUtils;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -22,11 +23,14 @@ public class Preference extends LinearLayout{
 	private TextView titleText;
 	private TextView space;
 	private TextView subtitleText;
+	private ImageButton nextImageButton;
+	private ImageView arrowImage;
 	private SlidingToggleButton slidingToggleButton;
 	private boolean init;
 	private boolean clickSwitchToggleState = true;
 	private OnClickListener onNextButtonClickListener;
 	private OnClickListener onPreferenceClickListener;
+	private OnStateChanageListener onToggleStateChanageListener;
 	private int type;
 
 	public Preference(Context context, AttributeSet attrs) {
@@ -57,18 +61,26 @@ public class Preference extends LinearLayout{
 		subtitleText.setTextColor(getContext().getResources().getColor(R.color.base_gray_dark));
 		subtitleText.setSingleLine();
 		subtitleText.setEllipsize(TruncateAt.END);
-		subtitleText.setText(typedArray.getString(R.styleable.Preference_subtitle));
+		setSubtitle(typedArray.getString(R.styleable.Preference_subtitle));
 		linearLayout.addView(subtitleText);
-		referesh();
 		
 		addView(linearLayout, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.FILL_PARENT, 1));
 		
 		switch(type = typedArray.getInt(R.styleable.Preference_type, TYPE_NONE)){
 			case TYPE_TOGGLE : 
-				addView(slidingToggleButton = new SlidingToggleButton(getContext()));
+				slidingToggleButton = new SlidingToggleButton(getContext());
+				slidingToggleButton.setOnStateChanageListener(new OnStateChanageListener() {
+					@Override
+					public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+						if(onToggleStateChanageListener != null){
+							onToggleStateChanageListener.onStateChanage(slidingToggleButton, isOn);
+						}
+					}
+				});
+				addView(slidingToggleButton);
 				break;
 			case TYPE_NEXT : 
-				ImageButton nextImageButton = new ImageButton(getContext());
+				nextImageButton = new ImageButton(getContext());
 				nextImageButton.setBackgroundColor(Colors.TRANSPARENT);
 				nextImageButton.setImageResource(R.drawable.selector_btn_preference_next);
 				nextImageButton.setOnClickListener(new OnClickListener() {
@@ -83,7 +95,7 @@ public class Preference extends LinearLayout{
 				break;
 			default : 
 				//箭头
-				ImageView arrowImage = new ImageView(getContext());
+				arrowImage = new ImageView(getContext());
 				arrowImage.setImageResource(R.drawable.ic_arrow_right);
 				addView(arrowImage);
 				break;
@@ -117,16 +129,28 @@ public class Preference extends LinearLayout{
 		}
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		switch(type){
+			case TYPE_TOGGLE : 
+				slidingToggleButton.setEnabled(enabled);
+				break;
+			case TYPE_NEXT : 
+				nextImageButton.setEnabled(enabled);
+				break;
+			default : 
+				arrowImage.setEnabled(enabled);
+				break;
+		}
+	}
+
 	public void setTitle(String title){
 		titleText.setText(title);
 	}
 	
-	public void setSubtitle(String intro){
-		subtitleText.setText(intro);
-		referesh();
-	}
-	
-	private void referesh(){
+	public void setSubtitle(String subtitle){
+		subtitleText.setText(subtitle);
 		//刷新副标题
 		if(StringUtils.isNotNullAndEmpty((String) subtitleText.getText())){
 			subtitleText.setVisibility(View.VISIBLE);
@@ -136,13 +160,22 @@ public class Preference extends LinearLayout{
 			space.setVisibility(View.GONE);
 		}
 	}
+	
+	public boolean isOn(){
+		return slidingToggleButton != null?slidingToggleButton.isOn():false;
+	}
+	
+	public void setOn(boolean on){
+		if(slidingToggleButton != null){
+			slidingToggleButton.setState(on);
+		}
+	}
 
 	public OnClickListener getOnNextButtonClickListener() {
 		return onNextButtonClickListener;
 	}
 
-	public void setOnNextButtonClickListener(
-			OnClickListener onNextButtonClickListener) {
+	public void setOnNextButtonClickListener(OnClickListener onNextButtonClickListener) {
 		this.onNextButtonClickListener = onNextButtonClickListener;
 	}
 
@@ -152,5 +185,13 @@ public class Preference extends LinearLayout{
 
 	public void setClickSwitchToggleState(boolean clickSwitchToggleState) {
 		this.clickSwitchToggleState = clickSwitchToggleState;
+	}
+
+	public OnStateChanageListener getOnToggleStateChanageListener() {
+		return onToggleStateChanageListener;
+	}
+
+	public void setOnToggleStateChanageListener( OnStateChanageListener onToggleStateChanageListener) {
+		this.onToggleStateChanageListener = onToggleStateChanageListener;
 	}
 }

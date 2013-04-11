@@ -2,8 +2,10 @@ package test.activity.custom;
 
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.Preference;
-import android.os.Bundle;
+import me.xiaopan.androidlibrary.widget.SlidingToggleButton;
+import me.xiaopan.androidlibrary.widget.SlidingToggleButton.OnStateChanageListener;
 import test.MyBaseActivity;
+import android.os.Bundle;
 
 public class SlidingToggleButtonActivity extends MyBaseActivity {
 	private Preference preference;
@@ -24,11 +26,52 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitListener(Bundle savedInstanceState) {
-
+		preference.setOnToggleStateChanageListener(new OnStateChanageListener() {
+			@Override
+			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+				preference1.setEnabled(isOn);
+				preference2.setEnabled(isOn);
+				preference3.setEnabled(isOn);
+				preference4.setEnabled(isOn);
+				preference.setSubtitle(isOn?"开启":"关闭");
+			}
+		});
+		
+		preference1.setOnToggleStateChanageListener(new OnStateChanageListener() {
+			@Override
+			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+				preference1.setSubtitle(isOn?"开启":"关闭");
+			}
+		});
+		
+		preference2.setOnToggleStateChanageListener(new OnStateChanageListener() {
+			@Override
+			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+				preference2.setSubtitle(isOn?"开启":"关闭");
+			}
+		});
+		
+		preference3.setOnToggleStateChanageListener(new OnStateChanageListener() {
+			@Override
+			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+				preference3.setSubtitle(isOn?"开启":"关闭");
+			}
+		});
+		
+		preference4.setOnToggleStateChanageListener(new OnStateChanageListener() {
+			@Override
+			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
+				preference4.setSubtitle(isOn?"开启":"关闭");
+			}
+		});
 	}
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-	
+		preference.setOn(true);
+		preference1.setOn(true);
+		preference2.setOn(true);
+		preference3.setOn(true);
+		preference4.setOn(true);
 	}
 }
