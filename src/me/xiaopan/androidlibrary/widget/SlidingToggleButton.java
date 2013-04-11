@@ -36,17 +36,17 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	private Bitmap sliderMaskBitmap;//滑块遮罩图片
 	private Paint paint;//颜料
 	private PorterDuffXfermode porterDuffXfermode;//遮罩类型
-	private boolean on;//状态，true：开启；false：关闭
-	private int left;//背景图以及滑块图的X坐标
-	private int onLeft;//当状态为开启时背景图以及滑块图的X坐标
-	private int offLeft;//当状态为关闭时背景图以及滑块图的X坐标
+	private boolean checked;//状态，true：开启；false：关闭
+	private int currentLeft;//当前背景图以及滑块图的X坐标
+	private int checkedLeft;//当状态为开启时背景图以及滑块图的X坐标
+	private int uncheckedLeft;//当状态为关闭时背景图以及滑块图的X坐标
 	private int scrollDistanceCount;//滚动距离计数器
 	private boolean needHandle;//当在一组时件中发生了滚动操作时，在弹起或者取消的时候就需要根据滚动的距离来切换状态或者回滚
 	private boolean down;//是否按下，用来在弹起的时候，恢复背景图以及滑块的状态
-	private boolean isEnabled;//是否可用，表示当前视图的激活状态
-	private OnStateChanageListener onStateChanageListener;//状态改变监听器
+	private boolean enabled;//是否可用，表示当前视图的激活状态
+	private OnCheckedChanageListener onCheckedChanageListener;//状态改变监听器
 	private boolean pendingSetState;//在调用setState()来设置初始状态的时候，如果onLeft字段还没有初始化（在Activity的onCreate()中调用此setState的时候就会出现这种情况），那么就将此字段标记为true，等到在onDraw()方法中初始化onLeft字段是，会检查此字段，如果为true就会再次调用setState()设置初始状态
-	private boolean pendingOn;//记录默认状态值
+	private boolean pendingChecked;//记录默认状态值
 
 	public SlidingToggleButton(Context context) {
 		super(context);
@@ -64,25 +64,25 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 		paint.setFilterBitmap(false);
 		porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
 		scroller = new Scroller(getContext(), new AccelerateDecelerateInterpolator());
+		enabled = isEnabled();
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if(onLeft == 0){
-			onLeft = -1 * (backgroundNormalBitmap.getWidth() - getWidth());
+		//初始化当开启时的Left值
+		if(checkedLeft == 0){
+			checkedLeft = -1 * (backgroundNormalBitmap.getWidth() - getWidth());
 			if(pendingSetState){
 				pendingSetState = false;
-				setState(pendingOn, 0);
+				setChecked(pendingChecked, 0);
 			}
 		}
-		
-		isEnabled = isEnabled();
 		
 		//创建一个新的全透明图层，大小同当前视图的大小一样
         canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG | Canvas.CLIP_TO_LAYER_SAVE_FLAG);
         
         //绘制背景层
-        canvas.drawBitmap(isEnabled?backgroundNormalBitmap:backgroundDisableBitmap, left, 0, paint);
+        canvas.drawBitmap(enabled?backgroundNormalBitmap:backgroundDisableBitmap, currentLeft, 0, paint);
         paint.setXfermode(porterDuffXfermode);
         canvas.drawBitmap(backgroundMaskBitmap, 0, 0, paint);
         paint.setXfermode(null);
@@ -91,10 +91,10 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
         canvas.drawBitmap(frameBitmap, 0, 0, paint);
 
         //绘制滑块层
-        if(isEnabled){
-        	canvas.drawBitmap(down?sliderPressedBitmap:sliderNormalBitmap, left, 0, paint);
+        if(enabled){
+        	canvas.drawBitmap(down?sliderPressedBitmap:sliderNormalBitmap, currentLeft, 0, paint);
         }else{
-        	canvas.drawBitmap(sliderDisableBitmap, left, 0, paint);
+        	canvas.drawBitmap(sliderDisableBitmap, currentLeft, 0, paint);
         }
         paint.setXfermode(porterDuffXfermode);
         canvas.drawBitmap(sliderMaskBitmap, 0, 0, paint);
@@ -146,14 +146,14 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	@Override
 	public void computeScroll() {
 		if(scroller.computeScrollOffset()){
-			left = scroller.getCurrX();
+			currentLeft = scroller.getCurrX();
 			invalidate();
 		}
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(isEnabled()){
+		if(enabled){
 			gestureDetector.onTouchEvent(event);
 			//如果允许处理,并且当前事件使弹起或者取消
 			if(event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP){
@@ -165,9 +165,9 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 				if(needHandle){
 					//如果本次滚动的距离超过的最小生效距离，就切换状态，否则就回滚
 					if(Math.abs(scrollDistanceCount) >= MIN_ROLLING_DISTANCE){
-						setState(scrollDistanceCount > 0, left, DURATION);
+						setChecked(scrollDistanceCount > 0, currentLeft, DURATION);
 					}else{
-						setState(isOn(), left, DURATION);
+						setChecked(isChecked(), currentLeft, DURATION);
 					}
 					needHandle = false;
 				}
@@ -191,7 +191,7 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
-		switchState();
+		toggle();
 		return true;
 	}
 
@@ -199,11 +199,11 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		needHandle = true;
 		scrollDistanceCount += distanceX;
-		left -= distanceX;
-		if(left >= offLeft){
-			left = offLeft;
-		}else if(left <= onLeft){
-			left = onLeft;
+		currentLeft -= distanceX;
+		if(currentLeft >= uncheckedLeft){
+			currentLeft = uncheckedLeft;
+		}else if(currentLeft <= checkedLeft){
+			currentLeft = checkedLeft;
 		}
 		invalidate();
 		return true;
@@ -216,7 +216,7 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		needHandle = false;
-		setState(e2.getX() < e1.getX(), left, DURATION);
+		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION);
 		return true;
 	}
 
@@ -234,13 +234,15 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
    public boolean onDoubleTapEvent(MotionEvent e) {
         return true;
    }
-
-	public boolean isOn() {
-		return on;
+   
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		this.enabled = enabled;
 	}
-	
-	public void setOn(boolean on) {
-		this.on = on;
+
+	public boolean isChecked() {
+		return checked;
 	}
 	
 	/**
@@ -262,16 +264,16 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	 * @param startX 开始滚动的位置
 	 * @param duration 持续时间
 	 */
-	private void setState(boolean on, int startX, int duration){
-		setOn(on);
+	private void setChecked(boolean on, int startX, int duration){
+		this.checked = on;
 		//如果是要开启
-		if(isOn()){
-			scroll(startX, onLeft, duration);
+		if(isChecked()){
+			scroll(startX, checkedLeft, duration);
 		}else{
-			scroll(startX, offLeft, duration);
+			scroll(startX, uncheckedLeft, duration);
 		}
-		if(onStateChanageListener != null){
-			onStateChanageListener.onStateChanage(this, isOn());
+		if(onCheckedChanageListener != null){
+			onCheckedChanageListener.onCheckedChanage(this, isChecked());
 		}
 	}
 	
@@ -280,12 +282,12 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	 * @param on 开启还是关闭
 	 * @param duration 持续时间
 	 */
-	public void setState(boolean on, int duration){
-		if(onLeft == 0){
+	public void setChecked(boolean on, int duration){
+		if(checkedLeft == 0){
 			pendingSetState = true;
-			pendingOn = on;
+			pendingChecked = on;
 		}else{
-			setState(on, on?offLeft:onLeft, duration);
+			setChecked(on, on?uncheckedLeft:checkedLeft, duration);
 		}
 	}
 	
@@ -293,34 +295,30 @@ public class SlidingToggleButton extends View implements OnGestureListener, OnDo
 	 * 设置状态
 	 * @param on 开启还是关闭
 	 */
-	public void setState(boolean on){
-		setState(on, DURATION);
+	public void setChecked(boolean on){
+		setChecked(on, DURATION);
 	}
 	
 	/**
 	 * 切换状态
 	 * @param duration 持续时间
 	 */
-	public void switchState(int duration){
-		setState(!isOn(), duration);
+	public void toggle(int duration){
+		setChecked(!isChecked(), duration);
 	}
 	
 	/**
 	 * 切换状态
 	 */
-	public void switchState(){
-		setState(!isOn());
+	public void toggle(){
+		setChecked(!isChecked());
 	}
 	
-	public OnStateChanageListener getOnStateChanageListener() {
-		return onStateChanageListener;
+	public void setOnCheckedChanageListener(OnCheckedChanageListener onCheckedChanageListener) {
+		this.onCheckedChanageListener = onCheckedChanageListener;
 	}
 
-	public void setOnStateChanageListener(OnStateChanageListener onStateChanageListener) {
-		this.onStateChanageListener = onStateChanageListener;
-	}
-
-	public interface OnStateChanageListener{
-		public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn);
+	public interface OnCheckedChanageListener{
+		public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked);
 	}
 }

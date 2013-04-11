@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.umeng.analytics.MobclickAgent;
-
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.app.BaseTabActivity;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
@@ -14,6 +12,8 @@ import me.xiaopan.androidlibrary.net.Response;
 import test.net.MyResponseHandler;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.umeng.analytics.MobclickAgent;
 
 @SuppressWarnings("deprecation")
 public abstract class MyBaseTabActivity extends BaseTabActivity {

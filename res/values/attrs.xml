@@ -8,5 +8,6 @@
             <enum name="next" value="2"/>
             <enum name="toggle" value="3"/>
         </attr>
+        <attr name="checked" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -3,7 +3,7 @@ package test.activity.custom;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.widget.Preference;
 import me.xiaopan.androidlibrary.widget.SlidingToggleButton;
-import me.xiaopan.androidlibrary.widget.SlidingToggleButton.OnStateChanageListener;
+import me.xiaopan.androidlibrary.widget.SlidingToggleButton.OnCheckedChanageListener;
 import test.MyBaseActivity;
 import android.os.Bundle;
 
@@ -26,52 +26,52 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitListener(Bundle savedInstanceState) {
-		preference.setOnToggleStateChanageListener(new OnStateChanageListener() {
+		preference.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 			@Override
-			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
-				preference1.setEnabled(isOn);
-				preference2.setEnabled(isOn);
-				preference3.setEnabled(isOn);
-				preference4.setEnabled(isOn);
-				preference.setSubtitle(isOn?"开启":"关闭");
+			public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked) {
+				preference1.setEnabled(isChecked);
+				preference2.setEnabled(isChecked);
+				preference3.setEnabled(isChecked);
+				preference4.setEnabled(isChecked);
+				preference.setSubtitle(isChecked?"开启":"关闭");
 			}
 		});
 		
-		preference1.setOnToggleStateChanageListener(new OnStateChanageListener() {
+		preference1.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 			@Override
-			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
-				preference1.setSubtitle(isOn?"开启":"关闭");
+			public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked) {
+				preference1.setSubtitle(isChecked?"开启":"关闭");
 			}
 		});
 		
-		preference2.setOnToggleStateChanageListener(new OnStateChanageListener() {
+		preference2.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 			@Override
-			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
-				preference2.setSubtitle(isOn?"开启":"关闭");
+			public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked) {
+				preference2.setSubtitle(isChecked?"开启":"关闭");
+				if(isChecked){
+					preference4.setType(Preference.TYPE_NEXT);
+				}else{
+					preference4.setType(Preference.TYPE_NONE);
+				}
 			}
 		});
 		
-		preference3.setOnToggleStateChanageListener(new OnStateChanageListener() {
+		preference3.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 			@Override
-			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
-				preference3.setSubtitle(isOn?"开启":"关闭");
+			public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked) {
+				preference3.setSubtitle(isChecked?"开启":"关闭");
 			}
 		});
 		
-		preference4.setOnToggleStateChanageListener(new OnStateChanageListener() {
+		preference4.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 			@Override
-			public void onStateChanage(SlidingToggleButton slidingToggleButton, boolean isOn) {
-				preference4.setSubtitle(isOn?"开启":"关闭");
+			public void onCheckedChanage(SlidingToggleButton slidingToggleButton, boolean isChecked) {
+				preference4.setSubtitle(isChecked?"开启":"关闭");
 			}
 		});
 	}
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		preference.setOn(true);
-		preference1.setOn(true);
-		preference2.setOn(true);
-		preference3.setOn(true);
-		preference4.setOn(true);
 	}
 }
