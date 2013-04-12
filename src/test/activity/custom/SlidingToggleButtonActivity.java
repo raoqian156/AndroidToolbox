@@ -48,11 +48,6 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 			@Override
 			public void onCheckedChanage(BaseSlidingToggleButton slidingToggleButton, boolean isChecked) {
 				preference2.setSubtitle(isChecked?"开启":"关闭");
-				if(isChecked){
-					preference4.setType(Preference.TYPE_NEXT);
-				}else{
-					preference4.setType(Preference.TYPE_NONE);
-				}
 			}
 		});
 		

@@ -23,9 +23,9 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	private static final int MIN_ROLLING_DISTANCE = 30;//滚动最小生效距离
 	private GestureDetector gestureDetector;//手势识别器
 	private Scroller scroller;//滚动器
-	private Bitmap backgroundNormalBitmap;//正常状态时的背景图片
-	private Bitmap backgroundDisableBitmap;//禁用状态时的背景图片
-	private Bitmap backgroundMaskBitmap;//北京遮罩图片
+	private Bitmap stateNormalBitmap;//正常状态时的状态图片
+	private Bitmap stateDisableBitmap;//禁用状态时的状态图片
+	private Bitmap stateMaskBitmap;//状态遮罩图片
 	private Bitmap frameBitmap;//框架图片
 	private Bitmap sliderNormalBitmap;//正常状态时的滑块图片
 	private Bitmap sliderPressedBitmap;//按下状态时的滑块图片
@@ -34,15 +34,15 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	private Paint paint;//颜料
 	private PorterDuffXfermode porterDuffXfermode;//遮罩类型
 	private boolean checked;//状态，true：开启；false：关闭
-	private int currentLeft;//当前背景图以及滑块图的X坐标
-	private int checkedLeft;//当状态为开启时背景图以及滑块图的X坐标
-	private int uncheckedLeft;//当状态为关闭时背景图以及滑块图的X坐标
+	private int currentLeft;//当前状态图以及滑块图的X坐标
+	private int checkedLeft;//当状态为开启时状态图以及滑块图的X坐标
+	private int uncheckedLeft;//当状态为关闭时状态图以及滑块图的X坐标
 	private int scrollDistanceCount;//滚动距离计数器
 	private boolean needHandle;//当在一组时件中发生了滚动操作时，在弹起或者取消的时候就需要根据滚动的距离来切换状态或者回滚
-	private boolean down;//是否按下，用来在弹起的时候，恢复背景图以及滑块的状态
+	private boolean down;//是否按下，用来在弹起的时候，恢复状态图以及滑块的状态
 	private boolean enabled;//是否可用，表示当前视图的激活状态
 	private OnCheckedChanageListener onCheckedChanageListener;//状态改变监听器
-	private boolean pendingSetState;//在调用setState()来设置初始状态的时候，如果onLeft字段还没有初始化（在Activity的onCreate()中调用此setState的时候就会出现这种情况），那么就将此字段标记为true，等到在onDraw()方法中初始化onLeft字段是，会检查此字段，如果为true就会再次调用setState()设置初始状态
+	private boolean pendingSetState;//在调用setState()来设置初始状态的时候，如果onLeft字段还没有初始化（在Activity的onCreate()中调用此setState的时候就会出现这种情况），那么就将此字段标记为true，等到在onDraw()方法中初始化onLeft字段时，会检查此字段，如果为true就会再次调用setState()设置初始状态
 	private boolean pendingChecked;//记录默认状态值
 
 	public BaseSlidingToggleButton(Context context) {
@@ -59,19 +59,19 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 		gestureDetector = new GestureDetector(getContext(), this);
 		gestureDetector.setOnDoubleTapListener(this);
 		
-		backgroundNormalBitmap = onGetBackgroundNormalBitmap();
-		if(backgroundNormalBitmap == null){
-			throw new RuntimeException("onGetBackgroundNormalBitmap() The return value cannot be null");
+		stateNormalBitmap = onGetStateNormalBitmap();
+		if(stateNormalBitmap == null){
+			throw new RuntimeException("onGetStateNormalBitmap() The return value cannot be null");
 		}
 		
-		backgroundDisableBitmap = onGetBackgroundDisableBitmap();
-		if(backgroundDisableBitmap == null){
-			backgroundDisableBitmap = backgroundNormalBitmap;
+		stateDisableBitmap = onGetStateDisableBitmap();
+		if(stateDisableBitmap == null){
+			stateDisableBitmap = stateNormalBitmap;
 		}
 		
-		backgroundMaskBitmap = onGetBackgroundMasklBitmap();
-		if(backgroundMaskBitmap == null){
-			throw new RuntimeException("onGetBackgroundMasklBitmap() The return value cannot be null");
+		stateMaskBitmap = onGetStateMaskBitmap();
+		if(stateMaskBitmap == null){
+			throw new RuntimeException("onGetStateMasklBitmap() The return value cannot be null");
 		}
 		
 		frameBitmap = onGetFrameBitmap();
@@ -109,23 +109,24 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		//初始化当开启时的Left值
+		//初始化状态为开启时状态图以及滑块图的X坐标
 		if(checkedLeft == 0){
-			checkedLeft = -1 * (backgroundNormalBitmap.getWidth() - getWidth());
+			checkedLeft = -1 * (stateNormalBitmap.getWidth() - frameBitmap.getWidth());//选中时的X坐标就是状态层的宽度减去框架层的宽度的负值
+			//如果有需要设置的状态
 			if(pendingSetState){
 				pendingSetState = false;
 				setChecked(pendingChecked, 0);
 			}
 		}
 		
-		//创建一个新的全透明图层，大小同当前视图的大小一样
+		//创建一个新的全透明图层，大小同当前视图的大小一样，这一步绝对不可缺少，要不然最周绘制出来的图片背景会是黑色的
         canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG | Canvas.CLIP_TO_LAYER_SAVE_FLAG);
         
-        //绘制背景层
-        canvas.drawBitmap(enabled?backgroundNormalBitmap:backgroundDisableBitmap, currentLeft, 0, paint);
+        //绘制状态层
+        canvas.drawBitmap(enabled?stateNormalBitmap:stateDisableBitmap, currentLeft, 0, paint);
         paint.setXfermode(porterDuffXfermode);
-        canvas.drawBitmap(backgroundMaskBitmap, 0, 0, paint);
-        paint.setXfermode(null);
+        canvas.drawBitmap(stateMaskBitmap, 0, 0, paint);//使用遮罩模式只显示状态层中和状态遮罩重合的部分
+        paint.setXfermode(null);//因为是共用一个Paint，所以要立马清除掉遮罩效果
         
         //绘制框架层
         canvas.drawBitmap(frameBitmap, 0, 0, paint);
@@ -137,8 +138,8 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
         	canvas.drawBitmap(sliderDisableBitmap, currentLeft, 0, paint);
         }
         paint.setXfermode(porterDuffXfermode);
-        canvas.drawBitmap(sliderMaskBitmap, 0, 0, paint);
-        paint.setXfermode(null);
+        canvas.drawBitmap(sliderMaskBitmap, 0, 0, paint);//使用遮罩模式只显示滑块层中和滑块遮罩重合的部分
+        paint.setXfermode(null);//因为是共用一个Paint，所以要立马清除掉遮罩效果
         
         //合并图层
         canvas.restore();
@@ -185,6 +186,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	
 	@Override
 	public void computeScroll() {
+		//如果正处于滚动中那么就更改X坐标并刷新
 		if(scroller.computeScrollOffset()){
 			currentLeft = scroller.getCurrX();
 			invalidate();
@@ -194,14 +196,18 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(enabled){
+			//先经过手势识别器的处理
 			gestureDetector.onTouchEvent(event);
-			//如果允许处理,并且当前事件使弹起或者取消
+			
+			//如果当前事件使弹起或者取消
 			if(event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP){
+				//如果之前发生了按下事件，那么此时一定要恢复显示的滑块图片为正常状态时的图片
 				if(down){
 					down = false;
 					invalidate();
 				}
 				
+				//如果本次事件中发生了滑动，那么此时需要判断是否需要切换状态还是需要回滚到原来的位置
 				if(needHandle){
 					//如果本次滚动的距离超过的最小生效距离，就切换状态，否则就回滚
 					if(Math.abs(scrollDistanceCount) >= MIN_ROLLING_DISTANCE){
@@ -220,6 +226,8 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	public boolean onDown(MotionEvent e) {
 		scrollDistanceCount = 0;
 		needHandle = false;
+		
+		//切换滑块图片的状态
 		down = true;
 		invalidate();
 		return true;
@@ -237,9 +245,10 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		needHandle = true;
-		scrollDistanceCount += distanceX;
-		currentLeft -= distanceX;
+		needHandle = true;//标记在弹起或取消的时候需要处理
+		scrollDistanceCount += distanceX;//记录本次总的滑动的距离
+		currentLeft -= distanceX;//计算接下来状态层以及滑块曾的X坐标
+		//防止滑动的过程中超过范围
 		if(currentLeft >= uncheckedLeft){
 			currentLeft = uncheckedLeft;
 		}else if(currentLeft <= checkedLeft){
@@ -255,8 +264,8 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		needHandle = false;
-		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION);
+		needHandle = false;//标记在弹起或取消时不再处理
+		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION);//根据前后两次X坐标的大小，判断接下来谁要切换为开启状态还是关闭状态
 		return true;
 	}
 
@@ -292,6 +301,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	 * @param duration 持续时间
 	 */
 	private void scroll(int startX, int endX, int duration){
+		//当开始位置和结束位置一样时不处理
 		if(startX != endX){
 			scroller.startScroll(startX, 0, endX - startX, 0, duration);
 			invalidate();
@@ -300,18 +310,19 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	
 	/**
 	 * 设置状态
-	 * @param on 开启还是关闭
+	 * @param isChecked 开启还是关闭
 	 * @param startX 开始滚动的位置
 	 * @param duration 持续时间
 	 */
-	private void setChecked(boolean on, int startX, int duration){
-		this.checked = on;
+	private void setChecked(boolean isChecked, int startX, int duration){
+		this.checked = isChecked;
 		//如果是要开启
 		if(isChecked()){
 			scroll(startX, checkedLeft, duration);
 		}else{
 			scroll(startX, uncheckedLeft, duration);
 		}
+		//调用选中状态改变回调
 		if(onCheckedChanageListener != null){
 			onCheckedChanageListener.onCheckedChanage(this, isChecked());
 		}
@@ -319,24 +330,25 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	
 	/**
 	 * 设置状态
-	 * @param on 开启还是关闭
+	 * @param isChecked 开启还是关闭
 	 * @param duration 持续时间
 	 */
-	public void setChecked(boolean on, int duration){
+	public void setChecked(boolean isChecked, int duration){
+		//如果尚未完成初始化工作，就先延迟，等待初始化完毕之后再处理
 		if(checkedLeft == 0){
 			pendingSetState = true;
-			pendingChecked = on;
+			pendingChecked = isChecked;
 		}else{
-			setChecked(on, on?uncheckedLeft:checkedLeft, duration);
+			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, duration);
 		}
 	}
 	
 	/**
 	 * 设置状态
-	 * @param on 开启还是关闭
+	 * @param isChecked 开启还是关闭
 	 */
-	public void setChecked(boolean on){
-		setChecked(on, DURATION);
+	public void setChecked(boolean isChecked){
+		setChecked(isChecked, DURATION);
 	}
 	
 	/**
@@ -375,20 +387,20 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	}
 	
 	/**
-	 * 获取正常状态时的背景图片
+	 * 获取正常状态时的状态图片
 	 * @return
 	 */
-	public abstract Bitmap onGetBackgroundNormalBitmap();
+	public abstract Bitmap onGetStateNormalBitmap();
 	/**
-	 * 获取禁用状态时的背景图片
+	 * 获取禁用状态时的状态图片
 	 * @return
 	 */
-	public abstract Bitmap onGetBackgroundDisableBitmap();
+	public abstract Bitmap onGetStateDisableBitmap();
 	/**
-	 * 获取背景遮罩图片
+	 * 获取状态遮罩图片
 	 * @return
 	 */
-	public abstract Bitmap onGetBackgroundMasklBitmap();
+	public abstract Bitmap onGetStateMaskBitmap();
 	/**
 	 * 获取框架图片
 	 * @return

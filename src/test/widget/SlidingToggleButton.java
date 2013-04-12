@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 
+/**
+ * 滑动开关按钮
+ */
 public class SlidingToggleButton extends BaseSlidingToggleButton {
 	public SlidingToggleButton(Context context) {
 		super(context);
@@ -17,18 +20,18 @@ public class SlidingToggleButton extends BaseSlidingToggleButton {
 	}
 
 	@Override
-	public Bitmap onGetBackgroundNormalBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_background_normal);
+	public Bitmap onGetStateNormalBitmap() {
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_state_normal);
 	}
 
 	@Override
-	public Bitmap onGetBackgroundDisableBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_background_disable);
+	public Bitmap onGetStateDisableBitmap() {
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_state_disable);
 	}
 
 	@Override
-	public Bitmap onGetBackgroundMasklBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_mask_background);
+	public Bitmap onGetStateMaskBitmap() {
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_state_mask);
 	}
 
 	@Override
@@ -38,21 +41,21 @@ public class SlidingToggleButton extends BaseSlidingToggleButton {
 
 	@Override
 	public Bitmap onGetSliderNormalBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slilder_normal);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_normal);
 	}
 
 	@Override
 	public Bitmap onGetSliderPressedBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slilder_pressed);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_pressed);
 	}
 
 	@Override
 	public Bitmap onGetSliderDisableBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slilder_disable);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_disable);
 	}
 
 	@Override
 	public Bitmap onGetSliderMaskBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_mask_slider);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_mask);
 	}
 }
