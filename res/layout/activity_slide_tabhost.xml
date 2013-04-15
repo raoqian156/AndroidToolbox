@@ -3,9 +3,9 @@
     <!-- 内容 -->
     <LinearLayout style="@style/comm_layout_body_content">
         <!-- tabs -->
-        <LinearLayout style="@style/base_layout_fill_wrap_vertical" android:paddingLeft="@dimen/base_padding_specialLarge" android:paddingRight="@dimen/base_padding_specialLarge">
+        <LinearLayout style="@style/base_layout_match_wrap_vertical" android:paddingLeft="@dimen/base_padding_specialLarge" android:paddingRight="@dimen/base_padding_specialLarge">
 	        <!-- 标题 -->
-	        <LinearLayout style="@style/base_layout_fill_wrap">
+	        <LinearLayout style="@style/base_layout_match_wrap">
 	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab1" android:id="@+id/text_slideTab_title0"/>
 	            <include layout="@layout/tab_divider"/>
 	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab2" android:id="@+id/text_slideTab_title1"/>
@@ -14,7 +14,7 @@
 	        </LinearLayout>
 	        
 	        <!-- 滑动条 -->
-	        <LinearLayout android:layout_width="fill_parent" android:layout_height="2dp" android:background="@color/base_gray_translucent">
+	        <LinearLayout android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/base_gray_translucent">
         		<TextView  style="@style/text_slideTabHost_slideBlock" android:id="@+id/text_slideTab_slideBlock0"/>
 	            <include layout="@layout/tab_divider" android:visibility="invisible"/>
 	            <TextView style="@style/text_slideTabHost_slideBlock" android:id="@+id/text_slideTab_slideBlock1" android:background="@color/base_transparent"/>
@@ -24,7 +24,7 @@
         </LinearLayout>
         
         <!-- tabContent -->
-        <android.support.v4.view.ViewPager style="@style/base_layout_fill_weight" android:id="@+id/pager_slideTab"/>
+        <android.support.v4.view.ViewPager style="@style/base_layout_match_weight" android:id="@+id/pager_slideTab"/>
     </LinearLayout>
 	
 	<!-- 阴影 -->

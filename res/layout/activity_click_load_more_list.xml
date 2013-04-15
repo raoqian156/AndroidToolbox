@@ -6,7 +6,7 @@
 	    <test.widget.ClickLoadMoreListView style="@style/comm_list_weight_padding"/>
 	    
 	    <!-- 变多变少按钮 -->
-        <Button style="@style/comm_button_body_fill" android:id="@+id/pullList_button"/>
+        <Button style="@style/comm_button_body_match" android:id="@+id/pullList_button"/>
     </LinearLayout>
     
 	<!-- 阴影 -->

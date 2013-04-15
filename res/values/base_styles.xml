@@ -2,14 +2,14 @@
 <!--常用的样式 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 布局 - 宽充满 - 高充满 -->
-    <style name="base_layout_fill_fill">
-       	<item name="android:layout_width">fill_parent</item>
-      	<item name="android:layout_height">fill_parent</item>
+    <style name="base_layout_match_match">
+       	<item name="android:layout_width">match_parent</item>
+      	<item name="android:layout_height">match_parent</item>
     </style>
     
     <!-- 布局 - 宽充满 - 高包括 -->
-    <style name="base_layout_fill_wrap">
-       	<item name="android:layout_width">fill_parent</item>
+    <style name="base_layout_match_wrap">
+       	<item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">wrap_content</item>
     </style>
     
@@ -20,21 +20,21 @@
     </style>
     
     <!-- 布局 - 宽包括 - 高充满 -->
-    <style name="base_layout_wrap_fill">
+    <style name="base_layout_wrap_match">
        	<item name="android:layout_width">wrap_content</item>
-      	<item name="android:layout_height">fill_parent</item>
+      	<item name="android:layout_height">match_parent</item>
     </style>
     
     <!-- 布局 - 宽充满 - 高充满 - 纵向 -->
-    <style name="base_layout_fill_fill_vertical">
-       	<item name="android:layout_width">fill_parent</item>
-      	<item name="android:layout_height">fill_parent</item>
+    <style name="base_layout_match_match_vertical">
+       	<item name="android:layout_width">match_parent</item>
+      	<item name="android:layout_height">match_parent</item>
       	<item name="android:orientation">vertical</item>
     </style>
     
     <!-- 布局 - 宽充满 - 高包括 - 纵向 -->
-    <style name="base_layout_fill_wrap_vertical">
-       	<item name="android:layout_width">fill_parent</item>
+    <style name="base_layout_match_wrap_vertical">
+       	<item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">wrap_content</item>
       	<item name="android:orientation">vertical</item>
     </style>
@@ -47,9 +47,9 @@
     </style>
     
     <!-- 布局 - 宽包括 - 高充满 - 纵向 -->
-    <style name="base_layout_wrap_fill_vertical">
+    <style name="base_layout_wrap_match_vertical">
        	<item name="android:layout_width">wrap_content</item>
-      	<item name="android:layout_height">fill_parent</item>
+      	<item name="android:layout_height">match_parent</item>
       	<item name="android:orientation">vertical</item>
     </style>
     
@@ -61,9 +61,9 @@
     </style>
     
     <!-- 布局 - 宽权重 - 高包括 -->
-    <style name="base_layout_weight_fill">
+    <style name="base_layout_weight_match">
        	<item name="android:layout_width">0dp</item>
-      	<item name="android:layout_height">fill_parent</item>
+      	<item name="android:layout_height">match_parent</item>
 	    <item name="android:layout_weight">1</item>
     </style>
     
@@ -76,9 +76,9 @@
     </style>
     
     <!-- 布局 - 宽权重 - 高充满 - 纵向 -->
-    <style name="base_layout_weight_fill_vertical">
+    <style name="base_layout_weight_match_vertical">
        	<item name="android:layout_width">0dp</item>
-      	<item name="android:layout_height">fill_parent</item>
+      	<item name="android:layout_height">match_parent</item>
 	    <item name="android:layout_weight">1</item>
       	<item name="android:orientation">vertical</item>
     </style>
@@ -91,8 +91,8 @@
     </style>
     
     <!-- 布局 - 宽充满 - 高权重 -->
-    <style name="base_layout_fill_weight">
-       	<item name="android:layout_width">fill_parent</item>
+    <style name="base_layout_match_weight">
+       	<item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">0dp</item>
 	    <item name="android:layout_weight">1</item>
     </style>
@@ -106,8 +106,8 @@
     </style>
     
     <!-- 布局 - 宽充满 - 高权重 - 纵向 -->
-    <style name="base_layout_fill_weight_vertical">
-       	<item name="android:layout_width">fill_parent</item>
+    <style name="base_layout_match_weight_vertical">
+       	<item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">0dp</item>
 	    <item name="android:layout_weight">1</item>
       	<item name="android:orientation">vertical</item>
@@ -115,41 +115,41 @@
     
     <!-- 布局 - 高光 -->
     <style name="base_layout_highLight">
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/base_layout_highLight_height</item>
 	    <item name="android:background">@color/base_highLight</item>
     </style>
     
     <!-- 布局 - 低光 -->
     <style name="base_layout_lowLight">
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/base_layout_lowLight_height</item>
 	    <item name="android:background">@color/base_lowLight</item>
     </style>
     
     <!-- 布局 - 黑色分割线 -->
     <style name="base_layout_blackLine">
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/base_layout_blackLine_height</item>
         <item name="android:background">@color/base_black</item>
     </style>
     
     <!-- 布局 - 空格线 -->
     <style name="base_layout_space">
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">@dimen/base_layout_space</item>
     </style>
 	
 	<!-- 布局 - 阴影 - 向下 -->
 	<style name="base_layout_shadow_down">
-       	<item name="android:layout_width">fill_parent</item>
+       	<item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">@dimen/base_layout_shadow_height</item>
 	    <item name="android:background">@drawable/base_shape_shadow_down</item>
 	</style>
     
 	<!-- 布局 - 阴影 - 向上 -->
 	<style name="base_layout_shadow_up">
-       	<item name="android:layout_width">fill_parent</item>
+       	<item name="android:layout_width">match_parent</item>
       	<item name="android:layout_height">@dimen/base_layout_shadow_height</item>
 	    <item name="android:background">@drawable/base_shape_shadow_up</item>
 	</style>

@@ -2,7 +2,7 @@
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="1dp" 
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:background="@color/base_gray_translucent"
     android:layout_marginTop="@dimen/base_margin_default"
     android:layout_marginBottom="@dimen/base_margin_littleLarge"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
    	<!-- 列表 -->
-   	<me.xiaopan.androidlibrary.widget.ReboundListView style="@style/comm_list_fill_padding"/>
+   	<me.xiaopan.androidlibrary.widget.ReboundListView style="@style/comm_list_match_padding"/>
     
 	<!-- 阴影 -->
     <include layout="@layout/include_shadow_down"/>

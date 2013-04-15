@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
     <!-- 正文内容 -->
-    <FrameLayout style="@style/base_layout_fill_fill">
+    <FrameLayout style="@style/base_layout_match_match">
 		<ImageView 
-		    style="@style/base_layout_fill_fill" 
+		    style="@style/base_layout_match_match" 
 		    android:id="@+id/image_downloadImage" 
 		    android:layout_gravity="center" 
 		    android:scaleType="fitCenter"
@@ -11,7 +11,7 @@
 		<ProgressBar 
 		    style="@android:style/Widget.ProgressBar.Horizontal" 
 		    android:id="@+id/progressBar_downloadImage" 
-		    android:layout_width="fill_parent" 
+		    android:layout_width="match_parent" 
 		    android:layout_height="wrap_content" 
 		    android:layout_gravity="center" 
 		    android:layout_margin="@dimen/base_margin_specialLarge" 

@@ -3,13 +3,13 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- ******************************************************************************** 布局 ************************************************************************************ -->
     <!-- 布局 - 正文 -->
-    <style name="comm_layout_body" parent="@style/base_layout_fill_fill_vertical">
+    <style name="comm_layout_body" parent="@style/base_layout_match_match_vertical">
         <item name="android:id">@id/comm_layout_body</item>
         <item name="android:background">@color/comm_body_backg</item>
     </style>
     
     <!-- 布局 - 正文 - 内容 -->
-    <style name="comm_layout_body_content" parent="@style/base_layout_fill_fill_vertical">
+    <style name="comm_layout_body_content" parent="@style/base_layout_match_match_vertical">
         <item name="android:id">@id/comm_layout_bodyContent</item>
     </style>
     
@@ -31,7 +31,7 @@
     </style>
     
 	<!-- 布局 - 列表项 -->
-	<style name="comm_layout_listItem" parent="@style/base_layout_fill_wrap">
+	<style name="comm_layout_listItem" parent="@style/base_layout_match_wrap">
 	    <item name="android:minHeight">@dimen/comm_layout_listItem_minHeight</item>
 	    <item name="android:paddingLeft">@dimen/base_padding_veryLarge</item>
 	    <item name="android:paddingTop">@dimen/base_padding_littleSmall</item>
@@ -55,7 +55,7 @@
     </style>
     
     <!-- 布局 - 加载中提示 -->
-    <style name="comm_layout_loadingHint" parent="@style/base_layout_fill_fill">
+    <style name="comm_layout_loadingHint" parent="@style/base_layout_match_match">
         <item name="android:id">@id/comm_layout_loadingHint</item>
         <item name="android:layout_gravity">center</item>
 	    <item name="android:gravity">center</item> 
@@ -70,7 +70,7 @@
     
     <!-- ******************************************************************************** 列表 ************************************************************************************ -->
 	<!-- 列表 -->
-	<style name="comm_list" parent="@style/base_layout_fill_wrap">
+	<style name="comm_list" parent="@style/base_layout_match_wrap">
 	    <item name="android:id">@android:id/list</item>
 	    <item name="android:divider">@drawable/list_divider</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
@@ -78,8 +78,8 @@
 	</style>
     
 	<!-- 列表 - 充满的 -->
-	<style name="comm_list_fill" parent="@style/comm_list">
-	    <item name="android:layout_height">fill_parent</item>
+	<style name="comm_list_match" parent="@style/comm_list">
+	    <item name="android:layout_height">match_parent</item>
 	</style>
     
 	<!-- 列表 - 高度权重1 -->
@@ -95,7 +95,7 @@
 	</style>
     
 	<!-- 列表 - 充满的 - 有左右内边距 -->
-	<style name="comm_list_fill_padding" parent="@style/comm_list_fill">
+	<style name="comm_list_match_padding" parent="@style/comm_list_match">
 	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
 	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
 	</style>
@@ -124,12 +124,12 @@
 	</style>
 	
 	<!-- 文字 - 宽度充满 -->
-	<style name="comm_text_fill" parent="@style/comm_text">
-	    <item name="android:layout_width">fill_parent</item>
+	<style name="comm_text_match" parent="@style/comm_text">
+	    <item name="android:layout_width">match_parent</item>
 	</style>
 	
 	<!-- 文字 - 宽度充满 - 可选择的 -->
-	<style name="comm_text_fill_selectable" parent="@style/comm_text_fill">
+	<style name="comm_text_match_selectable" parent="@style/comm_text_match">
 	    <item name="android:textIsSelectable">true</item>
 	</style>
 	
@@ -160,8 +160,8 @@
 	</style>
 	
 	<!-- 按钮 - 正文 - 宽度充满 -->
-	<style name="comm_button_body_fill" parent="@style/comm_button_body">
-	    <item name="android:layout_width">fill_parent</item>
+	<style name="comm_button_body_match" parent="@style/comm_button_body">
+	    <item name="android:layout_width">match_parent</item>
 	</style>
 	
 	<!-- 按钮 - 正文 - 宽度权重 -->
@@ -194,7 +194,7 @@
     
     <!-- ******************************************************************************** 编辑器 ************************************************************************************ -->
    <!-- 编辑器 -->
-    <style name="comm_edit" parent="@style/base_layout_fill_wrap">
+    <style name="comm_edit" parent="@style/base_layout_match_wrap">
         <item name="android:background">@drawable/selector_edit</item>
         <item name="android:textSize">@dimen/base_textSize_default</item>
         <item name="android:textColor">@color/base_black</item>

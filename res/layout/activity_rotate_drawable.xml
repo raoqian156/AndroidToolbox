@@ -8,36 +8,36 @@
     	<include layout="@layout/include_space"/>
     	<include layout="@layout/include_space"/>
     	<include layout="@layout/include_space"/>
-    	<LinearLayout style="@style/base_layout_fill_wrap">
+    	<LinearLayout style="@style/base_layout_match_wrap">
 	    	<LinearLayout style="@style/base_layout_weight_wrap_vertical">
 		    	<ImageView 
-		    	    style="@style/base_layout_fill_wrap" 
+		    	    style="@style/base_layout_match_wrap" 
 		    	    android:layout_gravity="center" 
 		    	    android:src="@drawable/rotate_test" 
 		    	    android:id="@+id/rotateDrawable_image_order" 
 		    	    android:contentDescription="@string/base_image_contentDescription"
 		    	    />
-		    	<TextView style="@style/comm_text_fill" android:id="@+id/rotateDrawable_text_order" android:gravity="center"/>
+		    	<TextView style="@style/comm_text_match" android:id="@+id/rotateDrawable_text_order" android:gravity="center"/>
 	    	</LinearLayout>
 	    	<LinearLayout style="@style/base_layout_weight_wrap_vertical">
 		    	<ImageView 
-		    	    style="@style/base_layout_fill_wrap" 
+		    	    style="@style/base_layout_match_wrap" 
 		    	    android:layout_gravity="center" 
 		    	    android:src="@drawable/rotate_test" 
 		    	    android:id="@+id/rotateDrawable_image_reverse" 
 		    	    android:contentDescription="@string/base_image_contentDescription"
 		    	    />
-		    	<TextView style="@style/comm_text_fill" android:id="@+id/rotateDrawable_text_reverse" android:gravity="center"/>
+		    	<TextView style="@style/comm_text_match" android:id="@+id/rotateDrawable_text_reverse" android:gravity="center"/>
 	    	</LinearLayout>
 	    	<LinearLayout style="@style/base_layout_weight_wrap_vertical">
 		    	<ImageView 
-		    	    style="@style/base_layout_fill_wrap" 
+		    	    style="@style/base_layout_match_wrap" 
 		    	    android:layout_gravity="center" 
 		    	    android:src="@drawable/rotate_test" 
 		    	    android:id="@+id/rotateDrawable_image_mirror" 
 		    	    android:contentDescription="@string/base_image_contentDescription"
 		    	    />
-		    	<TextView style="@style/comm_text_fill" android:id="@+id/rotateDrawable_text_mirror" android:gravity="center"/>
+		    	<TextView style="@style/comm_text_match" android:id="@+id/rotateDrawable_text_mirror" android:gravity="center"/>
 	    	</LinearLayout>
     	</LinearLayout>
     	
@@ -49,9 +49,9 @@
     	<include layout="@layout/include_space"/>
     	<include layout="@layout/include_space"/>
     	<include layout="@layout/include_space"/>
-    	<Button style="@style/base_layout_fill_wrap" android:text="@string/base_start" android:id="@+id/rotateDrawable_button_rotaryControl"/>
+    	<Button style="@style/base_layout_match_wrap" android:text="@string/base_start" android:id="@+id/rotateDrawable_button_rotaryControl"/>
     	<include layout="@layout/include_space"/>
-    	<Button style="@style/base_layout_fill_wrap" android:text="重置执行次数" android:id="@+id/rotateDrawable_button_reset"/>
+    	<Button style="@style/base_layout_match_wrap" android:text="重置执行次数" android:id="@+id/rotateDrawable_button_reset"/>
     </LinearLayout>
     
 	<!-- 阴影 -->

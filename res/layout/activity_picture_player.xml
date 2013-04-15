@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
 	<!-- 内容 -->
-    <ScrollView style="@style/base_layout_fill_fill">
+    <ScrollView style="@style/base_layout_match_match">
 	    <LinearLayout style="@style/comm_layout_body_content">
-		    <TextView style="@style/comm_text_fill" android:text="从左往右转圈："/>
-		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_circle_leftToRight" android:layout_width="fill_parent" android:layout_height="150dp" />
+		    <TextView style="@style/comm_text_match" android:text="从左往右转圈："/>
+		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_circle_leftToRight" android:layout_width="match_parent" android:layout_height="150dp" />
 		    
-		    <TextView style="@style/comm_text_fill" android:text="从右往左转圈："/>
-		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_circle_rightToLeft" android:layout_width="fill_parent" android:layout_height="150dp" />
+		    <TextView style="@style/comm_text_match" android:text="从右往左转圈："/>
+		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_circle_rightToLeft" android:layout_width="match_parent" android:layout_height="150dp" />
 		    
-		    <TextView style="@style/comm_text_fill" android:text="从左往右摇摆："/>
-		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_swing_leftToRight" android:layout_width="fill_parent" android:layout_height="150dp"/>
+		    <TextView style="@style/comm_text_match" android:text="从左往右摇摆："/>
+		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_swing_leftToRight" android:layout_width="match_parent" android:layout_height="150dp"/>
 
-   		    <TextView style="@style/comm_text_fill" android:text="从右往左摇摆："/>
-		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_swing_rightToLeft" android:layout_width="fill_parent" android:layout_height="150dp"/>
+   		    <TextView style="@style/comm_text_match" android:text="从右往左摇摆："/>
+		    <me.xiaopan.androidlibrary.widget.PicturePlayer android:id="@+id/picturePlayer_picturePlayer_swing_rightToLeft" android:layout_width="match_parent" android:layout_height="150dp"/>
 	    </LinearLayout>
     </ScrollView>
     
