@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pull_height">90dp</dimen><!-- 下拉刷新头的高度 -->
+</resources>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 公共的字符串 -->
 <resources>
-    <string name="app_name">测试程序</string>
-    
     <string name="comm_hint_exitHint">再按一次退出程序！</string>
     <string name="comm_hint_checkUpdateing">正在检查更新，请稍后…</string>
     <string name="comm_hint_connectionTimeout">连接超时，请重试！</string>
