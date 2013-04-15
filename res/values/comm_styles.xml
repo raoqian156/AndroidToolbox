@@ -14,21 +14,18 @@
     </style>
     
     <!-- 布局 - 正文  - 内容 - 四边有内边距-->
-    <style name="comm_layout_body_content_padding" parent="@style/base_layout_fill_fill_vertical">
-        <item name="android:id">@id/comm_layout_bodyContent</item>
+    <style name="comm_layout_body_content_padding" parent="@style/comm_layout_body_content">
         <item name="android:padding">@dimen/base_padding_specialLarge</item>
     </style>
     
     <!-- 布局 - 正文  - 内容 - 左右有内边距-->
-    <style name="comm_layout_body_content_leftPadding" parent="@style/base_layout_fill_fill_vertical">
-        <item name="android:id">@id/comm_layout_bodyContent</item>
+    <style name="comm_layout_body_content_leftPadding" parent="@style/comm_layout_body_content">
         <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
         <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
     </style>
     
     <!-- 布局 - 正文  - 内容 - 上下有内边距-->
-    <style name="comm_layout_body_content_topPadding" parent="@style/base_layout_fill_fill_vertical">
-        <item name="android:id">@id/comm_layout_bodyContent</item>
+    <style name="comm_layout_body_content_topPadding" parent="@style/comm_layout_body_content">
         <item name="android:paddingTop">@dimen/base_padding_specialLarge</item>
         <item name="android:paddingBottom">@dimen/base_padding_specialLarge</item>
     </style>
