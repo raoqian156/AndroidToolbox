@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
-   	<!-- 列表 -->
-   	<me.xiaopan.androidlibrary.widget.PullListView style="@style/comm_list_fill_padding"/>
-    
-	<!-- 阴影 -->
-    <include layout="@layout/comm_shadow_down"/>
-</FrameLayout>

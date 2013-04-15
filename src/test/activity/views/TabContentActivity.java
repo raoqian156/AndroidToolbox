@@ -16,7 +16,7 @@ public class TabContentActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list));
+		setContentView(pullListView = (PullListView) getViewByLayout(R.layout.list));
 	}
 
 	@Override

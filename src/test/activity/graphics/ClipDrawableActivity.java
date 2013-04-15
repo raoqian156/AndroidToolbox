@@ -22,7 +22,7 @@ public class ClipDrawableActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.clip_drawable);
+		setContentView(R.layout.activity_clip_drawable);
 		clipDrawableLeft = (ClipDrawable) findViewById(R.id.drawableClip_image_left).getBackground();
 		clipDrawableRight = (ClipDrawable) findViewById(R.id.drawableClip_image_right).getBackground();
 		clipDrawableTop = (ClipDrawable) findViewById(R.id.drawableClip_image_top).getBackground();

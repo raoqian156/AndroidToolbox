@@ -17,7 +17,7 @@ public class MyClickLoadMoreListFooter extends AbsClickLoadMoreListFooter {
 
 	@Override
 	protected LinearLayout onGetContentView() {
-		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.comm_list_footer_click_loadmore, null);
+		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.list_footer_click_load_more, null);
 	}
 
 	@Override

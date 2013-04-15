@@ -13,7 +13,7 @@ public class CustomEditTextActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.custom_edit_text);
+		setContentView(R.layout.activity_custom_edit_text);
 	}
 
 	@Override

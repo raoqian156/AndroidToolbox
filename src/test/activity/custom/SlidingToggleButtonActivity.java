@@ -16,7 +16,7 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.sliding_toggle_button);
+		setContentView(R.layout.activity_sliding_toggle_button);
 		preference = (Preference) findViewById(R.id.preference_slidingToggle);
 		preference1 = (Preference) findViewById(R.id.preference_slidingToggle1);
 		preference2 = (Preference) findViewById(R.id.preference_slidingToggle2);

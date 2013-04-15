@@ -30,7 +30,7 @@ public class PullDownRefreshAndClickLoadMoreActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.pull_down_refresh_and_click_load_more_list);
+		setContentView(R.layout.activity_simple_list_pull_down_refresh_and_click_load_more);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 	}
 

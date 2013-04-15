@@ -32,7 +32,7 @@ public class MyPullDownRefreshListHeader extends AbsPullDownRefreshListHeader {
 
 	@Override
 	protected LinearLayout onGetContentView(){
-		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.comm_list_header_refresh, null);
+		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.list_header_pull_down_refresh, null);
 	}
 	
 	@Override

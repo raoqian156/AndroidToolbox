@@ -29,7 +29,7 @@ public class SlideTabHostActivity extends MyBaseActivity{
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.slide_tabhost);
+		setContentView(R.layout.activity_slide_tabhost);
 		viewPager = (ViewPager) findViewById(R.id.pager_slideTab);
 		tabList = new ArrayList<Tab>();
 		tabList.add(new Tab(0, (TextView) findViewById(R.id.text_slideTab_title0), (TextView) findViewById(R.id.text_slideTab_slideBlock0)));
@@ -98,7 +98,7 @@ public class SlideTabHostActivity extends MyBaseActivity{
 		for(int w = 0; w < 20; w++){
 			contents.add("这是选项卡 "+index+" 的第 "+w+" 条数据");
 		}
-		PullListView pullListView = (PullListView) getViewByLayout(R.layout.comm_only_list);
+		PullListView pullListView = (PullListView) getViewByLayout(R.layout.list);
 		pullListView.openListHeaderReboundMode();
 		pullListView.openListFooterReboundMode();
 		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));

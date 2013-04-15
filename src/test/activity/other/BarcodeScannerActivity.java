@@ -57,7 +57,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.barcode_scanner);
+		setContentView(R.layout.activity_barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
 		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
 		resultText = (TextView) findViewById(R.id.text_barcodeScanner_result);

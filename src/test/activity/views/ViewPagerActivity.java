@@ -18,7 +18,7 @@ public class ViewPagerActivity extends MyBaseFragmentActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.view_pager);
+		setContentView(R.layout.activity_view_pager);
 		viewPager = (ViewPager) findViewById(R.id.viewPager_viewPager);
 		pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTab_viewPager);
 	}

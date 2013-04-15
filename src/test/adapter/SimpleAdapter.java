@@ -24,7 +24,7 @@ public class SimpleAdapter extends MyBaseAdapter {
 		ViewHolder viewHolder = null;
 		if(convertView == null){
 			viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.comm_simple_list_item, null);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_simple, null);
 			viewHolder.text = (TextView) convertView;
 			convertView.setTag(viewHolder);
 		}else{

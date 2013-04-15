@@ -23,7 +23,7 @@ public class DownloadImageActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.download_image);
+		setContentView(R.layout.activity_download_image);
 		imageView = (ImageView) findViewById(R.id.image_downloadImage);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar_downloadImage);
 	}

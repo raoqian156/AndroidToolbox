@@ -15,7 +15,7 @@ public class FloatingWindowActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.floating_window);
+		setContentView(R.layout.activity_floating_window);
 		button = (Button) findViewById(R.id.button_floatingWindow);
 	}
 

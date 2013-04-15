@@ -14,7 +14,7 @@
     	    </LinearLayout>
     	</LinearLayout>
 
-	    <include layout="@layout/comm_space"/>
+	    <include layout="@layout/include_space"/>
 	    <LinearLayout style="@style/base_layout_fill_wrap">
 			<LinearLayout style="@style/base_layout_weight_wrap_vertical">
 		    	<TextView style="@style/comm_text" android:text="从上往下展开"/>
@@ -26,7 +26,7 @@
 			</LinearLayout>
     	</LinearLayout>
 
-	    <include layout="@layout/comm_space"/>
+	    <include layout="@layout/include_space"/>
 	    <LinearLayout style="@style/base_layout_fill_wrap">
 			<LinearLayout style="@style/base_layout_weight_wrap_vertical">
 		    	<TextView style="@style/comm_text" android:text="纵向从中间展开"/>
@@ -38,11 +38,11 @@
 			</LinearLayout>
     	</LinearLayout>
 	        
-	    <include layout="@layout/comm_space"/>
+	    <include layout="@layout/include_space"/>
     	<TextView style="@style/comm_text" android:text="原图"/>
     	<ImageView style="@style/base_layout_wrap_wrap" android:background="@drawable/image_test_clamp" android:contentDescription="@string/base_image_contentDescription"/>
     </LinearLayout>
     
 	<!-- 阴影 -->
-    <include layout="@layout/comm_shadow_down"/>
+    <include layout="@layout/include_shadow_down"/>
 </FrameLayout>

@@ -25,7 +25,7 @@ public class ViewsListActivity extends MyBaseActivity{
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.comm_simple_list_rebound);
+		setContentView(R.layout.activity_simple_list_rebound);
 		listView = (ListView) findViewById(android.R.id.list);
 	}
 

@@ -18,5 +18,5 @@
     </ScrollView>
     
 	<!-- 阴影 -->
-    <include layout="@layout/comm_shadow_down"/>
+    <include layout="@layout/include_shadow_down"/>
 </FrameLayout>        

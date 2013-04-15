@@ -30,7 +30,7 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.click_load_more_list);
+		setContentView(R.layout.activity_click_load_more_list);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.pullList_button);
 	}

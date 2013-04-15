@@ -22,7 +22,7 @@ public class FragmentTabHostActivity extends MyBaseFragmentActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.fragment_tabhost);
+		setContentView(R.layout.activity_fragment_tabhost);
 		fragmentTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 	}
 

@@ -30,7 +30,7 @@ public class PullDownAndUpActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.pull_down_and_up_list);
+		setContentView(R.layout.activity_simple_list_pull_down_refresh_and_pull_up_load_more);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 	}
 

@@ -20,7 +20,7 @@ public class TabHostActivity extends MyBaseTabActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.tabhost);
+		setContentView(R.layout.activity_tabhost);
 	}
 
 	@Override

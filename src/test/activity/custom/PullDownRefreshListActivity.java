@@ -28,7 +28,7 @@ public class PullDownRefreshListActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.pull_down_refresh_list);
+		setContentView(R.layout.activity_simple_list_pull_down_refresh);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 	}
 

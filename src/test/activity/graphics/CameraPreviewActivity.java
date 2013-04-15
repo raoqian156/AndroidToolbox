@@ -40,7 +40,7 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.camera_preview);
+		setContentView(R.layout.activity_camera_preview);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_cameraPreview);
 		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_cameraPreview_flashMode);
 	}

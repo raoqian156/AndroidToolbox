@@ -13,7 +13,7 @@ public class ProgressBarActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.progressbar);
+		setContentView(R.layout.activity_progressbar);
 	}
 
 	@Override

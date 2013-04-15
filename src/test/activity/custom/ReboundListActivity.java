@@ -24,7 +24,7 @@ public class ReboundListActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.rebound_list);
+		setContentView(R.layout.activity_rebound_list);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.pullList_button);
 	}

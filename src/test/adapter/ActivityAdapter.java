@@ -35,7 +35,7 @@ public class ActivityAdapter extends MyBaseAdapter{
 		ViewHolder viewHolder;
 		if(convertView == null){
 			viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(conetxt).inflate(R.layout.comm_simple_list_item, null);
+			convertView = LayoutInflater.from(conetxt).inflate(R.layout.list_item_simple, null);
 			viewHolder.name = (TextView) convertView;
 			convertView.setTag(viewHolder);
 		}else{

@@ -50,7 +50,7 @@ public class FloatingWindowService extends Service implements OnClickListener{
 		floatingWindowParams.format = PixelFormat.TRANSPARENT;//设置悬浮窗的背景为透明
 		floatingWindowParams.gravity = Gravity.LEFT | Gravity.TOP;//设置悬浮窗开始显示的位置在左上角
 
-		floatingWindowView = LayoutInflater.from(this).inflate(R.layout.floating_window_view, null);
+		floatingWindowView = LayoutInflater.from(this).inflate(R.layout.floating_view, null);
 		floatingWindowView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {

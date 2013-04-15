@@ -21,7 +21,7 @@ public class ImageLoaderActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.image_loader);
+		setContentView(R.layout.activity_image_loader);
 		pullListView = (PullListView) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.imageLoader_button);
 	}

@@ -50,7 +50,7 @@ public class TakePicturesActivity extends MyBaseActivity implements CameraManage
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.take_pictures);
+		setContentView(R.layout.activity_take_pictures);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_takePictures);
 		takeButton = (Button) findViewById(R.id.button_takePicture_take);
 		confirmButton = (Button) findViewById(R.id.button_takePictures_confirm);

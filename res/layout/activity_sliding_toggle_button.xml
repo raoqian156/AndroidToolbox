@@ -4,8 +4,8 @@
         <LinearLayout style="@style/comm_layout_body_content_topPadding">
             <test.widget.Preference style="@style/preference_complete" android:id="@+id/preference_slidingToggle" app:title="允许推送" app:type="toggle"/>
             
-            <include layout="@layout/comm_space"/>
-            <include layout="@layout/comm_space"/>
+            <include layout="@layout/include_space"/>
+            <include layout="@layout/include_space"/>
             
             <test.widget.Preference style="@style/preference_header" android:id="@+id/preference_slidingToggle1" app:checked="true" app:title="推送每日要闻" app:type="toggle"/>
             <test.widget.Preference style="@style/preference_center" android:id="@+id/preference_slidingToggle2" app:title="推送离线消息" app:type="toggle"/>
@@ -14,5 +14,5 @@
         </LinearLayout>
     </ScrollView>
     
-    <include layout="@layout/comm_shadow_down"/>
+    <include layout="@layout/include_shadow_down"/>
 </FrameLayout>

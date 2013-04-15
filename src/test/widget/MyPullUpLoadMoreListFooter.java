@@ -32,7 +32,7 @@ public class MyPullUpLoadMoreListFooter extends AbsPullUpLoadMoreListFooter {
 
 	@Override
 	protected LinearLayout onGetContentView(){
-		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.comm_list_footer_loadmore, null);
+		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.list_footer_pull_up_load_more, null);
 	}
 	
 	@Override

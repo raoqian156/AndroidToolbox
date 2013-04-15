@@ -17,5 +17,5 @@
 	    </LinearLayout>
     </ScrollView>
 
-   	<include layout="@layout/comm_shadow_down"/>
+   	<include layout="@layout/include_shadow_down"/>
 </FrameLayout>

@@ -34,7 +34,7 @@ public class RotateDrawableActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.rotate_drawable);
+		setContentView(R.layout.activity_rotate_drawable);
 		orderDrawable = ((ImageView) findViewById(R.id.rotateDrawable_image_order)).getDrawable();
 		reverseDrawable = ((ImageView) findViewById(R.id.rotateDrawable_image_reverse)).getDrawable();
 		mirrorDrawable = ((ImageView) findViewById(R.id.rotateDrawable_image_mirror)).getDrawable();

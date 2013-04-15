@@ -22,7 +22,7 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.network);
+		setContentView(R.layout.activity_network);
 		text = (TextView) findViewById(R.id.tv_network);
 	}
 

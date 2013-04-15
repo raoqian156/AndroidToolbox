@@ -25,7 +25,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.picture_player);
+		setContentView(R.layout.activity_picture_player);
 		picturePlayerCircleLeftToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_leftToRight);
 		picturePlayerCircleRightToLeft = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_rightToLeft);
 		picturePlayerSwingLeftToRight = (PicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_leftToRight);
