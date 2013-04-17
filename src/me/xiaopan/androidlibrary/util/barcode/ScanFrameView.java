@@ -3,17 +3,15 @@ package me.xiaopan.androidlibrary.util.barcode;
 import java.util.Collection;
 import java.util.HashSet;
 
+import me.xiaopan.androidlibrary.util.CameraUtils;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.google.zxing.ResultPoint;
 
@@ -55,7 +53,6 @@ public class ScanFrameView extends View {
 	private int height;	//扫描框的高
 	private int strokeWidth;	//描边的宽度
 	private Paint paint;	//画笔
-	private Rect rectInScreen;	//扫描框相对于整个屏幕的矩形
 	private Rect rectInPreview;	//扫描框相对于预览界面的矩形
 	private Bitmap resultBitmap;	//扫描结果图片
 	private boolean init = true;	//初始化位置信息
@@ -167,46 +164,14 @@ public class ScanFrameView extends View {
 	}
 	
 	/**
-	 * 获取扫描框相对于整个屏幕（包括状态栏）的矩形
-	 * @return 扫描框相对于整个屏幕（包括状态栏）的矩形
-	 */
-	public Rect getRectInScreen(){
-		if(rectInScreen == null){
-			rectInScreen = new Rect();
-			getGlobalVisibleRect(rectInScreen);
-		}
-		
-		return rectInScreen;
-	}
-
-	/**
 	 * 获取扫描框相对于预览界面的矩形
 	 * @param cameraPreviewSize 相机预览分辨率
 	 * @return 扫描框相对的预览界面的矩形
 	 */
 	public Rect getRectInPreview(Camera.Size cameraPreviewSize) {
 		if(rectInPreview == null){
-			//在相对于屏幕的矩形的基础上创建相对于预览界面的矩形，然后在修改其各项属性
-			rectInPreview= new Rect(getRectInScreen());
-			
-			//获取屏幕分辨率
-			WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-			Display display = windowManager.getDefaultDisplay();
-			
-			//如果是横屏
-			if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-				rectInPreview.left = rectInPreview.left * cameraPreviewSize.width / display.getWidth();
-				rectInPreview.right = rectInPreview.right * cameraPreviewSize.width / display.getWidth();
-				rectInPreview.top = rectInPreview.top * cameraPreviewSize.height / display.getHeight();
-				rectInPreview.bottom = rectInPreview.bottom * cameraPreviewSize.height / display.getHeight();
-			} else {
-				rectInPreview.left = rectInPreview.left * cameraPreviewSize.height / display.getWidth();
-				rectInPreview.right = rectInPreview.right * cameraPreviewSize.height / display.getWidth();
-				rectInPreview.top = rectInPreview.top * cameraPreviewSize.width / display.getHeight();
-				rectInPreview.bottom = rectInPreview.bottom * cameraPreviewSize.width / display.getHeight();
-			}
+			rectInPreview= CameraUtils.getFindViewRectByScreenAndCameraPreviewSize(getContext(), this, cameraPreviewSize);
 		}
-		
 		return rectInPreview;
 	}
 

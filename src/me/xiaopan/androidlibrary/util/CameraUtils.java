@@ -4,9 +4,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
+import android.view.Display;
 import android.view.OrientationEventListener;
+import android.view.View;
+import android.view.WindowManager;
 
 /**
  * 相机工具箱
@@ -149,5 +154,33 @@ public class CameraUtils {
 	 */
 	public static boolean isSupportFlashMode(Camera camera, String flashMode){
 		return camera != null?camera.getParameters().getSupportedFlashModes().contains(flashMode):false;
+	}
+	
+	/**
+	 * 根据屏幕分辨率以及相机预览分辨率获取取景框的位置
+	 * @param context 
+	 * @param findView
+	 * @param cameraPreviewSize
+	 * @return
+	 */
+	public static Rect getFindViewRectByScreenAndCameraPreviewSize(Context context, View findView, Camera.Size cameraPreviewSize){
+		Rect rectInScreen = new Rect();	//扫描框相对于整个屏幕的矩形
+		findView.getGlobalVisibleRect(rectInScreen);
+		Rect rectInPreview= new Rect(rectInScreen);	//扫描框相对于预览界面的矩形
+		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();//获取屏幕分辨率
+		
+		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {//如果是横屏
+			rectInPreview.left = rectInPreview.left * cameraPreviewSize.width / display.getWidth();
+			rectInPreview.right = rectInPreview.right * cameraPreviewSize.width / display.getWidth();
+			rectInPreview.top = rectInPreview.top * cameraPreviewSize.height / display.getHeight();
+			rectInPreview.bottom = rectInPreview.bottom * cameraPreviewSize.height / display.getHeight();
+		} else {
+			rectInPreview.left = rectInPreview.left * cameraPreviewSize.height / display.getWidth();
+			rectInPreview.right = rectInPreview.right * cameraPreviewSize.height / display.getWidth();
+			rectInPreview.top = rectInPreview.top * cameraPreviewSize.width / display.getHeight();
+			rectInPreview.bottom = rectInPreview.bottom * cameraPreviewSize.width / display.getHeight();
+		}
+		
+		return rectInPreview;
 	}
 }
