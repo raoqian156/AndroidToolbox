@@ -1,35 +1,34 @@
 package test.widget;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.Indicator;
+import me.xiaopan.androidlibrary.widget.PicturePlayer;
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-/**
- * 点状指示器
- * @author xiaopan
- */
-public class PointIndicator extends Indicator{
+public class PointPicturePlayer extends PicturePlayer {
+	private LinearLayout indicatorView;
 	private int lastCheckedPosition;//上次选中的图标的位置
 	private LinearLayout pointsLayout;
 	
-	public PointIndicator(Context context) {
+	public PointPicturePlayer(Context context) {
 		super(context);
 	}
 	
+	public PointPicturePlayer(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+
 	@Override
-	public void onInit(int size) {
-		//先清空所有的视图
-		removeAllViews();
+	public View onInitIndicator(int size) {
+		indicatorView = new LinearLayout(getContext());
+		indicatorView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+		indicatorView.setGravity(Gravity.BOTTOM);
 		
-		//再设置指示器充满其父视图
-		setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-		//设置父视图的布局方式为靠在底部
-		setGravity(Gravity.BOTTOM);
-		
-		//再创建包括所有图标部分的布局
+		//创建包括所有图标部分的布局
 		pointsLayout = new LinearLayout(getContext());
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		pointsLayout.setLayoutParams(layoutParams);
@@ -43,16 +42,22 @@ public class PointIndicator extends Indicator{
 			pointsLayout.addView(iconImage);
 		}
 		
-		addView(pointsLayout);
+		indicatorView.addView(pointsLayout);
+		return indicatorView;
 	}
 
 	@Override
-	public void onItemSelected(int position) {
+	public void onIndicatorItemSelected(int position) {
 		//先将上一个取消
 		((ImageView) (pointsLayout.getChildAt(lastCheckedPosition))).setSelected(false);
 		//再将当前的选中
 		((ImageView) (pointsLayout.getChildAt(position))).setSelected(true);
 		//记录本次选中的
 		lastCheckedPosition = position;
+	}
+
+	@Override
+	protected int onGetDefaultImageResId() {
+		return R.drawable.image_default;
 	}
 }

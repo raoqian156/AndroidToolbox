@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.util.ImageLoader;
-import test.widget.PointIndicator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -24,14 +23,10 @@ import android.widget.ImageView.ScaleType;
 
 /**
  * 图片播放器
- * @author xiaopan
- *
  */
-public class PicturePlayer extends FrameLayout{
+public abstract class PicturePlayer extends FrameLayout{
 	private int switchSpace = 4000;//切换间隔
-	private int defaultImageResId;//默认图片ID
 	private int animationDurationMillis = 600;//动画持续时间
-	private Indicator indicator;//指示器
 	private ScaleType imageScaleType = ScaleType.FIT_CENTER;//图片缩放模式
 	private List<Picture> pictures;//图片列表
 	private DefaultGallery gallery;//画廊
@@ -53,6 +48,24 @@ public class PicturePlayer extends FrameLayout{
 	}
 	
 	/**
+	 * 当需要初始化的时候
+	 * @param size 元素个数
+	 */
+	public abstract View onInitIndicator(int size);
+	
+	/**
+	 * 当有选项被选中的时候
+	 * @param position 被选中选项的位置
+	 */
+	public abstract void onIndicatorItemSelected(int position);
+	
+	/**
+	 * 当获取默认图片资源
+	 * @return
+	 */
+	protected abstract int onGetDefaultImageResId();
+	
+	/**
 	 * 开始播放
 	 */
 	public void startPaly(){
@@ -66,10 +79,6 @@ public class PicturePlayer extends FrameLayout{
 				switchHandler = new Handler();
 				switchHandle = new SwitchHandle();
 				
-				//初始化指示器
-				indicator = new PointIndicator(getContext());
-				indicator.onInit(pictures.size());
-
 				//初始化画廊
 				gallery = new DefaultGallery(getContext());
 				gallery.setAnimationDuration(animationDurationMillis);//设置动画持续时间，默认是600毫秒
@@ -84,7 +93,7 @@ public class PicturePlayer extends FrameLayout{
 					@Override
 					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 						int realSelectedItemPosition = getRealSelectedItemPosition(position);		//获取真实的位置，
-						indicator.onItemSelected(realSelectedItemPosition);		//修改指示器的选中项
+						onIndicatorItemSelected(realSelectedItemPosition);		//修改指示器的选中项
 						if(getOnItemSelectedListener() != null){		//回调
 							getOnItemSelectedListener().onItemSelected(parent, view, realSelectedItemPosition, id);
 						}
@@ -117,7 +126,7 @@ public class PicturePlayer extends FrameLayout{
 				
 				//将画廊和指示器放进布局中
 				addView(gallery);
-				addView(indicator);
+				addView(onInitIndicator(pictures.size()));
 			}else{
 				loadFinish = false;
 			}
@@ -154,22 +163,6 @@ public class PicturePlayer extends FrameLayout{
 	}
 	
 	/**
-	 * 获取指示器
-	 * @return 指示器
-	 */
-	public Indicator getIndicator() {
-		return indicator;
-	}
-	
-	/**
-	 * 设置指示器
-	 * @param indicator 指示器
-	 */
-	public void setIndicator(Indicator indicator) {
-		this.indicator = indicator;
-	}
-
-	/**
 	 * 获取切换间隔
 	 * @return 切换间隔
 	 */
@@ -199,22 +192,6 @@ public class PicturePlayer extends FrameLayout{
 	 */
 	public void setImageScaleType(ScaleType imageScaleType) {
 		this.imageScaleType = imageScaleType;
-	}
-
-	/**
-	 * 获取默认图片的资源ID
-	 * @return 默认图片的资源ID
-	 */
-	public int getDefaultImageResId() {
-		return defaultImageResId;
-	}
-
-	/**
-	 * 设置默认图片的资源ID
-	 * @param defaultImageResId 默认图片的资源ID
-	 */
-	public void setDefaultImageResId(int defaultImageResId) {
-		this.defaultImageResId = defaultImageResId;
 	}
 
 	/**
@@ -382,7 +359,7 @@ public class PicturePlayer extends FrameLayout{
 	private class DefaultGalleryAdapter extends BaseAdapter{
 		private ImageLoader imageLoader;
 		private DefaultGalleryAdapter(){
-			imageLoader = new ImageLoader(getDefaultImageResId());
+			imageLoader = new ImageLoader(onGetDefaultImageResId());
 		}
 		
 		@Override
