@@ -179,12 +179,6 @@ public interface BaseActivityInterface {
 	 */
 	public boolean isNetworkAvailable();
 	
-	/**
-	 * 获取主机服务器的地址
-	 * @return
-	 */
-	public String getHostServerAddress();
-	
 	
 	
 	/* ********************************************** 消息/广播 ************************************************ */

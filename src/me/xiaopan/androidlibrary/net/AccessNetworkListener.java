@@ -6,7 +6,7 @@ import android.content.Context;
  * 访问网络监听器
  * @author xiaopan
  *
- * @param <T> 如果你想将处理结果直接转换为方便处理的对象，那么请在次指定
+ * @param <T> 如果你想将处理结果直接转换为方便处理的对象，那么请在此指定
  */
 public abstract class AccessNetworkListener<T> {
 	/**

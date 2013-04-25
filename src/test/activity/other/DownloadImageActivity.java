@@ -13,8 +13,6 @@ import android.widget.ProgressBar;
 
 /**
  * 下载图片界面
- * @author xiaopan
- *
  */
 public class DownloadImageActivity extends MyBaseActivity {
 

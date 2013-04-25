@@ -12,9 +12,9 @@ import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.NetworkUtils;
 import me.xiaopan.androidlibrary.util.SDCardUtils;
 import me.xiaopan.javalibrary.net.HttpRequest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +42,7 @@ import android.widget.Toast;
 /**
  * 自定义抽象的Activity基类
  */
-public abstract class BaseActivity extends Activity implements BaseActivityInterface{
+public abstract class BaseListActivity extends ListActivity implements BaseActivityInterface{
 	/**
 	 * 当前Activity在ActivityManager中的ID
 	 */

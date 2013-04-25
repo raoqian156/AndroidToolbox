@@ -4,8 +4,6 @@ import org.json.JSONObject;
 
 /**
  * 响应处理器接口
- * @author xiaopan
- *
  */
 public interface ResponseHandler {
 	/**

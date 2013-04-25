@@ -12,6 +12,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
+/**
+ * 下载图片异步任务
+ */
 public class DownloadImageAsyncTask extends AsyncTask<Integer, Integer, Integer> {
 	private static final int RESULT_SUCCESS = 101;//结果标记 - 成功了
 	private static final int RESULT_EXCEPTION = 102;//结果标记 - 异常了

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="me.xiaopan.androidlibrary" android:versionCode="235" android:versionName="2.3.5" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="me.xiaopan.androidlibrary" android:versionCode="236" android:versionName="2.3.6" >
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
     
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

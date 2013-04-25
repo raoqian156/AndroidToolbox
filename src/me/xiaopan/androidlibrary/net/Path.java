@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * 路径
- * @author xiaopan
- *
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

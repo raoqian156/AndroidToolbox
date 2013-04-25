@@ -13,8 +13,6 @@ import android.os.AsyncTask;
 
 /**
  * 访问网络异步任务
- * @author xiaopan
- *
  */
 public class AccessNetworkAsyncTask extends AsyncTask<Integer, Integer, Integer>{
 	private static final int RESULT_SUCCESS = 101;//结果标记 - 成功了

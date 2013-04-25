@@ -1,7 +1,6 @@
 package me.xiaopan.androidlibrary.net;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 import me.xiaopan.javalibrary.net.HttpRequest;
 import me.xiaopan.javalibrary.net.HttpRequestMethod;
@@ -9,12 +8,11 @@ import me.xiaopan.javalibrary.util.AnnotationUtils;
 import me.xiaopan.javalibrary.util.ClassUtils;
 import me.xiaopan.javalibrary.util.StringUtils;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * 访问网络工具箱
- * @author xiaopan
- *
  */
 public class AccessNetworkUtils {
 	/**
@@ -22,51 +20,55 @@ public class AccessNetworkUtils {
 	 * @param request
 	 * @param defaultHostServerAddress 默认的主机地址，挡在request对象上取不到HostAddress注解时将使用此值
 	 * @return null：转换失败，出现异常，可能是没有Path注解
+	 * @throws Exception 
 	 */
-	public static HttpRequest toHttpRequest(Request request, String defaultHostServerAddress){
+	public static HttpRequest toHttpRequest(Request request) throws Exception{
 		Class<? extends Request> requestClass = request.getClass();
 		
-		//尝试从请求对象中获取地址注解的值
-		String hostServerAddress = AnnotationUtils.getAnnotaionValue(requestClass, HostAddress.class);
-		if(hostServerAddress == null){
-			hostServerAddress = defaultHostServerAddress;
+		//从请求对象中获取主机地址
+		String host = (String) AnnotationUtils.getDefaultAttributeValue(requestClass, Host.class);
+		if(host == null){
+			throw new Exception("Request上没有Host注解");
 		}
 		
 		//尝试取得Path注解的值，如果没有就就直接返回null
-		String path = AnnotationUtils.getAnnotaionValue(requestClass, Path.class);
+		String path = (String) AnnotationUtils.getDefaultAttributeValue(requestClass, Path.class);
 		if(path == null){
-			return null;
+			throw new Exception("Request上没有Path注解");
 		}
 		
 		/*
 		 * 组织HttpRequest对象
 		 */
-		HttpRequest httpRequest = new HttpRequest(hostServerAddress + (StringUtils.startsWithIgnoreCase(hostServerAddress, "/")?"":"/") + path);
+		HttpRequest httpRequest = new HttpRequest(host + (StringUtils.startsWithIgnoreCase(host, "/")?"":"/") + path);
 		
 		//如果有Post注解就设置请求方式为POST
-		if(AnnotationUtils.existAnnotaion(requestClass, Post.class)){
+		if(AnnotationUtils.contain(requestClass, Post.class)){
 			httpRequest.setRequestMethod(HttpRequestMethod.POST);
 		}
 		
 		//循环处理所有字段
+		String paramValue;
+		String paramName;
+		Object valueObject;
 		for(Field field : ClassUtils.getFileds(requestClass, true, true, true)){
 			try {
-				//获取字段的值
-				field.setAccessible(true);
-				Object valueObject = field.get(request);
-				String value = valueObject != null?valueObject.toString():null;
-				
-				//如果当前字段没有被弃用并且不是static final的以及值不为null
-				if(!AnnotationUtils.existAnnotaion(field, Deprecated.class) && !(Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) && StringUtils.isNotNullAndEmpty(value)){
-					//默认参数名字为序列化名字注解的值
-					String paramName = AnnotationUtils.getAnnotaionValue(field, SerializedName.class);
-					//但如果当前字段上没有使用序列化名字注解，就用字段的名字作为参数名
-					if(paramName == null){
-						paramName = field.getName();
+				/* 如果当前字段被标记为需要序列化 */
+				if(AnnotationUtils.contain(field, Expose.class)){
+					//初始化参数值
+					field.setAccessible(true);
+					valueObject = field.get(request);
+					paramValue = valueObject != null?valueObject.toString():null;
+					if(StringUtils.isNotNullAndEmpty(paramValue)){
+						//初始化参数名
+						paramName = (String) AnnotationUtils.getDefaultAttributeValue(field, SerializedName.class);
+						if(!StringUtils.isNotNullAndEmpty()){
+							paramName = field.getName();
+						}
+						
+						//添加请求参数
+						httpRequest.addParameter(paramName, paramValue);
 					}
-					
-					//添加请求参数
-					httpRequest.addParameter(paramName, value);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

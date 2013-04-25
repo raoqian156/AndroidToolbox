@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * POST请求方式
- * @author xiaopan
- *
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

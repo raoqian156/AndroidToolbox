@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.app.BaseFragmentActivity;
+import me.xiaopan.androidlibrary.app.BaseListActivity;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
 import me.xiaopan.androidlibrary.net.Request;
 import me.xiaopan.androidlibrary.net.Response;
@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import com.umeng.analytics.MobclickAgent;
 
-public abstract class MyBaseFragmentActivity extends BaseFragmentActivity {
+public abstract class MyBaseListActivity extends BaseListActivity {
 
 	@Override
 	protected void onPreInit(Bundle savedInstanceState) {

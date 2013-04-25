@@ -2,7 +2,6 @@ package me.xiaopan.androidlibrary.sql;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class SQLUtils {
 	 */
 	public static String getCreateTableSQL(Class<?> clas) throws NotFoundTableAnnotationException{
 		//处理表注解
-		String tableValue = AnnotationUtils.getAnnotaionValue(clas, Table.class);
+		String tableValue = (String) AnnotationUtils.getDefaultAttributeValue(clas, Table.class);
 		if(tableValue == null ){
 			throw new NotFoundTableAnnotationException();
 		}
@@ -39,10 +38,10 @@ public class SQLUtils {
 		boolean addSeparator = false;
 		for(Field field : ClassUtils.getFileds(clas, true, true, true)){
 			//处理列注解
-			String columnValue = AnnotationUtils.getAnnotaionValue(field, Column.class);
+			String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
 			if(columnValue != null){
 				//处理数据类型注解
-				String typeValue = AnnotationUtils.getAnnotaionValue(field, DataType.class);
+				String typeValue = (String) AnnotationUtils.getDefaultAttributeValue(field, DataType.class);
 				if(typeValue != null){
 					//如果需要添加分隔符
 					if(addSeparator){
@@ -54,11 +53,11 @@ public class SQLUtils {
 					sql.append(columnValue +" " + typeValue);
 					
 					//如果存在非空注解，就添加非空标识，否则处理默认值注解
-					if(AnnotationUtils.existAnnotaion(field, NotNull.class)){
+					if(AnnotationUtils.contain(field, NotNull.class)){
 						sql.append(" not null");
 					}else{
 						//处理默认值注解
-						String defultValue = AnnotationUtils.getAnnotaionValue(field, Default.class);
+						String defultValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Default.class);
 						if(defultValue != null){
 							if(typeValue.startsWith("text") || typeValue.startsWith("varchar") || typeValue.startsWith("varchar2") || typeValue.startsWith("char")){
 								sql.append(" defult '"+defultValue+"'");
@@ -69,7 +68,7 @@ public class SQLUtils {
 					}
 					
 					//如果存在主键注解，就添加主键标识
-					if(AnnotationUtils.existAnnotaion(field, PrimaryKey.class)){
+					if(AnnotationUtils.contain(field, PrimaryKey.class)){
 						sql.append(" primary key");
 					}
 					
@@ -96,28 +95,20 @@ public class SQLUtils {
 		ContentValues contentValues = new ContentValues();
 		for(Field field : ClassUtils.getFileds(clas, true, true, true)){
 			//处理列注解
-			String columnValue = AnnotationUtils.getAnnotaionValue(field, Column.class);
+			String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
 			if(columnValue != null){
 				//处理数据类型注解
-				String typeValue = AnnotationUtils.getAnnotaionValue(field, DataType.class);
-				if(typeValue != null){
-					Method method = ClassUtils.getGetOrIsMethodByField(clas, field);
-					if(method != null){
-						method.setAccessible(true);
-						try {
-							Object result = method.invoke(object, new Object[]{});
-							if(result != null){
-								contentValues.put(columnValue, result.toString());
-							}else{
-								contentValues.putNull(columnValue);
-							}
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							e.printStackTrace();
+				if((String) AnnotationUtils.getDefaultAttributeValue(field, DataType.class) != null){
+					try {
+						field.setAccessible(true);
+						Object result = field.get(object);
+						if(result != null){
+							contentValues.put(columnValue, result.toString());
+						}else{
+							contentValues.putNull(columnValue);
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			}
@@ -146,7 +137,7 @@ public class SQLUtils {
 				//如果不是静态的
 				if(!Modifier.isStatic(field.getModifiers())){
 					//获取列注解
-					String columnValue = AnnotationUtils.getAnnotaionValue(field, Column.class);
+					String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
 					//如果有注解
 					if(columnValue != null){
 						//获取列的值
@@ -175,7 +166,8 @@ public class SQLUtils {
 							}else{
 								object = ClassUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{value});
 							}
-							ClassUtils.getSetMethodByField(clas, field, field.getType()).invoke(newInstance, new Object[]{object});
+							field.setAccessible(true);
+							field.set(newInstance, object);
 						}
 					}
 				}

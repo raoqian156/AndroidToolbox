@@ -91,11 +91,6 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 	}
 
 	@Override
-	public String getHostServerAddress(){
-		return "http://m.weather.com.cn/data";
-	}
-	
-	@Override
 	public void onPromptExitApplication() {
 		toastL(R.string.comm_hint_exitHint);
 	}

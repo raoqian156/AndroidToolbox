@@ -175,7 +175,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 	
 	@Override
 	public void onPromptExitApplication(){
-		toastS("2秒之内再次点击返回按钮将退出程序！");
+		toastS("再按一次退出程序！");
 	}
 
 	@Override
@@ -393,12 +393,11 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 	
 	@Override
 	public final void accessNetwork(Request request, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener){
-		HttpRequest httpRequest = AccessNetworkUtils.toHttpRequest(request, getHostServerAddress());
-		if(httpRequest != null){
-			accessNetwork(httpRequest, responseHandler, accessNetworkListener);
-		}else{
+		try {
+			accessNetwork(AccessNetworkUtils.toHttpRequest(request), responseHandler, accessNetworkListener);
+		} catch (Exception e) {
 			if(accessNetworkListener != null){
-				accessNetworkListener.onException(new IllegalArgumentException("Request上没有Path注解"), this);
+				accessNetworkListener.onException(e, this);
 			}
 		}
 	}
