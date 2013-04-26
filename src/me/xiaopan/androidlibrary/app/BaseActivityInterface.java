@@ -1092,12 +1092,14 @@ public interface BaseActivityInterface {
 						//如果尚未初始化列表为空提示视图。并且列表为空提示ID是合法的，就获取列表为空提示视图
 						if(baseActivityInterface.getListEmptyHintView() == null && baseActivityInterface.getListEmptyHintViewId() != 0){
 							baseActivityInterface.setListEmptyHintView(activity.findViewById(baseActivityInterface.getListEmptyHintViewId()));
-							baseActivityInterface.getListEmptyHintView().setOnClickListener(new OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									baseActivityInterface.clickListEmptyHintView();
-								}
-							});
+							if(baseActivityInterface.getListEmptyHintView() != null){
+								baseActivityInterface.getListEmptyHintView().setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										baseActivityInterface.clickListEmptyHintView();
+									}
+								});
+							}
 						}
 						
 						//如果列表为空提示视图正在显示，就隐藏掉
