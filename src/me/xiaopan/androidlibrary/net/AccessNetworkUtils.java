@@ -25,22 +25,20 @@ public class AccessNetworkUtils {
 	public static HttpRequest toHttpRequest(Request request) throws Exception{
 		Class<? extends Request> requestClass = request.getClass();
 		
-		//从请求对象中获取主机地址
-		String host = (String) AnnotationUtils.getDefaultAttributeValue(requestClass, Host.class);
-		if(host == null){
-			throw new Exception("Request上没有Host注解");
-		}
-		
-		//尝试取得Path注解的值，如果没有就就直接返回null
-		String path = (String) AnnotationUtils.getDefaultAttributeValue(requestClass, Path.class);
-		if(path == null){
-			throw new Exception("Request上没有Path注解");
-		}
-		
 		/*
 		 * 组织HttpRequest对象
 		 */
-		HttpRequest httpRequest = new HttpRequest(host + (StringUtils.startsWithIgnoreCase(host, "/")?"":"/") + path);
+		//从请求对象中获取主机地址
+		Host host = requestClass.getAnnotation(Host.class);
+		if(host == null || !StringUtils.isNotNullAndEmpty(host.value())){
+			throw new Exception("Request上没有Host注解");
+		}
+		//尝试取得Path注解的值，如果没有就就直接返回null
+		Path path = requestClass.getAnnotation(Path.class);
+		if(path == null || !StringUtils.isNotNullAndEmpty(path.value())){
+			throw new Exception("Request上没有Path注解");
+		}
+		HttpRequest httpRequest = new HttpRequest(host.value() + (StringUtils.startsWithIgnoreCase(host.value(), "/")?"":"/") + path.value());
 		
 		//如果有Post注解就设置请求方式为POST
 		if(AnnotationUtils.contain(requestClass, Post.class)){
@@ -61,10 +59,8 @@ public class AccessNetworkUtils {
 					paramValue = valueObject != null?valueObject.toString():null;
 					if(StringUtils.isNotNullAndEmpty(paramValue)){
 						//初始化参数名
-						paramName = (String) AnnotationUtils.getDefaultAttributeValue(field, SerializedName.class);
-						if(!StringUtils.isNotNullAndEmpty()){
-							paramName = field.getName();
-						}
+						SerializedName serializedName = field.getAnnotation(SerializedName.class);
+						paramName = (serializedName != null && StringUtils.isNotNullAndEmpty(serializedName.value()))?serializedName.value():field.getName();
 						
 						//添加请求参数
 						httpRequest.addParameter(paramName, paramValue);

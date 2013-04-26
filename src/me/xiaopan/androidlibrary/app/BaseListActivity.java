@@ -396,6 +396,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 		try {
 			accessNetwork(AccessNetworkUtils.toHttpRequest(request), responseHandler, accessNetworkListener);
 		} catch (Exception e) {
+			e.printStackTrace();
 			if(accessNetworkListener != null){
 				accessNetworkListener.onException(e, this);
 			}
