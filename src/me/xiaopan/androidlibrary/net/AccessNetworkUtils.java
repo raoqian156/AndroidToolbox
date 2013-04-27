@@ -25,24 +25,33 @@ public class AccessNetworkUtils {
 	public static HttpRequest toHttpRequest(Request request) throws Exception{
 		Class<? extends Request> requestClass = request.getClass();
 		
-		/*
-		 * 组织HttpRequest对象
-		 */
-		//从请求对象中获取主机地址
+		//尝试从请求对象中获取主机地址
 		Host host = requestClass.getAnnotation(Host.class);
 		if(host == null || !StringUtils.isNotNullAndEmpty(host.value())){
-			throw new Exception("Request上没有Host注解");
+			throw new Exception(requestClass.getName()+"上没有Host注解");
 		}
-		//尝试取得Path注解的值，如果没有就就直接返回null
+		//尝试从请求对象中获取路径地址
 		Path path = requestClass.getAnnotation(Path.class);
 		if(path == null || !StringUtils.isNotNullAndEmpty(path.value())){
-			throw new Exception("Request上没有Path注解");
+			throw new Exception(requestClass.getName()+"上没有Path注解");
 		}
 		HttpRequest httpRequest = new HttpRequest(host.value() + (StringUtils.startsWithIgnoreCase(host.value(), "/")?"":"/") + path.value());
 		
 		//如果有Post注解就设置请求方式为POST
 		if(AnnotationUtils.contain(requestClass, Post.class)){
 			httpRequest.setRequestMethod(HttpRequestMethod.POST);
+		}
+		
+		//如果有ConnectTimeout注解就设置连接超时时间
+		ConnectTimeout connectTimeout = requestClass.getAnnotation(ConnectTimeout.class);
+		if(connectTimeout != null){
+			httpRequest.setConnectTimeout(connectTimeout.value());
+		}
+		
+		//如果有ReadTimeout注解就设置读取超时时间
+		ReadTimeout readTimeout = requestClass.getAnnotation(ReadTimeout.class);
+		if(readTimeout != null){
+			httpRequest.setReadTimeout(readTimeout.value());
 		}
 		
 		//循环处理所有字段
