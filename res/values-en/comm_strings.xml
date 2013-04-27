@@ -3,13 +3,11 @@
 <resources>
     <string name="app_name">测试程序</string>
     
-    <string name="comm_hint_connectionTimeout">网络连接超时！请重试！</string>
-    <string name="comm_hint_networkError">网络不可用，请检查您的网络设置！</string>
-    <string name="comm_hint_connectionError">连接失败！请重试！</string>
-    <string name="comm_hint_urlError">连接失败！请重试！</string>
-    <string name="comm_hint_unknownException">连接失败！请重试！</string>
-    <string name="comm_hint_getDataFailed">连接失败！请重试！</string>
-    <string name="comm_hint_parseFailed">连接失败！请重试！</string>
+    <string name="comm_hint_network_connectionTimeout">网络连接超时！</string>
+    <string name="comm_hint_network_connectionException">网络连接异常！</string>
+    <string name="comm_hint_network_fileNotFoundException">网络连接失败！</string>
+    <string name="comm_hint_network_unknownException">网络连接失败！</string>
+    
     <string name="comm_hint_cameraOpenFailed">打开摄像头失败，请确保其他程序没有占用您的摄像头！</string>
     <string name="comm_hint_reloadIn">正在重新加载！</string>
     

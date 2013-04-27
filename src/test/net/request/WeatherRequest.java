@@ -6,4 +6,6 @@ import me.xiaopan.androidlibrary.net.Request;
 
 @Host("http://www.weather.com.cn/data/cityinfo")
 @Path("101010100.html")
-public class WeatherRequest extends Request {}
+public class WeatherRequest extends Request {
+	
+}

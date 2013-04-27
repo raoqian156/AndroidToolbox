@@ -21,7 +21,7 @@ public abstract class PlayAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 		//当时循环播放的时候就返回一个int类型的最大值保证可以一直循环下去，否则就返回真实的长度
-		return (list != null)?((playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT  || playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT)?Integer.MAX_VALUE:list.size()):0;
+		return (list != null)?(((playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT  || playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT) && list.size() > 1)?Integer.MAX_VALUE:list.size()):0;
 	}
 	
 	@Override

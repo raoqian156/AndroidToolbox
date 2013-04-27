@@ -750,6 +750,8 @@ public class ImageLoader {
 		 */
 		public final void downloadImage(final ImageLoadRequest imageLoad, final Options loadOptions) {
 			HttpRequest httpRequest = new HttpRequest(imageLoad.getUrl());
+			httpRequest.setConnectTimeout(30000);
+			httpRequest.setReadTimeout(30000);
 			HttpClient.sendRequest(httpRequest, new HttpListener() {
 				
 				private File parentDir;//保存图片的文件的父目录

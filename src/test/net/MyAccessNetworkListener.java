@@ -9,7 +9,6 @@ import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.app.BaseActivityInterface;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
 import me.xiaopan.androidlibrary.util.AndroidUtils;
-import me.xiaopan.androidlibrary.util.NetworkUtils;
 import android.content.Context;
 
 public abstract class MyAccessNetworkListener<T> extends AccessNetworkListener<T> {
@@ -35,23 +34,15 @@ public abstract class MyAccessNetworkListener<T> extends AccessNetworkListener<T
 	@Override
 	public void onException(Exception e, Context context){
 		if(e instanceof SocketTimeoutException){
-			AndroidUtils.toastL(context, R.string.comm_hint_connectionTimeout);
+			AndroidUtils.toastL(context, R.string.comm_hint_network_connectionTimeout);
 		}else if(e instanceof UnknownHostException){
-			if(NetworkUtils.isConnectedByState(context)){
-				AndroidUtils.toastL(context, R.string.comm_hint_connectionError);
-			}else{
-				AndroidUtils.toastL(context, R.string.comm_hint_networkError);
-			}
+			AndroidUtils.toastL(context, R.string.comm_hint_network_connectionException);
 		}else if(e instanceof ConnectException){
-			if(NetworkUtils.isConnectedByState(context)){
-				AndroidUtils.toastL(context, R.string.comm_hint_connectionError);
-			}else{
-				AndroidUtils.toastL(context, R.string.comm_hint_networkError);
-			}
+			AndroidUtils.toastL(context, R.string.comm_hint_network_connectionException);
 		}else if(e instanceof FileNotFoundException){
-			AndroidUtils.toastL(context, R.string.comm_hint_urlError);
+			AndroidUtils.toastL(context, R.string.comm_hint_network_fileNotFoundException);
 		}else{
-			AndroidUtils.toastL(context, R.string.comm_hint_unknownException);
+			AndroidUtils.toastL(context, R.string.comm_hint_network_unknownException);
 		}
 		if(isExceptionFinishActivty() && context instanceof BaseActivityInterface){
 			((BaseActivityInterface) context).becauseExceptionFinishActivity();
@@ -65,7 +56,7 @@ public abstract class MyAccessNetworkListener<T> extends AccessNetworkListener<T
 	 */
 	@Override
 	public void onNetworkNotAvailable(Context context){
-		AndroidUtils.toastL(context, R.string.comm_hint_networkError);
+		AndroidUtils.toastL(context, R.string.comm_hint_network_connectionException);
 		if(isExceptionFinishActivty() && context instanceof BaseActivityInterface){
 			((BaseActivityInterface) context).becauseExceptionFinishActivity();
 		}

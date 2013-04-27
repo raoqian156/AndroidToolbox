@@ -81,7 +81,7 @@ public abstract class MyBaseListActivity extends BaseListActivity {
 
 	@Override
 	protected void onNetworkNotAvailable() {
-		toastL(R.string.comm_hint_networkError);
+		toastL(R.string.comm_hint_network_connectionException);
 	}
 
 	@Override
