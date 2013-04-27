@@ -78,7 +78,7 @@ public class ViewPlayer extends FrameLayout{
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						if(getOnItemClickListener() != null){		//回调
-							getOnItemClickListener().onItemClick(parent, view, position, id);
+							getOnItemClickListener().onItemClick(parent, view, playerAdapter.getRealSelectedItemPosition(position), id);
 						}
 					}
 				});
