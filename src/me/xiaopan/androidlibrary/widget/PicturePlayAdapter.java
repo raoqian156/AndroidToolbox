@@ -11,14 +11,14 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-public class DefaultPlayerAdapter extends PlayerAdapter{
+public class PicturePlayAdapter extends PlayAdapter{
 	private Context context;//上下文
 	private List<Picture> pictures;//图片列表
 	private int defaultImageResId;//默认图片ID
 	private ScaleType imageScaleType = ScaleType.FIT_CENTER;//图片缩放模式
 	private ImageLoader imageLoader;//图片加载器
 	
-	public DefaultPlayerAdapter(Context context, List<Picture> pictures, int defaultImageResId){
+	public PicturePlayAdapter(Context context, List<Picture> pictures, int defaultImageResId){
 		super(pictures);
 		this.context = context;
 		this.pictures = pictures;

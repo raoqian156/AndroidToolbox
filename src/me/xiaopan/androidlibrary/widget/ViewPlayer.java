@@ -13,47 +13,30 @@ import android.widget.FrameLayout;
 import android.widget.Gallery;
 
 /**
- * 图片播放器
+ * 视图播放器，用于循环播放视图，至于播放什么，你可以提供一个PlayAdapter来提供播放的内容
  */
-public abstract class PicturePlayer extends FrameLayout{
+public class ViewPlayer extends FrameLayout{
 	private int switchSpace = 3000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
-	private PlayerAdapter playerAdapter;//为画廊提供视图的适配器
+	private PlayAdapter playerAdapter;//为画廊提供视图的适配器
+	private PlayIndicator playerIndicator;//播放指示器
 	private OnItemClickListener onItemClickListener;//项点击监听器
 	private OnItemSelectedListener onItemSelectedListener;//项选中监听器
 	private PlayWay playWay = PlayWay.CIRCLE_LEFT_TO_RIGHT;//播放方式，默认是从左往右转圈
 	
-	private DefaultGallery gallery;//画廊
+	private ViewGallery viewGallery;//画廊
 	private boolean loadFinish;//加载成功
 	private boolean currentTowardsTheRight;//当前向右播放
 	private Handler switchHandler;//切换处理器
 	private SwitchHandle switchHandle;//切换处理
 
-	public PicturePlayer(Context context) {
+	public ViewPlayer(Context context) {
 		super(context);
 	}
 	
-	public PicturePlayer(Context context, AttributeSet attrs) {
+	public ViewPlayer(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
-	
-	/**
-	 * 当需要初始化的时候
-	 * @param size 元素个数
-	 */
-	public abstract View onInitIndicator(int size);
-	
-	/**
-	 * 当有选项被选中的时候
-	 * @param position 被选中选项的位置
-	 */
-	public abstract void onIndicatorItemSelected(int position);
-	
-	/**
-	 * 当获取默认图片资源
-	 * @return
-	 */
-	protected abstract int onGetDefaultImageResId();
 	
 	/**
 	 * 开始播放
@@ -70,9 +53,9 @@ public abstract class PicturePlayer extends FrameLayout{
 				switchHandle = new SwitchHandle();
 				
 				//初始化画廊
-				gallery = new DefaultGallery(getContext());
-				gallery.setAnimationDuration(animationDurationMillis);//设置动画持续时间，默认是600毫秒
-				gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+				viewGallery = new ViewGallery(getContext());
+				viewGallery.setAnimationDuration(animationDurationMillis);//设置动画持续时间，默认是600毫秒
+				viewGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override
 					public void onNothingSelected(AdapterView<?> parent) {
 						if(getOnItemSelectedListener() != null){		//回调
@@ -83,13 +66,15 @@ public abstract class PicturePlayer extends FrameLayout{
 					@Override
 					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 						int realSelectedItemPosition = playerAdapter.getRealSelectedItemPosition(position);		//获取真实的位置，
-						onIndicatorItemSelected(realSelectedItemPosition);		//修改指示器的选中项
+						if(playerIndicator != null){
+							playerIndicator.onItemSelected(realSelectedItemPosition);		//修改指示器的选中项
+						}
 						if(getOnItemSelectedListener() != null){		//回调
 							getOnItemSelectedListener().onItemSelected(parent, view, realSelectedItemPosition, id);
 						}
 					}
 				});
-				gallery.setOnItemClickListener(new OnItemClickListener() {
+				viewGallery.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						if(getOnItemClickListener() != null){		//回调
@@ -97,7 +82,7 @@ public abstract class PicturePlayer extends FrameLayout{
 						}
 					}
 				});
-				gallery.setAdapter(playerAdapter);
+				viewGallery.setAdapter(playerAdapter);
 				
 				//初始化默认选中项
 				int defaultPosition = 0;
@@ -112,11 +97,14 @@ public abstract class PicturePlayer extends FrameLayout{
 					defaultPosition = playerAdapter.getList().size() -1;//那么默认选中项是第一组的最后一张
 					currentTowardsTheRight = false;//播放方向将是向左
 				}
-				gallery.setSelection(defaultPosition);
+				viewGallery.setSelection(defaultPosition);
 				
 				//将画廊和指示器放进布局中
-				addView(gallery);
-				addView(onInitIndicator(playerAdapter.getList().size()));
+				addView(viewGallery);
+				if(playerIndicator != null){
+					playerIndicator.onInit(playerAdapter.getList().size());
+					addView(playerIndicator);
+				}
 			}else{
 				loadFinish = false;
 			}
@@ -222,23 +210,31 @@ public abstract class PicturePlayer extends FrameLayout{
 		this.animationDurationMillis = animationDurationMillis;
 	}
 
-	public PlayerAdapter getPlayerAdapter() {
+	public PlayAdapter getPlayerAdapter() {
 		return playerAdapter;
 	}
 
-	public void setPlayerAdapter(PlayerAdapter playerAdapter) {
+	public void setPlayerAdapter(PlayAdapter playerAdapter) {
 		this.playerAdapter = playerAdapter;
 		if(this.playerAdapter != null){
 			this.playerAdapter.setPlayWay(playWay);
 		}
 	}
 
+	public PlayIndicator getPlayerIndicator() {
+		return playerIndicator;
+	}
+
+	public void setPlayerIndicator(PlayIndicator playerIndicator) {
+		this.playerIndicator = playerIndicator;
+	}
+
 	/**
 	 * 默认的画廊
 	 * @author xiaopan
 	 */
-	private class DefaultGallery extends Gallery {
-		public DefaultGallery(Context context) {
+	private class ViewGallery extends Gallery {
+		public ViewGallery(Context context) {
 			super(context);
 			setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.FILL_PARENT, Gallery.LayoutParams.FILL_PARENT));
 			setSoundEffectsEnabled(false);//切换的时候不播放音效
@@ -278,33 +274,33 @@ public abstract class PicturePlayer extends FrameLayout{
 		public void run() {
 			//从左向右转圈
 			if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){
-				gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+				viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
 			}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){
-				gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+				viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
 			}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT || playWay == PlayWay.SWING_RIGHT_TO_LEFT){
 				//如果当前是向右播放
 				if(currentTowardsTheRight){
 					//如果到最后一个了
-					if(gallery.getSelectedItemPosition() == playerAdapter.getList().size() -1){
+					if(viewGallery.getSelectedItemPosition() == playerAdapter.getList().size() -1){
 						currentTowardsTheRight = false;//标记为向左
-						gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
 					}else{
-						gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
 					}
 				}else{
 					//如果到第一个了
-					if(gallery.getSelectedItemPosition() == 0){
+					if(viewGallery.getSelectedItemPosition() == 0){
 						currentTowardsTheRight = true;
-						gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
 					}else{
-						gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
 					}
 				}
 			}
 			switchHandler.postDelayed(switchHandle, switchSpace);
 		}
 	}
-
+	
 	/**
 	 * 播放方式
 	 */

@@ -4,31 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.DefaultPlayerAdapter;
-import me.xiaopan.androidlibrary.widget.DefaultPlayerAdapter.Picture;
-import me.xiaopan.androidlibrary.widget.PicturePlayer.PlayWay;
+import me.xiaopan.androidlibrary.widget.PicturePlayAdapter;
+import me.xiaopan.androidlibrary.widget.PicturePlayAdapter.Picture;
+import me.xiaopan.androidlibrary.widget.ViewPlayer.PlayWay;
 import me.xiaopan.javalibrary.util.NetUtils;
 import test.MyBaseActivity;
-import test.widget.PointPicturePlayer;
+import test.widget.PointViewPlayer;
 import android.os.Bundle;
 
 /**
  * 图片播放器
  */
 public class PicturePlayerActivity extends MyBaseActivity {
-	private PointPicturePlayer picturePlayerCircleLeftToRight;
-	private PointPicturePlayer picturePlayerCircleRightToLeft;
-	private PointPicturePlayer picturePlayerSwingLeftToRight;
-	private PointPicturePlayer picturePlayerSwingRightToLeft;
+	private PointViewPlayer picturePlayerCircleLeftToRight;
+	private PointViewPlayer picturePlayerCircleRightToLeft;
+	private PointViewPlayer picturePlayerSwingLeftToRight;
+	private PointViewPlayer picturePlayerSwingRightToLeft;
 	private List<Picture> pictures;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_picture_player);
-		picturePlayerCircleLeftToRight = (PointPicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_leftToRight);
-		picturePlayerCircleRightToLeft = (PointPicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_rightToLeft);
-		picturePlayerSwingLeftToRight = (PointPicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_leftToRight);
-		picturePlayerSwingRightToLeft = (PointPicturePlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_rightToLeft);
+		picturePlayerCircleLeftToRight = (PointViewPlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_leftToRight);
+		picturePlayerCircleRightToLeft = (PointViewPlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_rightToLeft);
+		picturePlayerSwingLeftToRight = (PointViewPlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_leftToRight);
+		picturePlayerSwingRightToLeft = (PointViewPlayer) findViewById(R.id.picturePlayer_picturePlayer_swing_rightToLeft);
 	}
 
 	@Override
@@ -45,16 +45,16 @@ public class PicturePlayerActivity extends MyBaseActivity {
 		}
 		
 		
-		picturePlayerCircleLeftToRight.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerCircleLeftToRight.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerCircleLeftToRight.setPlayWay(PlayWay.CIRCLE_LEFT_TO_RIGHT);
 		
-		picturePlayerCircleRightToLeft.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerCircleRightToLeft.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerCircleRightToLeft.setPlayWay(PlayWay.CIRCLE_RIGHT_TO_LEFT);
 		
-		picturePlayerSwingLeftToRight.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerSwingLeftToRight.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerSwingLeftToRight.setPlayWay(PlayWay.SWING_LEFT_TO_RIGHT);
 		
-		picturePlayerSwingRightToLeft.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerSwingRightToLeft.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerSwingRightToLeft.setPlayWay(PlayWay.SWING_RIGHT_TO_LEFT);
 	}
 

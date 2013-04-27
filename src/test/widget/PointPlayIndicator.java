@@ -1,32 +1,29 @@
 package test.widget;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.PicturePlayer;
+import me.xiaopan.androidlibrary.widget.PlayIndicator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class PointPicturePlayer extends PicturePlayer {
-	private LinearLayout indicatorView;
+public class PointPlayIndicator extends PlayIndicator {
 	private int lastCheckedPosition;//上次选中的图标的位置
 	private LinearLayout pointsLayout;
 	
-	public PointPicturePlayer(Context context) {
+	public PointPlayIndicator(Context context) {
 		super(context);
 	}
 	
-	public PointPicturePlayer(Context context, AttributeSet attrs) {
+	public PointPlayIndicator(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
 	@Override
-	public View onInitIndicator(int size) {
-		indicatorView = new LinearLayout(getContext());
-		indicatorView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-		indicatorView.setGravity(Gravity.BOTTOM);
+	public void onInit(int size) {
+		setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+		setGravity(Gravity.BOTTOM);
 		
 		//创建包括所有图标部分的布局
 		pointsLayout = new LinearLayout(getContext());
@@ -42,22 +39,16 @@ public class PointPicturePlayer extends PicturePlayer {
 			pointsLayout.addView(iconImage);
 		}
 		
-		indicatorView.addView(pointsLayout);
-		return indicatorView;
+		addView(pointsLayout);
 	}
 
 	@Override
-	public void onIndicatorItemSelected(int position) {
+	public void onItemSelected(int selectedItemPosition) {
 		//先将上一个取消
 		((ImageView) (pointsLayout.getChildAt(lastCheckedPosition))).setSelected(false);
 		//再将当前的选中
-		((ImageView) (pointsLayout.getChildAt(position))).setSelected(true);
+		((ImageView) (pointsLayout.getChildAt(selectedItemPosition))).setSelected(true);
 		//记录本次选中的
-		lastCheckedPosition = position;
-	}
-
-	@Override
-	protected int onGetDefaultImageResId() {
-		return R.drawable.image_default;
+		lastCheckedPosition = selectedItemPosition;
 	}
 }
