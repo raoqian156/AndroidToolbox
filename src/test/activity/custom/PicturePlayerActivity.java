@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.PicturePlayer.Picture;
+import me.xiaopan.androidlibrary.widget.DefaultPlayerAdapter;
+import me.xiaopan.androidlibrary.widget.DefaultPlayerAdapter.Picture;
 import me.xiaopan.androidlibrary.widget.PicturePlayer.PlayWay;
 import me.xiaopan.javalibrary.util.NetUtils;
 import test.MyBaseActivity;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 
 /**
  * 图片播放器
- * @author xiaopan
  */
 public class PicturePlayerActivity extends MyBaseActivity {
 	private PointPicturePlayer picturePlayerCircleLeftToRight;
@@ -44,14 +44,17 @@ public class PicturePlayerActivity extends MyBaseActivity {
 			pictures.add(picture);
 		}
 		
-		picturePlayerCircleLeftToRight.setPictures(pictures);
-		picturePlayerCircleRightToLeft.setPictures(pictures);
-		picturePlayerSwingLeftToRight.setPictures(pictures);
-		picturePlayerSwingRightToLeft.setPictures(pictures);
 		
+		picturePlayerCircleLeftToRight.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerCircleLeftToRight.setPlayWay(PlayWay.CIRCLE_LEFT_TO_RIGHT);
+		
+		picturePlayerCircleRightToLeft.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerCircleRightToLeft.setPlayWay(PlayWay.CIRCLE_RIGHT_TO_LEFT);
+		
+		picturePlayerSwingLeftToRight.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerSwingLeftToRight.setPlayWay(PlayWay.SWING_LEFT_TO_RIGHT);
+		
+		picturePlayerSwingRightToLeft.setPlayerAdapter(new DefaultPlayerAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerSwingRightToLeft.setPlayWay(PlayWay.SWING_RIGHT_TO_LEFT);
 	}
 

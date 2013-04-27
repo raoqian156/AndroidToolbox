@@ -1,39 +1,29 @@
 package me.xiaopan.androidlibrary.widget;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import me.xiaopan.androidlibrary.util.ImageLoader;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.Gallery;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
 /**
  * 图片播放器
  */
 public abstract class PicturePlayer extends FrameLayout{
-	private int switchSpace = 4000;//切换间隔
+	private int switchSpace = 3000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
-	private ScaleType imageScaleType = ScaleType.FIT_CENTER;//图片缩放模式
-	private List<Picture> pictures;//图片列表
-	private DefaultGallery gallery;//画廊
+	private PlayerAdapter playerAdapter;//为画廊提供视图的适配器
 	private OnItemClickListener onItemClickListener;//项点击监听器
 	private OnItemSelectedListener onItemSelectedListener;//项选中监听器
 	private PlayWay playWay = PlayWay.CIRCLE_LEFT_TO_RIGHT;//播放方式，默认是从左往右转圈
 	
+	private DefaultGallery gallery;//画廊
 	private boolean loadFinish;//加载成功
 	private boolean currentTowardsTheRight;//当前向右播放
 	private Handler switchHandler;//切换处理器
@@ -71,7 +61,7 @@ public abstract class PicturePlayer extends FrameLayout{
 	public void startPaly(){
 		//如果之前加载失败了
 		if(!loadFinish){
-			if(pictures != null && pictures.size() > 0){
+			if(playerAdapter != null && playerAdapter.getList() != null && playerAdapter.getList().size() > 0){
 				loadFinish = true;
 				removeAllViews();
 				
@@ -92,7 +82,7 @@ public abstract class PicturePlayer extends FrameLayout{
 					
 					@Override
 					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-						int realSelectedItemPosition = getRealSelectedItemPosition(position);		//获取真实的位置，
+						int realSelectedItemPosition = playerAdapter.getRealSelectedItemPosition(position);		//获取真实的位置，
 						onIndicatorItemSelected(realSelectedItemPosition);		//修改指示器的选中项
 						if(getOnItemSelectedListener() != null){		//回调
 							getOnItemSelectedListener().onItemSelected(parent, view, realSelectedItemPosition, id);
@@ -107,26 +97,26 @@ public abstract class PicturePlayer extends FrameLayout{
 						}
 					}
 				});
-				gallery.setAdapter(new DefaultGalleryAdapter());
+				gallery.setAdapter(playerAdapter);
 				
 				//初始化默认选中项
 				int defaultPosition = 0;
 				if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){//如果播放方式是从左向右转圈
-					defaultPosition = ((Integer.MAX_VALUE/pictures.size())/2)*pictures.size();//那么默认选中项是最中间那一组的第一张
+					defaultPosition = ((Integer.MAX_VALUE/playerAdapter.getList().size())/2)*playerAdapter.getList().size();//那么默认选中项是最中间那一组的第一张
 				}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){//如果播放方式是从右向左转圈
-					defaultPosition = ((Integer.MAX_VALUE/pictures.size())/2)*pictures.size() + pictures.size() -1;//那么默认选中项是最中间那一组的最后一张
+					defaultPosition = ((Integer.MAX_VALUE/playerAdapter.getList().size())/2)*playerAdapter.getList().size() + playerAdapter.getList().size() -1;//那么默认选中项是最中间那一组的最后一张
 				}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT){//如果播放方式是从左向右摇摆
 					defaultPosition = 0;//那么默认选中项是第一组的第一张
 					currentTowardsTheRight = true;//播放方向将是向右
 				}else if(playWay == PlayWay.SWING_RIGHT_TO_LEFT){//如果播放方式是从右向左摇摆
-					defaultPosition = pictures.size() -1;//那么默认选中项是第一组的最后一张
+					defaultPosition = playerAdapter.getList().size() -1;//那么默认选中项是第一组的最后一张
 					currentTowardsTheRight = false;//播放方向将是向左
 				}
 				gallery.setSelection(defaultPosition);
 				
 				//将画廊和指示器放进布局中
 				addView(gallery);
-				addView(onInitIndicator(pictures.size()));
+				addView(onInitIndicator(playerAdapter.getList().size()));
 			}else{
 				loadFinish = false;
 			}
@@ -150,19 +140,6 @@ public abstract class PicturePlayer extends FrameLayout{
 	}
 	
 	/**
-	 * 获取当前选中项的真实位置
-	 * @param gallerySelectedItemPosition
-	 * @return 当前选中项的真实位置
-	 */
-	private int getRealSelectedItemPosition(int gallerySelectedItemPosition){
-		if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT || playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){
-			return gallerySelectedItemPosition % pictures.size();
-		}else{
-			return gallerySelectedItemPosition;
-		}
-	}
-	
-	/**
 	 * 获取切换间隔
 	 * @return 切换间隔
 	 */
@@ -176,49 +153,6 @@ public abstract class PicturePlayer extends FrameLayout{
 	 */
 	public void setSwitchSpace(int switchSpace) {
 		this.switchSpace = switchSpace;
-	}
-
-	/**
-	 * 获取图片缩放类型
-	 * @return 图片缩放类型
-	 */
-	public ScaleType getImageScaleType() {
-		return imageScaleType;
-	}
-
-	/**
-	 * 设置图片缩放类型
-	 * @param imageScaleType 图片缩放类型
-	 */
-	public void setImageScaleType(ScaleType imageScaleType) {
-		this.imageScaleType = imageScaleType;
-	}
-
-	/**
-	 * 获取要播放的图片的列表
-	 * @return 要播放的图片的列表
-	 */
-	public List<Picture> getPictures() {
-		return pictures;
-	}
-
-	/**
-	 * 设置要播放的图片的列表
-	 * @param pictures 要播放的图片的列表
-	 */
-	public void setPictures(List<Picture> pictures) {
-		this.pictures = pictures;
-	}
-
-	/**
-	 * 设置URLS
-	 * @param imageUrls
-	 */
-	public void setUrls(String... imageUrls){
-		pictures = new ArrayList<Picture>(imageUrls.length);
-		for(int w = 0; w < imageUrls.length; w++){
-			pictures.add(new Picture(imageUrls[w]));
-		}
 	}
 
 	/**
@@ -267,6 +201,9 @@ public abstract class PicturePlayer extends FrameLayout{
 	 */
 	public void setPlayWay(PlayWay playWay) {
 		this.playWay = playWay;
+		if(playerAdapter != null){
+			playerAdapter.setPlayWay(playWay);
+		}
 	}
 
 	/**
@@ -285,40 +222,17 @@ public abstract class PicturePlayer extends FrameLayout{
 		this.animationDurationMillis = animationDurationMillis;
 	}
 
-	/**
-	 * 图片对象
-	 * @author xiaopan
-	 */
-	public static class Picture{
-		private String url;
-		private File file;
-		
-		public Picture(String url, File file){
-			setUrl(url);
-			setFile(file);
-		}
-		
-		public Picture(String url){
-			this(url, null);
-		}
-		
-		public String getUrl() {
-			return url;
-		}
-		
-		public void setUrl(String url) {
-			this.url = url;
-		}
-		
-		public File getFile() {
-			return file;
-		}
-		
-		public void setFile(File file) {
-			this.file = file;
+	public PlayerAdapter getPlayerAdapter() {
+		return playerAdapter;
+	}
+
+	public void setPlayerAdapter(PlayerAdapter playerAdapter) {
+		this.playerAdapter = playerAdapter;
+		if(this.playerAdapter != null){
+			this.playerAdapter.setPlayWay(playWay);
 		}
 	}
-	
+
 	/**
 	 * 默认的画廊
 	 * @author xiaopan
@@ -356,64 +270,8 @@ public abstract class PicturePlayer extends FrameLayout{
 	/**
 	 * 默认的画廊适配器
 	 */
-	private class DefaultGalleryAdapter extends BaseAdapter{
-		private ImageLoader imageLoader;
-		private DefaultGalleryAdapter(){
-			imageLoader = new ImageLoader(onGetDefaultImageResId());
-		}
-		
-		@Override
-		public int getCount() {
-			if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT || playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){
-				return Integer.MAX_VALUE;
-			}else{
-				return pictures.size();
-			}
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return pictures.get(getRealSelectedItemPosition(position));
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return getRealSelectedItemPosition(position);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder viewHolder;
-			if(convertView == null){
-				viewHolder = new ViewHolder();
-				ImageView imageView = new ImageView(getContext());
-				imageView.setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.FILL_PARENT, Gallery.LayoutParams.FILL_PARENT));
-				imageView.setScaleType(getImageScaleType());
-				viewHolder.imageView = imageView;
-				convertView = imageView;
-				convertView.setTag(viewHolder);
-			}else{
-				viewHolder = (ViewHolder) convertView.getTag();
-			}
-			
-			Picture picture = pictures.get(getRealSelectedItemPosition(position));
-			
-			if(picture.getFile() != null){
-				imageLoader.fromLocalByPriority(picture.getFile(), viewHolder.imageView, picture.getUrl());
-			}else{
-				imageLoader.fromNetwork(picture.getUrl(), viewHolder.imageView);
-			}
-			return convertView;
-		}
-		
-		private class ViewHolder{
-			public ImageView imageView;
-		}
-	}
-
 	/**
 	 * 切换处理
-	 * @author xiaopan
 	 */
 	private class SwitchHandle implements Runnable{
 		@Override
@@ -427,7 +285,7 @@ public abstract class PicturePlayer extends FrameLayout{
 				//如果当前是向右播放
 				if(currentTowardsTheRight){
 					//如果到最后一个了
-					if(gallery.getSelectedItemPosition() == pictures.size() -1){
+					if(gallery.getSelectedItemPosition() == playerAdapter.getList().size() -1){
 						currentTowardsTheRight = false;//标记为向左
 						gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
 					}else{
@@ -449,8 +307,6 @@ public abstract class PicturePlayer extends FrameLayout{
 
 	/**
 	 * 播放方式
-	 * @author xiaopan
-	 *
 	 */
 	public enum PlayWay{
 		/**
