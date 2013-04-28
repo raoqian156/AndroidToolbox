@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.AnimationUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.SystemUtils;
+import me.xiaopan.androidlibrary.util.WindowUtils;
 import me.xiaopan.javalibrary.util.FileUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
@@ -175,7 +175,7 @@ public class TakePicturesActivity extends MyBaseActivity implements CameraManage
 			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
 		}else{
 			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if (!AndroidUtils.isLandscape(getBaseContext())) {
+			if (!WindowUtils.isLandscape(getBaseContext())) {
 				camera.setDisplayOrientation(90);
 			}
 		}

@@ -1,10 +1,10 @@
 package test.activity.other;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.CameraManager;
 import me.xiaopan.androidlibrary.util.CameraUtils;
 import me.xiaopan.androidlibrary.util.SystemUtils;
+import me.xiaopan.androidlibrary.util.WindowUtils;
 import me.xiaopan.androidlibrary.util.barcode.Decoder;
 import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.androidlibrary.util.barcode.ScanFrameView;
@@ -152,7 +152,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
 		}else{
 			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if (!AndroidUtils.isLandscape(getBaseContext())) {
+			if (!WindowUtils.isLandscape(getBaseContext())) {
 				camera.setDisplayOrientation(90);
 			}
 		}

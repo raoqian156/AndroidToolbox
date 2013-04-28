@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +24,8 @@ import android.widget.Toast;
  *
  */
 public class AndroidUtils {
+	public static final String SMS_BODY = "sms_body";
+	
 	/**
 	 * 吐出一个显示时间较长的提示
 	 * @param context 上下文对象
@@ -466,19 +467,11 @@ public class AndroidUtils {
 	
 	/**
 	 * 打开拨号界面，需要CALL_PHONE权限
+	 * @param phoneNumber 要呼叫的电话号码
 	 * @param activity Activity对象，需要依托于Activity所在的主线程才能打开拨号界面
 	 */
-	public static void openDialing(Activity activity){
-		activity.startActivity(new Intent(Intent.ACTION_DIAL));
-	}
-	
-	/**
-	 * 打开给定的页面
-	 * @param activity Activity对象，需要依托于Activity所在的主线程才能打开给定的页面
-	 * @param url 要打开的web页面的地址
-	 */
-	public static void openWebBrowser(Activity activity, String url){
-		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+	public static void openDialingInterface(Activity activity, String phoneNumber){
+		activity.startActivity(new Intent(Intent.ACTION_DIAL, UriUtils.getCallUri(phoneNumber)));
 	}
 	
 	/**
@@ -491,13 +484,24 @@ public class AndroidUtils {
 	}
 	
 	/**
-	 * 获取所有联系人的姓名和电话号码，需要READ_CONTACTS权限
-	 * @param context 上下文
-	 * @return Cursor。姓名：CommonDataKinds.Phone.DISPLAY_NAME；号码：CommonDataKinds.Phone.NUMBER
+	 * 打开给定的页面
+	 * @param activity Activity对象，需要依托于Activity所在的主线程才能打开给定的页面
+	 * @param url 要打开的web页面的地址
 	 */
-	public static Cursor getContactsNameAndNumber(Context context){
-		return context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {
-				CommonDataKinds.Phone.DISPLAY_NAME, CommonDataKinds.Phone.NUMBER}, null, null, CommonDataKinds.Phone.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
+	public static void openWebBrowser(Activity activity, String url){
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+	}
+	
+	/**
+	 * 打开发送短信界面
+	 * @param activity Activity对象，需要依托于Activity所在的主线程才能打开给定的页面
+	 * @param mobileNumber 目标手机号
+	 * @param messageConten 短信内容
+	 */
+	public static void openSmsInterface(Activity activity, String mobileNumber, String messageConten){
+		Intent intent = new Intent(Intent.ACTION_SENDTO, UriUtils.getSmsUri(mobileNumber));
+		intent.putExtra(SMS_BODY, messageConten);
+		activity.startActivity(intent);
 	}
 	
 	/**
@@ -506,7 +510,7 @@ public class AndroidUtils {
 	 * @param number 电话号码
 	 * @param messageContent 短信内容，如果长度过长将会发多条发送
 	 */
-	public static void sendMessage(Context context, String number, String messageContent){
+	public static void sendSms(Context context, String number, String messageContent){
 		SmsManager smsManager = SmsManager.getDefault();
 		List<String> contentList = smsManager.divideMessage(messageContent);
 		for(String content : contentList){
@@ -515,39 +519,13 @@ public class AndroidUtils {
 	}
 	
 	/**
-	 * 为给定的字符串添加HTML红色标记，当使用Html.fromHtml()方式显示到TextView 的时候其将是红色的
-	 * @param string 给定的字符串
-	 * @return
+	 * 获取所有联系人的姓名和电话号码，需要READ_CONTACTS权限
+	 * @param context 上下文
+	 * @return Cursor。姓名：CommonDataKinds.Phone.DISPLAY_NAME；号码：CommonDataKinds.Phone.NUMBER
 	 */
-	public static String addHtmlRedFlag(String string){
-		return "<font color=\"red\">"+string+"</font>";
-	}
-	
-	/**
-	 * 将给定的字符串中所有给定的关键字标红
-	 * @param sourceString 给定的字符串
-	 * @param keyword 给定的关键字
-	 * @return 返回的是带Html标签的字符串，在使用时要通过Html.fromHtml()转换为Spanned对象再传递给TextView对象
-	 */
-	public static String keywordMadeRed(String sourceString, String keyword){
-		String result = "";
-		if(sourceString != null && !"".equals(sourceString.trim())){
-			if(keyword != null && !"".equals(keyword.trim())){
-				result = sourceString.replaceAll(keyword, "<font color=\"red\">"+keyword+"</font>"); 
-			}else{
-				result = sourceString;
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * 当前是否是横屏
-	 * @param context
-	 * @return
-	 */
-	public static final boolean isLandscape(Context context){
-		return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+	public static Cursor getContactsNameAndNumber(Context context){
+		return context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {
+				CommonDataKinds.Phone.DISPLAY_NAME, CommonDataKinds.Phone.NUMBER}, null, null, CommonDataKinds.Phone.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
 	}
 	
 	/**

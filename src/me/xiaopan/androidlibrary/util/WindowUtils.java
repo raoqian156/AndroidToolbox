@@ -1,6 +1,8 @@
 package me.xiaopan.androidlibrary.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.view.Surface;
 
 /**
@@ -23,5 +25,14 @@ public class WindowUtils {
 			case Surface.ROTATION_270 : return 270;
 			default : return 0;
 		}
+	}
+	
+	/**
+	 * 当前是否是横屏
+	 * @param context
+	 * @return
+	 */
+	public static final boolean isLandscape(Context context){
+		return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 	}
 }
