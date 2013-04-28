@@ -993,4 +993,36 @@ public class BitmapUtils {
 		}
 		return rotatedData;
 	}
+	
+	/**
+	 * 获取缩略图
+	 * @param imageFilePath 图片路径
+	 * @param thumbnailWidth 缩略图的高度
+	 * @param thumbnailHeight 缩略图的宽度
+	 * @return
+	 */
+	public Bitmap getThumbnail(String imageFilePath, int thumbnailWidth, int thumbnailHeight) {
+		/* 首先读取原始图片的尺寸 */
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;//当此属性为true时，将只返回图片的尺寸信息，不返回图片数据，并且数据会保存在Options中
+		BitmapFactory.decodeFile(imageFilePath,options);//因为在此之前将options的inJustDecodeBounds属性设置为true了所以返回的是null
+		int sourceImageWidth = options.outWidth;//获取原始图片的宽
+		int sourceImageHeight = options.outHeight;//获取原始图片的高
+		
+		/* 计算缩放比，由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可 */
+		int scaling = 1;//1：表示不缩放
+		if (sourceImageWidth > sourceImageHeight && sourceImageWidth > thumbnailWidth) {//如果宽度大的话根据宽度固定大小缩放
+			scaling = (int) (options.outWidth / thumbnailWidth);
+		} else if (sourceImageWidth < sourceImageHeight && sourceImageHeight > thumbnailHeight) {//如果高度高的话根据宽度固定大小缩放
+			scaling = (int) (options.outHeight / thumbnailHeight);
+		}
+		if (scaling <= 0){
+			scaling = 1;
+		}
+		options.inSampleSize = scaling;//设置缩放比例
+		
+		/* 按之前计算的缩放比例重新读入图片，注意此时需要把options的inJustDecodeBounds设置为false了 */
+		options.inJustDecodeBounds = false;//还原为false
+		return BitmapFactory.decodeFile(imageFilePath, options);
+	}
 }
