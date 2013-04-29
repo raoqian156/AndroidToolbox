@@ -16,7 +16,7 @@ public class UriUtils {
 	 * @return 呼叫给定的电话号码时用的Uri
 	 */
 	public static Uri getCallUri(String phoneNumber){
-		return Uri.parse(URI_TEL+phoneNumber!=null?phoneNumber:"");
+		return Uri.parse(URI_TEL+(phoneNumber!=null?phoneNumber:""));
 	}
 	
 	/**
@@ -25,6 +25,6 @@ public class UriUtils {
 	 * @return
 	 */
 	public static Uri getSmsUri(String mobileNumber){
-		return Uri.parse(URI_SMS+mobileNumber!=null?mobileNumber:"");
+		return Uri.parse(URI_SMS+(mobileNumber!=null?mobileNumber:""));
 	}
 }
