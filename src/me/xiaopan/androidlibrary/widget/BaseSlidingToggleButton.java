@@ -115,7 +115,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 			//如果有需要设置的状态
 			if(pendingSetState){
 				pendingSetState = false;
-				setChecked(pendingChecked, 0);
+				setDefaultChecked(pendingChecked);
 			}
 		}
 		
@@ -211,9 +211,9 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 				if(needHandle){
 					//如果本次滚动的距离超过的最小生效距离，就切换状态，否则就回滚
 					if(Math.abs(scrollDistanceCount) >= MIN_ROLLING_DISTANCE){
-						setChecked(scrollDistanceCount > 0, currentLeft, DURATION);
+						setChecked(scrollDistanceCount > 0, currentLeft, DURATION, false);
 					}else{
-						setChecked(isChecked(), currentLeft, DURATION);
+						setChecked(isChecked(), currentLeft, DURATION, false);
 					}
 					needHandle = false;
 				}
@@ -265,7 +265,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		needHandle = false;//标记在弹起或取消时不再处理
-		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION);//根据前后两次X坐标的大小，判断接下来谁要切换为开启状态还是关闭状态
+		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION, false);//根据前后两次X坐标的大小，判断接下来谁要切换为开启状态还是关闭状态
 		return true;
 	}
 
@@ -313,18 +313,21 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	 * @param isChecked 开启还是关闭
 	 * @param startX 开始滚动的位置
 	 * @param duration 持续时间
+	 * @param 是否是默认值
 	 */
-	private void setChecked(boolean isChecked, int startX, int duration){
-		this.checked = isChecked;
-		//如果是要开启
-		if(isChecked()){
-			scroll(startX, checkedLeft, duration);
-		}else{
-			scroll(startX, uncheckedLeft, duration);
-		}
-		//调用选中状态改变回调
-		if(onCheckedChanageListener != null){
-			onCheckedChanageListener.onCheckedChanage(this, isChecked());
+	private void setChecked(boolean isChecked, int startX, int duration, boolean isDefaultValue){
+		if(this.checked != isChecked){
+			this.checked = isChecked;
+			//如果是要开启
+			if(isChecked()){
+				scroll(startX, checkedLeft, isDefaultValue?0:duration);
+			}else{
+				scroll(startX, uncheckedLeft, isDefaultValue?0:duration);
+			}
+			//调用选中状态改变回调
+			if(onCheckedChanageListener != null && !isDefaultValue){
+				onCheckedChanageListener.onCheckedChanage(this, isChecked());
+			}
 		}
 	}
 	
@@ -339,7 +342,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 			pendingSetState = true;
 			pendingChecked = isChecked;
 		}else{
-			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, duration);
+			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, duration, false);
 		}
 	}
 	
@@ -349,6 +352,20 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	 */
 	public void setChecked(boolean isChecked){
 		setChecked(isChecked, DURATION);
+	}
+	
+	/**
+	 * 设置默认状态，设置默认状态时不会有动画效果，并且不会触发状态改变监听器，适合用于Adapter中
+	 * @param isChecked 开启还是关闭
+	 */
+	public void setDefaultChecked(boolean isChecked){
+		//如果尚未完成初始化工作，就先延迟，等待初始化完毕之后再处理
+		if(checkedLeft == 0){
+			pendingSetState = true;
+			pendingChecked = isChecked;
+		}else{
+			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, 0, true);
+		}
 	}
 	
 	/**
@@ -366,6 +383,10 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 		setChecked(!isChecked());
 	}
 	
+	public OnCheckedChanageListener getOnCheckedChanageListener() {
+		return onCheckedChanageListener;
+	}
+
 	/**
 	 * 设置选中状态改变监听器
 	 * @param onCheckedChanageListener 选中状态改变监听器

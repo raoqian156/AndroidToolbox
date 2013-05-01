@@ -223,7 +223,7 @@ public class Preference extends LinearLayout{
 							}
 						}
 					});
-					slidingToggleButton.setChecked(defaultChecked);
+					slidingToggleButton.setDefaultChecked(defaultChecked);
 					addView(slidingToggleButton);
 					break;
 			}

@@ -12,10 +12,10 @@ public class Logger {
 	public static final boolean ENABLE = true;
 	public static File outFile;
 	
-	public static final void v(String tag, String logContent){
+	public static final void v(String logTag, String logContent){
 		if(ENABLE){
-			Log.v(tag, logContent);
-			outToFile(tag+" "+logContent);
+			Log.v(logTag, logContent);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
@@ -23,10 +23,10 @@ public class Logger {
 		v(LOG_TAG, logContent);
 	}
 	
-	public static final void d(String tag, String logContent){
+	public static final void d(String logTag, String logContent){
 		if(ENABLE){
-			Log.d(tag, logContent);
-			outToFile(tag+" "+logContent);
+			Log.d(logTag, logContent);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
@@ -34,10 +34,10 @@ public class Logger {
 		d(LOG_TAG, logContent);
 	}
 	
-	public static final void i(String tag, String logContent){
+	public static final void i(String logTag, String logContent){
 		if(ENABLE){
-			Log.i(tag, logContent);
-			outToFile(tag+" "+logContent);
+			Log.i(logTag, logContent);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
@@ -45,10 +45,10 @@ public class Logger {
 		i(LOG_TAG, logContent);
 	}
 	
-	public static final void w(String tag, String logContent){
+	public static final void w(String logTag, String logContent){
 		if(ENABLE){
-			Log.w(tag, logContent);
-			outToFile(tag+" "+logContent);
+			Log.w(logTag, logContent);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
@@ -56,10 +56,10 @@ public class Logger {
 		w(LOG_TAG, logContent);
 	}
 	
-	public static final void e(String tag, String logContent){
+	public static final void e(String logTag, String logContent){
 		if(ENABLE){
-			Log.e(tag, logContent);
-			outToFile(tag+" "+logContent);
+			Log.e(logTag, logContent);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
@@ -67,10 +67,10 @@ public class Logger {
 		e(LOG_TAG, logContent);
 	}
 	
-	public static final void wtf(String tag, String logContent){
+	public static final void wtf(String logTag, String logContent){
 		if(ENABLE){
-			Log.wtf(tag, logContent);
-			outToFile(tag+" "+logContent);
+			Log.wtf(logTag, logContent);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
@@ -78,9 +78,9 @@ public class Logger {
 		wtf(LOG_TAG, logContent);
 	}
 	
-	public static final void wtf(String tag, Throwable th){
+	public static final void wtf(String logTag, Throwable th){
 		if(ENABLE){
-			Log.wtf(tag, th);
+			Log.wtf(logTag, th);
 		}
 	}
 	
@@ -88,10 +88,10 @@ public class Logger {
 		wtf(LOG_TAG, th);
 	}
 	
-	public static final void wtf(String tag, String logContent, Throwable th){
+	public static final void wtf(String logTag, String logContent, Throwable th){
 		if(ENABLE){
-			Log.wtf(tag, logContent, th);
-			outToFile(tag+" "+logContent);
+			Log.wtf(logTag, logContent, th);
+			outToFile(logTag+" "+logContent);
 		}
 	}
 	
