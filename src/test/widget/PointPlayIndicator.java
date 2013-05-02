@@ -1,14 +1,14 @@
 package test.widget;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.ViewPlayer.PlayIndicator;
+import me.xiaopan.androidlibrary.widget.ViewPlayer.BaseViewPlayIndicator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class PointPlayIndicator extends PlayIndicator {
+public class PointPlayIndicator extends BaseViewPlayIndicator {
 	private int lastCheckedPosition;//上次选中的图标的位置
 	private LinearLayout pointsLayout;
 	

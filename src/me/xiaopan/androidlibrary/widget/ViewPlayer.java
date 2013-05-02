@@ -24,7 +24,7 @@ public class ViewPlayer extends FrameLayout{
 	private int switchSpace = 3000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
 	private BaseViewPlayAdapter playerAdapter;//为画廊提供视图的适配器
-	private PlayIndicator playerIndicator;//播放指示器
+	private BaseViewPlayIndicator playerIndicator;//播放指示器
 	private OnItemClickListener onItemClickListener;//项点击监听器
 	private OnItemSelectedListener onItemSelectedListener;//项选中监听器
 	private PlayWay playWay = PlayWay.CIRCLE_LEFT_TO_RIGHT;//播放方式，默认是从左往右转圈
@@ -226,11 +226,11 @@ public class ViewPlayer extends FrameLayout{
 		}
 	}
 
-	public PlayIndicator getPlayerIndicator() {
+	public BaseViewPlayIndicator getPlayerIndicator() {
 		return playerIndicator;
 	}
 
-	public void setPlayerIndicator(PlayIndicator playerIndicator) {
+	public void setPlayerIndicator(BaseViewPlayIndicator playerIndicator) {
 		this.playerIndicator = playerIndicator;
 	}
 
@@ -338,14 +338,14 @@ public class ViewPlayer extends FrameLayout{
 	}
 	
 	/**
-	 * 播放指示器
+	 * 视图播放指示器
 	 */
-	public static abstract class PlayIndicator extends LinearLayout{
-		public PlayIndicator(Context context) {
+	public static abstract class BaseViewPlayIndicator extends LinearLayout{
+		public BaseViewPlayIndicator(Context context) {
 			super(context);
 		}
 		
-		public PlayIndicator(Context context, AttributeSet attrs) {
+		public BaseViewPlayIndicator(Context context, AttributeSet attrs) {
 			super(context, attrs);
 		}
 		
