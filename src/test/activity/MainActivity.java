@@ -10,7 +10,7 @@ import test.activity.custom.CustomListActivity;
 import test.activity.graphics.GraphicsListActivity;
 import test.activity.media.MediaListActivity;
 import test.activity.other.OtherListActivity;
-import test.activity.views.ViewsListActivity;
+import test.activity.views.ViewListActivity;
 import test.adapter.ActivityAdapter;
 import test.adapter.ActivityAdapter.ActivityItem;
 import android.os.Bundle;
@@ -22,8 +22,6 @@ import android.widget.ListView;
 
 /**
  * 主页
- * @author xiaopan
- *
  */
 public class MainActivity extends MyBaseActivity{
 	private List<ActivityItem> activityItemList;
@@ -51,7 +49,7 @@ public class MainActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.animationList_title), AnimationListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.graphicsList_title), GraphicsListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.mediaList_title), MediaListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.viewsList_title), ViewsListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.viewsList_title), ViewListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.customList_title), CustomListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.otherList_title), OtherListActivity.class));
 		

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+    <!-- 正文内容 -->
+    <ScrollView style="@style/base_layout_match_match">
+        <LinearLayout style="@style/comm_layout_body_content_padding">
+	    	<Gallery style="@style/base_layout_match_match" android:id="@+id/gallery_gallery"/>
+        </LinearLayout>
+    </ScrollView>
+    
+	<!-- 阴影 -->
+    <include layout="@layout/include_shadow_down"/>
+</FrameLayout>

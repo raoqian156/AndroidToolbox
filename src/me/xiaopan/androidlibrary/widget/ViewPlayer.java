@@ -23,8 +23,8 @@ import android.widget.LinearLayout;
 public class ViewPlayer extends FrameLayout{
 	private int switchSpace = 3000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
-	private BaseViewPlayAdapter playerAdapter;//为画廊提供视图的适配器
-	private BaseViewPlayIndicator playerIndicator;//播放指示器
+	private BaseViewPlayAdapter viewPlayAdapter;//为画廊提供视图的适配器
+	private BaseViewPlayIndicator viewPlayIndicator;//播放指示器
 	private OnItemClickListener onItemClickListener;//项点击监听器
 	private OnItemSelectedListener onItemSelectedListener;//项选中监听器
 	private PlayWay playWay = PlayWay.CIRCLE_LEFT_TO_RIGHT;//播放方式，默认是从左往右转圈
@@ -34,7 +34,7 @@ public class ViewPlayer extends FrameLayout{
 	private boolean currentTowardsTheRight;//当前向右播放
 	private Handler switchHandler;//切换处理器
 	private SwitchHandle switchHandle;//切换处理
-
+	
 	public ViewPlayer(Context context) {
 		super(context);
 	}
@@ -49,7 +49,7 @@ public class ViewPlayer extends FrameLayout{
 	public void startPaly(){
 		//如果之前加载失败了
 		if(!loadFinish){
-			if(playerAdapter != null && playerAdapter.getList() != null && playerAdapter.getList().size() > 0){
+			if(viewPlayAdapter != null && viewPlayAdapter.getList() != null && viewPlayAdapter.getList().size() > 0){
 				loadFinish = true;
 				removeAllViews();
 				
@@ -63,52 +63,52 @@ public class ViewPlayer extends FrameLayout{
 				viewGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override
 					public void onNothingSelected(AdapterView<?> parent) {
-						if(getOnItemSelectedListener() != null){		//回调
-							getOnItemSelectedListener().onNothingSelected(parent);
+						if(onItemSelectedListener != null){		//回调
+							onItemSelectedListener.onNothingSelected(parent);
 						}
 					}
 					
 					@Override
 					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-						int realSelectedItemPosition = playerAdapter.getRealSelectedItemPosition(position);		//获取真实的位置，
-						if(playerIndicator != null){
-							playerIndicator.onItemSelected(realSelectedItemPosition);		//修改指示器的选中项
+						int realSelectedItemPosition = viewPlayAdapter.getRealSelectedItemPosition(position);		//获取真实的位置，
+						if(viewPlayIndicator != null){
+							viewPlayIndicator.onItemSelected(realSelectedItemPosition);		//修改指示器的选中项
 						}
-						if(getOnItemSelectedListener() != null){		//回调
-							getOnItemSelectedListener().onItemSelected(parent, view, realSelectedItemPosition, id);
+						if(onItemSelectedListener != null){		//回调
+							onItemSelectedListener.onItemSelected(parent, view, realSelectedItemPosition, id);
 						}
 					}
 				});
 				viewGallery.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						if(getOnItemClickListener() != null){		//回调
-							getOnItemClickListener().onItemClick(parent, view, playerAdapter.getRealSelectedItemPosition(position), id);
+						if(onItemClickListener != null){		//回调
+							onItemClickListener.onItemClick(parent, view, viewPlayAdapter.getRealSelectedItemPosition(position), id);
 						}
 					}
 				});
-				viewGallery.setAdapter(playerAdapter);
+				viewGallery.setAdapter(viewPlayAdapter);
 				
 				//初始化默认选中项
 				int defaultPosition = 0;
 				if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){//如果播放方式是从左向右转圈
-					defaultPosition = ((Integer.MAX_VALUE/playerAdapter.getList().size())/2)*playerAdapter.getList().size();//那么默认选中项是最中间那一组的第一张
+					defaultPosition = viewPlayAdapter.getList().size() > 1?((Integer.MAX_VALUE/viewPlayAdapter.getList().size())/2)*viewPlayAdapter.getList().size():0;//那么默认选中项是最中间那一组的第一张
 				}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){//如果播放方式是从右向左转圈
-					defaultPosition = ((Integer.MAX_VALUE/playerAdapter.getList().size())/2)*playerAdapter.getList().size() + playerAdapter.getList().size() -1;//那么默认选中项是最中间那一组的最后一张
+					defaultPosition = viewPlayAdapter.getList().size() > 1?((Integer.MAX_VALUE/viewPlayAdapter.getList().size())/2)*viewPlayAdapter.getList().size() + viewPlayAdapter.getList().size() -1:0;//那么默认选中项是最中间那一组的最后一张
 				}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT){//如果播放方式是从左向右摇摆
 					defaultPosition = 0;//那么默认选中项是第一组的第一张
 					currentTowardsTheRight = true;//播放方向将是向右
 				}else if(playWay == PlayWay.SWING_RIGHT_TO_LEFT){//如果播放方式是从右向左摇摆
-					defaultPosition = playerAdapter.getList().size() -1;//那么默认选中项是第一组的最后一张
+					defaultPosition = viewPlayAdapter.getList().size() -1;//那么默认选中项是第一组的最后一张
 					currentTowardsTheRight = false;//播放方向将是向左
 				}
 				viewGallery.setSelection(defaultPosition);
 				
 				//将画廊和指示器放进布局中
 				addView(viewGallery);
-				if(playerIndicator != null){
-					playerIndicator.onInit(playerAdapter.getList().size());
-					addView(playerIndicator);
+				if(viewPlayIndicator != null){
+					viewPlayIndicator.onInit(viewPlayAdapter.getList().size());
+					addView(viewPlayIndicator);
 				}
 			}else{
 				loadFinish = false;
@@ -194,8 +194,8 @@ public class ViewPlayer extends FrameLayout{
 	 */
 	public void setPlayWay(PlayWay playWay) {
 		this.playWay = playWay;
-		if(playerAdapter != null){
-			playerAdapter.setPlayWay(playWay);
+		if(viewPlayAdapter != null){
+			viewPlayAdapter.setPlayWay(playWay);
 		}
 	}
 
@@ -215,23 +215,39 @@ public class ViewPlayer extends FrameLayout{
 		this.animationDurationMillis = animationDurationMillis;
 	}
 
-	public BaseViewPlayAdapter getPlayerAdapter() {
-		return playerAdapter;
+	/**
+	 * 获取视图播放适配器
+	 * @return 视图播放适配器
+	 */
+	public BaseViewPlayAdapter getViewPlayAdapter() {
+		return viewPlayAdapter;
 	}
 
-	public void setPlayerAdapter(BaseViewPlayAdapter playerAdapter) {
-		this.playerAdapter = playerAdapter;
-		if(this.playerAdapter != null){
-			this.playerAdapter.setPlayWay(playWay);
+	/**
+	 * 设置视图播放适配器
+	 * @param viewPlayAdapter 视图播放适配器
+	 */
+	public void setViewPlayAdapter(BaseViewPlayAdapter viewPlayAdapter) {
+		this.viewPlayAdapter = viewPlayAdapter;
+		if(this.viewPlayAdapter != null){
+			this.viewPlayAdapter.setPlayWay(playWay);
 		}
 	}
 
-	public BaseViewPlayIndicator getPlayerIndicator() {
-		return playerIndicator;
+	/**
+	 * 获取视图播放指示器
+	 * @return 视图播放指示器
+	 */
+	public BaseViewPlayIndicator getViewPlayIndicator() {
+		return viewPlayIndicator;
 	}
 
-	public void setPlayerIndicator(BaseViewPlayIndicator playerIndicator) {
-		this.playerIndicator = playerIndicator;
+	/**
+	 * 设置视图播放指示器
+	 * @param viewPlayIndicator 视图播放指示器
+	 */
+	public void setViewPlayIndicator(BaseViewPlayIndicator viewPlayIndicator) {
+		this.viewPlayIndicator = viewPlayIndicator;
 	}
 
 	/**
@@ -258,17 +274,15 @@ public class ViewPlayer extends FrameLayout{
 		
 		@Override
 		public boolean onTouchEvent(MotionEvent event) {
-			switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN: stopPaly(); break;
-				case MotionEvent.ACTION_UP: startPaly(); break;
-				case MotionEvent.ACTION_CANCEL: startPaly(); break;
-				default: break;
+			if(loadFinish){
+				switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: stopPaly(); break;
+					case MotionEvent.ACTION_UP: startPaly(); break;
+					case MotionEvent.ACTION_CANCEL: startPaly(); break;
+					default: break;
+				}
 			}
-			if(getCount() > 1){
-				return super.onTouchEvent(event);
-			}else{
-				return true;
-			}
+			return super.onTouchEvent(event);
 		}
 	}
 	
@@ -291,7 +305,7 @@ public class ViewPlayer extends FrameLayout{
 					//如果当前是向右播放
 					if(currentTowardsTheRight){
 						//如果到最后一个了
-						if(viewGallery.getSelectedItemPosition() == playerAdapter.getList().size() -1){
+						if(viewGallery.getSelectedItemPosition() == viewPlayAdapter.getList().size() -1){
 							currentTowardsTheRight = false;//标记为向左
 							viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
 						}else{

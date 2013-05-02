@@ -68,9 +68,10 @@
        	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/tabHost_title"/>
        	<activity android:name="test.activity.views.TabContentActivity"/>
       	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/viewPager_title"/>
-   		<activity android:name="test.activity.views.ViewsListActivity" android:label="@string/viewsList_title"/>
+   		<activity android:name="test.activity.views.ViewListActivity" android:label="@string/viewsList_title"/>
    		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/fragmentTabHost_title"/>
   		<activity android:name="test.activity.views.FloatingWindowActivity" android:label="@string/floatingWindow_title"/>
+  		<activity android:name="test.activity.views.GalleryActivity" android:label="@string/gallery_title"/>
      		
     	<service android:name="test.service.FloatingWindowService"/>
         

@@ -11,6 +11,9 @@ import me.xiaopan.javalibrary.util.NetUtils;
 import test.MyBaseActivity;
 import test.widget.PointViewPlayer;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * 图片播放器
@@ -33,6 +36,12 @@ public class PicturePlayerActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitListener(Bundle savedInstanceState) {
+		picturePlayerCircleLeftToRight.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				toastL(""+position);
+			}
+		});
 	}
 
 	@Override
@@ -45,16 +54,16 @@ public class PicturePlayerActivity extends MyBaseActivity {
 		}
 		
 		
-		picturePlayerCircleLeftToRight.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerCircleLeftToRight.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerCircleLeftToRight.setPlayWay(PlayWay.CIRCLE_LEFT_TO_RIGHT);
 		
-		picturePlayerCircleRightToLeft.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerCircleRightToLeft.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerCircleRightToLeft.setPlayWay(PlayWay.CIRCLE_RIGHT_TO_LEFT);
 		
-		picturePlayerSwingLeftToRight.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerSwingLeftToRight.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerSwingLeftToRight.setPlayWay(PlayWay.SWING_LEFT_TO_RIGHT);
 		
-		picturePlayerSwingRightToLeft.setPlayerAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerSwingRightToLeft.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
 		picturePlayerSwingRightToLeft.setPlayWay(PlayWay.SWING_RIGHT_TO_LEFT);
 	}
 

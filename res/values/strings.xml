@@ -48,4 +48,5 @@
 	    <string name="tabHost_title">TabHost</string>
 	    <string name="fragmentTabHost_title">FragmentTabHost</string>
 	    <string name="viewPager_title">View Pager</string>
+	    <string name="gallery_title">Gallery</string>
 </resources>

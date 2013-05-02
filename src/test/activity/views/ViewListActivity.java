@@ -15,10 +15,8 @@ import android.widget.ListView;
 
 /**
  * 系统组件使用示例
- * @author xiaopan
- *
  */
-public class ViewsListActivity extends MyBaseActivity{
+public class ViewListActivity extends MyBaseActivity{
 
 	private List<ActivityItem> activityItemList;
 	private ListView listView;
@@ -47,6 +45,7 @@ public class ViewsListActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.viewPager_title), ViewPagerActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.floatingWindow_title), FloatingWindowActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.gallery_title), GalleryActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
