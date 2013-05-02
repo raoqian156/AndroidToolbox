@@ -6,11 +6,8 @@ import android.widget.ListAdapter;
 
 /**
  * 反弹列表
- * @author xiaopan
- *
  */
 public class ReboundListView extends PullListView {
-
 	public ReboundListView(Context context) {
 		super(context);
 	}

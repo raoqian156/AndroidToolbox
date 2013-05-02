@@ -8,16 +8,13 @@ import android.view.View;
 
 /**
  * 滑动视图适配器
- * @author xiaopan
- *
  */
 public class ViewPagerAdapter extends PagerAdapter {
-
 	private List<View> viewList;
 	
 	public ViewPagerAdapter(List<View> viewList){
 		setViewList(viewList);
-	} 
+	}
 	
 	@Override
 	public void destroyItem(View container, int position, Object object) {

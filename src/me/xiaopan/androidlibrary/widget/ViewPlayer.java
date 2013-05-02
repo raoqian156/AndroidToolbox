@@ -1,16 +1,21 @@
 package me.xiaopan.androidlibrary.widget;
 
+import java.util.List;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.Gallery;
+import android.widget.LinearLayout;
 
 /**
  * 视图播放器，用于循环播放视图，至于播放什么，你可以提供一个PlayAdapter来提供播放的内容
@@ -18,7 +23,7 @@ import android.widget.Gallery;
 public class ViewPlayer extends FrameLayout{
 	private int switchSpace = 3000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
-	private PlayAdapter playerAdapter;//为画廊提供视图的适配器
+	private BaseViewPlayAdapter playerAdapter;//为画廊提供视图的适配器
 	private PlayIndicator playerIndicator;//播放指示器
 	private OnItemClickListener onItemClickListener;//项点击监听器
 	private OnItemSelectedListener onItemSelectedListener;//项选中监听器
@@ -210,11 +215,11 @@ public class ViewPlayer extends FrameLayout{
 		this.animationDurationMillis = animationDurationMillis;
 	}
 
-	public PlayAdapter getPlayerAdapter() {
+	public BaseViewPlayAdapter getPlayerAdapter() {
 		return playerAdapter;
 	}
 
-	public void setPlayerAdapter(PlayAdapter playerAdapter) {
+	public void setPlayerAdapter(BaseViewPlayAdapter playerAdapter) {
 		this.playerAdapter = playerAdapter;
 		if(this.playerAdapter != null){
 			this.playerAdapter.setPlayWay(playWay);
@@ -324,5 +329,113 @@ public class ViewPlayer extends FrameLayout{
 		 * 从左往右摇摆
 		 */
 		SWING_LEFT_TO_RIGHT;
+	}
+	
+	/**
+	 * 播放指示器
+	 */
+	public static abstract class PlayIndicator extends LinearLayout{
+		public PlayIndicator(Context context) {
+			super(context);
+		}
+		
+		public PlayIndicator(Context context, AttributeSet attrs) {
+			super(context, attrs);
+		}
+		
+		/**
+		 * 初始化
+		 * @param size 视图播放器要播放的视图个数
+		 */
+		public abstract void onInit(int size);
+
+		/**
+		 * 当视图播放器的选项被选中时，指示器要同步更改其选中项
+		 * @param selectedItemPosition 选中项的位置
+		 */
+		public abstract void onItemSelected(int selectedItemPosition);
+	}
+	
+	/**
+	 * 视图播放适配器，主要为ViewPalyer提供播放视图
+	 */
+	public static abstract class BaseViewPlayAdapter extends BaseAdapter{
+		private List<?> list;
+		private PlayWay playWay = PlayWay.CIRCLE_LEFT_TO_RIGHT;
+		
+		public BaseViewPlayAdapter (List<?> list){
+			this.list = list;
+		}
+		
+		@Override
+		public int getCount() {
+			//当时循环播放的时候就返回一个int类型的最大值保证可以一直循环下去，否则就返回真实的长度
+			return (list != null)?(((playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT  || playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT) && list.size() > 1)?Integer.MAX_VALUE:list.size()):0;
+		}
+		
+		@Override
+		public Object getItem(int position) {
+			return list != null?list.get(getRealSelectedItemPosition(position)):null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return getRealSelectedItemPosition(position);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			return getRealView(getRealSelectedItemPosition(position), convertView, parent);
+		}
+		
+		/**
+		 * 获取视图
+		 * @param position
+		 * @param convertView
+		 * @param parent
+		 * @return
+		 */
+		public abstract View getRealView(int position, View convertView, ViewGroup parent);
+		
+		/**
+		 * 获取当前选中项的真实位置
+		 * @param position
+		 * @return 当前选中项的真实位置
+		 */
+		public int getRealSelectedItemPosition(int position){
+			return (list != null)?((playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT || playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT)?position % list.size():position):0;
+		}
+
+		/**
+		 * 获取列表
+		 * @return 列表
+		 */
+		public List<?> getList() {
+			return list;
+		}
+
+		/**
+		 * 设置列表
+		 * @param list 列表
+		 */
+		public void setList(List<?> list) {
+			this.list = list;
+		}
+
+		/**
+		 * 获取播放方式
+		 * @return 播放方式
+		 */
+		public PlayWay getPlayWay() {
+			return playWay;
+		}
+
+		/**
+		 * 设置播放方式
+		 * @param playWay 播放方式
+		 */
+		public void setPlayWay(PlayWay playWay) {
+			this.playWay = playWay;
+		}
 	}
 }

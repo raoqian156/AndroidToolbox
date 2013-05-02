@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 
 /**
  * View适配器
- * @author xiaopan
- *
  */
 public class ViewAdapter extends MyBaseAdapter {
-
 	private List<View> viewList;
 	
 	public ViewAdapter(List<View> viewList){

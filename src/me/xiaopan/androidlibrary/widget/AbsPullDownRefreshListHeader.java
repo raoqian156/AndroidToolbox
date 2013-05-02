@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 /**
  * 下拉刷新列表头
- * @author xiaopan
  */
 public abstract class AbsPullDownRefreshListHeader extends AbsPullListHeaderAndFoooter {
 	public AbsPullDownRefreshListHeader(Context context) {

@@ -22,9 +22,7 @@ import android.widget.ListView;
 import android.widget.Scroller;
 
 /**
- * <b>可拉伸的列表</b>
- * @author xiaopan
- *
+ * 可拉伸的列表
  */
 public class PullListView extends ListView implements PullDownRefreshFinishListener, PullUpLoadMoreFinishListener, ClickLoadMoreFinishListener{
 	public static final float OFFSET_RADIO = 0.35f;//拉伸偏移，模拟出拉橡皮筋的感觉来

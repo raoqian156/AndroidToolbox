@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 /**
  * 上拉加载更多列表尾
- * @author xiaopan
  */
 public abstract class AbsPullUpLoadMoreListFooter extends AbsPullListHeaderAndFoooter {
 	public AbsPullUpLoadMoreListFooter(Context context) {

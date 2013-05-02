@@ -17,8 +17,6 @@ import android.widget.EditText;
  * <br>使用方式：
  * <br>在布局中通过android:contentDescription属性指定左边的名称，通过android:drawableRight属性指定右边的清除图标即可
  * <br>在代码中通过setEditName(String editName)设置名称，通过setClearDrawable(Drawable clearDrawable)设置清除图标
- * @author xiaopan
- *
  */
 public class ClearEditText extends EditText {
 	private boolean fromMe;

@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 /**
- * @author xiaopan
  */
 public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 	/**

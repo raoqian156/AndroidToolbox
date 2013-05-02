@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.util.ImageLoader;
+import me.xiaopan.androidlibrary.widget.ViewPlayer.BaseViewPlayAdapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-public class PicturePlayAdapter extends PlayAdapter{
+/**
+ * 图片播放适配器，给我一组图片再给我，再把我交给一个ViewPlayer，我就可以在ViewPlayer上播放你给我的图片
+ */
+public class PicturePlayAdapter extends BaseViewPlayAdapter{
 	private Context context;//上下文
 	private List<Picture> pictures;//图片列表
 	private int defaultImageResId;//默认图片ID

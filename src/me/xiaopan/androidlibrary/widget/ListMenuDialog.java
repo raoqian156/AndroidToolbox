@@ -18,9 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
- * 列表时菜单对话框
- * @author xiaopan
- *
+ * 列表菜单对话框
  */
 public class ListMenuDialog extends AlertDialog {
 	private String[] items;

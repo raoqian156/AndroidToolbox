@@ -6,8 +6,6 @@ import android.widget.LinearLayout;
 
 /**
  * 点击加载更多列表尾
- * @author xiaopan
- *
  */
 public abstract class AbsClickLoadMoreListFooter extends LinearLayout {
 	private LinearLayout contentView;

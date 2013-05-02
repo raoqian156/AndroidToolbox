@@ -1,7 +1,7 @@
 package test.widget;
 
 import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.PlayIndicator;
+import me.xiaopan.androidlibrary.widget.ViewPlayer.PlayIndicator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
