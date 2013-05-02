@@ -243,7 +243,7 @@ public class ViewPlayer extends FrameLayout{
 			super(context);
 			setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.FILL_PARENT, Gallery.LayoutParams.FILL_PARENT));
 			setSoundEffectsEnabled(false);//切换的时候不播放音效
-			setSpacing(-1);//设置间距为-1，因为使用按键自动切换的时候间距大于等于0会导致切换失败，所以间距只能是-1//设置当画廊选中项改变时，改变指示器
+			setSpacing(-1);//设置间距为-1，因为使用按键自动切换的时候间距大于等于0会导致切换失败，所以间距只能是-1
 		}
 
 		@Override
@@ -264,7 +264,11 @@ public class ViewPlayer extends FrameLayout{
 				case MotionEvent.ACTION_CANCEL: startPaly(); break;
 				default: break;
 			}
-			return super.onTouchEvent(event);
+			if(getCount() > 1){
+				return super.onTouchEvent(event);
+			}else{
+				return true;
+			}
 		}
 	}
 	
@@ -277,28 +281,30 @@ public class ViewPlayer extends FrameLayout{
 	private class SwitchHandle implements Runnable{
 		@Override
 		public void run() {
-			//从左向右转圈
-			if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){
-				viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
-			}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){
-				viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
-			}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT || playWay == PlayWay.SWING_RIGHT_TO_LEFT){
-				//如果当前是向右播放
-				if(currentTowardsTheRight){
-					//如果到最后一个了
-					if(viewGallery.getSelectedItemPosition() == playerAdapter.getList().size() -1){
-						currentTowardsTheRight = false;//标记为向左
-						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+			if(viewGallery.getCount() > 1){
+				//从左向右转圈
+				if(playWay == PlayWay.CIRCLE_LEFT_TO_RIGHT){
+					viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+				}else if(playWay == PlayWay.CIRCLE_RIGHT_TO_LEFT){
+					viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+				}else if(playWay == PlayWay.SWING_LEFT_TO_RIGHT || playWay == PlayWay.SWING_RIGHT_TO_LEFT){
+					//如果当前是向右播放
+					if(currentTowardsTheRight){
+						//如果到最后一个了
+						if(viewGallery.getSelectedItemPosition() == playerAdapter.getList().size() -1){
+							currentTowardsTheRight = false;//标记为向左
+							viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+						}else{
+							viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+						}
 					}else{
-						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
-					}
-				}else{
-					//如果到第一个了
-					if(viewGallery.getSelectedItemPosition() == 0){
-						currentTowardsTheRight = true;
-						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
-					}else{
-						viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+						//如果到第一个了
+						if(viewGallery.getSelectedItemPosition() == 0){
+							currentTowardsTheRight = true;
+							viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+						}else{
+							viewGallery.onKeyDown(KeyEvent.KEYCODE_DPAD_LEFT, null);
+						}
 					}
 				}
 			}

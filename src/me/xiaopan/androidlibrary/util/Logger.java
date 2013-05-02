@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import me.xiaopan.javalibrary.util.FileUtils;
-
 import android.util.Log;
 
 public class Logger {
