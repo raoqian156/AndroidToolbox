@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
-import me.xiaopan.androidlibrary.net.Request;
 import me.xiaopan.androidlibrary.net.ResponseHandler;
 import me.xiaopan.androidlibrary.util.AnimationUtils;
 import me.xiaopan.javalibrary.net.HttpRequest;
@@ -167,11 +166,11 @@ public interface BaseActivityInterface {
 	
 	/**
 	 * 访问网络
-	 * @param request 请求对象
+	 * @param requestObject 请求对象
 	 * @param responseHandler 响应处理器
 	 * @param accessNetworkListener 访问监听器
 	 */
-	public void accessNetwork(Request request, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener);
+	public void accessNetwork(Object requestObject, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener);
 	
 	/**
 	 * 判断网络是否可用

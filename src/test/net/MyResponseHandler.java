@@ -3,7 +3,6 @@ package test.net;
 import java.lang.reflect.Type;
 
 import me.xiaopan.androidlibrary.net.ErrorInfo;
-import me.xiaopan.androidlibrary.net.Response;
 import me.xiaopan.androidlibrary.net.ResponseHandler;
 import me.xiaopan.androidlibrary.util.Logger;
 
@@ -13,17 +12,15 @@ import com.google.gson.Gson;
 
 /**
  * 响应处理器
- * @author xiaopan
- *
  */
 public class MyResponseHandler implements ResponseHandler{
 //	private static final String STATUS = "status";
 //	private static final String STATUS_VALUE_SUCCESS = "success";
 	private static final String RESULT = "result";
-	private Class<? extends Response> responseClass;
+	private Class<?> responseClass;
 	private Type responseType;
 	
-	public MyResponseHandler(Class<? extends Response> responseClass){
+	public MyResponseHandler(Class<?> responseClass){
 		this.responseClass = responseClass;
 	}
 	

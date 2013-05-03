@@ -7,8 +7,6 @@ import java.lang.reflect.Type;
 import me.xiaopan.androidlibrary.R;
 import me.xiaopan.androidlibrary.app.BaseTabActivity;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
-import me.xiaopan.androidlibrary.net.Request;
-import me.xiaopan.androidlibrary.net.Response;
 import test.net.MyResponseHandler;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,7 +15,6 @@ import com.umeng.analytics.MobclickAgent;
 
 @SuppressWarnings("deprecation")
 public abstract class MyBaseTabActivity extends BaseTabActivity {
-
 	@Override
 	protected void onPreInit(Bundle savedInstanceState) {
 		ApplicationExceptionHandler.getInstance().setContext(this);
@@ -123,11 +120,11 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 		return file;
 	}
 	
-	public void accessNetwork(Request request, Class<? extends Response> responseClass, final AccessNetworkListener<?> accessNetworkListener){
-		accessNetwork(request, new MyResponseHandler(responseClass), accessNetworkListener);
+	public void accessNetwork(Object requestObject, Class<?> responseClass, final AccessNetworkListener<?> accessNetworkListener){
+		accessNetwork(requestObject, new MyResponseHandler(responseClass), accessNetworkListener);
 	}
 	
-	public void accessNetwork(Request request, Type responseType, final AccessNetworkListener<?> accessNetworkListener){
-		accessNetwork(request, new MyResponseHandler(responseType), accessNetworkListener);
+	public void accessNetwork(Object requestObject, Type responseType, final AccessNetworkListener<?> accessNetworkListener){
+		accessNetwork(requestObject, new MyResponseHandler(responseType), accessNetworkListener);
 	}
 }

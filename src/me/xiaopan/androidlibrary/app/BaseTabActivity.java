@@ -6,7 +6,6 @@ import java.util.List;
 import me.xiaopan.androidlibrary.net.AccessNetworkAsyncTask;
 import me.xiaopan.androidlibrary.net.AccessNetworkListener;
 import me.xiaopan.androidlibrary.net.AccessNetworkUtils;
-import me.xiaopan.androidlibrary.net.Request;
 import me.xiaopan.androidlibrary.net.ResponseHandler;
 import me.xiaopan.androidlibrary.util.AndroidUtils;
 import me.xiaopan.androidlibrary.util.NetworkUtils;
@@ -392,9 +391,9 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	@Override
-	public final void accessNetwork(Request request, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener){
+	public final void accessNetwork(Object requestObject, ResponseHandler responseHandler, AccessNetworkListener<?> accessNetworkListener){
 		try {
-			accessNetwork(AccessNetworkUtils.toHttpRequest(request), responseHandler, accessNetworkListener);
+			accessNetwork(AccessNetworkUtils.toHttpRequest(requestObject), responseHandler, accessNetworkListener);
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(accessNetworkListener != null){

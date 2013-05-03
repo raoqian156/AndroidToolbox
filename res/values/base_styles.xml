@@ -137,7 +137,13 @@
     <!-- 布局 - 空格线 -->
     <style name="base_layout_space">
         <item name="android:layout_width">match_parent</item>
-      	<item name="android:layout_height">@dimen/base_layout_space</item>
+      	<item name="android:layout_height">@dimen/base_layout_space_height</item>
+    </style>
+    
+    <!-- 布局 - 空格线 - 小的 -->
+    <style name="base_layout_space_small">
+        <item name="android:layout_width">match_parent</item>
+      	<item name="android:layout_height">@dimen/base_layout_space_small_height</item>
     </style>
 	
 	<!-- 布局 - 阴影 - 向下 -->

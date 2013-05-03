@@ -1,10 +1,8 @@
 package test.net.response;
 
-import me.xiaopan.androidlibrary.net.Response;
-
 import com.google.gson.annotations.Expose;
 
-public class WeatherResponse extends Response {
+public class WeatherResponse{
 	@Expose
 	private String city;
 	@Expose

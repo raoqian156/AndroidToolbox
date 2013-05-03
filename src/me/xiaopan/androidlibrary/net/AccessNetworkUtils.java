@@ -16,14 +16,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class AccessNetworkUtils {
 	/**
-	 * 将一个Request对象转换为HttpRequest对象
-	 * @param request
-	 * @param defaultHostServerAddress 默认的主机地址，挡在request对象上取不到HostAddress注解时将使用此值
-	 * @return null：转换失败，出现异常，可能是没有Path注解
-	 * @throws Exception 
+	 * 将一个请求对象转换为HttpRequest对象
+	 * @param requestObject 请求对象
+	 * @return 
+	 * @throws Exception 没有Path或者没有Host注解
 	 */
-	public static HttpRequest toHttpRequest(Request request) throws Exception{
-		Class<? extends Request> requestClass = request.getClass();
+	public static HttpRequest toHttpRequest(Object requestObject) throws Exception{
+		Class<?> requestClass = requestObject.getClass();
 		
 		//尝试从请求对象中获取主机地址
 		Host host = requestClass.getAnnotation(Host.class);
@@ -64,7 +63,7 @@ public class AccessNetworkUtils {
 				if(AnnotationUtils.contain(field, Expose.class)){
 					//初始化参数值
 					field.setAccessible(true);
-					valueObject = field.get(request);
+					valueObject = field.get(requestObject);
 					paramValue = valueObject != null?valueObject.toString():null;
 					if(StringUtils.isNotNullAndEmpty(paramValue)){
 						//初始化参数名
