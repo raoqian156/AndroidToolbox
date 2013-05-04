@@ -50,6 +50,11 @@
 	<string name="base_minutes">分钟</string>
 	<string name="base_second">秒</string>
 	<string name="base_millisecond">毫秒</string>
+	<string name="base_today">今天</string>
+	<string name="base_tomorrow">明天</string>
+	<string name="base_afterTomorrow">后天</string>
+	<string name="base_yesterday">昨天</string>
+	<string name="base_beforeYesterday">前天</string>
     
 	<!-- 常用名词 -->
     <string name="base_more">更多</string>

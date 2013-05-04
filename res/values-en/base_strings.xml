@@ -50,6 +50,11 @@
 	<string name="base_minutes">Minutes</string>
 	<string name="base_second">Seconds</string>
 	<string name="base_millisecond">Milli Seconds</string>
+	<string name="base_today">Today</string>
+	<string name="base_tomorrow">Tomorrow</string>
+	<string name="base_afterTomorrow">The day after tomorrow</string>
+	<string name="base_yesterday">Yesterda</string>
+	<string name="base_beforeYesterday">The day before yesterday</string>
     
 	<!-- 常用名词 -->
     <string name="base_more">More</string>
