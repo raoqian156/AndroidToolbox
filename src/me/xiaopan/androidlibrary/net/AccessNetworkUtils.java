@@ -1,12 +1,14 @@
 package me.xiaopan.androidlibrary.net;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import me.xiaopan.javalibrary.net.HttpRequest;
 import me.xiaopan.javalibrary.net.HttpRequestMethod;
 import me.xiaopan.javalibrary.util.AnnotationUtils;
 import me.xiaopan.javalibrary.util.ClassUtils;
 import me.xiaopan.javalibrary.util.StringUtils;
+import android.os.DropBoxManager.Entry;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -64,14 +66,25 @@ public class AccessNetworkUtils {
 					//初始化参数值
 					field.setAccessible(true);
 					valueObject = field.get(requestObject);
-					paramValue = valueObject != null?valueObject.toString():null;
-					if(StringUtils.isNotNullAndEmpty(paramValue)){
-						//初始化参数名
-						SerializedName serializedName = field.getAnnotation(SerializedName.class);
-						paramName = (serializedName != null && StringUtils.isNotNullAndEmpty(serializedName.value()))?serializedName.value():field.getName();
-						
-						//添加请求参数
-						httpRequest.addParameter(paramName, paramValue);
+					if(valueObject instanceof Map){
+						@SuppressWarnings("unchecked")
+						Map<Object, Object> map = (Map<Object, Object>)valueObject;
+						for(java.util.Map.Entry<Object, Object> entry : map.entrySet()){
+							if(entry.getKey() != null && entry.getValue() != null && StringUtils.isNotNullAndEmpty(entry.getKey().toString(), entry.getValue().toString())){
+								//添加请求参数
+								httpRequest.addParameter(entry.getKey().toString(), entry.getValue().toString());
+							}
+						}
+					}else{
+						paramValue = valueObject != null?valueObject.toString():null;
+						if(StringUtils.isNotNullAndEmpty(paramValue)){
+							//初始化参数名
+							SerializedName serializedName = field.getAnnotation(SerializedName.class);
+							paramName = (serializedName != null && StringUtils.isNotNullAndEmpty(serializedName.value()))?serializedName.value():field.getName();
+							
+							//添加请求参数
+							httpRequest.addParameter(paramName, paramValue);
+						}
 					}
 				}
 			} catch (Exception e) {
