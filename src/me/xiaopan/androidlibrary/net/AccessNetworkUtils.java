@@ -8,7 +8,6 @@ import me.xiaopan.javalibrary.net.HttpRequestMethod;
 import me.xiaopan.javalibrary.util.AnnotationUtils;
 import me.xiaopan.javalibrary.util.ClassUtils;
 import me.xiaopan.javalibrary.util.StringUtils;
-import android.os.DropBoxManager.Entry;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
