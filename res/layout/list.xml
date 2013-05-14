@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 列表 -->
-<me.xiaopan.androidlibrary.widget.PullListView xmlns:android="http://schemas.android.com/apk/res/android"  style="@style/comm_list_match_padding"/>
+<me.xiaopan.easyandroid.widget.PullListView xmlns:android="http://schemas.android.com/apk/res/android"  style="@style/comm_list_match_padding"/>

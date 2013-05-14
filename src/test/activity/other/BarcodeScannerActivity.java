@@ -1,13 +1,13 @@
 package test.activity.other;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.CameraManager;
-import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.SystemUtils;
-import me.xiaopan.androidlibrary.util.WindowUtils;
-import me.xiaopan.androidlibrary.util.barcode.Decoder;
-import me.xiaopan.androidlibrary.util.barcode.Decoder.DecodeListener;
-import me.xiaopan.androidlibrary.util.barcode.ScanFrameView;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.util.CameraManager;
+import me.xiaopan.easyandroid.util.CameraUtils;
+import me.xiaopan.easyandroid.util.SystemUtils;
+import me.xiaopan.easyandroid.util.WindowUtils;
+import me.xiaopan.easyandroid.util.barcode.Decoder;
+import me.xiaopan.easyandroid.util.barcode.Decoder.DecodeListener;
+import me.xiaopan.easyandroid.util.barcode.ScanFrameView;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.hardware.Camera;

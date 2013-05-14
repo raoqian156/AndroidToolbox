@@ -2,9 +2,9 @@ package test.widget;
 
 import java.util.Date;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.AbsPullUpLoadMoreListFooter;
-import me.xiaopan.javalibrary.util.DateTimeUtils;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.AbsPullUpLoadMoreListFooter;
+import me.xiaopan.easyjava.util.DateTimeUtils;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

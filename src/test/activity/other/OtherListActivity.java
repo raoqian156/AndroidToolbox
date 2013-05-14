@@ -3,7 +3,7 @@ package test.activity.other;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.androidlibrary.R;
+import me.xiaopan.easyandroid.R;
 import test.MyBaseActivity;
 import test.adapter.ActivityAdapter;
 import test.adapter.ActivityAdapter.ActivityItem;

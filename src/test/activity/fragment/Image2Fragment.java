@@ -1,6 +1,6 @@
 package test.activity.fragment;
 
-import me.xiaopan.androidlibrary.app.BaseFragment;
+import me.xiaopan.easyandroid.app.BaseFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

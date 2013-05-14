@@ -3,11 +3,11 @@ package test.activity.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.CameraManager;
-import me.xiaopan.androidlibrary.util.CameraUtils;
-import me.xiaopan.androidlibrary.util.SystemUtils;
-import me.xiaopan.androidlibrary.util.WindowUtils;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.util.CameraManager;
+import me.xiaopan.easyandroid.util.CameraUtils;
+import me.xiaopan.easyandroid.util.SystemUtils;
+import me.xiaopan.easyandroid.util.WindowUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;

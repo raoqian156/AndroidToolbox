@@ -3,7 +3,7 @@ package test.activity.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.androidlibrary.R;
+import me.xiaopan.easyandroid.R;
 import test.MyBaseFragmentActivity;
 import test.activity.adapter.ImageFragmentPagerAdapter;
 import test.activity.fragment.ImageFragment;

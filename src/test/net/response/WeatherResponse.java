@@ -1,12 +1,16 @@
 package test.net.response;
 
+import me.xiaopan.easynetwork.android.ResponseBodyKey;
+
 import com.google.gson.annotations.Expose;
 
+@ResponseBodyKey("weatherinfo")
 public class WeatherResponse{
 	@Expose
 	private String city;
 	@Expose
 	private String cityid;
+	@Expose
 	private String temp1;
 	@Expose
 	private String temp2;

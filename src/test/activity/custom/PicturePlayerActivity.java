@@ -3,11 +3,11 @@ package test.activity.custom;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.PicturePlayAdapter;
-import me.xiaopan.androidlibrary.widget.PicturePlayAdapter.Picture;
-import me.xiaopan.androidlibrary.widget.ViewPlayer.PlayWay;
-import me.xiaopan.javalibrary.util.NetUtils;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.PicturePlayAdapter;
+import me.xiaopan.easyandroid.widget.PicturePlayAdapter.Picture;
+import me.xiaopan.easyandroid.widget.ViewPlayer.PlayWay;
+import me.xiaopan.easyjava.util.NetUtils;
 import test.MyBaseActivity;
 import test.widget.PointViewPlayer;
 import android.os.Bundle;

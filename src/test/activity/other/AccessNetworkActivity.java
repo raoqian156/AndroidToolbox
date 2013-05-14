@@ -1,12 +1,14 @@
 package test.activity.other;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.net.ErrorInfo;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easynetwork.android.EasyHttpClient;
+import me.xiaopan.easynetwork.android.StringHttpResponseHandler;
+
+import org.apache.http.HttpResponse;
+
 import test.MyBaseActivity;
-import test.net.MyAccessNetworkListener;
-import test.net.request.WeatherRequest;
-import test.net.response.WeatherResponse;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -37,20 +39,26 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	}
 	
 	private void loadData(){
-		accessNetwork(new WeatherRequest(), WeatherResponse.class, new MyAccessNetworkListener<WeatherResponse>(true) {
+		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringHttpResponseHandler(){
 			@Override
 			public void onStart() {
 				showLoadingHintView();
 			}
-			
+
 			@Override
-			public void onSuccess(WeatherResponse t) {
-				text.setText(t.toString());
+			public void onSuccess(String responseContent) {
+				text.setText(Html.fromHtml("成功了："+responseContent));
 			}
 
 			@Override
-			public void onError(ErrorInfo errorInfo) {
-				text.setText(errorInfo.toString());
+			public void onFailure(HttpResponse httpResponse) {
+				text.setText("失败了："+httpResponse.getStatusLine().getStatusCode());
+			}
+
+			@Override
+			public void onException(Throwable e) {
+				e.printStackTrace();
+				text.setText("异常了："+e.getMessage());
 			}
 
 			@Override

@@ -1,6 +1,6 @@
 package test.service;
 
-import me.xiaopan.androidlibrary.R;
+import me.xiaopan.easyandroid.R;
 import test.MyApplication;
 import test.activity.views.FloatingWindowActivity;
 import android.app.Service;

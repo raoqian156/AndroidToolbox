@@ -2,12 +2,9 @@ package test;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.app.BaseListActivity;
-import me.xiaopan.androidlibrary.net.AccessNetworkListener;
-import test.net.MyResponseHandler;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.app.BaseListActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -117,13 +114,5 @@ public abstract class MyBaseListActivity extends BaseListActivity {
 			file.createNewFile();
 		}
 		return file;
-	}
-	
-	public void accessNetwork(Object requestObject, Class<?> responseClass, final AccessNetworkListener<?> accessNetworkListener){
-		accessNetwork(requestObject, new MyResponseHandler(responseClass), accessNetworkListener);
-	}
-	
-	public void accessNetwork(Object requestObject, Type responseType, final AccessNetworkListener<?> accessNetworkListener){
-		accessNetwork(requestObject, new MyResponseHandler(responseType), accessNetworkListener);
 	}
 }

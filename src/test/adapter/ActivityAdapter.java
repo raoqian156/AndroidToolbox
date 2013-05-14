@@ -2,8 +2,8 @@ package test.adapter;
 
 import java.util.List;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.MyBaseAdapter;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.MyBaseAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

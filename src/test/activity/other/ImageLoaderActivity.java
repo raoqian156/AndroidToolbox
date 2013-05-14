@@ -1,7 +1,7 @@
 package test.activity.other;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.PullListView;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.PullListView;
 import test.MyBaseActivity;
 import test.adapter.ImageAdapter;
 import android.os.Bundle;

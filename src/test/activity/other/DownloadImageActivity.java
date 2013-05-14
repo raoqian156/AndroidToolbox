@@ -1,8 +1,8 @@
 package test.activity.other;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.net.DownloadImageAsyncTask;
-import me.xiaopan.androidlibrary.net.DownloadImageAsyncTask.DownloadImageListener;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.util.DownloadImageAsyncTask;
+import me.xiaopan.easyandroid.util.DownloadImageAsyncTask.DownloadImageListener;
 import test.MyBaseActivity;
 import android.content.Context;
 import android.graphics.BitmapFactory;

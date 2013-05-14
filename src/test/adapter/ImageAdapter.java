@@ -1,8 +1,8 @@
 package test.adapter;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.ImageLoader;
-import me.xiaopan.androidlibrary.widget.MyBaseAdapter;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.util.ImageLoader;
+import me.xiaopan.easyandroid.widget.MyBaseAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

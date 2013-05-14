@@ -1,6 +1,6 @@
 package test.widget;
 
-import me.xiaopan.androidlibrary.widget.ViewPlayer;
+import me.xiaopan.easyandroid.widget.ViewPlayer;
 import android.content.Context;
 import android.util.AttributeSet;
 

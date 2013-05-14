@@ -1,10 +1,10 @@
 package test.widget;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.util.Colors;
-import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton;
-import me.xiaopan.androidlibrary.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
-import me.xiaopan.javalibrary.util.StringUtils;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.util.Colors;
+import me.xiaopan.easyandroid.widget.BaseSlidingToggleButton;
+import me.xiaopan.easyandroid.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
+import me.xiaopan.easyjava.util.StringUtils;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils.TruncateAt;

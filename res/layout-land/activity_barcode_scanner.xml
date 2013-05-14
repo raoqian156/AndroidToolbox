@@ -12,7 +12,7 @@
                 <TextView android:id="@+id/text_barcodeScanner_result" style="@style/base_layout_wrap_wrap"  android:textSize="@dimen/base_textSize_default" android:textColor="@color/base_white"  android:autoLink="all"/>
             </LinearLayout>
             
-            <me.xiaopan.androidlibrary.util.barcode.ScanFrameView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_layout_match_weight" android:background="@drawable/shape_scan_frame" android:layout_weight="3" />
+            <me.xiaopan.easyandroid.util.barcode.ScanFrameView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_layout_match_weight" android:background="@drawable/shape_scan_frame" android:layout_weight="3" />
             
             <LinearLayout style="@style/base_layout_match_weight" android:background="@color/base_black_translucent" android:gravity="center">
 	            <TextView style="@style/base_layout_match_wrap" android:textColor="@color/base_white" android:textSize="@dimen/base_textSize_default" android:text="@string/barcodeScanner_hint"  android:gravity="center"/>

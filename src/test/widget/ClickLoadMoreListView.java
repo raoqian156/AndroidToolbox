@@ -1,6 +1,6 @@
 package test.widget;
 
-import me.xiaopan.androidlibrary.widget.PullListView;
+import me.xiaopan.easyandroid.widget.PullListView;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListAdapter;

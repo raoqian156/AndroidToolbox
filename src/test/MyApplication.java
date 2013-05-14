@@ -1,6 +1,6 @@
 package test;
 
-import me.xiaopan.javalibrary.net.HttpClient;
+import me.xiaopan.easyjava.net.HttpClient;
 import android.app.Application;
 
 public class MyApplication extends Application {

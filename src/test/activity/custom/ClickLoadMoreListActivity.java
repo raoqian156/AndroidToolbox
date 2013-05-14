@@ -3,10 +3,10 @@ package test.activity.custom;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.androidlibrary.R;
-import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMoreFinishListener;
-import me.xiaopan.androidlibrary.widget.AbsClickLoadMoreListFooter.ClickLoadMoreListener;
-import me.xiaopan.androidlibrary.widget.PullListView;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.AbsClickLoadMoreListFooter.ClickLoadMoreFinishListener;
+import me.xiaopan.easyandroid.widget.AbsClickLoadMoreListFooter.ClickLoadMoreListener;
+import me.xiaopan.easyandroid.widget.PullListView;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
 import android.os.AsyncTask;

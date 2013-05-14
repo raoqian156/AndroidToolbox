@@ -1,6 +1,6 @@
 package test.activity.views;
 
-import me.xiaopan.androidlibrary.R;
+import me.xiaopan.easyandroid.R;
 import test.MyBaseFragmentActivity;
 import test.activity.fragment.Image2Fragment;
 import android.os.Bundle;

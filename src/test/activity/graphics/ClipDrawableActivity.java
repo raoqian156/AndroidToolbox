@@ -1,6 +1,6 @@
 package test.activity.graphics;
 
-import me.xiaopan.androidlibrary.R;
+import me.xiaopan.easyandroid.R;
 import test.MyBaseActivity;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
