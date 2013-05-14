@@ -260,6 +260,7 @@ public class ViewPlayer extends FrameLayout{
 			setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.FILL_PARENT, Gallery.LayoutParams.FILL_PARENT));
 			setSoundEffectsEnabled(false);//切换的时候不播放音效
 			setSpacing(-1);//设置间距为-1，因为使用按键自动切换的时候间距大于等于0会导致切换失败，所以间距只能是-1
+			setFadingEdgeLength(0);
 		}
 
 		@Override
