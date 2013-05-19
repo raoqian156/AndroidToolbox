@@ -3,8 +3,8 @@ package me.xiaopan.easyandroid.widget;
 import java.io.File;
 import java.util.List;
 
-import me.xiaopan.easyandroid.util.ImageLoader;
 import me.xiaopan.easyandroid.widget.ViewPlayer.BaseViewPlayAdapter;
+import me.xiaopan.easynetwork.android.ImageLoader;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

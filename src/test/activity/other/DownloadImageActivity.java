@@ -1,8 +1,8 @@
 package test.activity.other;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.util.DownloadImageAsyncTask;
-import me.xiaopan.easyandroid.util.DownloadImageAsyncTask.DownloadImageListener;
+import me.xiaopan.easynetwork.android.DownloadImageAsyncTask;
+import me.xiaopan.easynetwork.android.DownloadImageAsyncTask.DownloadImageListener;
 import test.MyBaseActivity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -51,7 +51,7 @@ public class DownloadImageActivity extends MyBaseActivity {
 			}
 			
 			@Override
-			public void onException(Exception exception, Context context) {
+			public void onException(Throwable exception, Context context) {
 				toastL("下载失败");
 				becauseExceptionFinishActivity();
 			}
