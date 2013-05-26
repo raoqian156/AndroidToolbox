@@ -1,8 +1,7 @@
 package me.xiaopan.easyandroid.app;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +20,7 @@ public class ActivityManager {
 	/**
 	 * 等待终止的Activity的Id列表
 	 */
-	private List<Long> waitFinishActivityIds;
+	private Set<Long> waitFinishActivityIds;
 	/**
 	 * Activity管理器的实例
 	 */
@@ -32,7 +31,7 @@ public class ActivityManager {
 	 */
 	private ActivityManager(){
 		setActivityMap(new HashMap<Long, Activity>());
-		setWaitFinishActivityIds(new ArrayList<Long>());
+		setWaitFinishActivityIds(new HashSet<Long>());
 	}
 	
 	/**
@@ -89,7 +88,7 @@ public class ActivityManager {
 	 * 终止给定ID集合中包含的Activity
 	 * @param ids 要终止的Activity的ID集合
 	 */
-	public void finishActivitys(List<Long> ids){
+	public void finishActivitys(Set<Long> ids){
 		for(Long lon : ids){
 			finishActivity(lon);
 		}
@@ -179,7 +178,7 @@ public class ActivityManager {
 	 * 获取等待终止的Activity的Id列表
 	 * @return 等待终止的Activity的Id列表
 	 */
-	public List<Long> getWaitFinishActivityIds() {
+	public Set<Long> getWaitFinishActivityIds() {
 		return waitFinishActivityIds;
 	}
 
@@ -187,7 +186,7 @@ public class ActivityManager {
 	 * 设置等待终止的Activity的Id列表
 	 * @param waitFinishActivityIds 等待终止的Activity的Id列表
 	 */
-	public void setWaitFinishActivityIds(List<Long> waitFinishActivityIds) {
+	public void setWaitFinishActivityIds(Set<Long> waitFinishActivityIds) {
 		this.waitFinishActivityIds = waitFinishActivityIds;
 	}
 	

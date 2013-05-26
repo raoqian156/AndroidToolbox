@@ -1,7 +1,7 @@
 package me.xiaopan.easyandroid.app;
 
 import java.io.File;
-import java.util.List;
+import java.util.Set;
 
 import me.xiaopan.easyandroid.util.AndroidUtils;
 import me.xiaopan.easyandroid.util.NetworkUtils;
@@ -756,7 +756,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 	}
 	
 	@Override
-	public final void finishActivitys(List<Long> ids){
+	public final void finishActivitys(Set<Long> ids){
 		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	

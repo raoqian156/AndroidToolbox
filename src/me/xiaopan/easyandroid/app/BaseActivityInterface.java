@@ -1,7 +1,7 @@
 package me.xiaopan.easyandroid.app;
 
 import java.io.File;
-import java.util.List;
+import java.util.Set;
 
 import me.xiaopan.easyandroid.util.AnimationUtils;
 import android.app.Activity;
@@ -537,7 +537,7 @@ public interface BaseActivityInterface {
 	 * 终止给定ID集合中包含的Activity
 	 * @param ids 要终止的Activity的ID集合
 	 */
-	public void finishActivitys(List<Long> ids);
+	public void finishActivitys(Set<Long> ids);
 	
 	/**
 	 * 销毁除当前Activity之外的所有Activity
