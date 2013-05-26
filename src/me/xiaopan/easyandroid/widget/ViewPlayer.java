@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
  * 视图播放器，用于循环播放视图，至于播放什么，你可以提供一个PlayAdapter来提供播放的内容
  */
 public class ViewPlayer extends FrameLayout{
-	private int switchSpace = 3000;//切换间隔
+	private int switchSpace = 4000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
 	private BaseViewPlayAdapter viewPlayAdapter;//为画廊提供视图的适配器
 	private BaseViewPlayIndicator viewPlayIndicator;//播放指示器
