@@ -101,9 +101,10 @@ public class TextUtils {
 	 * @param text 文字
 	 * @param textColor 文字颜色
 	 * @param textSize 文字大小
+	 * @param leftBitmap 可以在文字的左边放置一张图片
 	 * @return 文字位图
 	 */
-	public static Bitmap getTextBitmap(Context context, String text, int textColor, float textSize){
+	public static Bitmap getTextBitmap(Context context, String text, int textColor, float textSize, Bitmap leftBitmap){
 		//创建并初始化画笔
 		Paint paint = new Paint();
 		paint.setColor(textColor);
@@ -116,15 +117,37 @@ public class TextUtils {
 		float textHeight = getTextHeight(paint);
 
 		//计算图片的宽高
-		int drawableWidth = textWidth % 1==0?(int)textWidth:(int)textWidth + 1;
-		int drawableHeight = textHeight % 1==0?(int)textHeight:(int)textHeight + 1;
+		int newBimapWidth = textWidth % 1==0?(int)textWidth:(int)textWidth + 1;
+		int newBimapHeight = textHeight % 1==0?(int)textHeight:(int)textHeight + 1;
+		
+		if(leftBitmap != null){
+			newBimapWidth += leftBitmap.getWidth();
+			newBimapHeight = leftBitmap.getHeight() > newBimapHeight?leftBitmap.getHeight():newBimapHeight;
+		}
 		
 		//先创建一张空白图片，然后在其上面绘制文字
-		Bitmap bitmap = Bitmap.createBitmap(drawableWidth, drawableHeight, Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(newBimapWidth, newBimapHeight, Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
-		canvas.drawText(text, (drawableWidth - textWidth)/2, (drawableHeight - textHeight)/2 + getTextLeading(paint), paint);
+		if(leftBitmap != null){
+			canvas.drawBitmap(leftBitmap, 0, (newBimapHeight - leftBitmap.getHeight())/2, paint);
+			canvas.drawText(text, ((newBimapWidth - textWidth)/2)+leftBitmap.getWidth(), (newBimapHeight - textHeight)/2 + getTextLeading(paint), paint);
+		}else{
+			canvas.drawText(text, (newBimapWidth - textWidth)/2, (newBimapHeight - textHeight)/2 + getTextLeading(paint), paint);
+		}
 		canvas.save();
 		
 		return bitmap;
+	}
+	
+	/**
+	 * 获取一张文字位图
+	 * @param context 上下文
+	 * @param text 文字
+	 * @param textColor 文字颜色
+	 * @param textSize 文字大小
+	 * @return 文字位图
+	 */
+	public static Bitmap getTextBitmap(Context context, String text, int textColor, float textSize){
+		return getTextBitmap(context, text, textColor, textSize, null);
 	}
 }

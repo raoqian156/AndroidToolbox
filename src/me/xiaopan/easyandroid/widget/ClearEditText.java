@@ -3,6 +3,7 @@ package me.xiaopan.easyandroid.widget;
 import me.xiaopan.easyandroid.util.Colors;
 import me.xiaopan.easyandroid.util.TextUtils;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -23,6 +24,8 @@ public class ClearEditText extends EditText {
 	private Drawable clearDrawable;//清除图标
 	private MyTextWatcher myTextWatcher;
 	private OnTouchListener onTouchListener;
+	private int leftDrawableResId = -1;
+	private String editName;
 	
 	public ClearEditText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -47,9 +50,10 @@ public class ClearEditText extends EditText {
 		//初始化触摸监听器
 		fromMe = true;
 		setOnTouchListener(new MyOnTouchListener());
-
+		
 		//尝试初始化编辑器名称
-		tryInitEditName((String) getContentDescription());
+		this.editName = (String) getContentDescription();
+		tryInitEditName();
 		
 		//尝试初始化清除图标
 		tryInitClearDrawable(getCompoundDrawables()[2]);	
@@ -58,10 +62,11 @@ public class ClearEditText extends EditText {
 	/**
 	 * 尝试初始化编辑器名称
 	 */
-	private void tryInitEditName(String editName){
+	private void tryInitEditName(){
 		//名字不为null也不为空就执行初始化
 		if(editName != null && !"".equals(editName)){
-			Drawable nameDrawable = new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, Colors.GRAY_DARK, getTextSize()));
+			new BitmapFactory();
+			Drawable nameDrawable = new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, Colors.GRAY_DARK, getTextSize(), leftDrawableResId>0?BitmapFactory.decodeResource(getResources(), leftDrawableResId):null));
 			Drawable[] drawables = getCompoundDrawables();
 			setCompoundDrawablesWithIntrinsicBounds(nameDrawable, drawables[1], drawables[2], drawables[3]);
 		}
@@ -152,11 +157,12 @@ public class ClearEditText extends EditText {
 	}
 
 	public String getEditName() {
-		return (String) getContentDescription();
+		return editName;
 	}
 
 	public void setEditName(String editName) {
-		tryInitEditName(editName);
+		this.editName = editName;
+		tryInitEditName();
 	}
 
 	public Drawable getClearDrawable() {
@@ -165,5 +171,14 @@ public class ClearEditText extends EditText {
 
 	public void setClearDrawable(Drawable clearDrawable) {
 		tryInitClearDrawable(clearDrawable);
+	}
+
+	public int getLeftDrawableResId() {
+		return leftDrawableResId;
+	}
+
+	public void setLeftDrawableResId(int leftDrawableResId) {
+		this.leftDrawableResId = leftDrawableResId;
+		tryInitEditName();
 	}
 }
