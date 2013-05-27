@@ -66,7 +66,7 @@ public class ClearEditText extends EditText {
 		//名字不为null也不为空就执行初始化
 		if(editName != null && !"".equals(editName)){
 			new BitmapFactory();
-			Drawable nameDrawable = new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, Colors.GRAY_DARK, getTextSize(), leftDrawableResId>0?BitmapFactory.decodeResource(getResources(), leftDrawableResId):null));
+			Drawable nameDrawable = new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, getCurrentTextColor(), getTextSize(), leftDrawableResId>0?BitmapFactory.decodeResource(getResources(), leftDrawableResId):null));
 			Drawable[] drawables = getCompoundDrawables();
 			setCompoundDrawablesWithIntrinsicBounds(nameDrawable, drawables[1], drawables[2], drawables[3]);
 		}

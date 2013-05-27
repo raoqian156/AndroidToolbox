@@ -130,9 +130,9 @@ public class TextUtils {
 		Canvas canvas = new Canvas(bitmap);
 		if(leftBitmap != null){
 			canvas.drawBitmap(leftBitmap, 0, (newBimapHeight - leftBitmap.getHeight())/2, paint);
-			canvas.drawText(text, ((newBimapWidth - textWidth)/2)+leftBitmap.getWidth(), (newBimapHeight - textHeight)/2 + getTextLeading(paint), paint);
+			canvas.drawText(text, leftBitmap.getWidth(), (newBimapHeight - textHeight)/2 + getTextLeading(paint), paint);
 		}else{
-			canvas.drawText(text, (newBimapWidth - textWidth)/2, (newBimapHeight - textHeight)/2 + getTextLeading(paint), paint);
+			canvas.drawText(text, 0, (newBimapHeight - textHeight)/2 + getTextLeading(paint), paint);
 		}
 		canvas.save();
 		
