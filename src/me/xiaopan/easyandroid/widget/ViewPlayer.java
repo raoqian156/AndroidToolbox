@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
  * 视图播放器，用于循环播放视图，至于播放什么，你可以提供一个PlayAdapter来提供播放的内容
  */
 public class ViewPlayer extends FrameLayout{
+	public static final int GALLERY_ID = 214789677;
 	private int switchSpace = 4000;//切换间隔
 	private int animationDurationMillis = 600;//动画持续时间
 	private BaseViewPlayAdapter viewPlayAdapter;//为画廊提供视图的适配器
@@ -59,6 +60,7 @@ public class ViewPlayer extends FrameLayout{
 				
 				//初始化画廊
 				viewGallery = new ViewGallery(getContext());
+				viewGallery.setId(GALLERY_ID);
 				viewGallery.setAnimationDuration(animationDurationMillis);//设置动画持续时间，默认是600毫秒
 				viewGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override
