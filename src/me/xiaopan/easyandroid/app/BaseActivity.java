@@ -37,90 +37,39 @@ import android.widget.Toast;
  * 自定义抽象的Activity基类
  */
 public abstract class BaseActivity extends Activity implements BaseActivityInterface{
-	/**
-	 * 当前Activity在ActivityManager中的ID
-	 */
-	private long activityId = -5;
-	/**
-	 * 主线程消息处理器
-	 */
-	private MessageHandler messageHanlder;
-	/**
-	 * 正在加载视图
-	 */
-	private View loadingHintView;
-	/**
-	 * 列表为空提示视图
-	 */
-	private View listEmptyHintView;
-	/**
-	 * 加载已完成
-	 */
-	private boolean loadFinished = true;
-	/**
-	 * 广播接收器
-	 */
-	private MyBroadcastReceiver broadcastReceiver;
-	/**
-	 * 已经打开了广播接收器
-	 */
-	private boolean openedBroadcaseReceiver;
-	/**
-	 * 创建时间
-	 */
-	private long createTime;
-	/**
-	 * 记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
-	 */
-	private static long lastClickBackButtonTime;
+	private static long lastClickBackButtonTime;	//记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
+	private long activityId = -5;	//当前Activity在ActivityManager中的ID
+	private boolean loadFinished = true;	//加载已完成
+	private boolean openedBroadcaseReceiver;	//已经打开了广播接收器
+	private long createTime;	//创建时间
+	private View loadingHintView;	//加载中提示视图
+	private View listEmptyHintView;	//列表为空提示视图
+	private MessageHandler messageHanlder;	//主线程消息处理器
+	private MyBroadcastReceiver broadcastReceiver;	//广播接收器
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
-		//记录创建时间，用于异常终止时判断是否需要等待一段时间再终止，因为时间过短的话体验不好
-		createTime = System.currentTimeMillis();
-		//将当前Activity放入ActivityManager中，并获取其ID
-		activityId = ActivityManager.getInstance().putActivity(this);	
-		//如果需要去掉标题栏
-		if(isRemoveTitleBar()){																							
-			requestWindowFeature(Window.FEATURE_NO_TITLE);
-		}
-		//如果需要全屏（去掉通知栏）
-		if(isFullScreen()){
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
-		//实例化消息处理器
-		messageHanlder = new MessageHandler(this);
-		//在初始化之前
-		onPreInit(savedInstanceState);											
-		//初始化布局
-		onInitLayout(savedInstanceState);								
-		//初始化监听器
-		onInitListener(savedInstanceState);						
-		//初始化数据
-		onInitData(savedInstanceState);
-		//在初始化之后
-		onPostInit(savedInstanceState);
+		createTime = System.currentTimeMillis();	//记录创建时间，用于异常终止时判断是否需要等待一段时间再终止，因为时间过短的话体验不好
+		activityId = ActivityManager.getInstance().putActivity(this);	//将当前Activity放入ActivityManager中，并获取其ID
+		if(isRemoveTitleBar()) requestWindowFeature(Window.FEATURE_NO_TITLE);	//如果需要去掉标题栏	
+		if(isFullScreen()) getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	//如果需要全屏就去掉通知栏
+		messageHanlder = new MessageHandler(this);//实例化消息处理器
+		onPreInit(savedInstanceState);//在初始化之前											
+		onInitLayout(savedInstanceState);//初始化布局								
+		onInitListener(savedInstanceState);//初始化监听器						
+		onInitData(savedInstanceState);//初始化数据
+		onPostInit(savedInstanceState);//在初始化之后
 	}
 	
 	/**
 	 * 在初始化之前
 	 * @param savedInstanceState
 	 */
-	protected void onPreInit(Bundle savedInstanceState){
-		
-	}
+	protected void onPreInit(Bundle savedInstanceState){}
 	
 	/**
-	 * 在初始化之后
-	 * @param savedInstanceState
-	 */
-	protected void onPostInit(Bundle savedInstanceState){
-		
-	}
-	
-	/**
-	 * 初始化布局
+	 * 初始化布局，设置ContentView并通过findViewById()初始化视图
 	 */
 	protected abstract void onInitLayout(Bundle savedInstanceState);
 
@@ -134,12 +83,11 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	 */
 	protected abstract void onInitData(Bundle savedInstanceState);
 	
-	@Override
-	protected void onDestroy() {
-		ActivityManager.getInstance().removeActivity(getActivityId());
-		closeBroadcastReceiver();
-		super.onDestroy();
-	}
+	/**
+	 * 在初始化之后
+	 * @param savedInstanceState
+	 */
+	protected void onPostInit(Bundle savedInstanceState){}
 	
 	@Override
 	public void onBackPressed() {
@@ -155,6 +103,13 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 		}else{
 			finishActivity();
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		ActivityManager.getInstance().removeActivity(getActivityId());
+		closeBroadcastReceiver();
+		super.onDestroy();
 	}
 	
 	@Override
@@ -216,28 +171,12 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	}
 	
 	@Override
-	public final void receiveMessage(Message message){
-		onReceivedMessage(message);
+	public void onReceivedMessage(Message message){
+		
 	};
 	
-	/**
-	 * 当接收到了一个消息
-	 * @param message 收到的消息
-	 */
-	protected void onReceivedMessage(Message message){
-		
-	}
-	
 	@Override
-	public final void receiveBroadcast(Intent intent){
-		onReceivedBroadcast(intent);
-	}
-	
-	/**
-	 * 当接收到了一个广播
-	 * @param intent 收到的广播
-	 */
-	protected void onReceivedBroadcast(Intent intent){
+	public void onReceivedBroadcast(Intent intent){
 		
 	}
 	

@@ -29,6 +29,7 @@ import android.widget.Toast;
  * Activity基类接口
  */
 public interface BaseActivityInterface {
+	String STATE_KEY = "SAVE_KEY";
 	/**
 	 * 最小用时
 	 */
@@ -73,16 +74,16 @@ public interface BaseActivityInterface {
 	public void onPromptExitApplication();
 	
 	/**
-	 * 主线程接收消息
+	 * 主线程收到消息
 	 * @param message 要处理的消息
 	 */
-	public void receiveMessage(Message message);
+	public void onReceivedMessage(Message message);
 	
 	/**
-	 * 主线程接收广播
+	 * 主线程收到广播
 	 * @param intent
 	 */
-	public void receiveBroadcast(Intent intent);
+	public void onReceivedBroadcast(Intent intent);
 	
 	
 	
@@ -1111,7 +1112,7 @@ public interface BaseActivityInterface {
 										msg.getData().getInt(MessageHandler.OUT_ANIMATION)
 								); 
 						break;
-					default :  baseActivityInterface.receiveMessage(msg); break;
+					default :  baseActivityInterface.onReceivedMessage(msg); break;
 				}
 			}
 			super.handleMessage(msg);
@@ -1130,7 +1131,7 @@ public interface BaseActivityInterface {
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			baseActivityInterface.receiveBroadcast(intent);
+			baseActivityInterface.onReceivedBroadcast(intent);
 		}
 
 		public BaseActivityInterface getBaseActivityInterface() {

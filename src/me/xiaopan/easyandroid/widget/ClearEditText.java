@@ -1,6 +1,5 @@
 package me.xiaopan.easyandroid.widget;
 
-import me.xiaopan.easyandroid.util.Colors;
 import me.xiaopan.easyandroid.util.TextUtils;
 import android.content.Context;
 import android.graphics.BitmapFactory;

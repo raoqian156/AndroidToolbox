@@ -54,7 +54,7 @@ public class ClipDrawableActivity extends MyBaseActivity {
 	}
 	
 	@Override
-	protected void onReceivedMessage(Message message) {
+	public void onReceivedMessage(Message message) {
 		//当收到消息的时候就更改进度
 		clipDrawableLeft.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
 		clipDrawableRight.setLevel(clipDrawableLeft.getLevel() + INCREMENT);
