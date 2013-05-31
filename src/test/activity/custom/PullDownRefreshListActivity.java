@@ -17,8 +17,6 @@ import android.view.MenuItem;
 
 /**
  * 下拉刷新列表
- * @author xiaopan
- *
  */
 public class PullDownRefreshListActivity extends MyBaseActivity {
 	public static final String[] CONTENS = new String[20];
