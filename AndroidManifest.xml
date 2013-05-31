@@ -35,7 +35,8 @@
     <uses-feature android:name="android.hardware.location.gps"/>
 
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name"  android:name="test.MyApplication" >
-        <activity android:name="test.activity.MainActivity" android:label="@string/app_name">
+<!--                 <activity android:name="test.activity.LixueLoadMore" android:label="@string/app_name"> -->
+<activity android:name="test.activity.MainActivity" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -72,6 +73,7 @@
    		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/fragmentTabHost_title"/>
   		<activity android:name="test.activity.views.FloatingWindowActivity" android:label="@string/floatingWindow_title"/>
   		<activity android:name="test.activity.views.GalleryActivity" android:label="@string/gallery_title"/>
+  		<activity android:name="test.activity.LixueLoadMore" android:label="@string/gallery_title"/>
      		
     	<service android:name="test.service.FloatingWindowService"/>
         

@@ -5,10 +5,10 @@ import java.util.List;
 
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.AbstractClickLoadListFooter;
-import me.xiaopan.easyandroid.widget.MyClickLoadListFooter.ClickLoadListener;
+import me.xiaopan.easyandroid.widget.MyClickLoadListFooter2.ClickLoadListener;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
-import test.widget.MyClickLoadListView;
+import test.widget.MyClickLoadListView2;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,7 +21,7 @@ import android.widget.Button;
  *
  */
 public class ClickLoadMoreListActivity extends MyBaseActivity {
-	private MyClickLoadListView pullListView;
+	private MyClickLoadListView2 pullListView;
 	private SimpleAdapter simpleAdapter;
 	private List<String> contents;
 	private Button button;
@@ -29,7 +29,7 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_click_load_more_list);
-		pullListView = (MyClickLoadListView) findViewById(android.R.id.list);
+		pullListView = (MyClickLoadListView2) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.pullList_button);
 	}
 
