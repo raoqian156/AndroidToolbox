@@ -2,7 +2,7 @@ package test.adapter;
 
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.MyBaseAdapter;
-import me.xiaopan.easynetwork.android.ImageLoader;
+import me.xiaopan.imageloader.android.ImageLoader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +13,10 @@ import android.widget.ImageView;
 public class ImageAdapter extends MyBaseAdapter {
 	private boolean full;
 	private String[] imageUrls;
-	private ImageLoader imageLoader;
 	
 	public ImageAdapter(Context context){
 		super(context);
 		imageUrls = context.getResources().getStringArray(R.array.imageurls);
-		imageLoader = ImageLoader.getInstance(R.drawable.image_default);
 	}
 
 	@Override
@@ -33,7 +31,8 @@ public class ImageAdapter extends MyBaseAdapter {
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		imageLoader.fromNetwork(imageUrls[realPosition], viewHolder.image);
+		
+		ImageLoader.getInstance().load(imageUrls[realPosition], viewHolder.image);
 		choiceButtonHandle(viewHolder.choiceButton, realPosition);
 		return convertView;
 	}

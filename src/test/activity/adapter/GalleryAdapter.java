@@ -1,7 +1,6 @@
 package test.activity.adapter;
 
-import me.xiaopan.easyandroid.R;
-import me.xiaopan.easynetwork.android.ImageLoader;
+import me.xiaopan.imageloader.android.ImageLoader;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,10 @@ import android.widget.ImageView.ScaleType;
 public class GalleryAdapter extends BaseAdapter{
 	private Context context;
 	private String[] urls;
-	private ImageLoader imageLoader;//图片加载器
 	
 	public GalleryAdapter (Context context, String[] urls){
 		this.context = context;
 		this.urls = urls;
-		imageLoader = new ImageLoader(R.drawable.image_default);
 	}
 	
 	@Override
@@ -51,7 +48,7 @@ public class GalleryAdapter extends BaseAdapter{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		imageLoader.fromNetwork(urls[position], viewHolder.imageView);
+		ImageLoader.getInstance().load(urls[position], viewHolder.imageView);
 		return convertView;
 	}
 	

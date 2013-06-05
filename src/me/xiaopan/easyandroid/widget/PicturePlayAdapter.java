@@ -1,10 +1,9 @@
 package me.xiaopan.easyandroid.widget;
 
-import java.io.File;
 import java.util.List;
 
 import me.xiaopan.easyandroid.widget.ViewPlayer.BaseViewPlayAdapter;
-import me.xiaopan.easynetwork.android.ImageLoader;
+import me.xiaopan.imageloader.android.ImageLoader;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,14 @@ import android.widget.ImageView.ScaleType;
  */
 public class PicturePlayAdapter extends BaseViewPlayAdapter{
 	private Context context;//上下文
-	private List<Picture> pictures;//图片列表
+	private List<String> pictures;//图片列表
 	private int defaultImageResId;//默认图片ID
 	private ScaleType imageScaleType = ScaleType.FIT_XY;//图片缩放模式
-	private ImageLoader imageLoader;//图片加载器
 	
-	public PicturePlayAdapter(Context context, List<Picture> pictures, int defaultImageResId){
+	public PicturePlayAdapter(Context context, List<String> pictures){
 		super(pictures);
 		this.context = context;
 		this.pictures = pictures;
-		imageLoader = new ImageLoader(defaultImageResId);
 	}
 	
 	@Override
@@ -44,13 +41,7 @@ public class PicturePlayAdapter extends BaseViewPlayAdapter{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		Picture picture = pictures.get(position);
-		
-		if(picture.getFile() != null){
-			imageLoader.fromLocalByPriority(picture.getFile(), viewHolder.imageView, picture.getUrl());
-		}else{
-			imageLoader.fromNetwork(picture.getUrl(), viewHolder.imageView);
-		}
+		ImageLoader.getInstance().load(pictures.get(position), viewHolder.imageView);
 		return convertView;
 	}
 	
@@ -58,45 +49,11 @@ public class PicturePlayAdapter extends BaseViewPlayAdapter{
 		public ImageView imageView;
 	}
 	
-	/**
-	 * 图片对象
-	 * @author xiaopan
-	 */
-	public static class Picture{
-		private String url;
-		private File file;
-		
-		public Picture(String url, File file){
-			setUrl(url);
-			setFile(file);
-		}
-		
-		public Picture(String url){
-			this(url, null);
-		}
-		
-		public String getUrl() {
-			return url;
-		}
-		
-		public void setUrl(String url) {
-			this.url = url;
-		}
-		
-		public File getFile() {
-			return file;
-		}
-		
-		public void setFile(File file) {
-			this.file = file;
-		}
-	}
-
-	public List<Picture> getPictures() {
+	public List<String> getPictures() {
 		return pictures;
 	}
 
-	public void setPictures(List<Picture> pictures) {
+	public void setPictures(List<String> pictures) {
 		this.pictures = pictures;
 	}
 

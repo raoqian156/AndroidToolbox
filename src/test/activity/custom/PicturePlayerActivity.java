@@ -5,9 +5,7 @@ import java.util.List;
 
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.PicturePlayAdapter;
-import me.xiaopan.easyandroid.widget.PicturePlayAdapter.Picture;
 import me.xiaopan.easyandroid.widget.ViewPlayer.PlayWay;
-import me.xiaopan.easyjava.util.NetUtils;
 import test.MyBaseActivity;
 import test.widget.PointViewPlayer;
 import android.os.Bundle;
@@ -23,7 +21,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	private PointViewPlayer picturePlayerCircleRightToLeft;
 	private PointViewPlayer picturePlayerSwingLeftToRight;
 	private PointViewPlayer picturePlayerSwingRightToLeft;
-	private List<Picture> pictures;
+	private List<String> pictures;
 	
 	@Override
 	protected void onInitLayout(Bundle savedInstanceState) {
@@ -46,24 +44,21 @@ public class PicturePlayerActivity extends MyBaseActivity {
 
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
-		pictures = new ArrayList<Picture>();
+		pictures = new ArrayList<String>();
 		for(String url : getStringArray(R.array.autoPlayGallery_urls2)){
-			Picture picture = new Picture(url);
-			picture.setFile(getFileFromExternalCacheDir(NetUtils.getFileNameFromURL(url)));
-			pictures.add(picture);
+			pictures.add(url);
 		}
 		
-		
-		picturePlayerCircleLeftToRight.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerCircleLeftToRight.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures));
 		picturePlayerCircleLeftToRight.setPlayWay(PlayWay.CIRCLE_LEFT_TO_RIGHT);
 		
-		picturePlayerCircleRightToLeft.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerCircleRightToLeft.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures));
 		picturePlayerCircleRightToLeft.setPlayWay(PlayWay.CIRCLE_RIGHT_TO_LEFT);
 		
-		picturePlayerSwingLeftToRight.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerSwingLeftToRight.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures));
 		picturePlayerSwingLeftToRight.setPlayWay(PlayWay.SWING_LEFT_TO_RIGHT);
 		
-		picturePlayerSwingRightToLeft.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures, R.drawable.image_default));
+		picturePlayerSwingRightToLeft.setViewPlayAdapter(new PicturePlayAdapter(getBaseContext(), pictures));
 		picturePlayerSwingRightToLeft.setPlayWay(PlayWay.SWING_RIGHT_TO_LEFT);
 	}
 
