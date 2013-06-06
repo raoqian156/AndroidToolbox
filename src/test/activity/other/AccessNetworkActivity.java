@@ -2,7 +2,7 @@ package test.activity.other;
 
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easynetwork.android.EasyHttpClient;
-import me.xiaopan.easynetwork.android.StringHttpResponseHandler;
+import me.xiaopan.easynetwork.android.StringHttpListener;
 
 import org.apache.http.HttpResponse;
 
@@ -39,7 +39,7 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	}
 	
 	private void loadData(){
-		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringHttpResponseHandler(){
+		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringHttpListener(){
 			@Override
 			public void onStart() {
 				showLoadingHintView();

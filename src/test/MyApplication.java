@@ -1,6 +1,7 @@
 package test;
 
 import me.xiaopan.easyandroid.R;
+import me.xiaopan.easynetwork.android.EasyHttpClient;
 import me.xiaopan.imageloader.android.ImageLoader;
 import me.xiaopan.imageloader.android.Options;
 import me.xiaopan.imageloader.android.ShowAnimationListener;
@@ -30,6 +31,10 @@ public class MyApplication extends Application {
 			}
 		});
 		ImageLoader.init(getBaseContext(), options);
+		
+		//让EasyHttpClient和ImageLoader共用一个线程池
+		EasyHttpClient.getInstance();
+		ImageLoader.setThreadPool(EasyHttpClient.getThreadPool());
 	}
 
 	public boolean isNetworkSpeedFloatingWindowDisplay() {
