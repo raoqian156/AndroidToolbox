@@ -46,12 +46,12 @@ public class ViewPagerActivity extends MyBaseFragmentActivity {
 	@Override
 	protected void onInitData(Bundle savedInstanceState) {
 		testFragmentList = new ArrayList<ImageFragment>();
-		testFragmentList.add(new ImageFragment("页面1", R.drawable.liuyifei1));
-		testFragmentList.add(new ImageFragment("页面2", R.drawable.liuyifei2));
-		testFragmentList.add(new ImageFragment("页面3", R.drawable.liuyifei3));
-		testFragmentList.add(new ImageFragment("页面4", R.drawable.liuyifei4));
-		testFragmentList.add(new ImageFragment("页面5", R.drawable.liuyifei5));
-		testFragmentList.add(new ImageFragment("页面6", R.drawable.liuyifei6));
+		testFragmentList.add(new ImageFragment("页面1", R.drawable.image_liuyifei1));
+		testFragmentList.add(new ImageFragment("页面2", R.drawable.image_liuyifei2));
+		testFragmentList.add(new ImageFragment("页面3", R.drawable.image_liuyifei3));
+		testFragmentList.add(new ImageFragment("页面4", R.drawable.image_liuyifei4));
+		testFragmentList.add(new ImageFragment("页面5", R.drawable.image_liuyifei5));
+		testFragmentList.add(new ImageFragment("页面6", R.drawable.image_liuyifei6));
 		
 		viewPager.setAdapter(new ImageFragmentPagerAdapter(getSupportFragmentManager(), testFragmentList));
 		

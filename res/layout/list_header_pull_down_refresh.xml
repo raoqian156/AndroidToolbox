@@ -14,7 +14,7 @@
 			<ImageView
 			    style="@style/base_wrap_wrap" 
 			    android:id="@+id/refreshHeader_image" 
-			    android:src="@drawable/ic_pull_down" 
+			    android:src="@drawable/icon_pull_down" 
 			    android:visibility="visible"
 			    android:layout_marginLeft="-40dp" 
 			    android:layout_centerVertical="true" 

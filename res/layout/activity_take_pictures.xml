@@ -9,7 +9,7 @@
 	    <LinearLayout style="@style/base_match_wrap">
 		    <ImageButton 
 		        style="@style/base_wrap_wrap" 
-		        android:src="@drawable/ic_flash_off" 
+		        android:src="@drawable/icon_flash_off" 
 		        android:contentDescription="@string/base_image_contentDescription" 
 		        android:id="@+id/imageButton_takePictures_flashMode" 
 		        android:background="@drawable/shape_button_flash_mode"

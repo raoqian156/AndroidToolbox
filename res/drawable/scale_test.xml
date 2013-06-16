@@ -3,4 +3,4 @@
     android:scaleWidth="100%" 
     android:scaleHeight="100%" 
     android:scaleGravity="left" 
-    android:drawable="@drawable/ic_launcher"/>
+    android:drawable="@drawable/icon_launcher"/>

@@ -96,7 +96,7 @@ public class FloatingWindowService extends Service implements OnClickListener{
 	}
 	
 	private void onDownHandle(MotionEvent event){
-		floatingWindowView.setBackgroundResource(R.drawable.ic_floating_pressed);
+		floatingWindowView.setBackgroundResource(R.drawable.icon_floating_pressed);
 		tempPosition[0] = event.getX();
 		tempPosition[1] = event.getY();
 		tempPosition[2] = event.getRawX();
@@ -120,7 +120,7 @@ public class FloatingWindowService extends Service implements OnClickListener{
 	}
 	
 	private void onUpOrCancelHandle(MotionEvent event){
-		floatingWindowView.setBackgroundResource(R.drawable.ic_floating_normal);
+		floatingWindowView.setBackgroundResource(R.drawable.icon_floating_normal);
 		if(Math.abs(event.getRawX() - tempPosition[2]) <= CLICK_DIS || Math.abs(event.getRawY() - tempPosition[3]) <= CLICK_DIS){
 			onClick(floatingWindowView);
 		}

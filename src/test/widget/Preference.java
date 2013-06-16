@@ -211,7 +211,7 @@ public class Preference extends LinearLayout{
 				case TYPE_NONE : 
 					//箭头
 					arrowImage = new ImageView(getContext());
-					arrowImage.setImageResource(R.drawable.ic_arrow_right);
+					arrowImage.setImageResource(R.drawable.icon_arrow_right);
 					addView(arrowImage);
 					break;
 				case TYPE_NEXT : 

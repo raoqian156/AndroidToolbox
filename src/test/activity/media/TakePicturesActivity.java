@@ -261,13 +261,13 @@ public class TakePicturesActivity extends MyBaseActivity implements CameraManage
 	 */
 	private void setFlashModeImageButton(String falshMode){
 		if(Camera.Parameters.FLASH_MODE_AUTO.equals(falshMode)){
-			flashModeImageButton.setImageResource(R.drawable.ic_flash_auto);
+			flashModeImageButton.setImageResource(R.drawable.icon_flash_auto);
 			flashModeImageButton.setTag(Camera.Parameters.FLASH_MODE_AUTO);
 		}else if(Camera.Parameters.FLASH_MODE_OFF.equals(falshMode)){
-			flashModeImageButton.setImageResource(R.drawable.ic_flash_off);
+			flashModeImageButton.setImageResource(R.drawable.icon_flash_off);
 			flashModeImageButton.setTag(Camera.Parameters.FLASH_MODE_OFF);
 		}else if(Camera.Parameters.FLASH_MODE_ON.equals(falshMode)){
-			flashModeImageButton.setImageResource(R.drawable.ic_flash_on);
+			flashModeImageButton.setImageResource(R.drawable.icon_flash_on);
 			flashModeImageButton.setTag(Camera.Parameters.FLASH_MODE_ON);
 		}
 	}

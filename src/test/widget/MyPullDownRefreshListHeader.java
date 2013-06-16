@@ -101,7 +101,7 @@ public class MyPullDownRefreshListHeader extends AbsPullDownRefreshListHeader {
 		//显示箭头
 		ImageView imageView = (ImageView) contentView.findViewById(R.id.refreshHeader_image);
 		imageView.clearAnimation();
-		imageView.setImageResource(R.drawable.ic_pull_down);
+		imageView.setImageResource(R.drawable.icon_pull_down);
 		imageView.setVisibility(View.VISIBLE);
 
 		//隐藏进度条

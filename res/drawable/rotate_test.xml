@@ -5,5 +5,5 @@
     android:toDegrees="359"
     android:pivotX="50%"
     android:pivotY="50%"
-    android:drawable="@drawable/ic_refresh_none"
+    android:drawable="@drawable/icon_refresh_none"
     />

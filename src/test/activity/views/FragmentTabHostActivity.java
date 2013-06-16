@@ -50,10 +50,10 @@ public class FragmentTabHostActivity extends MyBaseFragmentActivity {
 		fragmentTabHost.setup(getBaseContext(), getSupportFragmentManager(), R.id.realtabcontent);
 		fragmentTabHost.getTabWidget().setDividerDrawable(R.drawable.tabs_divider);
 		
-		fragmentTabHost.addTab(createTabSpec(TAB_TAG_ONE, "选项卡1"), Image2Fragment.class, getBundle(R.drawable.liuyifei1));
-        fragmentTabHost.addTab(createTabSpec(TAB_TAG_TWO, "选项卡2"), Image2Fragment.class, getBundle(R.drawable.liuyifei2));
-        fragmentTabHost.addTab(createTabSpec(TAB_TAG_THREE, "选项卡3"), Image2Fragment.class, getBundle(R.drawable.liuyifei3));
-        fragmentTabHost.addTab(createTabSpec(TAB_TAG_FOUR, "选项卡4"), Image2Fragment.class, getBundle(R.drawable.liuyifei4));
+		fragmentTabHost.addTab(createTabSpec(TAB_TAG_ONE, "选项卡1"), Image2Fragment.class, getBundle(R.drawable.image_liuyifei1));
+        fragmentTabHost.addTab(createTabSpec(TAB_TAG_TWO, "选项卡2"), Image2Fragment.class, getBundle(R.drawable.image_liuyifei2));
+        fragmentTabHost.addTab(createTabSpec(TAB_TAG_THREE, "选项卡3"), Image2Fragment.class, getBundle(R.drawable.image_liuyifei3));
+        fragmentTabHost.addTab(createTabSpec(TAB_TAG_FOUR, "选项卡4"), Image2Fragment.class, getBundle(R.drawable.image_liuyifei4));
 	}
 	
 	private TabSpec createTabSpec(String tag, String title){

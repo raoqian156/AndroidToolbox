@@ -36,41 +36,41 @@ public class SlidingToggleButton extends BaseSlidingToggleButton {
 
 	@Override
 	public Bitmap onGetStateNormalBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_state_normal);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_state_normal);
 	}
 
 	@Override
 	public Bitmap onGetStateDisableBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_state_disable);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_state_disable);
 	}
 
 	@Override
 	public Bitmap onGetStateMaskBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_state_mask);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_state_mask);
 	}
 
 	@Override
 	public Bitmap onGetFrameBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_frame);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_frame);
 	}
 
 	@Override
 	public Bitmap onGetSliderNormalBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_normal);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_slider_normal);
 	}
 
 	@Override
 	public Bitmap onGetSliderPressedBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_pressed);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_slider_pressed);
 	}
 
 	@Override
 	public Bitmap onGetSliderDisableBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_disable);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_slider_disable);
 	}
 
 	@Override
 	public Bitmap onGetSliderMaskBitmap() {
-		return BitmapFactory.decodeResource(getResources(), R.drawable.btn_sliding_slider_mask);
+		return BitmapFactory.decodeResource(getResources(), R.drawable.button_sliding_slider_mask);
 	}
 }
