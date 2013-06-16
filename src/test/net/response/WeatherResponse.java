@@ -15,7 +15,7 @@
  */
 package test.net.response;
 
-import me.xiaopan.easynetwork.android.ResponseBodyKey;
+import me.xiaopan.easynetwork.android.http.ResponseBodyKey;
 
 import com.google.gson.annotations.Expose;
 

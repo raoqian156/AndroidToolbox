@@ -15,9 +15,9 @@
  */
 package test.net.request;
 
-import me.xiaopan.easynetwork.android.Host;
-import me.xiaopan.easynetwork.android.Path;
-import me.xiaopan.easynetwork.android.Request;
+import me.xiaopan.easynetwork.android.http.Host;
+import me.xiaopan.easynetwork.android.http.Path;
+import me.xiaopan.easynetwork.android.http.Request;
 
 @Host("http://www.weather.com.cn/data/cityinfo")
 @Path("101010100.html")

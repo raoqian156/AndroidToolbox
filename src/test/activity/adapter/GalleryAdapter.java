@@ -15,7 +15,7 @@
  */
 package test.activity.adapter;
 
-import me.xiaopan.imageloader.android.ImageLoader;
+import me.xiaopan.easynetwork.android.image.ImageLoader;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

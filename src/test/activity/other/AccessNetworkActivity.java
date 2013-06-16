@@ -16,8 +16,8 @@
 package test.activity.other;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easynetwork.android.EasyHttpClient;
-import me.xiaopan.easynetwork.android.StringHttpListener;
+import me.xiaopan.easynetwork.android.http.EasyHttpClient;
+import me.xiaopan.easynetwork.android.http.StringResponseHandler;
 
 import org.apache.http.HttpResponse;
 
@@ -34,7 +34,6 @@ import android.widget.TextView;
  *
  */
 public class AccessNetworkActivity extends MyBaseActivity {
-
 	private TextView text;
 	
 	@Override
@@ -54,7 +53,7 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	}
 	
 	private void loadData(){
-		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringHttpListener(){
+		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringResponseHandler(){
 			@Override
 			public void onStart() {
 				showLoadingHintView();
@@ -62,7 +61,7 @@ public class AccessNetworkActivity extends MyBaseActivity {
 
 			@Override
 			public void onSuccess(String responseContent) {
-				text.setText(Html.fromHtml("成功了："+responseContent));
+				text.setText(Html.fromHtml(responseContent));
 			}
 
 			@Override
