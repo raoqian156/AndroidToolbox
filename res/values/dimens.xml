@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="pull_height">90dp</dimen><!-- 下拉刷新头的高度 -->
+    <!-- 下拉刷新头的高度 -->
+    <dimen name="pull_height">90dp</dimen>
+    
+    <!-- 阴影 - 高度 -->
+    <dimen name="shadow_height">6dp</dimen>
+    
+    <!-- 间隔 - 高度 -->
+    <dimen name="space_height">10dp</dimen>
+    
+    <!-- 间隔 - 小的 - 高度 -->
+    <dimen name="spacing_small_height">5dp</dimen>
 </resources>

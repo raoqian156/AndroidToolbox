@@ -3,13 +3,13 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- ******************************************************************************** 布局 ************************************************************************************ -->
     <!-- 布局 - 正文 -->
-    <style name="comm_layout_body" parent="@style/base_layout_match_match_vertical">
+    <style name="comm_layout_body" parent="@style/base_match_match_vertical">
         <item name="android:id">@id/comm_layout_body</item>
         <item name="android:background">@color/comm_body_backg</item>
     </style>
     
     <!-- 布局 - 正文 - 内容 -->
-    <style name="comm_layout_body_content" parent="@style/base_layout_match_match_vertical">
+    <style name="comm_layout_body_content" parent="@style/base_match_match_vertical">
         <item name="android:id">@id/comm_layout_bodyContent</item>
     </style>
     
@@ -31,7 +31,7 @@
     </style>
     
 	<!-- 布局 - 列表项 -->
-	<style name="comm_layout_listItem" parent="@style/base_layout_match_wrap">
+	<style name="comm_layout_listItem" parent="@style/base_match_wrap">
 	    <item name="android:minHeight">@dimen/comm_layout_listItem_minHeight</item>
 	    <item name="android:paddingLeft">@dimen/base_padding_veryLarge</item>
 	    <item name="android:paddingTop">@dimen/base_padding_littleSmall</item>
@@ -46,7 +46,7 @@
 	</style>
     
     <!-- 布局 - 列表为空时的提示视图 -->
-    <style name="comm_layout_listEmptyHint" parent="@style/base_layout_wrap_wrap">
+    <style name="comm_layout_listEmptyHint" parent="@style/base_wrap_wrap">
         <item name="android:id">@id/comm_layout_listEmptyHint</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:visibility">gone</item>
@@ -55,7 +55,7 @@
     </style>
     
     <!-- 布局 - 加载中提示 -->
-    <style name="comm_layout_loadingHint" parent="@style/base_layout_match_match">
+    <style name="comm_layout_loadingHint" parent="@style/base_match_match">
         <item name="android:id">@id/comm_layout_loadingHint</item>
         <item name="android:layout_gravity">center</item>
 	    <item name="android:gravity">center</item> 
@@ -70,7 +70,7 @@
     
     <!-- ******************************************************************************** 列表 ************************************************************************************ -->
 	<!-- 列表 -->
-	<style name="comm_list" parent="@style/base_layout_match_wrap">
+	<style name="comm_list" parent="@style/base_match_wrap">
 	    <item name="android:id">@android:id/list</item>
 	    <item name="android:divider">@drawable/list_divider</item>
 	    <item name="android:cacheColorHint">@color/base_transparent</item>
@@ -112,7 +112,7 @@
 	
 	<!-- ******************************************************************************** 文字 ************************************************************************************ -->	
 	<!-- 文字 -->
-	<style name="comm_text" parent="@style/base_layout_wrap_wrap">
+	<style name="comm_text" parent="@style/base_wrap_wrap">
 		<item name="android:textColor">@color/base_black</item>
 		<item name="android:textSize">@dimen/base_textSize_default</item>
 	    <item name="android:layout_margin">@dimen/base_margin_littleSmall</item>
@@ -150,7 +150,7 @@
 	
 	<!-- ******************************************************************************** 按钮 ************************************************************************************ -->
 	<!-- 按钮 - 正文 -->
-	<style name="comm_button_body" parent="@style/base_layout_wrap_wrap">
+	<style name="comm_button_body" parent="@style/base_wrap_wrap">
 	    <item name="android:gravity">center</item>
 	    <item name="android:textColor">@color/base_gray</item>
 	    <item name="android:minWidth">@dimen/comm_button_body_minWidth</item>
@@ -171,7 +171,7 @@
 	</style>
 	
     <!-- 按钮 - 列表项 -->
-    <style name="comm_button_listItem" parent="@style/base_layout_wrap_wrap">
+    <style name="comm_button_listItem" parent="@style/base_wrap_wrap">
 	    <item name="android:gravity">center</item>
 	    <item name="android:textColor">@color/base_gray</item>
 		<item name="android:minWidth">@dimen/comm_button_listItem_minHeight</item>
@@ -194,7 +194,7 @@
     
     <!-- ******************************************************************************** 编辑器 ************************************************************************************ -->
    <!-- 编辑器 -->
-    <style name="comm_edit" parent="@style/base_layout_match_wrap">
+    <style name="comm_edit" parent="@style/base_match_wrap">
         <item name="android:background">@drawable/selector_edit</item>
         <item name="android:textSize">@dimen/base_textSize_default</item>
         <item name="android:textColor">@color/base_black</item>

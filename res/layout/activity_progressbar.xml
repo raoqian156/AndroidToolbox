@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
     <!-- 正文内容 -->
-    <ScrollView style="@style/base_layout_match_match">
+    <ScrollView style="@style/base_match_match">
         <LinearLayout style="@style/comm_layout_body_content_padding">
 	    	<TextView style="@style/comm_text_match" android:text="自定义圆形进度条"/>
 	    	
-	    	<ProgressBar style="@style/base_layout_wrap_wrap" android:indeterminateDrawable="@drawable/rotate_progress_small"/>
+	    	<ProgressBar style="@style/base_wrap_wrap" android:indeterminateDrawable="@drawable/rotate_progress_small"/>
         </LinearLayout>
     </ScrollView>
     

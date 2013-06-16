@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_loadingHint">
-    <ProgressBar style="@style/base_layout_wrap_wrap"/>
+    <ProgressBar style="@style/base_wrap_wrap"/>
 	<TextView style="@style/comm_text" android:text="@string/base_loadingLater" android:layout_marginLeft="10dp"/>
 </LinearLayout>

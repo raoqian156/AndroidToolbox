@@ -2,7 +2,7 @@
 <!-- 私有的样式 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- 文本 - 滑动选项卡 - 标题 -->
-	<style name="text_slideTabhost_tabtitle" parent="@style/base_layout_weight_wrap">
+	<style name="text_slideTabhost_tabtitle" parent="@style/base_weight_wrap">
 	    <item name="android:textColor">@color/selector_slidetab_title</item>
 	    <item name="android:gravity">center</item>
 	    <item name="android:paddingLeft">@dimen/base_padding_default</item>
@@ -13,7 +13,7 @@
 	</style>
 	
 	<!-- 文本 - 滑动选项卡 - 滑块 -->
-	<style name="text_slideTabHost_slideBlock" parent="@style/base_layout_weight_wrap">
+	<style name="text_slideTabHost_slideBlock" parent="@style/base_weight_wrap">
 	    <item name="android:background">@color/base_orange_dark</item>
 	</style>
 	

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_layout_match_match">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_match_match">
     <!-- 预览层 -->
-    <SurfaceView style="@style/base_layout_match_match" android:id="@+id/surface_cameraPreview"/>
+    <SurfaceView style="@style/base_match_match" android:id="@+id/surface_cameraPreview"/>
     
     <!-- 辅助功能区 -->
-    <LinearLayout style="@style/base_layout_match_match_vertical" android:padding="@dimen/base_padding_specialLarge">
+    <LinearLayout style="@style/base_match_match_vertical" android:padding="@dimen/base_padding_specialLarge">
 	    <!-- 辅助功能区 -->
-	    <LinearLayout style="@style/base_layout_match_wrap">
+	    <LinearLayout style="@style/base_match_wrap">
 		    <ImageButton 
-		        style="@style/base_layout_wrap_wrap" 
+		        style="@style/base_wrap_wrap" 
 		        android:src="@drawable/ic_flash_off" 
 		        android:contentDescription="@string/base_image_contentDescription" 
 		        android:id="@+id/imageButton_cameraPreview_flashMode" 
@@ -18,8 +18,8 @@
         </LinearLayout>
         
         <!-- 按钮区 -->
-	    <LinearLayout style="@style/base_layout_match_weight" android:gravity="bottom">
-		    <TextView style="@style/base_layout_match_wrap" android:text="@string/cameraPreview_autoFocusHint" android:gravity="center"/>
+	    <LinearLayout style="@style/base_match_weight" android:gravity="bottom">
+		    <TextView style="@style/base_match_wrap" android:text="@string/cameraPreview_autoFocusHint" android:gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
 	<!-- 内容 -->
-    <ScrollView style="@style/base_layout_match_match">
+    <ScrollView style="@style/base_match_match">
 	    <LinearLayout style="@style/comm_layout_body_content">
 		    <TextView style="@style/comm_text_match" android:text="从左往右转圈："/>
 		    <test.widget.PointViewPlayer android:id="@+id/picturePlayer_picturePlayer_circle_leftToRight" android:layout_width="match_parent" android:layout_height="150dp" />

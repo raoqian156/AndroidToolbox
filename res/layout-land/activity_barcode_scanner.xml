@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
-    <SurfaceView style="@style/base_layout_match_match" android:id="@+id/surface_barcodeScanner"/>
+    <SurfaceView style="@style/base_match_match" android:id="@+id/surface_barcodeScanner"/>
     
-    <LinearLayout style="@style/base_layout_match_match">
+    <LinearLayout style="@style/base_match_match">
         <!-- 扫描结果区 -->
-        <LinearLayout style="@style/base_layout_weight_match" android:background="@color/base_black_translucent"/>
+        <LinearLayout style="@style/base_weight_match" android:background="@color/base_black_translucent"/>
         
         <!-- 扫描框区 -->
-        <LinearLayout style="@style/base_layout_weight_match_vertical" android:layout_weight="2">
-            <LinearLayout style="@style/base_layout_match_weight" android:background="@color/base_black_translucent">
-                <TextView android:id="@+id/text_barcodeScanner_result" style="@style/base_layout_wrap_wrap"  android:textSize="@dimen/base_textSize_default" android:textColor="@color/base_white"  android:autoLink="all"/>
+        <LinearLayout style="@style/base_weight_match_vertical" android:layout_weight="2">
+            <LinearLayout style="@style/base_match_weight" android:background="@color/base_black_translucent">
+                <TextView android:id="@+id/text_barcodeScanner_result" style="@style/base_wrap_wrap"  android:textSize="@dimen/base_textSize_default" android:textColor="@color/base_white"  android:autoLink="all"/>
             </LinearLayout>
             
-            <me.xiaopan.easyandroid.util.barcode.ScanFrameView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_layout_match_weight" android:background="@drawable/shape_scan_frame" android:layout_weight="3" />
+            <me.xiaopan.easyandroid.util.barcode.ScanFrameView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_match_weight" android:background="@drawable/shape_scan_frame" android:layout_weight="3" />
             
-            <LinearLayout style="@style/base_layout_match_weight" android:background="@color/base_black_translucent" android:gravity="center">
-	            <TextView style="@style/base_layout_match_wrap" android:textColor="@color/base_white" android:textSize="@dimen/base_textSize_default" android:text="@string/barcodeScanner_hint"  android:gravity="center"/>
+            <LinearLayout style="@style/base_match_weight" android:background="@color/base_black_translucent" android:gravity="center">
+	            <TextView style="@style/base_match_wrap" android:textColor="@color/base_white" android:textSize="@dimen/base_textSize_default" android:text="@string/barcodeScanner_hint"  android:gravity="center"/>
             </LinearLayout>
         </LinearLayout>
         
         <!-- 功能区 -->
-        <LinearLayout style="@style/base_layout_weight_match" android:background="@color/base_black_translucent" android:gravity="center" android:padding="@dimen/base_padding_specialLarge">
-       	    <CheckBox style="@style/base_layout_wrap_wrap" android:button="@drawable/selector_button_flash" android:id="@+id/checkBox_barcodeScanner_flash"/>
+        <LinearLayout style="@style/base_weight_match" android:background="@color/base_black_translucent" android:gravity="center" android:padding="@dimen/base_padding_specialLarge">
+       	    <CheckBox style="@style/base_wrap_wrap" android:button="@drawable/selector_button_flash" android:id="@+id/checkBox_barcodeScanner_flash"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

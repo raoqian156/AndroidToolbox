@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
-    <ScrollView style="@style/base_layout_match_match">
+    <ScrollView style="@style/base_match_match">
 	    <LinearLayout style="@style/comm_layout_body_content_padding">
 	    	<me.xiaopan.easyandroid.widget.ClearEditText style="@style/comm_edit_account" android:id="@+id/edit_customEditText_account" android:contentDescription="账号："/> 
 	    	<me.xiaopan.easyandroid.widget.ClearEditText style="@style/comm_edit_password" android:contentDescription="密码："/>
