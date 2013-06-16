@@ -7,7 +7,10 @@
     <dimen name="shadow_height">6dp</dimen>
     
     <!-- 间隔 - 高度 -->
-    <dimen name="space_height">10dp</dimen>
+    <dimen name="spacing_height">10dp</dimen>
+    
+    <!-- 间隔 - 大的 - 高度 -->
+    <dimen name="spacing_large_height">15dp</dimen>
     
     <!-- 间隔 - 小的 - 高度 -->
     <dimen name="spacing_small_height">5dp</dimen>
