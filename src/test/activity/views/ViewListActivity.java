@@ -55,12 +55,12 @@ public class ViewListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.tabHost_title), TabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.fragmentTabHost_title), FragmentTabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.progressBar_title), ProgressBarActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.viewPager_title), ViewPagerActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.floatingWindow_title), FloatingWindowActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.gallery_title), GalleryActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_tabHost), TabHostActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_fragmentTabHost), FragmentTabHostActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_progressBar), ProgressBarActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_viewPager), ViewPagerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_floatingWindow), FloatingWindowActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_gallery), GalleryActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

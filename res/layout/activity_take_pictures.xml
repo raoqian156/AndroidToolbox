@@ -21,10 +21,10 @@
 	    <LinearLayout style="@style/base_match_weight" android:gravity="bottom">
 		    <FrameLayout style="@style/base_match_wrap">
 				<LinearLayout style="@style/base_match_wrap">
-				    <Button style="@style/base_weight_wrap" android:text="@string/takePictures_button_remake" android:id="@+id/button_takePictures_remake" android:visibility="invisible"/>
+				    <Button style="@style/base_weight_wrap" android:text="@string/button_takePictures_remake" android:id="@+id/button_takePictures_remake" android:visibility="invisible"/>
 				    <Button style="@style/base_weight_wrap" android:text="@string/base_confirm" android:id="@+id/button_takePictures_confirm" android:visibility="invisible"/>
 				</LinearLayout>
-				<Button style="@style/base_match_wrap" android:text="@string/takePictures_button_take" android:id="@+id/button_takePicture_take"/>
+				<Button style="@style/base_match_wrap" android:text="@string/button_takePictures_take" android:id="@+id/button_takePicture_take"/>
 		    </FrameLayout>
 		    <TextView style="@style/base_wrap_wrap"/>
 	    </LinearLayout>

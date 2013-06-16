@@ -182,7 +182,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 
 	@Override
 	public void onOpenCameraException(Exception e) {
-		toastL(R.string.comm_hint_cameraOpenFailed);
+		toastL(R.string.toast_cameraOpenFailed);
 		becauseExceptionFinishActivity();
 	}
 
@@ -317,7 +317,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 				if(CameraUtils.isSupportFlashMode(cameraManager.getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
 					cameraManager.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 				}else{
-					toastL(R.string.barcodeScanner_hint_notSupport);
+					toastL(R.string.toast_barcodeScanner_notSupport);
 					flashButton.setChecked(false);
 				}
 			}else{

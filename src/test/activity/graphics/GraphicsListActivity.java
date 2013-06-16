@@ -56,9 +56,9 @@ public class GraphicsListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.cameraPreview_title), CameraPreviewActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.clipDrawable_title), ClipDrawableActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.rotateDrawable_title), RotateDrawableActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_cameraPreview), CameraPreviewActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_clipDrawable), ClipDrawableActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_rotateDrawable), RotateDrawableActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

@@ -8,8 +8,8 @@
 	    android:id="@+id/refreshHeader_layout_body">
 		<RelativeLayout style="@style/base_match_match">
 			<LinearLayout style="@style/base_wrap_wrap_vertical" android:gravity="center" android:id="@+id/refreshHeader_layout_hint" android:layout_centerInParent="true">
-			    <TextView style="@style/comm_text" android:id="@+id/refreshHeader_text_refreshHint" android:text="@string/comm_pullDownRefersh"/>
-			    <TextView style="@style/comm_text" android:id="@+id/refreshHeader_text_timeHint" android:text="@string/comm_firstRefersh"  android:gravity="center" android:minWidth="150dp"/>
+			    <TextView style="@style/text" android:id="@+id/refreshHeader_text_refreshHint" android:text="@string/hint_pullDownRefersh"/>
+			    <TextView style="@style/text" android:id="@+id/refreshHeader_text_timeHint" android:text="@string/hint_firstRefersh"  android:gravity="center" android:minWidth="150dp"/>
 			</LinearLayout>
 			<ImageView
 			    style="@style/base_wrap_wrap" 

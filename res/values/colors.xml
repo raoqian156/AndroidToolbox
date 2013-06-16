@@ -2,5 +2,5 @@
 <!-- 公共的颜色 -->
 <resources>
     <!-- 正文区背景 -->
-    <color name="comm_body_backg">#f0f4f6</color>
+    <color name="body_backg">#f0f4f6</color>
 </resources>

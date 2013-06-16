@@ -19,7 +19,7 @@
         
         <!-- 按钮区 -->
 	    <LinearLayout style="@style/base_match_weight" android:gravity="bottom">
-		    <TextView style="@style/base_match_wrap" android:text="@string/cameraPreview_autoFocusHint" android:gravity="center"/>
+		    <TextView style="@style/base_match_wrap" android:text="@string/hint_cameraPreview_autoFocus" android:gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

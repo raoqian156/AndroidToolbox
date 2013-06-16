@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
 	<!-- 内容 -->
     <ScrollView style="@style/base_match_match">
-	    <LinearLayout style="@style/comm_layout_body_content">
-		    <TextView style="@style/comm_text_match" android:text="从左往右转圈："/>
+	    <LinearLayout style="@style/layout_body_content">
+		    <TextView style="@style/text_match" android:text="从左往右转圈："/>
 		    <test.widget.PointViewPlayer android:id="@+id/picturePlayer_picturePlayer_circle_leftToRight" android:layout_width="match_parent" android:layout_height="150dp" />
 		    
-		    <TextView style="@style/comm_text_match" android:text="从右往左转圈："/>
+		    <TextView style="@style/text_match" android:text="从右往左转圈："/>
 		    <test.widget.PointViewPlayer android:id="@+id/picturePlayer_picturePlayer_circle_rightToLeft" android:layout_width="match_parent" android:layout_height="150dp" />
 		    
-		    <TextView style="@style/comm_text_match" android:text="从左往右摇摆："/>
+		    <TextView style="@style/text_match" android:text="从左往右摇摆："/>
 		    <test.widget.PointViewPlayer android:id="@+id/picturePlayer_picturePlayer_swing_leftToRight" android:layout_width="match_parent" android:layout_height="150dp"/>
 
-   		    <TextView style="@style/comm_text_match" android:text="从右往左摇摆："/>
+   		    <TextView style="@style/text_match" android:text="从右往左摇摆："/>
 		    <test.widget.PointViewPlayer android:id="@+id/picturePlayer_picturePlayer_swing_rightToLeft" android:layout_width="match_parent" android:layout_height="150dp"/>
 	    </LinearLayout>
     </ScrollView>

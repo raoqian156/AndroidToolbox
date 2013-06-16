@@ -144,7 +144,7 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 
 	@Override
 	public void onOpenCameraException(Exception e) {
-		toastL(R.string.comm_hint_cameraOpenFailed);
+		toastL(R.string.toast_cameraOpenFailed);
 		becauseExceptionFinishActivity();
 	}
 

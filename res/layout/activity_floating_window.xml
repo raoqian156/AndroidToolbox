@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
     <!-- 正文内容 -->
-    <LinearLayout style="@style/comm_layout_body_content">
-   		<Button style="@style/comm_button_body_match" android:id="@+id/button_floatingWindow"/>
+    <LinearLayout style="@style/layout_body_content">
+   		<Button style="@style/button_match" android:id="@+id/button_floatingWindow"/>
     </LinearLayout>
 	
 	<!-- 阴影 -->

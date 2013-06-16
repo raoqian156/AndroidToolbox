@@ -76,22 +76,22 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 
 	@Override
 	protected int onGetLoadingHintViewId() {
-		return R.id.comm_layout_loadingHint;
+		return R.id.layout_loadingHint;
 	}
 
 	@Override
 	protected int onGetListEmptyHintViewId() {
-		return R.id.comm_layout_listEmptyHint;
+		return R.id.layout_listEmptyHint;
 	}
 
 	@Override
 	protected void onClickListEmptyHintView() {
-		toastL(R.string.comm_hint_reloadIn);
+		toastL(R.string.toast_reloadIn);
 	}
 
 	@Override
 	protected void onNetworkNotAvailable() {
-		toastL(R.string.comm_hint_network_connectionException);
+		toastL(R.string.toast_network_connectionException);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 
 	@Override
 	public void onPromptExitApplication() {
-		toastL(R.string.comm_hint_exitHint);
+		toastL(R.string.toast_exitHint);
 	}
 
 	public MyApplication getMyApplication(){
@@ -112,8 +112,8 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home: finishActivity(); break;
-			case R.id.comm_menu_exception: throw new NullPointerException();
-			case R.id.comm_menu_exit: finishApplication(); break;
+			case R.id.menu_exception: throw new NullPointerException();
+			case R.id.menu_exit: finishApplication(); break;
 			default: break;
 		}
 		return super.onOptionsItemSelected(item);

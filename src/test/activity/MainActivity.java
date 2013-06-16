@@ -61,12 +61,12 @@ public class MainActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.animationList_title), AnimationListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.graphicsList_title), GraphicsListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.mediaList_title), MediaListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.viewsList_title), ViewListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.customList_title), CustomListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.otherList_title), OtherListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_animationList), AnimationListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_graphicsList), GraphicsListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_mediaList), MediaListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_viewsList), ViewListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customList), CustomListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_otherList), OtherListActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

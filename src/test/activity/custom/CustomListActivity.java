@@ -56,16 +56,16 @@ public class CustomListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.reboundList_title), ReboundListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.pullDownRefreshList_title), PullDownRefreshListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.pullUpLoadMoreList_title), PullUpLoadMoreListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.pullDownAndUpList_title), PullDownAndUpActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.clickLoadMoreList_title), ClickLoadMoreListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.pullDownRefreshAndClickLoadMoreList_title), PullDownRefreshAndClickLoadMoreActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.picturePlayer_title), PicturePlayerActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.customEditText_title), CustomEditTextActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.slideTabHost_title), SlideTabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.slidingToggleButton), SlidingToggleButtonActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_reboundList), ReboundListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownRefreshList), PullDownRefreshListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullUpLoadMoreList), PullUpLoadMoreListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownAndUpList), PullDownAndUpActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_clickLoadMoreList), ClickLoadMoreListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownRefreshAndClickLoadMoreList), PullDownRefreshAndClickLoadMoreActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_picturePlayer), PicturePlayerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTabHost), SlideTabHostActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slidingToggleButton), SlidingToggleButtonActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

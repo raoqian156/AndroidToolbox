@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
     <!-- 内容 -->
-    <LinearLayout style="@style/comm_layout_body_content">
+    <LinearLayout style="@style/layout_body_content">
         <!-- tabs -->
         <LinearLayout style="@style/base_match_wrap_vertical" android:paddingLeft="@dimen/base_padding_specialLarge" android:paddingRight="@dimen/base_padding_specialLarge">
 	        <!-- 标题 -->
 	        <LinearLayout style="@style/base_match_wrap">
-	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab1" android:id="@+id/text_slideTab_title0"/>
+	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/tabTitle_tab1" android:id="@+id/text_slideTab_title0"/>
 	            <include layout="@layout/tab_divider"/>
-	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab2" android:id="@+id/text_slideTab_title1"/>
+	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/tabTitle_tab2" android:id="@+id/text_slideTab_title1"/>
 	            <include layout="@layout/tab_divider"/>
-	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/slideTab_tab3" android:id="@+id/text_slideTab_title2"/>
+	            <TextView style="@style/text_slideTabhost_tabtitle" android:text="@string/tabTitle_tab3" android:id="@+id/text_slideTab_title2"/>
 	        </LinearLayout>
 	        
 	        <!-- 滑动条 -->

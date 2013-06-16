@@ -4,5 +4,5 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical" >
-    <me.xiaopan.easyandroid.widget.LiXueAutoLoadListView style="@style/comm_list" ></me.xiaopan.easyandroid.widget.LiXueAutoLoadListView>
+    <me.xiaopan.easyandroid.widget.LiXueAutoLoadListView style="@style/list" ></me.xiaopan.easyandroid.widget.LiXueAutoLoadListView>
 </LinearLayout>

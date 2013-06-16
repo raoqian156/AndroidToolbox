@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 用来测试各种Drawable -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
-    <LinearLayout style="@style/comm_layout_body_content_padding">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
+    <LinearLayout style="@style/layout_body_content_padding">
     	<LinearLayout style="@style/base_match_wrap">
     	    <LinearLayout style="@style/base_weight_wrap_vertical">
-		    	<TextView style="@style/comm_text" android:text="从左往右展开"/>
+		    	<TextView style="@style/text" android:text="从左往右展开"/>
 			    <ImageView style="@style/base_wrap_wrap" android:background="@drawable/clip_left" android:id="@+id/drawableClip_image_left" android:contentDescription="@string/base_image_contentDescription"/>
     	    </LinearLayout>
     	    
     	    <LinearLayout style="@style/base_weight_wrap_vertical">
-		    	<TextView style="@style/comm_text" android:text="从右往左展开"/>
+		    	<TextView style="@style/text" android:text="从右往左展开"/>
 	    		<ImageView style="@style/base_wrap_wrap" android:background="@drawable/clip_right" android:id="@+id/drawableClip_image_right" android:contentDescription="@string/base_image_contentDescription"/>
     	    </LinearLayout>
     	</LinearLayout>
@@ -17,11 +17,11 @@
 	    <include layout="@layout/include_spacing_vertical"/>
 	    <LinearLayout style="@style/base_match_wrap">
 			<LinearLayout style="@style/base_weight_wrap_vertical">
-		    	<TextView style="@style/comm_text" android:text="从上往下展开"/>
+		    	<TextView style="@style/text" android:text="从上往下展开"/>
 			    <ImageView style="@style/base_wrap_wrap" android:background="@drawable/clip_top" android:id="@+id/drawableClip_image_top" android:contentDescription="@string/base_image_contentDescription"/>
 			</LinearLayout>
 			<LinearLayout style="@style/base_weight_wrap_vertical">
-		    	<TextView style="@style/comm_text" android:text="从下往上展开"/>
+		    	<TextView style="@style/text" android:text="从下往上展开"/>
 			    <ImageView style="@style/base_wrap_wrap" android:background="@drawable/clip_bottom" android:id="@+id/drawableClip_image_bottom" android:contentDescription="@string/base_image_contentDescription"/>
 			</LinearLayout>
     	</LinearLayout>
@@ -29,17 +29,17 @@
 	    <include layout="@layout/include_spacing_vertical"/>
 	    <LinearLayout style="@style/base_match_wrap">
 			<LinearLayout style="@style/base_weight_wrap_vertical">
-		    	<TextView style="@style/comm_text" android:text="纵向从中间展开"/>
+		    	<TextView style="@style/text" android:text="纵向从中间展开"/>
 			    <ImageView style="@style/base_wrap_wrap" android:background="@drawable/clip_center_vertical" android:id="@+id/drawableClip_image_center_vertical" android:contentDescription="@string/base_image_contentDescription"/>
 			</LinearLayout>
 			<LinearLayout style="@style/base_weight_wrap_vertical">
-		    	<TextView style="@style/comm_text" android:text="横向从中间展开"/>
+		    	<TextView style="@style/text" android:text="横向从中间展开"/>
 			    <ImageView style="@style/base_wrap_wrap" android:background="@drawable/clip_center_horizontal" android:id="@+id/drawableClip_image_center_horizontal" android:contentDescription="@string/base_image_contentDescription"/>
 			</LinearLayout>
     	</LinearLayout>
 	        
 	    <include layout="@layout/include_spacing_vertical"/>
-    	<TextView style="@style/comm_text" android:text="原图"/>
+    	<TextView style="@style/text" android:text="原图"/>
     	<ImageView style="@style/base_wrap_wrap" android:background="@drawable/image_test_clamp" android:contentDescription="@string/base_image_contentDescription"/>
     </LinearLayout>
     

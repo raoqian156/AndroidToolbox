@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 用来测试各种Drawable -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/comm_layout_body">
-    <LinearLayout style="@style/comm_layout_body_content_padding">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
+    <LinearLayout style="@style/layout_body_content_padding">
     	<include layout="@layout/include_spacing_vertical"/>
     	<include layout="@layout/include_spacing_vertical"/>
     	<include layout="@layout/include_spacing_vertical"/>
@@ -17,7 +17,7 @@
 		    	    android:id="@+id/rotateDrawable_image_order" 
 		    	    android:contentDescription="@string/base_image_contentDescription"
 		    	    />
-		    	<TextView style="@style/comm_text_match" android:id="@+id/rotateDrawable_text_order" android:gravity="center"/>
+		    	<TextView style="@style/text_match" android:id="@+id/rotateDrawable_text_order" android:gravity="center"/>
 	    	</LinearLayout>
 	    	<LinearLayout style="@style/base_weight_wrap_vertical">
 		    	<ImageView 
@@ -27,7 +27,7 @@
 		    	    android:id="@+id/rotateDrawable_image_reverse" 
 		    	    android:contentDescription="@string/base_image_contentDescription"
 		    	    />
-		    	<TextView style="@style/comm_text_match" android:id="@+id/rotateDrawable_text_reverse" android:gravity="center"/>
+		    	<TextView style="@style/text_match" android:id="@+id/rotateDrawable_text_reverse" android:gravity="center"/>
 	    	</LinearLayout>
 	    	<LinearLayout style="@style/base_weight_wrap_vertical">
 		    	<ImageView 
@@ -37,7 +37,7 @@
 		    	    android:id="@+id/rotateDrawable_image_mirror" 
 		    	    android:contentDescription="@string/base_image_contentDescription"
 		    	    />
-		    	<TextView style="@style/comm_text_match" android:id="@+id/rotateDrawable_text_mirror" android:gravity="center"/>
+		    	<TextView style="@style/text_match" android:id="@+id/rotateDrawable_text_mirror" android:gravity="center"/>
 	    	</LinearLayout>
     	</LinearLayout>
     	

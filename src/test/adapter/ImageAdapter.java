@@ -41,7 +41,7 @@ public class ImageAdapter extends MyBaseAdapter {
 			viewHolder = new ViewHolder();
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_image_loader, null);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.listItem_image);
-			viewHolder.choiceButton = (CompoundButton) convertView.findViewById(R.id.comm_button_listItemChoice);
+			viewHolder.choiceButton = (CompoundButton) convertView.findViewById(R.id.button_listItemChoice);
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();

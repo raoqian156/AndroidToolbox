@@ -56,10 +56,10 @@ public class OtherListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.accessNetwork_title), AccessNetworkActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.downloadImage_title), DownloadImageActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.barcodeScanner_title), BarcodeScannerActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.imageLoader_title), ImageLoaderActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_accessNetwork), AccessNetworkActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_downloadImage), DownloadImageActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_imageLoader), ImageLoaderActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

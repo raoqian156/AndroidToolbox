@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    style="@style/comm_text_match"
+    style="@style/text_match"
     android:gravity="center_vertical"
-    android:minHeight="@dimen/comm_layout_listItem_minHeight"
+    android:minHeight="@dimen/layout_listItem_minHeight"
 />
