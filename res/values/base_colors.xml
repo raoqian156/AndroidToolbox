@@ -154,10 +154,4 @@
     <color name="base_silver">#ffc0c0c0</color>
     <!-- 银白色 - 半透明 -->
     <color name="base_silver_translucent">#80c0c0c0</color>
-    
-    <!-- 高光 -->
-    <color name="base_highLight">#33ffffff</color>
-
-    <!-- 低光 -->
-    <color name="base_lowLight">#33000000</color>
 </resources>
