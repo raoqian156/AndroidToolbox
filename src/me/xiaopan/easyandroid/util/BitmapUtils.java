@@ -28,11 +28,13 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
+import android.graphics.drawable.Drawable;
 
 /**
  * 图片工具箱
@@ -1039,5 +1041,22 @@ public class BitmapUtils {
 		/* 按之前计算的缩放比例重新读入图片，注意此时需要把options的inJustDecodeBounds设置为false了 */
 		options.inJustDecodeBounds = false;//还原为false
 		return BitmapFactory.decodeFile(imageFilePath, options);
+	}
+	
+	/**
+	 * Drawable转换成Bitmap
+	 * @param drawable
+	 * @return
+	 */
+	public static Bitmap drawableToBitmap(Drawable drawable) {       
+		if(drawable != null){
+			Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE  ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+			Canvas canvas = new Canvas(bitmap);
+			drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+			drawable.draw(canvas);
+			return bitmap;
+		}else{
+			return null;
+		}
 	}
 }

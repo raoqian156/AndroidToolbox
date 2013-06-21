@@ -219,6 +219,7 @@
         <item name="android:padding">@dimen/base_padding_large</item>
 	    <item name="android:layout_margin">@dimen/base_margin_littleSmall</item>
         <item name="android:singleLine">true</item>
+        <item name="android:drawableRight">@drawable/icon_edit_clear</item>
     </style>
     
     <!-- 编辑器 - 账号 -->

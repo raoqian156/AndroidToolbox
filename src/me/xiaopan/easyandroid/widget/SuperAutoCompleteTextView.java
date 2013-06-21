@@ -15,8 +15,11 @@
  */
 package me.xiaopan.easyandroid.widget;
 
+import me.xiaopan.easyandroid.util.BitmapUtils;
 import me.xiaopan.easyandroid.util.TextUtils;
+import me.xiaopan.easyjava.util.StringUtils;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -28,61 +31,54 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 
 /**
- * <h2>自定义自动完成文本编辑器，可以在编辑器的左边加上名称比如（账号：）以及在右边加上一个清除图标，点击清除图标即可清除编辑器已输入的内容</h2>
+ * <h2>自定义文本编辑器，可以在编辑器的左边加上名称比如（账号：）和图标以及在右边加上一个清除图标，点击清除图标即可清除编辑器已输入的内容</h2>
  * <br>使用方式：
- * <br>在布局中通过android:contentDescription属性指定左边的名称，通过android:drawableRight属性指定右边的清除图标即可
- * <br>在代码中通过setEditName(String editName)设置名称，通过setClearDrawable(Drawable clearDrawable)设置清除图标
+ * <br>在布局中通过android:contentDescription属性指定左边的名称，通过android:drawableLeft属性指定左边的图标，通过android:drawableRight属性指定右边的清除图标即可
+ * <br>在代码中通过setEditName(String editName)设置名称，通过setLeftDrawable()方法设置左边的图标，通过setClearDrawable(Drawable clearDrawable)设置清除图标
  */
-public class ClearAutoCompleteTextView extends AutoCompleteTextView {
+public class SuperAutoCompleteTextView extends AutoCompleteTextView {
 	private boolean fromMe;
 	private Drawable clearDrawable;//清除图标
 	private MyTextWatcher myTextWatcher;
 	private OnTouchListener onTouchListener;
-	private int leftDrawableResId = -1;
-	private String editName;
 	
-	public ClearAutoCompleteTextView(Context context, AttributeSet attrs, int defStyle) {
+	public SuperAutoCompleteTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(attrs);
+		init();
 	}
 
-	public ClearAutoCompleteTextView(Context context, AttributeSet attrs) {
+	public SuperAutoCompleteTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(attrs);
+		init();
 	}
 
-	public ClearAutoCompleteTextView(Context context) {
+	public SuperAutoCompleteTextView(Context context) {
 		super(context);
-		init(null);
+		init();
 	}
 	
 	/**
 	 * 初始化
-	 * @param attrs
 	 */
-	private void init(AttributeSet attrs){
+	private void init(){
 		//初始化触摸监听器
 		fromMe = true;
 		setOnTouchListener(new MyOnTouchListener());
 		
-		//尝试初始化编辑器名称
-		this.editName = (String) getContentDescription();
-		tryInitEditName();
-		
-		//尝试初始化清除图标
-		tryInitClearDrawable(getCompoundDrawables()[2]);	
+		//尝试初始化编辑器名称和清除图标
+		Drawable[] drawables = getCompoundDrawables();
+		tryInitEditName((String) getContentDescription(), BitmapUtils.drawableToBitmap(drawables[0]));
+		tryInitClearDrawable(drawables[2]);	
 	}
 	
 	/**
 	 * 尝试初始化编辑器名称
 	 */
-	private void tryInitEditName(){
-		//名字不为null也不为空就执行初始化
-		if(editName != null && !"".equals(editName)){
+	private void tryInitEditName(String editName, Bitmap leftBitmap){
+		if(StringUtils.isNotNullAndEmpty(editName) || leftBitmap != null){
 			new BitmapFactory();
-			Drawable nameDrawable = new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, getCurrentTextColor(), getTextSize(), leftDrawableResId>0?BitmapFactory.decodeResource(getResources(), leftDrawableResId):null));
 			Drawable[] drawables = getCompoundDrawables();
-			setCompoundDrawablesWithIntrinsicBounds(nameDrawable, drawables[1], drawables[2], drawables[3]);
+			setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, getCurrentTextColor(), getTextSize(), leftBitmap)), drawables[1], drawables[2], drawables[3]);
 		}
 	}
 	
@@ -170,29 +166,43 @@ public class ClearAutoCompleteTextView extends AutoCompleteTextView {
 		}
 	}
 
-	public String getEditName() {
-		return editName;
-	}
-
+	/**
+	 * 设置编辑器名称
+	 * @param editName 编辑器名称
+	 */
 	public void setEditName(String editName) {
-		this.editName = editName;
-		tryInitEditName();
+		tryInitEditName(editName, BitmapUtils.drawableToBitmap(getCompoundDrawables()[0]));
 	}
 
-	public Drawable getClearDrawable() {
-		return clearDrawable;
+	/**
+	 * 设置左边的图标
+	 * @param leftDrawableBitmap 左边的图标
+	 */
+	public void setLeftDrawableBitmap(Bitmap leftDrawableBitmap) {
+		tryInitEditName((String) getContentDescription(), leftDrawableBitmap);
 	}
 
+	/**
+	 * 设置左边的图标
+	 * @param leftDrawableBitmap 左边的图标
+	 */
+	public void setLeftDrawableResId(int leftDrawableResId) {
+		tryInitEditName((String) getContentDescription(), BitmapFactory.decodeResource(getResources(), leftDrawableResId));
+	}
+
+	/**
+	 * 设置左边的图标
+	 * @param leftDrawableBitmap 左边的图标
+	 */
+	public void setLeftDrawable(Drawable leftDrawable) {
+		tryInitEditName((String) getContentDescription(), BitmapUtils.drawableToBitmap(leftDrawable));
+	}
+
+	/**
+	 * 设置清除图标
+	 * @param clearDrawable
+	 */
 	public void setClearDrawable(Drawable clearDrawable) {
 		tryInitClearDrawable(clearDrawable);
-	}
-
-	public int getLeftDrawableResId() {
-		return leftDrawableResId;
-	}
-
-	public void setLeftDrawableResId(int leftDrawableResId) {
-		this.leftDrawableResId = leftDrawableResId;
-		tryInitEditName();
 	}
 }
