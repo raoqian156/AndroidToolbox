@@ -21,6 +21,7 @@
     <string name="base_exit">Exit</string>
     <string name="base_rememberPassword">Remember Password</string>
     <string name="base_autoLogin">Auto Login</string>
+    <string name="base_submit">Submit</string>
     
     <!-- 称谓 -->
     <string name="base_man">Man</string>
@@ -140,6 +141,7 @@
 	<string name="base_notWait">Not  wait</string>
 	<string name="base_notCollection">Not  collection</string>
 	<string name="base_notRun">Not  run</string>
+	<string name="base_notSubmit">Not submit</string>
 	
 	<!-- 常用动词的过去时 -->
 	<string name="base_uploaded">Uploaded</string>
@@ -172,6 +174,7 @@
 	<string name="base_queryed">Queryed</string>
 	<string name="base_executed">Executed</string>
 	<string name="base_collectioned">Collectioned</string>
+	<string name="base_submitted">Submitted</string>
 	
 	<!-- 常用动词的进行时 -->
 	<string name="base_uploading">Uploading</string>
@@ -211,6 +214,7 @@
     <string name="base_searching">Searching</string>
     <string name="base_registering">Registering</string>
     <string name="base_exiting">Exiting</string>
+    <string name="base_submitting">Submitting</string>
 	
 	<!-- 常用动词的进行时稍候提示 -->
 	<string name="base_uploadingLater">Uploading, please later…</string>
@@ -250,6 +254,7 @@
     <string name="base_searchingLater">Searching, please later…</string>
     <string name="base_registeringLater">Registering, please later…</string>
     <string name="base_exitingLater">Exiting, please later…</string>
+    <string name="base_submittingLater">Submitting, please later…</string>
 
 	<!-- 其它 -->
 	<string name="base_nextStep">Next Step</string>

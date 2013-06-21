@@ -21,6 +21,7 @@
     <string name="base_exit">退出</string>
     <string name="base_rememberPassword">记住密码</string>
     <string name="base_autoLogin">自动登录</string>
+    <string name="base_submit">提交</string>
     
     <!-- 称谓 -->
     <string name="base_man">男</string>
@@ -140,6 +141,7 @@
 	<string name="base_notWait">不等待</string>
 	<string name="base_notCollection">不收藏</string>
 	<string name="base_notRun">不运行</string>
+	<string name="base_notSubmit">不提交</string>
 	
 	<!-- 常用动词的过去时 -->
 	<string name="base_uploaded">已上传</string>
@@ -172,6 +174,7 @@
 	<string name="base_queryed">已查询</string>
 	<string name="base_executed">已执行</string>
 	<string name="base_collectioned">已收藏</string>
+	<string name="base_submitted">已提交</string>
 	
 	<!-- 常用动词的进行时 -->
 	<string name="base_uploading">正在上传</string>
@@ -211,6 +214,7 @@
     <string name="base_searching">正在搜索</string>
     <string name="base_registering">正在注册</string>
     <string name="base_exiting">正在退出</string>
+    <string name="base_submitting">正在提交</string>
 	
 	<!-- 常用动词的进行时稍候提示 -->
 	<string name="base_uploadingLater">正在上传，请稍后…</string>
@@ -250,6 +254,7 @@
     <string name="base_searchingLater">正在搜索，请稍后…</string>
     <string name="base_registeringLater">正在注册，请稍后…</string>
     <string name="base_exitingLater">正在退出，请稍后…</string>
+    <string name="base_submittingLater">正在提交，请稍后…</string>
 	
 	<!-- 其它 -->
 	<string name="base_nextStep">下一步</string>
