@@ -28,8 +28,6 @@ import android.telephony.TelephonyManager;
 
 /**
  * 网络工具箱
- * @author xiaopan
- *
  */
 public class NetworkUtils {
 	/**

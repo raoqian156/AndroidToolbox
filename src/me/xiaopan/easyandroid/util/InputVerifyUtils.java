@@ -35,7 +35,7 @@ public class InputVerifyUtils {
 		boolean result = true;
 		if(vlaue == null || "".equals(vlaue)){
 			if(errorHint != null && !"".equals(errorHint)){
-				AndroidUtils.toastS(context, errorHint);
+				ToastUtils.toastS(context, errorHint);
 			}
 			AnimationUtils.shake(view);
 			result = false;

@@ -22,8 +22,6 @@ import android.os.StatFs;
 
 /**
  * SD卡工具箱
- * @author feifei
- *
  */
 public class SDCardUtils {
 	

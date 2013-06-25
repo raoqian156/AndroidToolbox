@@ -22,9 +22,6 @@ import android.view.Surface;
 
 /**
  * 窗口工具箱
- * 
- * @author xiaopan
- * 
  */
 public class WindowUtils {
 	/**

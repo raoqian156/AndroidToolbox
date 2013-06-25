@@ -18,7 +18,7 @@ package me.xiaopan.easyandroid.app;
 import java.io.File;
 import java.util.Set;
 
-import me.xiaopan.easyandroid.util.AndroidUtils;
+import me.xiaopan.easyandroid.util.ActivityUtils;
 import me.xiaopan.easyandroid.util.NetworkUtils;
 import me.xiaopan.easyandroid.util.SDCardUtils;
 import android.app.AlertDialog;
@@ -500,17 +500,17 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	public final void onStartActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
 		if(isUseCustomAnimation()){
 			if(inAnimation > 0 && outAnimation > 0){
-				AndroidUtils.startActivity(this, targetActivity, flag, bundle, isClose, inAnimation, outAnimation);
+				ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, inAnimation, outAnimation);
 			}else{
 				int[] animations = onGetDefaultStartActivityAnimation();
 				if(animations != null && animations.length >= 2){
-					AndroidUtils.startActivity(this, targetActivity, flag, bundle, isClose, animations[0], animations[1]);
+					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, animations[0], animations[1]);
 				}else{
-					AndroidUtils.startActivity(this, targetActivity, flag, bundle, isClose);
+					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose);
 				}
 			}
 		}else{
-			AndroidUtils.startActivity(this, targetActivity, flag, bundle, isClose);
+			ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose);
 		}
 	}
 	
@@ -614,17 +614,17 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	public final void onStartActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
 		if(isUseCustomAnimation()){
 			if(inAnimation > 0 && outAnimation > 0){
-				AndroidUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, inAnimation, outAnimation);
+				ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, inAnimation, outAnimation);
 			}else{
 				int[] animations = onGetDefaultStartActivityAnimation();
 				if(animations != null && animations.length >= 2){
-					AndroidUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, animations[0], animations[1]);
+					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, animations[0], animations[1]);
 				}else{
-					AndroidUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
+					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
 				}
 			}
 		}else{
-			AndroidUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
+			ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
 		}
 	}
 	

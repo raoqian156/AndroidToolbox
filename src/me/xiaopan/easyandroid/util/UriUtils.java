@@ -19,8 +19,6 @@ import android.net.Uri;
 
 /**
  * URI工具箱
- * @author xiaopan
- *
  */
 public class UriUtils {
 	public static final String URI_TEL = "tel:";

@@ -44,7 +44,7 @@ public class CameraUtils {
 		Camera.Size optimalSize = null;
 		List<Camera.Size> supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
 		if (supportedPreviewSizes != null && supportedPreviewSizes.size() > 0){
-			Size screenSize = AndroidUtils.getScreenSize(context);
+			Size screenSize = DeviceUtils.getScreenSize(context);
 			int screenWidth = screenSize.getHeight();
 			int screenHeight = screenSize.getWidth();
 			final double ASPECT_TOLERANCE = 0.1;

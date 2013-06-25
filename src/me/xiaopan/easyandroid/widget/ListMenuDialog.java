@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.xiaopan.easyandroid.util.AndroidUtils;
+import me.xiaopan.easyandroid.util.DeviceUtils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -84,7 +84,7 @@ public class ListMenuDialog extends AlertDialog {
 		//设置窗体显示位置
 		Window window = getWindow();
 		WindowManager.LayoutParams lp = window.getAttributes();
-		lp.y = AndroidUtils.getScreenSize(getContext()).getHeight() - lp.height;
+		lp.y = DeviceUtils.getScreenSize(getContext()).getHeight() - lp.height;
 		window.setAttributes(lp);
 	}
 

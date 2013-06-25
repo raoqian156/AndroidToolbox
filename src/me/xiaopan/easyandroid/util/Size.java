@@ -17,8 +17,6 @@ package me.xiaopan.easyandroid.util;
 
 /**
  * 尺寸
- * @author xiaopan
- *
  */
 public class Size {
 	private int width;	//宽

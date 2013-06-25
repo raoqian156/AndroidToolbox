@@ -36,8 +36,6 @@ import android.widget.ListView;
 
 /**
  * 视图工具箱
- * @author xiaopan
- *
  */
 public class ViewUtils {
 	/**
@@ -108,7 +106,7 @@ public class ViewUtils {
 		view.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				AndroidUtils.toastS(context, resourceId);
+				ToastUtils.toastS(context, resourceId);
 				return true;
 			}
 		});

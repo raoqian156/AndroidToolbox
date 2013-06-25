@@ -28,7 +28,6 @@ import android.telephony.TelephonyManager;
 import android.view.Window;
 import android.view.WindowManager;
 
-
 /**
  * 系统工具箱
  */
@@ -355,8 +354,6 @@ public class SystemUtils {
 	
 	/**
 	 * 找不到设备异常
-	 * @author xiaopan
-	 *
 	 */
 	public static class DeviceNotFoundException extends Exception{
 		private static final long serialVersionUID = 1L;

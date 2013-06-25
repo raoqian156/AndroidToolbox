@@ -25,8 +25,6 @@ import android.graphics.Rect;
 
 /**
  * 文本工具箱
- * @author xiaopan
- *
  */
 public class TextUtils {
 	/**
