@@ -29,13 +29,13 @@ public class FloatingWindowActivity extends MyBaseActivity {
 	private Intent networkSpeedFloatingService;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_floating_window);
 		button = (Button) findViewById(R.id.button_floatingWindow);
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -51,7 +51,7 @@ public class FloatingWindowActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		networkSpeedFloatingService = new Intent(this, FloatingWindowService.class);
 		uodateButtonText(getMyApplication().isNetworkSpeedFloatingWindowDisplay());
 	}

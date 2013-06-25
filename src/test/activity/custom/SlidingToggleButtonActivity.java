@@ -30,7 +30,7 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 	private Preference preference4;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_sliding_toggle_button);
 		preference = (Preference) findViewById(R.id.preference_slidingToggle);
 		preference1 = (Preference) findViewById(R.id.preference_slidingToggle1);
@@ -40,7 +40,7 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		preference.setOnCheckedChanageListener(new OnCheckedChanageListener() {
 			@Override
 			public void onCheckedChanage(BaseSlidingToggleButton slidingToggleButton, boolean isChecked) {
@@ -82,6 +82,6 @@ public class SlidingToggleButtonActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 	}
 }

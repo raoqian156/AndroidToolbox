@@ -71,7 +71,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
 		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
@@ -80,7 +80,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		//当点击的是开始对焦
 		scanFrameView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -98,7 +98,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		if(savedInstanceState != null){
 			flashButton.setChecked(savedInstanceState.getBoolean(STATE_FLASH_CHECKED));
 		}
@@ -120,20 +120,20 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		cameraManager.openBackCamera();
 		setEnableTorckFlashMode(flashButton.isChecked());
 	}
 	
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		cameraManager.release();
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		cameraManager = null;
 		soundPool.release();
 		soundPool = null;
@@ -144,7 +144,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean(STATE_FLASH_CHECKED, flashButton.isChecked());
 		super.onSaveInstanceState(outState);
 	}

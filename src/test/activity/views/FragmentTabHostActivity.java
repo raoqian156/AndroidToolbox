@@ -36,17 +36,17 @@ public class FragmentTabHostActivity extends MyBaseFragmentActivity {
 	private FragmentTabHost fragmentTabHost;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_fragment_tabhost);
 		fragmentTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		fragmentTabHost.setup(getBaseContext(), getSupportFragmentManager(), R.id.realtabcontent);
 		fragmentTabHost.getTabWidget().setDividerDrawable(R.drawable.tabs_divider);
 		

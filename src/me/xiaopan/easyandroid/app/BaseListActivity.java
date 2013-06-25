@@ -78,28 +78,17 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	 * 在初始化之前
 	 * @param savedInstanceState
 	 */
-	protected void onPreInit(Bundle savedInstanceState){}
-	
-	/**
-	 * 初始化布局，设置ContentView并通过findViewById()初始化视图
-	 */
-	protected abstract void onInitLayout(Bundle savedInstanceState);
-
-	/**
-	 * 初始化监听器，设置视图的监听器
-	 */
-	protected abstract void onInitListener(Bundle savedInstanceState);
-
-	/**
-	 * 初始化数据，为视图初始化数据
-	 */
-	protected abstract void onInitData(Bundle savedInstanceState);
+	public void onPreInit(Bundle savedInstanceState){
+		
+	}
 	
 	/**
 	 * 在初始化之后
 	 * @param savedInstanceState
 	 */
-	protected void onPostInit(Bundle savedInstanceState){}
+	public void onPostInit(Bundle savedInstanceState){
+		
+	}
 	
 	@Override
 	public void onBackPressed() {
@@ -195,7 +184,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 常用 ************************************************ */
 	@Override
-	public final void finishApplication(){
+	public void finishApplication(){
 		ActivityManager.getInstance().finishApplication();
 	}
 	
@@ -226,17 +215,17 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final SharedPreferences getDefultPreferences(){
+	public SharedPreferences getDefultPreferences(){
 		return PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 	}
 	
 	@Override
-	public final boolean isFirstUsing(){
+	public boolean isFirstUsing(){
 		return getDefultPreferences().getBoolean(PRFERENCES_FIRST_USING, true);
 	}
 	
 	@Override
-	public final void setFirstUsing(boolean firstUsing){
+	public void setFirstUsing(boolean firstUsing){
 		Editor editor = getDefultPreferences().edit();
 		editor.putBoolean(PRFERENCES_FIRST_USING, firstUsing);
 		editor.commit();
@@ -262,7 +251,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 提示视图 ************************************************ */
 	@Override
-	public final void showLoadingHintView(View loadingHintView){
+	public void showLoadingHintView(View loadingHintView){
 		if(loadingHintView != null){
 			Message message = messageHanlder.obtainMessage();
 			message.what = MessageHandler.SHOW_LOADING_HINT_VIEW;
@@ -272,7 +261,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void closeLoadingHintView(View loadingHintView){
+	public void closeLoadingHintView(View loadingHintView){
 		if(loadingHintView != null){
 			Message message = new Message();
 			message.what = MessageHandler.CLOSE_LOADING_HINT_VIEW;
@@ -282,12 +271,12 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void showLoadingHintView(int loadingHintViewId){
+	public void showLoadingHintView(int loadingHintViewId){
 		showLoadingHintView(findViewById(loadingHintViewId));
 	}
 	
 	@Override
-	public final void closeLoadingHintView(int loadingHintViewId){
+	public void closeLoadingHintView(int loadingHintViewId){
 		closeLoadingHintView(findViewById(loadingHintViewId));
 	}
 	
@@ -295,7 +284,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 网络 ************************************************ */
 	@Override
-	public final boolean isNetworkAvailable() {
+	public boolean isNetworkAvailable() {
 		boolean result = false;
 		result = NetworkUtils.isConnectedByState(getBaseContext());
 		if(!result){
@@ -313,25 +302,25 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 
 	/* ********************************************** 消息/广播 ************************************************ */
 	@Override
-	public final void sendMessage(){
+	public void sendMessage(){
 		sendMessage(-5);
 	}
 	
 	@Override
-	public final void sendMessage(Message message){
+	public void sendMessage(Message message){
 		message.setTarget(messageHanlder);
 		message.sendToTarget();
 	}
 	
 	@Override
-	public final void sendMessage(int what){
+	public void sendMessage(int what){
 		Message message = new Message();
 		message.what = what;
 		sendMessage(message);
 	}
 	
 	@Override
-	public final void sendMessage(int what, Bundle bundle){
+	public void sendMessage(int what, Bundle bundle){
 		Message message = new Message();
 		message.what = what;
 		message.setData(bundle);
@@ -339,7 +328,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void sendMessage(int what, Object object){
+	public void sendMessage(int what, Object object){
 		Message message = new Message();
 		message.what = what;
 		message.obj = object;
@@ -347,14 +336,14 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void openBroadcastReceiver(String filterAction){
+	public void openBroadcastReceiver(String filterAction){
 		setOpenedBroadcaseReceiver(true);
 		setBroadcastReceiver(new MyBroadcastReceiver(this));
 	    registerReceiver(getBroadcastReceiver(), new IntentFilter(filterAction));
 	}
 	
 	@Override
-	public final void closeBroadcastReceiver(){
+	public void closeBroadcastReceiver(){
 		if(getBroadcastReceiver() != null){
 			unregisterReceiver(getBroadcastReceiver());
 		}
@@ -365,7 +354,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** Toast ************************************************ */
 	@Override
-	public final void toastL(int resId){
+	public void toastL(int resId){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_LONG;
@@ -374,7 +363,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastS(int resId){
+	public void toastS(int resId){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_SHORT;
@@ -383,7 +372,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastL(String content){
+	public void toastL(String content){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_LONG;
@@ -392,7 +381,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastS(String content){
+	public void toastS(String content){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_SHORT;
@@ -401,7 +390,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastL(int formatResId, Object... args){
+	public void toastL(int formatResId, Object... args){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_LONG;
@@ -410,7 +399,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastS(int formatResId, Object... args){
+	public void toastS(int formatResId, Object... args){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_SHORT;
@@ -419,7 +408,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastL(String format, Object... args){
+	public void toastL(String format, Object... args){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_LONG;
@@ -428,7 +417,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void toastS(String format, Object... args){
+	public void toastS(String format, Object... args){
 		Message message = new Message();
 		message.what = MessageHandler.TOAST;
 		message.arg1 = Toast.LENGTH_SHORT;
@@ -440,7 +429,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 启动Activity ************************************************ */
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
 		Bundle bundle2 = null;
 		if(bundle != null){
 			bundle2 = bundle;
@@ -461,7 +450,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void onStartActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
+	public void onStartActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
 		if(isUseCustomAnimation()){
 			if(inAnimation > 0 && outAnimation > 0){
 				ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, inAnimation, outAnimation);
@@ -479,82 +468,82 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose){
+	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose){
 		startActivity(targetActivity, flag, bundle, isClose, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, Bundle bundle, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle, int inAnimation, int outAnimation){
 		startActivity(targetActivity, flag, bundle, false, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, boolean isClose, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, int flag, boolean isClose, int inAnimation, int outAnimation){
 		startActivity(targetActivity, flag, null, isClose, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
 		startActivity(targetActivity, -5, bundle, isClose, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, Bundle bundle){
+	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle){
 		startActivity(targetActivity, flag, bundle, false, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, boolean isClose){
+	public void startActivity(Class<?> targetActivity, int flag, boolean isClose){
 		startActivity(targetActivity, flag, null, false, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, Bundle bundle, boolean isClose){
+	public void startActivity(Class<?> targetActivity, Bundle bundle, boolean isClose){
 		startActivity(targetActivity, -5, bundle, isClose, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, int flag, int inAnimation, int outAnimation){
 		startActivity(targetActivity, -5, null, false, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, Bundle bundle, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, Bundle bundle, int inAnimation, int outAnimation){
 		startActivity(targetActivity, -5, bundle, false, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, boolean isClose, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, boolean isClose, int inAnimation, int outAnimation){
 		startActivity(targetActivity, -5, null, isClose, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int inAnimation, int outAnimation){
+	public void startActivity(Class<?> targetActivity, int inAnimation, int outAnimation){
 		startActivity(targetActivity, -5, null, false, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, boolean isClose){
+	public void startActivity(Class<?> targetActivity, boolean isClose){
 		startActivity(targetActivity, -5, null, isClose, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, Bundle bundle){
+	public void startActivity(Class<?> targetActivity, Bundle bundle){
 		startActivity(targetActivity, -5, bundle, false, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity, int flag){
+	public void startActivity(Class<?> targetActivity, int flag){
 		startActivity(targetActivity, flag, null, false, -5, -5);
 	}
 	
 	@Override
-	public final void startActivity(Class<?> targetActivity){
+	public void startActivity(Class<?> targetActivity){
 		startActivity(targetActivity, -5, null, false, -5, -5);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
 		Bundle bundle2 = null;
 		if(bundle != null){
 			bundle2 = bundle;
@@ -575,7 +564,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void onStartActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
+	public void onStartActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
 		if(isUseCustomAnimation()){
 			if(inAnimation > 0 && outAnimation > 0){
 				ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, inAnimation, outAnimation);
@@ -593,37 +582,37 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle){
 		startActivityForResult(targetActivity, requestCode, flag, bundle, -5, -5);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, int inAnimation, int outAnimation){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, int inAnimation, int outAnimation){
 		startActivityForResult(targetActivity, requestCode, flag, null, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, Bundle bundle, int inAnimation, int outAnimation){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, Bundle bundle, int inAnimation, int outAnimation){
 		startActivityForResult(targetActivity, requestCode, -5, bundle, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, int flag){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag){
 		startActivityForResult(targetActivity, requestCode, flag, null, -5, -5);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, Bundle bundle){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, Bundle bundle){
 		startActivityForResult(targetActivity, requestCode, -5, bundle, -5, -5);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode, int inAnimation, int outAnimation){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode, int inAnimation, int outAnimation){
 		startActivityForResult(targetActivity, requestCode, -5, null, inAnimation, outAnimation);
 	}
 	
 	@Override
-	public final void startActivityForResult(Class<?> targetActivity, int requestCode){
+	public void startActivityForResult(Class<?> targetActivity, int requestCode){
 		startActivityForResult(targetActivity, requestCode, -5, null, -5, -5);
 	}
 
@@ -631,12 +620,12 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 终止Activity ************************************************ */
 	@Override
-	public final void finishActivity(){
+	public void finishActivity(){
 		sendMessage(MessageHandler.FINISH_ACTIVITY);
 	}
 	
 	@Override
-	public final void onFinishActivity(){
+	public void onFinishActivity(){
 		finish();
 		if(isUseCustomAnimation()){
 			int[] animations = onGetDefaultFinishActivityAnimation();
@@ -647,7 +636,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void finishActivity(int inAnimation, int outAnimation){
+	public void finishActivity(int inAnimation, int outAnimation){
 		Message message = new Message();
 		message.what = MessageHandler.FINISH_ACTIVITY_ANIMATION;
 		message.arg1 = inAnimation;
@@ -656,7 +645,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void onFinishActivity(int inAnimation, int outAnimation){
+	public void onFinishActivity(int inAnimation, int outAnimation){
 		finish();
 		if(isUseCustomAnimation()){
 			overridePendingTransition(inAnimation, outAnimation);
@@ -664,27 +653,27 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void finishActivity(long id){
+	public void finishActivity(long id){
 		ActivityManager.getInstance().finishActivity(id);
 	}
 	
 	@Override
-	public final void finishActivitys(long[] ids){
+	public void finishActivitys(long[] ids){
 		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	
 	@Override
-	public final void finishActivitys(Set<Long> ids){
+	public void finishActivitys(Set<Long> ids){
 		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	
 	@Override
-	public final void finishOtherActivitys(){
+	public void finishOtherActivitys(){
 		ActivityManager.getInstance().finishOtherActivitys(getActivityId());
 	}
 	
 	@Override
-	public final void becauseExceptionFinishActivity(){
+	public void becauseExceptionFinishActivity(){
 		final int useTime = (int) (System.currentTimeMillis() - createTime);
 		//如果当前Activity从创建到销毁的时间小于最小用时
 		if(useTime < MIN_USE_TIME){
@@ -710,22 +699,22 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void putToWaitFinishActivitys(){
+	public void putToWaitFinishActivitys(){
 		ActivityManager.getInstance().putToWaitFinishActivitys(getActivityId());
 	}
 	
 	@Override
-	public final boolean removeFromWaitFinishActivitys(){
+	public boolean removeFromWaitFinishActivitys(){
 		return ActivityManager.getInstance().removeFromWaitFinishActivitys(getActivityId());
 	}
 	
 	@Override
-	public final void clearWaitFinishActivitys(){
+	public void clearWaitFinishActivitys(){
 		ActivityManager.getInstance().clearWaitFinishActivitys();
 	}
 	
 	@Override
-	public final void finishAllWaitingActivity(){
+	public void finishAllWaitingActivity(){
 		ActivityManager.getInstance().finishAllWaitingActivity();
 	}
 	
@@ -733,7 +722,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 对话框 ************************************************ */
 	@Override
-	public final void showMessageDialog(String message, String confrimButtonName){
+	public void showMessageDialog(String message, String confrimButtonName){
 		Bundle bundle = new Bundle();
 		bundle.putString(KEY_DIALOG_MESSAGE, message);
 		bundle.putString(KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
@@ -741,29 +730,29 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public final void showMessageDialog(int messageId, int confrimButtonNameId){
+	public void showMessageDialog(int messageId, int confrimButtonNameId){
 		showMessageDialog(getString(messageId), getString(confrimButtonNameId));
 	}
 	
 	@Override
-	public final void closeMessageDialog(){
+	public void closeMessageDialog(){
 		sendMessage(MessageHandler.CLOSE_MESSAGE_DIALOG);
 	}
 	
 	@Override
-	public final void showProgressDialog(String message){
+	public void showProgressDialog(String message){
 		Bundle bundle = new Bundle();
 		bundle.putString(KEY_DIALOG_MESSAGE, message);
 		sendMessage(MessageHandler.SHOW_PROGRESS_DIALOG, bundle);
 	}
 	
 	@Override
-	public final void showProgressDialog(int messageId){
+	public void showProgressDialog(int messageId){
 		showProgressDialog(getString(messageId));
 	}
 	
 	@Override
-	public final void closeProgressDialog(){
+	public void closeProgressDialog(){
 		sendMessage(MessageHandler.CLOSE_PROGRESS_DIALOG);
 	}
 	
@@ -771,187 +760,187 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** 资源管理 ************************************************ */
 	@Override
-	public final Animation getAnimation(int resId){
+	public Animation getAnimation(int resId){
 		return AnimationUtils.loadAnimation(getBaseContext(), resId);
 	}
 	
 	@Override
-	public final LayoutAnimationController getLayoutAnimation(int ersId){
+	public LayoutAnimationController getLayoutAnimation(int ersId){
 		return AnimationUtils.loadLayoutAnimation(getBaseContext(), ersId);
 	}
 	
 	@Override
-	public final Interpolator getInterpolator(int resId){
+	public Interpolator getInterpolator(int resId){
 		return AnimationUtils.loadInterpolator(getBaseContext(), resId);
 	}
 	
 	@Override
-	public final boolean getBoolean(int resId){
+	public boolean getBoolean(int resId){
 		return getResources().getBoolean(resId);
 	}
 	
 	@Override
-	public final int getColor(int resId){
+	public int getColor(int resId){
 		return getResources().getColor(resId);
 	}
 	
 	@Override
-	public final ColorStateList getColorStateList(int resId){
+	public ColorStateList getColorStateList(int resId){
 		return getResources().getColorStateList(resId);
 	}
 	
 	@Override
-	public final float getDimension(int resId){
+	public float getDimension(int resId){
 		return getResources().getDimension(resId);
 	}
 	
 	@Override
-	public final float getDimensionPixelOffset(int resId){
+	public float getDimensionPixelOffset(int resId){
 		return getResources().getDimensionPixelOffset(resId);
 	}
 	
 	@Override
-	public final float getDimensionPixelSize(int resId){
+	public float getDimensionPixelSize(int resId){
 		return getResources().getDimensionPixelSize(resId);
 	}
 	
 	@Override
-	public final Drawable getDrawable(int resId){
+	public Drawable getDrawable(int resId){
 		return getResources().getDrawable(resId);
 	}
 	
 	@Override
-	public final float getFraction(int resId, int base, int pbase){
+	public float getFraction(int resId, int base, int pbase){
 		return  getResources().getFraction(resId, base, pbase);
 	}
 	
 	@Override
-	public final int getIdentifier(String name, String defType, String defPackage){
+	public int getIdentifier(String name, String defType, String defPackage){
 		return getResources().getIdentifier(name, defType, defPackage);
 	}
 	
 	@Override
-	public final int[] getIntArray(int resId){
+	public int[] getIntArray(int resId){
 		return getResources().getIntArray(resId);
 	}
 	
 	@Override
-	public final int getInteger(int resId){
+	public int getInteger(int resId){
 		return getResources().getInteger(resId);
 	}
 	
 	@Override
-	public final XmlResourceParser getLayout(int resId){
+	public XmlResourceParser getLayout(int resId){
 		return getResources().getLayout(resId);
 	}
 	
 	@Override
-	public final Movie getMovie(int resId){
+	public Movie getMovie(int resId){
 		return getResources().getMovie(resId);
 	}
 	
 	@Override
-	public final String getQuantityString(int resId, int quantity){
+	public String getQuantityString(int resId, int quantity){
 		return getResources().getQuantityString(resId, quantity);
 	}
 	
 	@Override
-	public final String getQuantityString(int resId, int quantity, Object... formatArgs){
+	public String getQuantityString(int resId, int quantity, Object... formatArgs){
 		return getResources().getQuantityString(resId, quantity, formatArgs);
 	}
 	
 	@Override
-	public final CharSequence getQuantityText(int resId, int quantity){
+	public CharSequence getQuantityText(int resId, int quantity){
 		return getResources().getQuantityText(resId, quantity);
 	}
 	
 	@Override
-	public final String[] getStringArray(int resId){
+	public String[] getStringArray(int resId){
 		return getResources().getStringArray(resId);
 	}
 	
 	@Override
-	public final String getResourceEntryName(int resId){
+	public String getResourceEntryName(int resId){
 		return getResources().getResourceEntryName(resId);
 	}
 	
 	@Override
-	public final String getResourceName(int resId){
+	public String getResourceName(int resId){
 		return getResources().getResourceName(resId);
 	}
 	
 	@Override
-	public final String getResourcePackageName(int resId){
+	public String getResourcePackageName(int resId){
 		return getResources().getResourcePackageName(resId);
 	}
 	
 	@Override
-	public final String getResourceTypeName(int resId){
+	public String getResourceTypeName(int resId){
 		return getResources().getResourceTypeName(resId);
 	}
 	
 	@Override
-	public final CharSequence getText(int resId, CharSequence defSequence){
+	public CharSequence getText(int resId, CharSequence defSequence){
 		return getResources().getText(resId, defSequence);
 	}
 	
 	@Override
-	public final CharSequence[] getTextArray(int resId){
+	public CharSequence[] getTextArray(int resId){
 		return getResources().getTextArray(resId);
 	}
 	
 	@Override
-	public final XmlResourceParser getXml(int resId){
+	public XmlResourceParser getXml(int resId){
 		return getResources().getXml(resId);
 	}
 	
 	@Override
-	public final View getViewByLayout(int resId, ViewGroup parentView){
+	public View getViewByLayout(int resId, ViewGroup parentView){
 		return LayoutInflater.from(getBaseContext()).inflate(resId, parentView);
 	}
 	
 	@Override
-	public final View getViewByLayout(int resId){
+	public View getViewByLayout(int resId){
 		return getViewByLayout(resId, null);
 	}
 	
 	@Override
-	public final File getDynamicFilesDir(){
+	public File getDynamicFilesDir(){
 		return SDCardUtils.isAvailable() ? getExternalFilesDir(null) : getFilesDir();
 	}
 	
 	@Override
-	public final File getDynamicCacheDir(){
+	public File getDynamicCacheDir(){
 		return SDCardUtils.isAvailable() ? getExternalCacheDir() : getCacheDir();
 	}
 	
 	@Override
-	public final File getFileFromFilesDir(String fileName){
+	public File getFileFromFilesDir(String fileName){
 		return new File(getFilesDir().getPath() + File.separator + fileName);
 	}
 	
 	@Override
-	public final File getFileFromExternalFilesDir(String fileName){
+	public File getFileFromExternalFilesDir(String fileName){
 		return SDCardUtils.isAvailable() ? new File(getExternalFilesDir(null).getPath() + File.separator + fileName) : null;
 	}
 	
 	@Override
-	public final File getFileFromCacheDir(String fileName){
+	public File getFileFromCacheDir(String fileName){
 		return new File(getCacheDir().getPath() + File.separator + fileName);
 	}
 	
 	@Override
-	public final File getFileFromExternalCacheDir(String fileName){
+	public File getFileFromExternalCacheDir(String fileName){
 		return SDCardUtils.isAvailable() ? new File(getExternalCacheDir().getPath() + File.separator + fileName) : null;
 	}
 	
 	@Override
-	public final File getFileFromDynamicFilesDir(String fileName){
+	public File getFileFromDynamicFilesDir(String fileName){
 		return new File(getDynamicFilesDir().getPath() + File.separator + fileName);
 	}
 	
 	@Override
-	public final File getFileFromDynamicCacheDir(String fileName){
+	public File getFileFromDynamicCacheDir(String fileName){
 		return new File(getDynamicCacheDir().getPath() + File.separator + fileName);
 	}
 	
@@ -959,42 +948,42 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	/* ********************************************** GET/SET ************************************************ */
 	@Override
-	public final long getActivityId(){
+	public long getActivityId(){
 		return activityId;
 	}
 
 	@Override
-	public final void setActivityId(long activityId) {
+	public void setActivityId(long activityId) {
 		this.activityId = activityId;
 	}
 
 	@Override
-	public final MessageHandler getMessageHanlder() {
+	public MessageHandler getMessageHanlder() {
 		return messageHanlder;
 	}
 
 	@Override
-	public final void setMessageHanlder(MessageHandler messageHanlder) {
+	public void setMessageHanlder(MessageHandler messageHanlder) {
 		this.messageHanlder = messageHanlder;
 	}
 
 	@Override
-	public final MyBroadcastReceiver getBroadcastReceiver() {
+	public MyBroadcastReceiver getBroadcastReceiver() {
 		return broadcastReceiver;
 	}
 
 	@Override
-	public final void setBroadcastReceiver(MyBroadcastReceiver broadcastReceiver) {
+	public void setBroadcastReceiver(MyBroadcastReceiver broadcastReceiver) {
 		this.broadcastReceiver = broadcastReceiver;
 	}
 
 	@Override
-	public final boolean isOpenedBroadcaseReceiver() {
+	public boolean isOpenedBroadcaseReceiver() {
 		return openedBroadcaseReceiver;
 	}
 
 	@Override
-	public final void setOpenedBroadcaseReceiver(boolean openedBroadcaseReceiver) {
+	public void setOpenedBroadcaseReceiver(boolean openedBroadcaseReceiver) {
 		this.openedBroadcaseReceiver = openedBroadcaseReceiver;
 	}
 }

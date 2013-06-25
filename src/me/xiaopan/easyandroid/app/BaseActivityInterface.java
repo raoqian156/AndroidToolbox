@@ -64,6 +64,33 @@ public interface BaseActivityInterface {
 	
 	/* ********************************************** 初始化 ************************************************ */
 	/**
+	 * 在初始化之前
+	 * @param savedInstanceState
+	 */
+	public void onPreInit(Bundle savedInstanceState);
+	
+	/**
+	 * 初始化布局，设置ContentView并通过findViewById()初始化视图
+	 */
+	public void onInitLayout(Bundle savedInstanceState);
+
+	/**
+	 * 初始化监听器，设置视图的监听器
+	 */
+	public void onInitListener(Bundle savedInstanceState);
+
+	/**
+	 * 初始化数据，为视图初始化数据
+	 */
+	public void onInitData(Bundle savedInstanceState);
+	
+	/**
+	 * 在初始化之后
+	 * @param savedInstanceState
+	 */
+	public void onPostInit(Bundle savedInstanceState);
+	
+	/**
 	 * 判断是否需要去除标题栏，默认不去除
 	 * @return 是否需要去除标题栏
 	 */

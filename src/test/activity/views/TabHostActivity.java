@@ -34,17 +34,17 @@ public class TabHostActivity extends MyBaseTabActivity {
 	private static final String TAB_TAG_THREE = "TAB_TAG_THREE";
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_tabhost);
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		//添加3个选项卡
 		getTabHost().addTab(createTabSpec(TAB_TAG_ONE, "选项卡1", "1"));
 		getTabHost().addTab(createTabSpec(TAB_TAG_TWO, "选项卡2", "2"));

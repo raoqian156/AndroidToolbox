@@ -54,14 +54,14 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	}
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_camera_preview);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_cameraPreview);
 		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_cameraPreview_flashMode);
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		//点击显示界面的时候对焦
 		surfaceView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -83,24 +83,24 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		cameraManager = new CameraManager(surfaceView.getHolder(), this);
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		cameraManager.openBackCamera();
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		cameraManager.release();
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		cameraManager = null;
 		super.onDestroy();
 	}

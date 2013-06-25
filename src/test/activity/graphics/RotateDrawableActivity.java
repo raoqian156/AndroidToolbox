@@ -48,7 +48,7 @@ public class RotateDrawableActivity extends MyBaseActivity {
 	private DrawabLevelController mirrorDrawableController;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_rotate_drawable);
 		orderDrawable = ((ImageView) findViewById(R.id.rotateDrawable_image_order)).getDrawable();
 		reverseDrawable = ((ImageView) findViewById(R.id.rotateDrawable_image_reverse)).getDrawable();
@@ -61,7 +61,7 @@ public class RotateDrawableActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		rotaryControlButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -150,7 +150,7 @@ public class RotateDrawableActivity extends MyBaseActivity {
 	} 
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		orderDrawableController.setRepeatMode(RepeatMode.ORDER);
 		orderDrawableController.setDelayed(1);
 		orderDrawableController.setIncremental(100);

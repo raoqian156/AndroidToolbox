@@ -36,7 +36,7 @@ public class ClipDrawableActivity extends MyBaseActivity {
 	private ClipDrawable clipDrawableCenterHorizontal;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_clip_drawable);
 		clipDrawableLeft = (ClipDrawable) findViewById(R.id.drawableClip_image_left).getBackground();
 		clipDrawableRight = (ClipDrawable) findViewById(R.id.drawableClip_image_right).getBackground();
@@ -47,11 +47,11 @@ public class ClipDrawableActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

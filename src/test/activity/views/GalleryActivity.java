@@ -28,17 +28,17 @@ public class GalleryActivity extends MyBaseActivity {
 	private Gallery gallery;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_gallery);
 		gallery = (Gallery) findViewById(R.id.gallery_gallery);
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		gallery.setAdapter(new GalleryAdapter(getBaseContext(), getStringArray(R.array.autoPlayGallery_urls2)));
 	}
 }

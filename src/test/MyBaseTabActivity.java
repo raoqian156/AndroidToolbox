@@ -28,7 +28,7 @@ import com.umeng.analytics.MobclickAgent;
 @SuppressWarnings("deprecation")
 public abstract class MyBaseTabActivity extends BaseTabActivity {
 	@Override
-	protected void onPreInit(Bundle savedInstanceState) {
+	public void onPreInit(Bundle savedInstanceState) {
 		ApplicationExceptionHandler.getInstance().setContext(this);
 		if(!isRemoveTitleBar()){
 			getActionBar().setBackgroundDrawable(getDrawable(R.drawable.shape_titlebar));

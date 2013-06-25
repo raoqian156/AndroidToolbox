@@ -30,18 +30,18 @@ public class LixueLoadMore extends MyBaseListActivity{
 	private LiXueAutoLoadListView liXueAutoLoadListView;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(me.xiaopan.easyandroid.R.layout.acttivity_lixueloadmore);
 		liXueAutoLoadListView=(LiXueAutoLoadListView)getListView();
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		LiXueFooterControl liXueFooterControl=new LiXueFooterControl(getBaseContext());
 		liXueAutoLoadListView.SetFooterControl(liXueFooterControl);
 		liXueFooterControl.setOnListener(new onloadListener() {

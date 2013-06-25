@@ -39,7 +39,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	private List<String> pictures;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_picture_player);
 		picturePlayerCircleLeftToRight = (PointViewPlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_leftToRight);
 		picturePlayerCircleRightToLeft = (PointViewPlayer) findViewById(R.id.picturePlayer_picturePlayer_circle_rightToLeft);
@@ -48,7 +48,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		picturePlayerCircleLeftToRight.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -58,7 +58,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		pictures = new ArrayList<String>();
 		for(String url : getStringArray(R.array.autoPlayGallery_urls2)){
 			pictures.add(url);
@@ -78,7 +78,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		picturePlayerCircleLeftToRight.startPaly();
 		picturePlayerCircleRightToLeft.startPaly();
 		picturePlayerSwingLeftToRight.startPaly();
@@ -87,7 +87,7 @@ public class PicturePlayerActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		picturePlayerCircleLeftToRight.stopPaly();
 		picturePlayerCircleRightToLeft.stopPaly();
 		picturePlayerSwingLeftToRight.stopPaly();

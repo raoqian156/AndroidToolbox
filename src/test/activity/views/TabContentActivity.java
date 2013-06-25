@@ -30,17 +30,17 @@ public class TabContentActivity extends MyBaseActivity {
 	private PullListView pullListView;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(pullListView = (PullListView) getViewByLayout(R.layout.list));
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		String tabIndex = getIntent().getStringExtra(PARAM_TAB_INDEX);
 		List<String> contents = new ArrayList<String>(20);
 		for(int w = 0; w < 20; w++){

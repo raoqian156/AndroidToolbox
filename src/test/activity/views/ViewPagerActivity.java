@@ -32,19 +32,19 @@ public class ViewPagerActivity extends MyBaseFragmentActivity {
 	private List<ImageFragment> testFragmentList;
 	
 	@Override
-	protected void onInitLayout(Bundle savedInstanceState) {
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_view_pager);
 		viewPager = (ViewPager) findViewById(R.id.viewPager_viewPager);
 		pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTab_viewPager);
 	}
 
 	@Override
-	protected void onInitListener(Bundle savedInstanceState) {
+	public void onInitListener(Bundle savedInstanceState) {
 		
 	}
 
 	@Override
-	protected void onInitData(Bundle savedInstanceState) {
+	public void onInitData(Bundle savedInstanceState) {
 		testFragmentList = new ArrayList<ImageFragment>();
 		testFragmentList.add(new ImageFragment("页面1", R.drawable.image_liuyifei1));
 		testFragmentList.add(new ImageFragment("页面2", R.drawable.image_liuyifei2));
