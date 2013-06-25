@@ -10,7 +10,7 @@ import android.widget.Toast;
 /**
  * 处理器
  */
-class MessageHandler extends Handler{
+public class MessageHandler extends Handler{
 	public static final int SHOW_LOADING_HINT_VIEW = 40;
 	public static final int CLOSE_LOADING_HINT_VIEW = 41;
 	public static final int SHOW_MESSAGE_DIALOG = 45;
