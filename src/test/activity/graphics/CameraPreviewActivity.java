@@ -44,12 +44,12 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	private CameraManager cameraManager;
 
 	@Override
-	protected boolean isRemoveTitleBar() {
+	public boolean isRemoveTitleBar() {
 		return true;
 	}
 
 	@Override
-	protected boolean isFullScreen() {
+	public boolean isRemoveStatusBar() {
 		return true;
 	}
 	

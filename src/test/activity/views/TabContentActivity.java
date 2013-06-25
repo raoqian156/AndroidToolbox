@@ -52,7 +52,7 @@ public class TabContentActivity extends MyBaseActivity {
 	}
 
 	@Override
-	protected boolean isRemoveTitleBar() {
+	public boolean isRemoveTitleBar() {
 		return true;
 	}
 }

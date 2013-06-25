@@ -73,19 +73,12 @@ public abstract class MyBaseActivity extends BaseActivity {
 		return new int[]{R.anim.base_normal, R.anim.base_slide_to_right_out};
 	}
 
-	@Override
-	protected int onGetLoadingHintViewId() {
-		return R.id.layout_loadingHint;
+	public void showLoadingHintView(){
+		showLoadingHintView(R.id.layout_loadingHint);
 	}
 
-	@Override
-	protected int onGetListEmptyHintViewId() {
-		return R.id.layout_listEmptyHint;
-	}
-
-	@Override
-	protected void onClickListEmptyHintView() {
-		toastL(R.string.toast_reloadIn);
+	public void closeLoadingHintView(){
+		closeLoadingHintView(R.id.layout_loadingHint);
 	}
 
 	@Override

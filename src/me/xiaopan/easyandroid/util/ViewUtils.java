@@ -19,17 +19,11 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -38,11 +32,6 @@ import android.widget.ListView;
  * 视图工具箱
  */
 public class ViewUtils {
-	/**
-	 * 默认透明度动画持续时间
-	 */
-	public static final long DEFAULT_ALPHA_ANIMATION_DURATION = 500;
-	
 	/**
 	 * 获取一个LinearLayout
 	 * @param context 上下文
@@ -97,42 +86,29 @@ public class ViewUtils {
     }
 	
 	/**
-	 * 给给定的视图注册长按提示监听器
+	 * 给给定的视图设置长按提示
 	 * @param context 上下文
 	 * @param view 给定的视图
-	 * @param resourceId 提示内容的ID
+	 * @param hintContent 提示内容
 	 */
-	public static void setLongClickHintListener(final Context context, View view, final int resourceId){
+	public static void setLongClickHint(final Context context, View view, final String hintContent){
 		view.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				ToastUtils.toastS(context, resourceId);
+				ToastUtils.toastS(context, hintContent);
 				return true;
 			}
 		});
 	}
 	
 	/**
-	 * 给给定的图片按钮注册切换图片监听器
-	 * @param imageButton 给定的图片按钮
-	 * @param notStateImageResourceId 没有状态时显示的图片
-	 * @param pressStateImageResourceId 按下时显示的图片
+	 * 给给定的视图设置长按提示
+	 * @param context 上下文
+	 * @param view 给定的视图
+	 * @param hintContentId 提示内容的ID
 	 */
-	public static void setImageButtonSwitchImageListener(final ImageButton imageButton, final int notStateImageResourceId, final int pressStateImageResourceId){
-		imageButton.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch(event.getAction()){
-					case MotionEvent.ACTION_DOWN : 
-						imageButton.setImageResource(pressStateImageResourceId);
-						break;
-					case MotionEvent.ACTION_UP : 
-						imageButton.setImageResource(notStateImageResourceId);
-						break;
-				}
-				return false;
-			}
-		});
+	public static void setLongClickHint(final Context context, View view, final int hintContentId){
+		setLongClickHint(context, view, context.getString(hintContentId));
 	}
 	
 	/**
@@ -209,190 +185,10 @@ public class ViewUtils {
 	}
 	
 	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 * @param animationListener 动画监听器
-	 */
-	public static void invisibleViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
-		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
-		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				view.setVisibility(View.INVISIBLE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(hiddenAlphaAnimation);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 */
-	public static void invisibleViewByAlpha(final View view, long durationMillis){
-		invisibleViewByAlpha(view, durationMillis, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 * @param animationListener 动画监听器
-	 */
-	public static void invisibleViewByAlpha(final View view, final AnimationListener animationListener){
-		invisibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去（view.setVisibility(View.INVISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 */
-	public static void invisibleViewByAlpha(final View view){
-		invisibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 * @param animationListener 动画监听器
-	 */
-	public static void goneViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
-		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
-		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				view.setVisibility(View.GONE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(hiddenAlphaAnimation);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 */
-	public static void goneViewByAlpha(final View view, long durationMillis){
-		goneViewByAlpha(view, durationMillis, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 * @param animationListener 动画监听器
-	 */
-	public static void goneViewByAlpha(final View view, final AnimationListener animationListener){
-		goneViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
-	}
-	
-	/**
-	 * 将给定视图渐渐隐去最后从界面中移除（view.setVisibility(View.GONE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 */
-	public static void goneViewByAlpha(final View view){
-		goneViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 * @param animationListener 动画监听器
-	 */
-	public static void visibleViewByAlpha(final View view, long durationMillis, final AnimationListener animationListener){
-		AlphaAnimation showAlphaAnimation = AnimationUtils.getShowAlphaAnimation(durationMillis);
-		showAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
-				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				view.setVisibility(View.VISIBLE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(showAlphaAnimation);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)）
-	 * @param view 被处理的视图
-	 * @param durationMillis 持续时间，毫秒
-	 */
-	public static void visibleViewByAlpha(final View view, long durationMillis){
-		visibleViewByAlpha(view, durationMillis, null);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 * @param animationListener 动画监听器
-	 */
-	public static void visibleViewByAlpha(final View view, final AnimationListener animationListener){
-		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, animationListener);
-	}
-	
-	/**
-	 * 将给定视图渐渐显示出来（view.setVisibility(View.VISIBLE)），默认的持续时间为DEFAULT_ALPHA_ANIMATION_DURATION
-	 * @param view 被处理的视图
-	 */
-	public static void visibleViewByAlpha(final View view){
-		visibleViewByAlpha(view, DEFAULT_ALPHA_ANIMATION_DURATION, null);
-	}
-	
-	/**
 	 * 设置输入框的光标到末尾
 	 * @param editText
 	 */
-	public static final void setSelectionToEnd(EditText editText){
+	public static final void setEditTextSelectionToEnd(EditText editText){
 		Editable editable = editText.getEditableText();
 		Selection.setSelection((Spannable) editable, editable.toString().length());
 	}

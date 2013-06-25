@@ -54,12 +54,12 @@ public class TakePicturesActivity extends MyBaseActivity implements CameraManage
 	private CameraManager cameraManager;
 
 	@Override
-	protected boolean isRemoveTitleBar() {
+	public boolean isRemoveTitleBar() {
 		return true;
 	}
 
 	@Override
-	protected boolean isFullScreen() {
+	public boolean isRemoveStatusBar() {
 		return true;
 	}
 	

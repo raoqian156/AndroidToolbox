@@ -54,11 +54,8 @@ import android.widget.Toast;
 public abstract class BaseFragmentActivity extends FragmentActivity implements BaseActivityInterface{
 	private static long lastClickBackButtonTime;	//记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
 	private long activityId = -5;	//当前Activity在ActivityManager中的ID
-	private boolean loadFinished = true;	//加载已完成
-	private boolean openedBroadcaseReceiver;	//已经打开了广播接收器
 	private long createTime;	//创建时间
-	private View loadingHintView;	//加载中提示视图
-	private View listEmptyHintView;	//列表为空提示视图
+	private boolean openedBroadcaseReceiver;	//已经打开了广播接收器
 	private MessageHandler messageHanlder;	//主线程消息处理器
 	private MyBroadcastReceiver broadcastReceiver;	//广播接收器
 	
@@ -68,7 +65,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 		createTime = System.currentTimeMillis();	//记录创建时间，用于异常终止时判断是否需要等待一段时间再终止，因为时间过短的话体验不好
 		activityId = ActivityManager.getInstance().putActivity(this);	//将当前Activity放入ActivityManager中，并获取其ID
 		if(isRemoveTitleBar()) requestWindowFeature(Window.FEATURE_NO_TITLE);	//如果需要去掉标题栏	
-		if(isFullScreen()) getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	//如果需要全屏就去掉通知栏
+		if(isRemoveStatusBar()) getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	//如果需要全屏就去掉通知栏
 		messageHanlder = new MessageHandler(this);//实例化消息处理器
 		onPreInit(savedInstanceState);//在初始化之前											
 		onInitLayout(savedInstanceState);//初始化布局								
@@ -214,7 +211,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 	 * 判断是否需要去除标题栏，默认不去除
 	 * @return 是否需要去除标题栏
 	 */
-	protected boolean isRemoveTitleBar() {
+	@Override
+	public boolean isRemoveTitleBar() {
 		return false;
 	}
 	
@@ -222,7 +220,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 	 * 判断是否需要全屏，默认不全屏
 	 * @return 是否需要全屏
 	 */
-	protected boolean isFullScreen() {
+	@Override
+	public boolean isRemoveStatusBar() {
 		return false;
 	}
 	
@@ -263,71 +262,36 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 	
 	/* ********************************************** 提示视图 ************************************************ */
 	@Override
-	public final void showLoadingHintView(){
-		Message message = messageHanlder.obtainMessage();
-		message.what = MessageHandler.SHOW_LOADING_HINT_VIEW;
-		message.sendToTarget();
+	public final void showLoadingHintView(View loadingHintView){
+		if(loadingHintView != null){
+			Message message = messageHanlder.obtainMessage();
+			message.what = MessageHandler.SHOW_LOADING_HINT_VIEW;
+			message.obj = loadingHintView;
+			message.sendToTarget();
+		}
 	}
 	
 	@Override
-	public final void closeLoadingHintView(){
-		Message message = new Message();
-		message.what = MessageHandler.CLOSE_LOADING_HINT_VIEW;
-		sendMessage(message);
+	public final void closeLoadingHintView(View loadingHintView){
+		if(loadingHintView != null){
+			Message message = new Message();
+			message.what = MessageHandler.CLOSE_LOADING_HINT_VIEW;
+			message.obj = loadingHintView;
+			sendMessage(message);
+		}
 	}
 	
 	@Override
-	public final void showListEmptyHintView(){
-		Message message = new Message();
-		message.what = MessageHandler.SHOW_LIST_EMPTY_HINT_VIEW;
-		sendMessage(message);
+	public final void showLoadingHintView(int loadingHintViewId){
+		showLoadingHintView(findViewById(loadingHintViewId));
 	}
 	
 	@Override
-	public final void closeListEmptyHintView(){
-		Message message = new Message();
-		message.what = MessageHandler.CLOSE_LIST_EMPTY_HINT_VIEW;
-		sendMessage(message);
+	public final void closeLoadingHintView(int loadingHintViewId){
+		closeLoadingHintView(findViewById(loadingHintViewId));
 	}
+	
 	 
-	@Override
-	public final int getLoadingHintViewId(){
-		return onGetLoadingHintViewId();
-	}
-	
-	/** 
-	 * 当获取正在加载提示视图的ID时
-	 * @return 正在加载提示视图的ID时
-	 */
-	protected int onGetLoadingHintViewId(){
-		return 0;
-	}
-
-	@Override
-	public final int getListEmptyHintViewId(){
-		return onGetListEmptyHintViewId();
-	}
-	
-	/**
-	 * 当获取列表为空提示视图的ID时
-	 * @return 列表为空提示视图的ID
-	 */
-	protected int onGetListEmptyHintViewId(){
-		return 0;
-	}
-	 
-	@Override
-	public final void clickListEmptyHintView(){
-		onClickListEmptyHintView();
-	}
-	
-	/**
-	 * 当点击列表为空提示视图时
-	 */
-	protected void onClickListEmptyHintView(){
-		
-	}
-	
 	
 	/* ********************************************** 网络 ************************************************ */
 	@Override
@@ -1014,36 +978,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 		this.messageHanlder = messageHanlder;
 	}
 
-	@Override
-	public final View getLoadingHintView() {
-		return loadingHintView;
-	}
-
-	@Override
-	public final void setLoadingHintView(View loadingHintView) {
-		this.loadingHintView = loadingHintView;
-	}
-
-	@Override
-	public final View getListEmptyHintView() {
-		return listEmptyHintView;
-	}
-
-	@Override
-	public final void setListEmptyHintView(View listEmptyHintView) {
-		this.listEmptyHintView = listEmptyHintView;
-	}
-
-	@Override
-	public final boolean isLoadFinished() {
-		return loadFinished;
-	}
-
-	@Override
-	public final void setLoadFinished(boolean loadFinished) {
-		this.loadFinished = loadFinished;
-	}
-	
 	@Override
 	public final MyBroadcastReceiver getBroadcastReceiver() {
 		return broadcastReceiver;

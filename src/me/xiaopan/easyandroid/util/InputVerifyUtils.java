@@ -37,7 +37,7 @@ public class InputVerifyUtils {
 			if(errorHint != null && !"".equals(errorHint)){
 				ToastUtils.toastS(context, errorHint);
 			}
-			AnimationUtils.shake(view);
+			ViewAnimationUtils.shake(view);
 			result = false;
 		}
 		return result;

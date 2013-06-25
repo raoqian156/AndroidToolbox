@@ -15,13 +15,10 @@
  */
 package me.xiaopan.easyandroid.util;
 
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.CycleInterpolator;
 import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
 
 /**
  * 动画工具箱
@@ -31,45 +28,6 @@ public class AnimationUtils {
 	 * 默认动画持续时间
 	 */
 	public static final long DEFAULT_ANIMATION_DURATION = 1000;
-	
-	/**
-	 * 视图移动
-	 * @param view 要移动的视图
-	 * @param fromXDelta X轴开始坐标
-	 * @param toXDelta X轴结束坐标
-	 * @param fromYDelta Y轴开始坐标
-	 * @param toYDelta Y轴结束坐标
-	 * @param durationMillis 持续时间
-	 * @param cycles 重复
-	 */
-	public static void translate(View view, float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, long durationMillis, float cycles){
-		TranslateAnimation translateAnimation = new TranslateAnimation(fromXDelta, toXDelta, fromYDelta, toYDelta);
-		translateAnimation.setDuration(durationMillis);
-		if(cycles > 0.0){
-			translateAnimation.setInterpolator(new CycleInterpolator(cycles));
-		}
-		view.startAnimation(translateAnimation);
-	}
-
-	/**
-	 * 视图摇动
-	 * @param view 要摇动的视图
-	 * @param fromXDelta X轴开始坐标
-	 * @param toXDelta X轴结束坐标
-	 * @param durationMillis 持续时间
-	 * @param cycles 重复
-	 */
-	public static void shake(View view, float fromXDelta, float toXDelta, long durationMillis, float cycles){
-		translate(view, fromXDelta, toXDelta, 0.0f, 0.0f, durationMillis, cycles);
-	}
-	
-	/**
-	 * 视图摇动，默认摇动幅度为10，持续时间DEFAULT_ANIMATION_DURATION，重复7次
-	 * @param view
-	 */
-	public static void shake(View view){
-		shake(view, 0.0f, 10.0f, DEFAULT_ANIMATION_DURATION, 7);
-	}
 	
 	/**
 	 * 获取一个旋转动画

@@ -61,12 +61,12 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	private CheckBox flashButton;
 
 	@Override
-	protected boolean isRemoveTitleBar() {
+	public boolean isRemoveTitleBar() {
 		return true;
 	}
 
 	@Override
-	protected boolean isFullScreen() {
+	public boolean isRemoveStatusBar() {
 		return true;
 	}
 	
