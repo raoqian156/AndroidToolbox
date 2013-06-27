@@ -404,7 +404,11 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 		/**
 		 * 加载中到正常
 		 */
-		LOADING_TO_NORMAL;
+		LOADING_TO_NORMAL,
+		/**
+		 * 正常到加载中
+		 */
+		NORMAL_TO_LOADING;
 	}
 	
 	/**

@@ -66,6 +66,7 @@ public class CustomListActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTabHost), SlideTabHostActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slidingToggleButton), SlidingToggleButtonActivity.class));
+		activityItemList.add(new ActivityItem("下拉刷新列表2", SuperListViewActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}

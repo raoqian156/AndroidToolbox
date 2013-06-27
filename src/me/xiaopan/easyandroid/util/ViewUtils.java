@@ -20,6 +20,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -191,5 +192,31 @@ public class ViewUtils {
 	public static final void setEditTextSelectionToEnd(EditText editText){
 		Editable editable = editText.getEditableText();
 		Selection.setSelection((Spannable) editable, editable.toString().length());
+	}
+	
+	/**
+	 * 获取一个视图的测试高度
+	 * @param view
+	 * @return
+	 */
+	public static final int getViewMeasureHeight(View view){
+		ViewGroup.LayoutParams p = view.getLayoutParams();
+	    if (p == null) {
+	        p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+	    }
+	 
+	    int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
+	    int lpHeight = p.height;
+	    int childHeightSpec;
+	    if (lpHeight > 0) {
+	        childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight,
+	                MeasureSpec.EXACTLY);
+	    } else {
+	        childHeightSpec = MeasureSpec.makeMeasureSpec(0,
+	                MeasureSpec.UNSPECIFIED);
+	    }
+	    view.measure(childWidthSpec, childHeightSpec);
+	    
+	    return view.getMeasuredHeight();
 	}
 }
