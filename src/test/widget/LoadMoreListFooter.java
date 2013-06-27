@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.xiaopan.easyandroid.widget;
+package test.widget;
 
+import me.xiaopan.easyandroid.widget.superlist.BaseLoadMoreListFooter;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class MyClickLoadListFooter extends AbstractClickLoadListFooter{
+public class LoadMoreListFooter extends BaseLoadMoreListFooter{
 	private ProgressBar progressBar;
 	private TextView textView;
 	private ClickLoadListener onLoadListener;
 
-	public MyClickLoadListFooter(Context context) {
+	public LoadMoreListFooter(Context context) {
 		super(context);
 		init();
 	}
@@ -52,7 +53,7 @@ public class MyClickLoadListFooter extends AbstractClickLoadListFooter{
 	}
 	
 	@Override
-	public void startLoad(){
+	public void onLoadingState(){
 		textView.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
 		if(onLoadListener != null){
@@ -61,7 +62,7 @@ public class MyClickLoadListFooter extends AbstractClickLoadListFooter{
 	}
 
 	@Override
-	public void finishLoad() {
+	public void onNormalState() {
 		intoNormalState();
 	}
 	
@@ -69,7 +70,7 @@ public class MyClickLoadListFooter extends AbstractClickLoadListFooter{
 		/**
 		 * 当开始加载
 		 */
-		public void onStartLoad(AbstractClickLoadListFooter clickLoadListFooter);
+		public void onStartLoad(BaseLoadMoreListFooter clickLoadListFooter);
 	}
 
 	public ClickLoadListener getOnLoadListener() {

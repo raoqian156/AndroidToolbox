@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.util.AndroidLogger;
-import me.xiaopan.easyandroid.widget.superlist.PulldownRefreshListHeader;
 import me.xiaopan.easyandroid.widget.superlist.SuperListView;
+import me.xiaopan.easyandroid.widget.superlist.SuperListView.OnLoadMoreListener;
 import me.xiaopan.easyandroid.widget.superlist.SuperListView.OnRefreshListener;
 import me.xiaopan.easyjava.util.DateTimeUtils;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
+import test.widget.LoadMoreListFooter;
+import test.widget.PulldownRefreshListHeader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -48,10 +49,10 @@ public class SuperListViewActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitListener(Bundle savedInstanceState) {
+		superListView.setPulldownRefershListHeader(new PulldownRefreshListHeader(getBaseContext()));
 		superListView.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				AndroidLogger.w("触发了");
 				new AsyncTask<String, String, String>() {
 					@Override
 					protected String doInBackground(String... params) {
@@ -75,11 +76,37 @@ public class SuperListViewActivity extends MyBaseActivity {
 				}.execute("");
 			}
 		});
+		
+		superListView.setLoadMoreListFooter(new LoadMoreListFooter(getBaseContext()));
+		superListView.setOnLoadMoreListener(new OnLoadMoreListener() {
+			@Override
+			public void onLoadMore() {
+				new AsyncTask<String, String, String>() {
+					@Override
+					protected String doInBackground(String... params) {
+						try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(String result) {
+						for(String string : getContents()){
+							contents.add(string);
+						}
+						simpleAdapter.notifyDataSetChanged();
+						superListView.finishLoadMore();
+					}
+				}.execute("");
+			}
+		});
 	}
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		superListView.setPulldownRefershListHeader(new PulldownRefreshListHeader(getBaseContext()));
 		contents = new ArrayList<String>();
 		for(String string : getContents()){
 			contents.add(string);

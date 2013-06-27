@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.AbstractClickLoadListFooter;
 import me.xiaopan.easyandroid.widget.MyClickLoadListFooter2.ClickLoadListener;
+import me.xiaopan.easyandroid.widget.superlist.BaseLoadMoreListFooter;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
 import test.widget.MyClickLoadListView2;
@@ -52,7 +52,7 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 	public void onInitListener(Bundle savedInstanceState) {
 		pullListView.setOnLoadListener(new ClickLoadListener() {
 			@Override
-			public void onStartLoad(final AbstractClickLoadListFooter clickLoadListFooter) {
+			public void onStartLoad(final BaseLoadMoreListFooter clickLoadListFooter) {
 				new AsyncTask<Integer, Integer, Integer>(){
 					@Override
 					protected void onPreExecute() {
@@ -72,7 +72,7 @@ public class ClickLoadMoreListActivity extends MyBaseActivity {
 					@Override
 					protected void onPostExecute(Integer result) {
 						toastS("加载完成");
-						clickLoadListFooter.finishLoad();
+						clickLoadListFooter.onNormalState();
 					}
 				}.execute(0);
 			}

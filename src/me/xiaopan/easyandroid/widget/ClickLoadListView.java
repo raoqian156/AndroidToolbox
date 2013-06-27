@@ -16,6 +16,7 @@
 package me.xiaopan.easyandroid.widget;
 
 import me.xiaopan.easyandroid.util.AndroidLogger;
+import me.xiaopan.easyandroid.widget.superlist.BaseLoadMoreListFooter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,7 +30,7 @@ import android.widget.ListView;
 public class ClickLoadListView extends ListView {
 	private boolean isShow;
 	private int lineNumber = -1;
-	private AbstractClickLoadListFooter clickLoadListFooter;
+	private BaseLoadMoreListFooter clickLoadListFooter;
 
 	public ClickLoadListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -62,7 +63,7 @@ public class ClickLoadListView extends ListView {
 						if(lineNumber < 0){
 							if(getLastVisiblePosition() == totalItemCount - 2 - getFooterViewsCount()){
 								lineNumber = getLastVisiblePosition();
-								clickLoadListFooter.startLoad();
+								clickLoadListFooter.onLoadingState();
 							}
 						}else{
 							//滚回去了
@@ -84,11 +85,11 @@ public class ClickLoadListView extends ListView {
 		super.setAdapter(adapter);
 	}
 
-	public AbstractClickLoadListFooter getClickLoadListFooter() {
+	public BaseLoadMoreListFooter getClickLoadListFooter() {
 		return clickLoadListFooter;
 	}
 
-	public void setClickLoadListFooter(AbstractClickLoadListFooter clickLoadListFooter) {
+	public void setClickLoadListFooter(BaseLoadMoreListFooter clickLoadListFooter) {
 		this.clickLoadListFooter = clickLoadListFooter;
 	}
 }

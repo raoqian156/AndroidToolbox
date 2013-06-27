@@ -1,6 +1,7 @@
-package me.xiaopan.easyandroid.widget.superlist;
+package test.widget;
 
 import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.superlist.BasePulldownRefershListHeader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

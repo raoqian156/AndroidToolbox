@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.xiaopan.easyandroid.widget;
+package me.xiaopan.easyandroid.widget.superlist;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 
-public abstract class AbstractClickLoadListFooter  extends LinearLayout{
-	public AbstractClickLoadListFooter(Context context) {
+/**
+ * 点击加载更多列表尾
+ */
+public abstract class BaseLoadMoreListFooter  extends LinearLayout{
+	public BaseLoadMoreListFooter(Context context) {
 		super(context);
 	}
 	
 	/**
-	 * 当开始加载
+	 * 当进入加载状态
 	 */
-	public abstract void startLoad();
+	public abstract void onLoadingState();
+	
 	/**
-	 * 当完成加载
+	 * 当恢复到正常状态
 	 */
-	public abstract void finishLoad();
+	public abstract void onNormalState();
 }

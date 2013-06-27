@@ -1,10 +1,12 @@
 package me.xiaopan.easyandroid.widget.superlist;
 
+import me.xiaopan.easyandroid.util.AndroidLogger;
 import me.xiaopan.easyandroid.widget.AbsPullListHeaderAndFoooter.State;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -16,14 +18,18 @@ import android.widget.Scroller;
  * 这是一个超级ListView，支持下拉刷新和滚动到底部自动加载更多
  */
 public class SuperListView extends ListView implements OnScrollListener, GestureDetector.OnGestureListener{
-	public static final int ROLLBACK_DURATION = 300;//回滚持续时间
-	private boolean init;
+	public static int rollbackDuration = 300;	//回滚持续时间
+	private boolean init;	//表示此时是初始化，用来替代ListView的OnScrollListener
+	private boolean pulldown;	//标记滑动动作的方式，true：下拉；false：上拉
+	private boolean isShow;
+	private int lineNumber = -1;
 	private Scroller rollBackScroller;//回滚滚动器
-	private GestureDetector gestureDetector;
-	private OnScrollListener onScrollListener;
-	private BasePulldownRefershListHeader pulldownRefershListHeader;
-	private boolean pulldown;
-	private OnRefreshListener onRefreshListener; 
+	private GestureDetector gestureDetector;	//手势识别器
+	private OnScrollListener onScrollListener;	//滚动监听器，用来实现滚动到底部自动加载更多功能
+	private BasePulldownRefershListHeader pulldownRefershListHeader;	//下拉刷新列表头
+	private BaseLoadMoreListFooter loadMoreListFooter;
+	private OnRefreshListener onRefreshListener;	//刷新监听器
+	private OnLoadMoreListener onLoadMoreListener;	//加载更多监听器
 	
 	public SuperListView(Context context) {
 		super(context);
@@ -91,7 +97,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 */
 	private void tryRollbackPulldownRefreshListHeader(int begainHeight, int endHeight){
 		if(begainHeight != endHeight){
-			rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, ROLLBACK_DURATION);
+			rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, rollbackDuration);
 			invalidate();
 		}
 	}
@@ -135,6 +141,15 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	}
 	
 	/**
+	 * 完成加载更多
+	 */
+	public void finishLoadMore(){
+		if(loadMoreListFooter != null){
+			loadMoreListFooter.onNormalState();
+		}
+	}
+	
+	/**
 	 * 开启刷新
 	 */
 	public void startRefresh(){
@@ -161,6 +176,11 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 		if(pulldownRefershListHeader != null){
 			addHeaderView(pulldownRefershListHeader);
 		}
+		
+		//添加加载更多列表尾
+		if(loadMoreListFooter != null){
+			addFooterView(loadMoreListFooter);
+		}
 		super.setAdapter(adapter);
 	}
 
@@ -173,6 +193,28 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if(loadMoreListFooter !=null){
+			//如果列表没有充满，就隐藏点击加载更多列表尾，否则显示
+			loadMoreListFooter.setVisibility((isShow = visibleItemCount != totalItemCount)?View.VISIBLE:View.GONE);
+			if(isShow){
+				AndroidLogger.e("lineNumber="+lineNumber);
+				if(lineNumber < 0){
+					if(getLastVisiblePosition() == totalItemCount - 1 - getFooterViewsCount()){
+						lineNumber = getLastVisiblePosition();
+						loadMoreListFooter.onLoadingState();
+						if(onLoadMoreListener != null){
+							onLoadMoreListener.onLoadMore();
+						}
+					}
+				}else{
+					//滚回去了
+					if(getLastVisiblePosition() < lineNumber){
+						lineNumber = -1;
+					}
+				}
+			}
+		}
+		
 		if(onScrollListener != null){
 			onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
 		}
@@ -236,8 +278,18 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 		this.onRefreshListener = onRefreshListener;
 	}
 
-	public interface OnRefreshListener{
-		public void onRefresh();
+	/**
+	 * @return the onLoadMoreListener
+	 */
+	public OnLoadMoreListener getOnLoadMoreListener() {
+		return onLoadMoreListener;
+	}
+
+	/**
+	 * @param onLoadMoreListener the onLoadMoreListener to set
+	 */
+	public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+		this.onLoadMoreListener = onLoadMoreListener;
 	}
 
 	/**
@@ -253,5 +305,39 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	public void setPulldownRefershListHeader(
 			BasePulldownRefershListHeader pulldownRefershListHeader) {
 		this.pulldownRefershListHeader = pulldownRefershListHeader;
+	}
+
+	/**
+	 * @return the clickLoadListFooter
+	 */
+	public BaseLoadMoreListFooter getLoadMoreListFooter() {
+		return loadMoreListFooter;
+	}
+
+	/**
+	 * @param loadMoreListFooter the clickLoadListFooter to set
+	 */
+	public void setLoadMoreListFooter(BaseLoadMoreListFooter loadMoreListFooter) {
+		this.loadMoreListFooter = loadMoreListFooter;
+	}
+
+	/**
+	 * 刷新监听器
+	 */
+	public interface OnRefreshListener{
+		/**
+		 * 当需要刷新时回调此方法，刷新完成之后执行finishRefresh()方法即可
+		 */
+		public void onRefresh();
+	}
+	
+	/**
+	 * 加载更多监听器
+	 */
+	public interface OnLoadMoreListener{
+		/**
+		 * 当需要家在更多时回调此方法，加载完成之后执行finishLoadMore()方法即可
+		 */
+		public void onLoadMore();
 	}
 }

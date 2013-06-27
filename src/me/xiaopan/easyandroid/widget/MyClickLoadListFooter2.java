@@ -15,12 +15,13 @@
  */
 package me.xiaopan.easyandroid.widget;
 
+import me.xiaopan.easyandroid.widget.superlist.BaseLoadMoreListFooter;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 
-public class MyClickLoadListFooter2 extends AbstractClickLoadListFooter{
+public class MyClickLoadListFooter2 extends BaseLoadMoreListFooter{
 	private ProgressBar progressBar;
 	private ClickLoadListener onLoadListener;
 
@@ -46,7 +47,7 @@ public class MyClickLoadListFooter2 extends AbstractClickLoadListFooter{
 	}
 	
 	@Override
-	public void startLoad(){
+	public void onLoadingState(){
 		progressBar.setVisibility(View.VISIBLE);
 		if(onLoadListener != null){
 			onLoadListener.onStartLoad(this);
@@ -54,7 +55,7 @@ public class MyClickLoadListFooter2 extends AbstractClickLoadListFooter{
 	}
 
 	@Override
-	public void finishLoad() {
+	public void onNormalState() {
 		intoNormalState();
 	}
 	
@@ -62,7 +63,7 @@ public class MyClickLoadListFooter2 extends AbstractClickLoadListFooter{
 		/**
 		 * 当开始加载
 		 */
-		public void onStartLoad(AbstractClickLoadListFooter clickLoadListFooter);
+		public void onStartLoad(BaseLoadMoreListFooter clickLoadListFooter);
 	}
 
 	public ClickLoadListener getOnLoadListener() {

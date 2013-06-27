@@ -16,22 +16,21 @@
 package test.widget;
 
 import me.xiaopan.easyandroid.widget.ClickLoadListView;
-import me.xiaopan.easyandroid.widget.MyClickLoadListFooter;
-import me.xiaopan.easyandroid.widget.MyClickLoadListFooter.ClickLoadListener;
+import test.widget.LoadMoreListFooter.ClickLoadListener;
 import android.content.Context;
 import android.util.AttributeSet;
 
 public class MyClickLoadListView extends ClickLoadListView {
-	private MyClickLoadListFooter clickLoadListView;
+	private LoadMoreListFooter clickLoadListView;
 		
 	public MyClickLoadListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		setClickLoadListFooter(clickLoadListView = new MyClickLoadListFooter(getContext()));
+		setClickLoadListFooter(clickLoadListView = new LoadMoreListFooter(getContext()));
 	}
 
 	public MyClickLoadListView(Context context) {
 		super(context);
-		setClickLoadListFooter(clickLoadListView = new MyClickLoadListFooter(getContext()));
+		setClickLoadListFooter(clickLoadListView = new LoadMoreListFooter(getContext()));
 	}
 
 	public ClickLoadListener getOnLoadListener() {
