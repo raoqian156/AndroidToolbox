@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.xiaopan.easyandroid.widget.superlist;
+package me.xiaopan.easyandroid.widget;
 
 import android.content.Context;
 import android.view.View;
@@ -29,6 +29,7 @@ public abstract class BaseLoadMoreListFooter  extends LinearLayout{
 	
 	public BaseLoadMoreListFooter(Context context) {
 		super(context);
+		setClickable(true);
 		setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
 		addView(contentView = onGetContentView(), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		toggleToNormalState();

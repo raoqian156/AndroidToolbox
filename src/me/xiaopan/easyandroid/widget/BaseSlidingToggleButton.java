@@ -214,7 +214,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 			//先经过手势识别器的处理
 			gestureDetector.onTouchEvent(event);
 			
-			//如果当前事件使弹起或者取消
+			//如果当前事件是弹起或者取消
 			if(event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP){
 				//如果之前发生了按下事件，那么此时一定要恢复显示的滑块图片为正常状态时的图片
 				if(down){
@@ -226,9 +226,9 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 				if(needHandle){
 					//如果本次滚动的距离超过的最小生效距离，就切换状态，否则就回滚
 					if(Math.abs(scrollDistanceCount) >= MIN_ROLLING_DISTANCE){
-						setChecked(scrollDistanceCount > 0, currentLeft, DURATION, false);
+						setChecked(scrollDistanceCount > 0, currentLeft, DURATION, false, false);
 					}else{
-						setChecked(isChecked(), currentLeft, DURATION, false);
+						setChecked(isChecked(), currentLeft, DURATION, false, true);
 					}
 					needHandle = false;
 				}
@@ -280,7 +280,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		needHandle = false;//标记在弹起或取消时不再处理
-		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION, false);//根据前后两次X坐标的大小，判断接下来谁要切换为开启状态还是关闭状态
+		setChecked(e2.getX() < e1.getX(), currentLeft, DURATION, false, false);//根据前后两次X坐标的大小，判断接下来谁要切换为开启状态还是关闭状态
 		return true;
 	}
 
@@ -328,10 +328,11 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 	 * @param isChecked 开启还是关闭
 	 * @param startX 开始滚动的位置
 	 * @param duration 持续时间
-	 * @param 是否是默认值
+	 * @param isDefaultValue 是否是默认值
+	 * @param isRollback 是否是回滚的
 	 */
-	private void setChecked(boolean isChecked, int startX, int duration, boolean isDefaultValue){
-		if(this.checked != isChecked){
+	private void setChecked(boolean isChecked, int startX, int duration, boolean isDefaultValue, boolean isRollback){
+		if(isRollback || this.checked != isChecked){
 			this.checked = isChecked;
 			//如果是要开启
 			if(isChecked()){
@@ -339,9 +340,11 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 			}else{
 				scroll(startX, uncheckedLeft, isDefaultValue?0:duration);
 			}
-			//调用选中状态改变回调
-			if(onCheckedChanageListener != null && !isDefaultValue){
-				onCheckedChanageListener.onCheckedChanage(this, isChecked());
+			if(!isRollback){
+				//调用选中状态改变回调
+				if(onCheckedChanageListener != null && !isDefaultValue){
+					onCheckedChanageListener.onCheckedChanage(this, isChecked());
+				}
 			}
 		}
 	}
@@ -357,7 +360,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 			pendingSetState = true;
 			pendingChecked = isChecked;
 		}else{
-			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, duration, false);
+			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, duration, false, false);
 		}
 	}
 	
@@ -379,7 +382,7 @@ public abstract class BaseSlidingToggleButton extends View implements OnGestureL
 			pendingSetState = true;
 			pendingChecked = isChecked;
 		}else{
-			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, 0, true);
+			setChecked(isChecked, isChecked?uncheckedLeft:checkedLeft, 0, true, false);
 		}
 	}
 	

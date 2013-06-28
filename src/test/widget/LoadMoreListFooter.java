@@ -15,36 +15,24 @@
  */
 package test.widget;
 
-import me.xiaopan.easyandroid.widget.superlist.BaseLoadMoreListFooter;
+import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.BaseLoadMoreListFooter;
 import android.content.Context;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+/**
+ * 加载更多列表尾
+ */
 public class LoadMoreListFooter extends BaseLoadMoreListFooter{
-	private ProgressBar progressBar;
-	private TextView textView;
-
 	public LoadMoreListFooter(Context context) {
 		super(context);
 	}
 
 	@Override
 	public View onGetContentView() {
-		LinearLayout linearLayout = new LinearLayout(getContext());
-		linearLayout.setPadding(20, 20, 20, 20);
-		linearLayout.setGravity(Gravity.CENTER);
-		
-		progressBar = new ProgressBar(getContext());
-		linearLayout.addView(progressBar);
-		
-		textView = new TextView(getContext());
-		textView.setText("正在加载下一页，请稍后");
-		linearLayout.addView(textView);
-		
-		return linearLayout;
+		return (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.list_footer_load_more, null);
 	}
 	
 	@Override

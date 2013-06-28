@@ -7,11 +7,8 @@
     <string name="activityTitle_customList">自定义视图</string>
     <string name="activityTitle_customEditText">自定义文本编辑器</string>
     <string name="activityTitle_picturePlayer">自动播放画廊</string>
-    <string name="activityTitle_reboundList">反弹列表</string>
-    <string name="activityTitle_pullDownRefreshList">下拉刷新列表</string>
-    <string name="activityTitle_pullUpLoadMoreList">上拉加载更多列表</string>
-    <string name="activityTitle_pullDownAndUpList">下拉刷新和上拉加载更多列表</string>
-    <string name="activityTitle_pullDownRefreshAndClickLoadMoreList">下拉刷新和点击加载更多列表</string>
+    <string name="activityTitle_reboundListView">反弹列表</string>
+    <string name="activityTitle_superListView">下拉刷新列表（滚到底部自动加载更多）</string>
     <string name="activityTitle_slideTabHost">滑动选项卡</string>
 	<string name="activityTitle_slidingToggleButton">滑动开关按钮</string>
 	<string name="activityTitle_graphicsList">图形</string>

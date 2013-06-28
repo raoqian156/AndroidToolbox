@@ -15,9 +15,6 @@
  */
 package test.activity.custom;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.PullListView;
 import test.MyBaseActivity;
@@ -29,8 +26,6 @@ import android.widget.Button;
 
 /**
  * 反弹列表
- * @author xiaopan
- *
  */
 public class ReboundListActivity extends MyBaseActivity {
 	private PullListView pullListView;
@@ -57,12 +52,7 @@ public class ReboundListActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		List<String> contents = new ArrayList<String>();
-		for(String string : PullDownRefreshListActivity.getContents()){
-			contents.add(string);
-		}
-		pullListView.setAdapter(textAdapter = new SimpleAdapter(getBaseContext(), contents));
-		
+		pullListView.setAdapter(textAdapter = new SimpleAdapter(getBaseContext(), SuperListViewActivity.getStringsByCurrentDate(30)));
 		handleButton(true);
 	}
 	

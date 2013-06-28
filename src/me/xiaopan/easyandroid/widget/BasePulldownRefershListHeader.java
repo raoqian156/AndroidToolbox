@@ -1,4 +1,4 @@
-package me.xiaopan.easyandroid.widget.superlist;
+package me.xiaopan.easyandroid.widget;
 
 import me.xiaopan.easyandroid.util.ViewUtils;
 import android.content.Context;
@@ -16,6 +16,7 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 	
 	public BasePulldownRefershListHeader(Context context) {
 		super(context);
+		setClickable(true);
 		setOrientation(LinearLayout.HORIZONTAL);	//设置流向
 		setGravity(Gravity.BOTTOM);	//让内容居于底部
 		state = State.NORMAL;	//初始化状态
@@ -57,7 +58,8 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 			}
 		}else if(state == State.NORMAL_TO_REFRESHING){									//如果正处于由正常状态直接变为刷新中状态
 			if(newHeight >= contentViewHeight){													//如果新的高度大于原始高度，说明是要从正常状态进入准备刷新状态了
-				toggleToRefreshingState();
+				setState(State.REFRESHING);
+				onNormalToRefreshingState();
 			}
 		}
 	}
@@ -71,11 +73,11 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 	}
 	
 	/**
-	 * 切换到刷新中状态
+	 * 由准备刷新变为刷新中状态
 	 */
-	public void toggleToRefreshingState(){
+	public void readyRefreshToRefreshingState(){
 		setState(State.REFRESHING);
-		onToggleToRefreshingState();
+		onReadyRefreshToRefresingState();
 	}
 	
 	/**
@@ -108,16 +110,31 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 	 * 由准备刷新状态变为正常状态
 	 */
 	public abstract void onReadyRefreshToNormalState();
-
+	
 	/**
-	 * 切换到刷新中状态
+	 * 由准备刷新状态变为刷新中状态
 	 */
-	public abstract void onToggleToRefreshingState();
+	public abstract void onReadyRefreshToRefresingState();
 	
 	/**
 	 * 由刷新中状态变为正常状态
 	 */
 	public abstract void onRefreshingToNormalState();
+	
+	/**
+	 * 由正常状态变为刷新中状态
+	 */
+	public abstract void onNormalToRefreshingState();
+	
+	/**
+	 * 切换到正常状态
+	 */
+	public abstract void onToggleToNormalState();
+
+	/**
+	 * 切换到刷新中状态
+	 */
+	public abstract void onToggleToRefreshingState();
 
 	/**
 	 * 获取状态

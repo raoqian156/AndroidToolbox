@@ -1,7 +1,7 @@
 package test.widget;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.superlist.BasePulldownRefershListHeader;
+import me.xiaopan.easyandroid.widget.BasePulldownRefershListHeader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+/**
+ * 下拉刷新列表头
+ */
 public class PulldownRefreshListHeader extends BasePulldownRefershListHeader {
 	private ImageView imageView;
 	private TextView refreshHintText;
@@ -24,10 +27,29 @@ public class PulldownRefreshListHeader extends BasePulldownRefershListHeader {
 	@Override
 	public View onGetContentView() {
 		LinearLayout contentView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.list_header_pull_down_refresh, null);
-		imageView = (ImageView) contentView.findViewById(R.id.refreshHeader_image);
-		refreshHintText = (TextView) contentView.findViewById(R.id.refreshHeader_text_refreshHint);
-		progressBar = (ProgressBar) contentView.findViewById(R.id.refreshHeader_progressBar);
+		imageView = (ImageView) contentView.findViewById(R.id.image_refreshHeader_arrow);
+		refreshHintText = (TextView) contentView.findViewById(R.id.text_refreshHeader_refreshHint);
+		progressBar = (ProgressBar) contentView.findViewById(R.id.progressBar_refreshHeader);
+		onToggleToNormalState();
 		return contentView;
+	}
+	
+	@Override
+	public void onToggleToNormalState() {
+		imageView.setVisibility(View.VISIBLE);
+		imageView.setImageResource(R.drawable.icon_pull_down);
+		progressBar.setVisibility(View.INVISIBLE);
+		refreshHintText.setText("下拉刷新");
+		invalidate();
+	}
+	
+	@Override
+	public void onToggleToRefreshingState() {
+		progressBar.setVisibility(View.VISIBLE);
+		imageView.setVisibility(View.INVISIBLE);
+		imageView.setImageDrawable(null);
+		refreshHintText.setText("正在刷新，请稍后...");
+		invalidate();
 	}
 
 	@Override
@@ -38,7 +60,7 @@ public class PulldownRefreshListHeader extends BasePulldownRefershListHeader {
 		rotateAnimation.setDuration(400);
 		imageView.startAnimation(rotateAnimation);
 		
-		refreshHintText.setText("现在松开即可刷新");
+		refreshHintText.setText("松开刷新");
 	}
 
 	@Override
@@ -53,23 +75,17 @@ public class PulldownRefreshListHeader extends BasePulldownRefershListHeader {
 	}
 	
 	@Override
-	public void onToggleToRefreshingState() {
-		imageView.clearAnimation();
-		imageView.setImageDrawable(null);
-
-		progressBar.setVisibility(View.VISIBLE);
-		
-		refreshHintText.setText("正在刷新，请稍后...");
+	public void onReadyRefreshToRefresingState() {
+		onToggleToRefreshingState();
+	}
+	
+	@Override
+	public void onNormalToRefreshingState() {
+		onToggleToRefreshingState();
 	}
 
 	@Override
 	public void onRefreshingToNormalState() {
-		imageView.clearAnimation();
-		imageView.setImageResource(R.drawable.icon_pull_down);
-		imageView.setVisibility(View.VISIBLE);
-
-		progressBar.setVisibility(View.GONE);
-		
-		refreshHintText.setText("下拉刷新");
+		onToggleToNormalState();
 	}
 }

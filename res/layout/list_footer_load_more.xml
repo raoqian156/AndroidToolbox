@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/base_match_wrap" android:gravity="center" android:padding="@dimen/base_padding_specialLarge">
+	<ProgressBar 
+	    android:layout_width="30dp" 
+	    android:layout_height="30dp"
+	    android:id="@+id/progressBar_loadMoreListFooter"/>
+	<TextView 
+	    style="@style/text" 
+	    android:id="@+id/text_loadMoreListFooter_loadHint" 
+	    android:text="正在加载下一页，请稍后…" 
+	    android:layout_marginLeft="@dimen/base_margin_specialLarge" />
+</LinearLayout>

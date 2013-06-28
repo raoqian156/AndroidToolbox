@@ -23,7 +23,7 @@ import me.xiaopan.easyandroid.widget.AbsPullDownRefreshListHeader.PullDownRefres
 import me.xiaopan.easyandroid.widget.AbsPullListHeaderAndFoooter.OnStateChangeListener;
 import me.xiaopan.easyandroid.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreFinishListener;
 import me.xiaopan.easyandroid.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreListener;
-import me.xiaopan.easyandroid.widget.superlist.BasePulldownRefershListHeader.State;
+import me.xiaopan.easyandroid.widget.BasePulldownRefershListHeader.State;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -89,6 +89,8 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 		//标记为初始化开始
 		init = true;
 		setOnScrollListener(pullScrollListener = new PullScrollListener(this));
+		openListHeaderReboundMode();//打开列表头反弹模式
+		openListFooterReboundMode();//打开列表尾反弹模式
 	}
 
 	@Override

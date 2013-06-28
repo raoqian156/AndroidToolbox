@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.superlist.SuperListView;
-import me.xiaopan.easyandroid.widget.superlist.SuperListView.OnLoadMoreListener;
-import me.xiaopan.easyandroid.widget.superlist.SuperListView.OnRefreshListener;
+import me.xiaopan.easyandroid.widget.SuperListView;
+import me.xiaopan.easyandroid.widget.SuperListView.OnLoadMoreListener;
+import me.xiaopan.easyandroid.widget.SuperListView.OnRefreshListener;
 import me.xiaopan.easyjava.util.DateTimeUtils;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;

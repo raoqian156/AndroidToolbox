@@ -16,7 +16,7 @@
 package me.xiaopan.easyandroid.widget;
 
 import me.xiaopan.easyandroid.util.ViewUtils;
-import me.xiaopan.easyandroid.widget.superlist.BasePulldownRefershListHeader.State;
+import me.xiaopan.easyandroid.widget.BasePulldownRefershListHeader.State;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;

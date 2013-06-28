@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  style="@style/base_match_wrap" android:gravity="bottom" >
-	<LinearLayout 
-	    style="@style/base_match_wrap" 
-	    android:layout_height="@dimen/pull_height"  
-	    android:gravity="center" 
-	    android:padding="@dimen/base_padding_large">
-		<RelativeLayout style="@style/base_match_match">
-		    <TextView style="@style/text" android:id="@+id/refreshHeader_text_refreshHint" android:text="@string/hint_pullDownRefersh" android:layout_centerInParent="true"/>
-			<FrameLayout style="@style/base_wrap_wrap" android:layout_alignLeft="@id/refreshHeader_text_refreshHint">
-				<ImageView
-				    style="@style/base_wrap_wrap" 
-				    android:id="@+id/refreshHeader_image" 
-				    android:src="@drawable/icon_pull_down" 
-				    android:visibility="visible"
-				    android:layout_marginLeft="-40dp" 
-				    android:layout_centerVertical="true" 
-				    android:layout_alignLeft="@id/refreshHeader_text_refreshHint"
-				    android:contentDescription="@string/base_image_contentDescription"/>
-				<ProgressBar 
-				    android:id="@+id/refreshHeader_progressBar" 
-	            	android:layout_width="30dp"
-	            	android:layout_height="30dp"
-				    android:visibility="gone"
-				    android:layout_marginLeft="-40dp" 
-				    android:layout_centerVertical="true" 
-				    />
-			</FrameLayout>
-		</RelativeLayout>
-	</LinearLayout>
+	<RelativeLayout android:layout_width="match_parent" android:layout_height="65dp">
+	    <TextView 
+	        style="@style/text" 
+	        android:id="@+id/text_refreshHeader_refreshHint" 
+	        android:text="@string/hint_pullDownRefersh" 
+	        android:layout_centerInParent="true"/>
+		<ImageView 
+		    style="@style/base_wrap_wrap" 
+		    android:id="@+id/image_refreshHeader_arrow" 
+		    android:src="@drawable/icon_pull_down" 
+		    android:layout_alignLeft="@id/text_refreshHeader_refreshHint" 
+		    android:layout_marginLeft="-40dp"  
+		    android:layout_centerVertical="true"
+		    android:contentDescription="@string/base_image_contentDescription"/>
+		<ProgressBar 
+		    android:id="@+id/progressBar_refreshHeader" 
+		    android:layout_width="30dp" 
+		    android:layout_height="30dp"
+		    android:layout_alignLeft="@id/text_refreshHeader_refreshHint" 
+		    android:layout_marginLeft="-40dp"  
+		    android:layout_centerVertical="true" />
+	</RelativeLayout>
 </LinearLayout>

@@ -49,14 +49,10 @@
        	<activity android:name="test.activity.custom.CustomEditTextActivity" android:label="@string/activityTitle_customEditText"/>
     	<activity android:name="test.activity.custom.CustomListActivity" android:label="@string/activityTitle_customList"/>
        	<activity android:name="test.activity.custom.PicturePlayerActivity" android:label="@string/activityTitle_picturePlayer"/>
-       	<activity android:name="test.activity.custom.ReboundListActivity" android:label="@string/activityTitle_reboundList"/>
-       	<activity android:name="test.activity.custom.PullDownRefreshListActivity" android:label="@string/activityTitle_pullDownRefreshList"/>
-       	<activity android:name="test.activity.custom.PullUpLoadMoreListActivity" android:label="@string/activityTitle_pullUpLoadMoreList"/>
-       	<activity android:name="test.activity.custom.PullDownAndUpActivity" android:label="@string/activityTitle_pullDownAndUpList"/>
-       	<activity android:name="test.activity.custom.PullDownRefreshAndClickLoadMoreActivity" android:label="@string/activityTitle_pullDownRefreshAndClickLoadMoreList"/>
+       	<activity android:name="test.activity.custom.ReboundListActivity" android:label="@string/activityTitle_reboundListView"/>
        	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/activityTitle_slideTabHost"/>
        	<activity android:name="test.activity.custom.SlidingToggleButtonActivity" android:label="@string/activityTitle_slidingToggleButton"/>
-       	<activity android:name="test.activity.custom.SuperListViewActivity" android:label="下拉刷新列表2"/>
+       	<activity android:name="test.activity.custom.SuperListViewActivity" android:label="@string/activityTitle_superListView"/>
     	<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/activityTitle_cameraPreview"/>
    		<activity android:name="test.activity.graphics.ClipDrawableActivity" android:label="@string/activityTitle_clipDrawable"/>
    		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/activityTitle_graphicsList"/>

@@ -1,4 +1,4 @@
-package me.xiaopan.easyandroid.widget.superlist;
+package me.xiaopan.easyandroid.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -81,7 +81,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 		if(getFirstVisiblePosition() == 0){
 			//如果下拉刷新头正处于准备刷新状态，就进入刷新模式
 			if(pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.READY_REFRESH){
-				pulldownRefershListHeader.toggleToRefreshingState();
+				pulldownRefershListHeader.readyRefreshToRefreshingState();
 				if(onRefreshListener != null){
 					onRefreshListener.onRefresh();
 				}

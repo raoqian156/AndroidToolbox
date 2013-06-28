@@ -56,16 +56,12 @@ public class CustomListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_reboundList), ReboundListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownRefreshList), PullDownRefreshListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullUpLoadMoreList), PullUpLoadMoreListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownAndUpList), PullDownAndUpActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownRefreshAndClickLoadMoreList), PullDownRefreshAndClickLoadMoreActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_reboundListView), ReboundListActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_superListView), SuperListViewActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_picturePlayer), PicturePlayerActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTabHost), SlideTabHostActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slidingToggleButton), SlidingToggleButtonActivity.class));
-		activityItemList.add(new ActivityItem("下拉刷新列表2", SuperListViewActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
