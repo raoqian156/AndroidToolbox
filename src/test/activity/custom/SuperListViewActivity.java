@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.util.AndroidLogger;
 import me.xiaopan.easyandroid.widget.SuperListView;
 import me.xiaopan.easyandroid.widget.SuperListView.OnLoadMoreListener;
 import me.xiaopan.easyandroid.widget.SuperListView.OnRefreshListener;
@@ -52,6 +53,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 		superListView.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
+				AndroidLogger.w("刷新");
 				new AsyncTask<String, String, String>() {
 					@Override
 					protected String doInBackground(String... params) {
@@ -78,6 +80,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 		superListView.setOnLoadMoreListener(new OnLoadMoreListener() {
 			@Override
 			public void onLoadMore() {
+				AndroidLogger.w("加载更多");
 				new AsyncTask<String, String, String>() {
 					@Override
 					protected String doInBackground(String... params) {

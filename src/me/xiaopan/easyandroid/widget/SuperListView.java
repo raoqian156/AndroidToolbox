@@ -15,7 +15,7 @@ import android.widget.Scroller;
 /**
  * 这是一个扩展是ListView，支持下拉刷新和滚动到底部自动加载更多
  */
-public class SuperListView extends ListView implements OnScrollListener, GestureDetector.OnGestureListener{
+public class SuperListView extends ListView implements OnScrollListener, GestureDetector.OnGestureListener, BasePulldownRefershListHeader.OnAllowReadyRefreshListener{
 	public static int rollbackDuration = 300;	//回滚持续时间
 	private int lastTotalItemCount;	//记录总条目数
 	private int boundariesPosition = -1;	//自动加载的边界位置，当滑动到此位置时将会触发加载更多事件
@@ -29,6 +29,8 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	private BaseLoadMoreListFooter loadMoreListFooter;	//加载更多列表尾
 	private OnRefreshListener onRefreshListener;	//刷新监听器
 	private OnLoadMoreListener onLoadMoreListener;	//加载更多监听器
+	private boolean refreshing;
+	private boolean loadMoring;
 	
 	public SuperListView(Context context) {
 		super(context);
@@ -80,11 +82,10 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 		//如果当前是在第一行并且开启了下拉刷新功能
 		if(getFirstVisiblePosition() == 0){
 			//如果下拉刷新头正处于准备刷新状态，就进入刷新模式
-			if(pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.READY_REFRESH){
+			if(onRefreshListener != null && pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.READY_REFRESH){
+				refreshing = true;
 				pulldownRefershListHeader.readyRefreshToRefreshingState();
-				if(onRefreshListener != null){
-					onRefreshListener.onRefresh();
-				}
+				onRefreshListener.onRefresh();
 			}
 			//尝试回滚下拉刷新列表头
 			tryRollbackPulldownRefreshListHeader();
@@ -136,6 +137,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 				pulldownRefershListHeader.updateHeight(pulldownRefershListHeader.getRollbackFinalHeight());
 				invalidate();
 			}
+			refreshing = false;
 		}
 	}
 	
@@ -145,6 +147,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	public void finishLoadMore(){
 		if(loadMoreListFooter != null){
 			loadMoreListFooter.toggleToNormalState();
+			loadMoring = false;
 		}
 	}
 	
@@ -152,7 +155,8 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 * 刷新
 	 */
 	public void refresh(){
-		if(pulldownRefershListHeader != null && pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.NORMAL && onRefreshListener != null){
+		if(pulldownRefershListHeader != null && onRefreshListener != null && pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.NORMAL && !refreshing){
+			refreshing = true;
 			setSelection(0);
 			pulldownRefershListHeader.setState(BasePulldownRefershListHeader.State.NORMAL_TO_REFRESHING);
 			tryRollbackPulldownRefreshListHeader(pulldownRefershListHeader.getContentView().getHeight(), pulldownRefershListHeader.getContentViewHeight());
@@ -164,7 +168,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 * 加载更多
 	 */
 	public void loadMore(){
-		if(loadMoreListFooter != null && loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL && onLoadMoreListener != null && full){
+		if(loadMoreListFooter != null && loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL && onLoadMoreListener != null && full && !loadMoring){
 			loadMoreListFooter.toggleToLoadingState();
 			onLoadMoreListener.onLoadMore();
 			setSelection(getCount() - 1);
@@ -184,6 +188,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	public void setAdapter(ListAdapter adapter) {
 		//添加下拉刷新列表头
 		if(pulldownRefershListHeader != null){
+			pulldownRefershListHeader.setOnAllowReadyRefreshListener(this);
 			addHeaderView(pulldownRefershListHeader);
 		}
 		
@@ -205,12 +210,13 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		//如果开启了加载更多模式
 		if(loadMoreListFooter !=null && onLoadMoreListener != null){
-			loadMoreListFooter.getContentView().setVisibility((full = visibleItemCount != totalItemCount)?View.VISIBLE:View.GONE);	//如果列表没有充满，就隐藏加载更多列表尾，否则显示
+			loadMoreListFooter.getContentView().setVisibility((full = visibleItemCount != totalItemCount) && !refreshOrLoad?View.VISIBLE:View.GONE);	//如果列表没有充满，就隐藏加载更多列表尾，否则显示
 			setFooterDividersEnabled(full);
 			//如果列表充满了
-			if(full){
+			if(full && !refreshOrLoad){
 				if(boundariesPosition == -1){
 					if(getLastVisiblePosition() == totalItemCount - 1 - getFooterViewsCount() && loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL){
+						refreshOrLoad = true;
 						boundariesPosition = getLastVisiblePosition();
 						loadMoreListFooter.toggleToLoadingState();
 						onLoadMoreListener.onLoadMore();
@@ -272,6 +278,11 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		return false;
+	}
+
+	@Override
+	public boolean isAllowReadyRefresh() {
+		return onRefreshListener != null && !refreshing && !loadMoring;
 	}
 	
 	/**

@@ -13,6 +13,7 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 	private int contentViewMinHeight;	//内容最小高度
 	private State state;	//状态
 	private View contentView;	//内容视图
+	private OnAllowReadyRefreshListener onAllowReadyRefreshListener;
 	
 	public BasePulldownRefershListHeader(Context context) {
 		super(context);
@@ -42,7 +43,7 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 		
 		/* 根据当前不同的状态以及新的高度，来做不同的处理 */
 		if(state == State.NORMAL){																			//如果当前状态是正常
-			if(newHeight >= contentViewHeight){													//如果新的高度大于原始高度，说明是要从正常状态进入准备刷新状态了
+			if(newHeight >= contentViewHeight && (onAllowReadyRefreshListener == null || onAllowReadyRefreshListener.isAllowReadyRefresh())){													//如果新的高度大于原始高度，说明是要从正常状态进入准备刷新状态了
 				state = State.READY_REFRESH;																//设置状态为准备刷新
 				onNormalToReadyRefreshState();															//调用相应回调方法修改界面显示
 			}
@@ -201,6 +202,21 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 	}
 
 	/**
+	 * @return the onAllowReadyRefreshListener
+	 */
+	public OnAllowReadyRefreshListener getOnAllowReadyRefreshListener() {
+		return onAllowReadyRefreshListener;
+	}
+
+	/**
+	 * @param onAllowReadyRefreshListener the onAllowReadyRefreshListener to set
+	 */
+	public void setOnAllowReadyRefreshListener(
+			OnAllowReadyRefreshListener onAllowReadyRefreshListener) {
+		this.onAllowReadyRefreshListener = onAllowReadyRefreshListener;
+	}
+
+	/**
 	 * 状态
 	 */
 	public enum State{
@@ -224,5 +240,9 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 		 * 正常到刷新中
 		 */
 		NORMAL_TO_REFRESHING;
+	}
+	
+	public interface OnAllowReadyRefreshListener{
+		public boolean isAllowReadyRefresh();
 	}
 }
