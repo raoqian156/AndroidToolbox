@@ -115,7 +115,7 @@ public class MyPullDownRefreshListHeader extends AbsPullDownRefreshListHeader {
 	
 	@Override
 	protected void onUpdateLastLoadTime(LinearLayout contentView, long lastLoadTime){
-		((TextView) contentView.findViewById(R.id.refreshHeader_text_timeHint)).setText("上次刷新："+DateTimeUtils.getDateTimeFormatByCustomFormat("MM-dd HH:mm").format(new Date(lastLoadTime)));
+//		((TextView) contentView.findViewById(R.id.refreshHeader_text_timeHint)).setText("上次刷新："+DateTimeUtils.getDateTimeFormatByCustomFormat("MM-dd HH:mm").format(new Date(lastLoadTime)));
 	}
 
 	@Override

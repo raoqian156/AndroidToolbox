@@ -60,7 +60,6 @@ public class CustomListActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownRefreshList), PullDownRefreshListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullUpLoadMoreList), PullUpLoadMoreListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownAndUpList), PullDownAndUpActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_clickLoadMoreList), ClickLoadMoreListActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_pullDownRefreshAndClickLoadMoreList), PullDownRefreshAndClickLoadMoreActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_picturePlayer), PicturePlayerActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));

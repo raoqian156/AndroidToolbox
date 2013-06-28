@@ -53,7 +53,6 @@
        	<activity android:name="test.activity.custom.PullDownRefreshListActivity" android:label="@string/activityTitle_pullDownRefreshList"/>
        	<activity android:name="test.activity.custom.PullUpLoadMoreListActivity" android:label="@string/activityTitle_pullUpLoadMoreList"/>
        	<activity android:name="test.activity.custom.PullDownAndUpActivity" android:label="@string/activityTitle_pullDownAndUpList"/>
-       	<activity android:name="test.activity.custom.ClickLoadMoreListActivity" android:label="@string/activityTitle_clickLoadMoreList"/>
        	<activity android:name="test.activity.custom.PullDownRefreshAndClickLoadMoreActivity" android:label="@string/activityTitle_pullDownRefreshAndClickLoadMoreList"/>
        	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/activityTitle_slideTabHost"/>
        	<activity android:name="test.activity.custom.SlidingToggleButtonActivity" android:label="@string/activityTitle_slidingToggleButton"/>

@@ -22,8 +22,6 @@ import android.widget.ListAdapter;
 
 /**
  * 点击加载更多列表
- * @author xiaopan
- *
  */
 public class ClickLoadMoreListView extends PullListView {
 

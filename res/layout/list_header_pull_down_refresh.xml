@@ -4,31 +4,28 @@
 	    style="@style/base_match_wrap" 
 	    android:layout_height="@dimen/pull_height"  
 	    android:gravity="center" 
-	    android:padding="@dimen/base_padding_large" 
-	    android:id="@+id/refreshHeader_layout_body">
+	    android:padding="@dimen/base_padding_large">
 		<RelativeLayout style="@style/base_match_match">
-			<LinearLayout style="@style/base_wrap_wrap_vertical" android:gravity="center" android:id="@+id/refreshHeader_layout_hint" android:layout_centerInParent="true">
-			    <TextView style="@style/text" android:id="@+id/refreshHeader_text_refreshHint" android:text="@string/hint_pullDownRefersh"/>
-			    <TextView style="@style/text" android:id="@+id/refreshHeader_text_timeHint" android:text="@string/hint_firstRefersh"  android:gravity="center" android:minWidth="150dp"/>
-			</LinearLayout>
-			<ImageView
-			    style="@style/base_wrap_wrap" 
-			    android:id="@+id/refreshHeader_image" 
-			    android:src="@drawable/icon_pull_down" 
-			    android:visibility="visible"
-			    android:layout_marginLeft="-40dp" 
-			    android:layout_centerVertical="true" 
-			    android:layout_alignLeft="@id/refreshHeader_layout_hint"
-			    android:contentDescription="@string/base_image_contentDescription"/>
-			<ProgressBar 
-			    android:id="@+id/refreshHeader_progressBar" 
-            	android:layout_width="30dp"
-            	android:layout_height="30dp"
-			    android:visibility="gone"
-			    android:layout_marginLeft="-40dp" 
-			    android:layout_centerVertical="true" 
-			    android:layout_alignLeft="@id/refreshHeader_layout_hint"
-			    />
+		    <TextView style="@style/text" android:id="@+id/refreshHeader_text_refreshHint" android:text="@string/hint_pullDownRefersh" android:layout_centerInParent="true"/>
+			<FrameLayout style="@style/base_wrap_wrap" android:layout_alignLeft="@id/refreshHeader_text_refreshHint">
+				<ImageView
+				    style="@style/base_wrap_wrap" 
+				    android:id="@+id/refreshHeader_image" 
+				    android:src="@drawable/icon_pull_down" 
+				    android:visibility="visible"
+				    android:layout_marginLeft="-40dp" 
+				    android:layout_centerVertical="true" 
+				    android:layout_alignLeft="@id/refreshHeader_text_refreshHint"
+				    android:contentDescription="@string/base_image_contentDescription"/>
+				<ProgressBar 
+				    android:id="@+id/refreshHeader_progressBar" 
+	            	android:layout_width="30dp"
+	            	android:layout_height="30dp"
+				    android:visibility="gone"
+				    android:layout_marginLeft="-40dp" 
+				    android:layout_centerVertical="true" 
+				    />
+			</FrameLayout>
 		</RelativeLayout>
 	</LinearLayout>
 </LinearLayout>

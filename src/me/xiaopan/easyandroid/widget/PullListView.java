@@ -21,9 +21,9 @@ import me.xiaopan.easyandroid.widget.AbsClickLoadMoreListFooter.ClickLoadMoreLis
 import me.xiaopan.easyandroid.widget.AbsPullDownRefreshListHeader.PullDownRefreshFinishListener;
 import me.xiaopan.easyandroid.widget.AbsPullDownRefreshListHeader.PullDownRefreshListener;
 import me.xiaopan.easyandroid.widget.AbsPullListHeaderAndFoooter.OnStateChangeListener;
-import me.xiaopan.easyandroid.widget.AbsPullListHeaderAndFoooter.State;
 import me.xiaopan.easyandroid.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreFinishListener;
 import me.xiaopan.easyandroid.widget.AbsPullUpLoadMoreListFooter.PullUpLoadMoreListener;
+import me.xiaopan.easyandroid.widget.superlist.BasePulldownRefershListHeader.State;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;

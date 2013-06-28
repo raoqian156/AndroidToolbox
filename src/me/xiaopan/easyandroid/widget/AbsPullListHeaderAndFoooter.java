@@ -16,6 +16,7 @@
 package me.xiaopan.easyandroid.widget;
 
 import me.xiaopan.easyandroid.util.ViewUtils;
+import me.xiaopan.easyandroid.widget.superlist.BasePulldownRefershListHeader.State;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -132,7 +133,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 	 */
 	public void intoLoadingState(){
 		//设置状态为正在加载
-		setState(State.LOADING);
+		setState(State.REFRESHING);
 		//调用相应回调方法修改界面显示
 		onReadyLoadToLoadingState(getContentView());
 		//调用相应状态监听器
@@ -150,7 +151,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 	 */
 	public void intoLoadingToNormalState(){
 		//设置状态为由加载中转为正常
-		setState(State.LOADING_TO_NORMAL);
+		setState(State.REFRESHING_TO_NORMAL);
 		//调用相应状态监听器
 		if(getOnStateChangeListener() != null){
 			getOnStateChangeListener().onLoadingToNormalState();
@@ -172,7 +173,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 			//如果新的高度大于原始高度，说明是要从正常状态进入准备加载状态了
 			if(newHeight >= getOriginalHeight()){
 				//设置状态为准备加载
-				setState(State.READY_LOAD);
+				setState(State.READY_REFRESH);
 				//调用相应回调方法修改界面显示
 				onNormalToReadyLoadState(getContentView());
 				//调用相应状态监听器
@@ -253,7 +254,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 	 * @return
 	 */
 	public boolean isReadyLoadState(){
-		return getState() == State.READY_LOAD;
+		return getState() == State.READY_REFRESH;
 	}
 	
 	/**
@@ -261,7 +262,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 	 * @return
 	 */
 	public boolean isLoadingState(){
-		return getState() == State.LOADING;
+		return getState() == State.REFRESHING;
 	}
 	
 	/**
@@ -269,7 +270,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 	 * @return
 	 */
 	public boolean isLoadingToNormalState(){
-		return getState() == State.LOADING_TO_NORMAL;
+		return getState() == State.REFRESHING_TO_NORMAL;
 	}
 	
 	/**
@@ -384,33 +385,6 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 		this.isListHeader = isListHeader;
 	}
 
-	/**
-	 * 状态
-	 * @author xiaopan
-	 */
-	public enum State{
-		/**
-		 * 正常
-		 */
-		NORMAL,
-		/**
-		 * 准备加载
-		 */
-		READY_LOAD,
-		/**
-		 * 加载中
-		 */
-		LOADING,
-		/**
-		 * 加载中到正常
-		 */
-		LOADING_TO_NORMAL,
-		/**
-		 * 正常到加载中
-		 */
-		NORMAL_TO_LOADING;
-	}
-	
 	/**
 	 * 状态改变监听器
 	 * @author xiaopan

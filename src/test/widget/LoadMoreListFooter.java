@@ -19,65 +19,41 @@ import me.xiaopan.easyandroid.widget.superlist.BaseLoadMoreListFooter;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class LoadMoreListFooter extends BaseLoadMoreListFooter{
 	private ProgressBar progressBar;
 	private TextView textView;
-	private ClickLoadListener onLoadListener;
 
 	public LoadMoreListFooter(Context context) {
 		super(context);
-		init();
 	}
-	
-	private void init(){
-		setPadding(20, 20, 20, 20);
-		setGravity(Gravity.CENTER);
+
+	@Override
+	public View onGetContentView() {
+		LinearLayout linearLayout = new LinearLayout(getContext());
+		linearLayout.setPadding(20, 20, 20, 20);
+		linearLayout.setGravity(Gravity.CENTER);
 		
 		progressBar = new ProgressBar(getContext());
-		progressBar.setVisibility(View.GONE);
+		linearLayout.addView(progressBar);
+		
 		textView = new TextView(getContext());
-		textView.setText("正在加载");
+		textView.setText("正在加载下一页，请稍后");
+		linearLayout.addView(textView);
 		
-		intoNormalState();
-		
-		addView(progressBar);
-		addView(textView);
-	}
-	
-	public void intoNormalState(){
-		textView.setVisibility(View.GONE);
-		progressBar.setVisibility(View.GONE);
+		return linearLayout;
 	}
 	
 	@Override
-	public void onLoadingState(){
-		textView.setVisibility(View.VISIBLE);
-		progressBar.setVisibility(View.VISIBLE);
-		if(onLoadListener != null){
-			onLoadListener.onStartLoad(this);
-		}
+	public void onToggleToLoadingState(){
+		getContentView().setVisibility(View.VISIBLE);
 	}
 
 	@Override
-	public void onNormalState() {
-		intoNormalState();
-	}
-	
-	public interface ClickLoadListener{
-		/**
-		 * 当开始加载
-		 */
-		public void onStartLoad(BaseLoadMoreListFooter clickLoadListFooter);
-	}
-
-	public ClickLoadListener getOnLoadListener() {
-		return onLoadListener;
-	}
-
-	public void setOnLoadListener(ClickLoadListener onLoadListener) {
-		this.onLoadListener = onLoadListener;
+	public void onToggleToNormalState() {
+		getContentView().setVisibility(View.GONE);
 	}
 }

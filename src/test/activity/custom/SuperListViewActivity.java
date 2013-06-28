@@ -33,10 +33,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /**
- * 下拉刷新列表
+ * 下拉刷新和自动加载更多列表
  */
 public class SuperListViewActivity extends MyBaseActivity {
-	public static final String[] CONTENS = new String[20];
 	private SuperListView superListView;
 	private List<String> contents;
 	private SimpleAdapter simpleAdapter;
@@ -57,7 +56,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 					@Override
 					protected String doInBackground(String... params) {
 						try {
-							Thread.sleep(3000);
+							Thread.sleep(4000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -67,9 +66,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 					@Override
 					protected void onPostExecute(String result) {
 						contents.clear();
-						for(String string : getContents()){
-							contents.add(string);
-						}
+						contents.addAll(getStringsByCurrentDate(20));
 						simpleAdapter.notifyDataSetChanged();
 						superListView.finishRefresh();
 					}
@@ -85,7 +82,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 					@Override
 					protected String doInBackground(String... params) {
 						try {
-							Thread.sleep(3000);
+							Thread.sleep(4000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -94,9 +91,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 
 					@Override
 					protected void onPostExecute(String result) {
-						for(String string : getContents()){
-							contents.add(string);
-						}
+						contents.addAll(getStringsByCurrentDate(20));
 						simpleAdapter.notifyDataSetChanged();
 						superListView.finishLoadMore();
 					}
@@ -107,19 +102,19 @@ public class SuperListViewActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		contents = new ArrayList<String>();
-		for(String string : getContents()){
-			contents.add(string);
-		}
-		superListView.setAdapter(simpleAdapter = new SimpleAdapter(getBaseContext(), contents));
+		superListView.setAdapter(simpleAdapter = new SimpleAdapter(getBaseContext(), contents = getStringsByCurrentDate(5)));
 	}
 	
-	public static String[] getContents(){
-		String currentTime = DateTimeUtils.getCurrentDateTimeByCustomFormat("yyyy年MM月dd日 HH点mm分ss秒");
-		for(int i = 0; i < CONTENS.length; i++){
-			CONTENS[i] = currentTime+"第"+(i+1)+"条"; 
+	public static final List<String> getStrings(String formatString, int number){
+		List<String> strings = new ArrayList<String>(number);
+		for(int w = 0; w < number; w++){
+			strings.add(String.format(formatString, (w+1)));
 		}
-		return CONTENS;
+		return strings;
+	}
+	
+	public static final List<String> getStringsByCurrentDate(int number){
+		return getStrings(DateTimeUtils.getCurrentDateTimeByCustomFormat("yyyy年MM月dd日 HH点mm分ss秒")+" 第%s条", number);
 	}
 
 	@Override
@@ -132,7 +127,10 @@ public class SuperListViewActivity extends MyBaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_pullDown_refresh :
-				superListView.startRefresh();
+				superListView.refresh();
+				break;
+			case R.id.menu_pullDown_loadMore :
+				superListView.loadMore();
 				break;
 			default: break;
 		}
