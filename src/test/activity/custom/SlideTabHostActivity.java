@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.PullListView;
+import me.xiaopan.easyandroid.widget.ReboundListView;
 import me.xiaopan.easyandroid.widget.ViewPagerAdapter;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
@@ -29,6 +29,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -113,9 +114,7 @@ public class SlideTabHostActivity extends MyBaseActivity{
 		for(int w = 0; w < 20; w++){
 			contents.add("这是选项卡 "+index+" 的第 "+w+" 条数据");
 		}
-		PullListView pullListView = (PullListView) getViewByLayout(R.layout.list);
-		pullListView.openListHeaderReboundMode();
-		pullListView.openListFooterReboundMode();
+		ListView pullListView = (ListView) getViewByLayout(R.layout.list);
 		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));
 		return pullListView;
 	}

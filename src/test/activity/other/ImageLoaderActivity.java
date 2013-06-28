@@ -16,8 +16,7 @@
 package test.activity.other;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.PullListView;
-import test.MyBaseActivity;
+import test.MyBaseListActivity;
 import test.adapter.ImageAdapter;
 import android.os.Bundle;
 import android.view.View;
@@ -26,18 +25,14 @@ import android.widget.Button;
 
 /**
  * 图片加载器界面
- * @author xiaopan
- *
  */
-public class ImageLoaderActivity extends MyBaseActivity {
-	private PullListView pullListView;
+public class ImageLoaderActivity extends MyBaseListActivity {
 	private ImageAdapter imageAdapter;
 	private Button button;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_image_loader);
-		pullListView = (PullListView) findViewById(android.R.id.list);
 		button = (Button) findViewById(R.id.imageLoader_button);
 	}
 
@@ -54,9 +49,7 @@ public class ImageLoaderActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		pullListView.openListHeaderReboundMode();
-		pullListView.openListFooterReboundMode();
-		pullListView.setAdapter(imageAdapter = new ImageAdapter(getBaseContext()));
+		getListView().setAdapter(imageAdapter = new ImageAdapter(getBaseContext()));
 		handleButton(true);
 	}
 	

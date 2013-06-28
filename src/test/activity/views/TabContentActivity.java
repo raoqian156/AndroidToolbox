@@ -15,23 +15,19 @@
  */
 package test.activity.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.PullListView;
-import test.MyBaseActivity;
+import test.MyBaseListActivity;
+import test.activity.custom.SuperListViewActivity;
 import test.adapter.SimpleAdapter;
 import android.os.Bundle;
 
-public class TabContentActivity extends MyBaseActivity {
+public class TabContentActivity extends MyBaseListActivity {
 
 	public static final String PARAM_TAB_INDEX = "PARAM_SHOW_CONTENT";
-	private PullListView pullListView;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(pullListView = (PullListView) getViewByLayout(R.layout.list));
+		setContentView(R.layout.list);
 	}
 
 	@Override
@@ -41,14 +37,7 @@ public class TabContentActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		String tabIndex = getIntent().getStringExtra(PARAM_TAB_INDEX);
-		List<String> contents = new ArrayList<String>(20);
-		for(int w = 0; w < 20; w++){
-			contents.add("这是选项卡 "+tabIndex+" 的第 "+w+" 条数据");
-		}
-		pullListView.openListHeaderReboundMode();
-		pullListView.openListFooterReboundMode();
-		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));
+		getListView().setAdapter(new SimpleAdapter(getBaseContext(), SuperListViewActivity.getStrings("这是选项卡 "+getIntent().getStringExtra(PARAM_TAB_INDEX)+" 的第 %s 条数据", 20)));
 	}
 
 	@Override

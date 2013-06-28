@@ -37,9 +37,9 @@ import android.widget.ListView;
 import android.widget.Scroller;
 
 /**
- * 可拉伸的列表
+ * 反弹列表
  */
-public class PullListView extends ListView implements PullDownRefreshFinishListener, PullUpLoadMoreFinishListener, ClickLoadMoreFinishListener{
+public class ReboundListView extends ListView implements PullDownRefreshFinishListener, PullUpLoadMoreFinishListener, ClickLoadMoreFinishListener{
 	public static final float OFFSET_RADIO = 0.35f;//拉伸偏移，模拟出拉橡皮筋的感觉来
 	public static final int ROLLBACK_DURATION = 300;//回滚持续时间
 	private int listFooterTempHeight;//上拉加载更多列表尾临时高度
@@ -70,12 +70,12 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 	private PullScrollListener pullScrollListener;
 	OnScrollListener onScrollListener;//滚动监听器
 	
-	public PullListView(Context context) {
+	public ReboundListView(Context context) {
 		super(context);
 		init();
 	}
 
-	public PullListView(Context context, AttributeSet attrs) {
+	public ReboundListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
@@ -501,7 +501,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 				public void onClick(View v) {
 					if(getClickLoadMoreListFooter().getState() == AbsClickLoadMoreListFooter.State.NORMAL && getClickLoadMoreListener() != null){
 						getClickLoadMoreListFooter().intoLoadingState();
-						getClickLoadMoreListener().onLoadMore(PullListView.this);
+						getClickLoadMoreListener().onLoadMore(ReboundListView.this);
 					}
 				}
 			});
@@ -571,7 +571,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 		if(isOpenedClickLoadMoreMode() && getClickLoadMoreListFooter().getState() == AbsClickLoadMoreListFooter.State.NORMAL && getClickLoadMoreListener() != null){
 			setSelection(getCount() - 1);
 			getClickLoadMoreListFooter().intoLoadingState();
-			getClickLoadMoreListener().onLoadMore(PullListView.this);
+			getClickLoadMoreListener().onLoadMore(ReboundListView.this);
 		}
 	}
 	
@@ -863,7 +863,7 @@ public class PullListView extends ListView implements PullDownRefreshFinishListe
 }
 
 class PullScrollListener implements OnScrollListener{
-	private PullListView pullListView;
+	private ReboundListView pullListView;
 	private int count;//计数
 	private int lastListHeight;//记录列表的高度
 	private int lastTotalItemCount;///记录列表的总条目数
@@ -872,7 +872,7 @@ class PullScrollListener implements OnScrollListener{
 	private int clickLoadMoreListFooterLastBottom;//记录点击加载更多列表尾的Bottom
 	private boolean allowHandleClickLoadMoreListFooter;//允许处理点击加载更多列表尾
 	
-	public PullScrollListener(PullListView pullListView){
+	public PullScrollListener(ReboundListView pullListView){
 		this.pullListView = pullListView;
 	}
 	
