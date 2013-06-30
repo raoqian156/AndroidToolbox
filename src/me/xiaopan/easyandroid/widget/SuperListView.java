@@ -29,8 +29,8 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	private BaseLoadMoreListFooter loadMoreListFooter;	//加载更多列表尾
 	private OnRefreshListener onRefreshListener;	//刷新监听器
 	private OnLoadMoreListener onLoadMoreListener;	//加载更多监听器
-	private boolean refreshing;
-	private boolean loadMoring;
+	private boolean refreshing;	//标识下拉刷新列表头是否正在刷新
+	private boolean loadMoring;	//标识加载更多列表尾是否正在加载
 	
 	public SuperListView(Context context) {
 		super(context);
@@ -120,7 +120,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 * 完成刷新
 	 */
 	public void finishRefresh(){
-		if(pulldownRefershListHeader != null){
+		if(pulldownRefershListHeader != null && refreshing){
 			pulldownRefershListHeader.toggleToRefreshingToNormalState();
 			//如果当前位置在列表的顶部，就回滚，否则直接更改为最小高度
 			if(getFirstVisiblePosition() == 0){
@@ -145,7 +145,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 * 完成加载更多
 	 */
 	public void finishLoadMore(){
-		if(loadMoreListFooter != null){
+		if(loadMoreListFooter != null && loadMoring){
 			loadMoreListFooter.toggleToNormalState();
 			loadMoring = false;
 		}
@@ -153,25 +153,34 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	
 	/**
 	 * 刷新
+	 * @return true：已经开启了刷新；false：开启刷新失败，原因可能是下拉刷新列表头或刷新监听器为null或者当前下拉刷新列表头未处于正常状态再或者当前下拉刷新列表头正在刷新或者加载更多列表尾正在加载
 	 */
-	public void refresh(){
-		if(pulldownRefershListHeader != null && onRefreshListener != null && pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.NORMAL && !refreshing){
+	public boolean refresh(){
+		if(pulldownRefershListHeader != null && onRefreshListener != null && pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.NORMAL && isNoAction()){
 			refreshing = true;
 			setSelection(0);
 			pulldownRefershListHeader.setState(BasePulldownRefershListHeader.State.NORMAL_TO_REFRESHING);
 			tryRollbackPulldownRefreshListHeader(pulldownRefershListHeader.getContentView().getHeight(), pulldownRefershListHeader.getContentViewHeight());
 			onRefreshListener.onRefresh();
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
 	/**
 	 * 加载更多
+	 * @return true：已经开启了加载更多；false：开启加载更多失败，原因可能是加载更多列表尾或加载更多监听器为null或者当前加载更多列表尾未处于正常状态再或者当前下拉刷新列表头正在刷新或者加载更多列表尾正在加载，最后一种可能就是列表还没有充满
 	 */
-	public void loadMore(){
-		if(loadMoreListFooter != null && loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL && onLoadMoreListener != null && full && !loadMoring){
+	public boolean loadMore(){
+		if(loadMoreListFooter != null &&onLoadMoreListener != null && full &&  loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL && isNoAction()){
+			loadMoring = true;
 			loadMoreListFooter.toggleToLoadingState();
 			onLoadMoreListener.onLoadMore();
 			setSelection(getCount() - 1);
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
@@ -208,23 +217,28 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		//如果开启了加载更多模式
+		//如果开启了加载更多模式，并且有监听器
 		if(loadMoreListFooter !=null && onLoadMoreListener != null){
-			loadMoreListFooter.getContentView().setVisibility((full = visibleItemCount != totalItemCount) && !refreshOrLoad?View.VISIBLE:View.GONE);	//如果列表没有充满，就隐藏加载更多列表尾，否则显示
-			setFooterDividersEnabled(full);
-			//如果列表充满了
-			if(full && !refreshOrLoad){
+			full = visibleItemCount != totalItemCount;	//记录列表是否充满
+			//如果列表没有充满，并且加载更多列表尾正在显示就隐藏加载更多列表尾
+			if(!full && loadMoreListFooter.getContentView().getVisibility() == View.VISIBLE){
+				loadMoreListFooter.getContentView().setVisibility(View.GONE);
+			}
+			setFooterDividersEnabled(full);	//如果列表充满了就显示分割线，否则不显示
+			//如果列表充满了并且当前没有其他事件触发
+			if(full && isNoAction()){
 				if(boundariesPosition == -1){
+					//如果当前滚动到了最后一行（不包括列表尾）并且列表尾正处于正常状态，就触发加载更多事件
 					if(getLastVisiblePosition() == totalItemCount - 1 - getFooterViewsCount() && loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL){
-						refreshOrLoad = true;
-						boundariesPosition = getLastVisiblePosition();
-						loadMoreListFooter.toggleToLoadingState();
-						onLoadMoreListener.onLoadMore();
+						loadMoring = true;	//标记为正在加载更多
+						boundariesPosition = getLastVisiblePosition();	//记录当前边界位置
+						loadMoreListFooter.toggleToLoadingState();	//将加载更多列表尾切换到加载中状态
+						onLoadMoreListener.onLoadMore();	//回调加载更多监听器
 					}
 				}else{
-					//如果列表项个数发生改变或者又滚回去了就重置界限位置
+					//如果列表项个数发生改变或者又滚回去了
 					if(totalItemCount != lastTotalItemCount || getLastVisiblePosition() < boundariesPosition){
-						boundariesPosition = -1;
+						boundariesPosition = -1;	//重置边界位置
 					}
 				}
 				lastTotalItemCount = totalItemCount;	//记录总条目数
@@ -234,6 +248,14 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 		if(onScrollListener != null){
 			onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
 		}
+	}
+	
+	/**
+	 * 没有动作 
+	 * @return
+	 */
+	private boolean isNoAction(){
+		return !refreshing && !loadMoring;
 	}
 
 	@Override
@@ -282,7 +304,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 
 	@Override
 	public boolean isAllowReadyRefresh() {
-		return onRefreshListener != null && !refreshing && !loadMoring;
+		return onRefreshListener != null && isNoAction();
 	}
 	
 	/**

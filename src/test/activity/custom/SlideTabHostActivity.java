@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.ReboundListView;
 import me.xiaopan.easyandroid.widget.ViewPagerAdapter;
 import test.MyBaseActivity;
 import test.adapter.SimpleAdapter;
