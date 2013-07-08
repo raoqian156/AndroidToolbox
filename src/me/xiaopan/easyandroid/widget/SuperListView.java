@@ -96,10 +96,9 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 * 尝试回滚下拉刷新列表头
 	 */
 	private void tryRollbackPulldownRefreshListHeader(int begainHeight, int endHeight){
-		if(begainHeight != endHeight){
-			rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, rollbackDuration);
-			invalidate();
-		}
+		rollBackScroller.abortAnimation();
+		rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, rollbackDuration);
+		invalidate();
 	}
 	
 	/**
@@ -186,10 +185,8 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	
 	@Override
 	public void computeScroll() {
-		if (pulldownRefershListHeader != null) {	//如果有滚动的对象
-			if(rollBackScroller.computeScrollOffset()){
-				pulldownRefershListHeader.updateHeight(rollBackScroller.getCurrY());
-			}
+		if (pulldownRefershListHeader != null && rollBackScroller.computeScrollOffset()) {
+			pulldownRefershListHeader.updateHeight(rollBackScroller.getCurrY());
 		}
 	}
 
