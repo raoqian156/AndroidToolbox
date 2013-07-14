@@ -66,7 +66,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		if(pulldownRefershListHeader != null){
+		if(pulldownRefershListHeader != null && onRefreshListener != null){
 			gestureDetector.onTouchEvent(ev);
 			if(ev.getAction() == MotionEvent.ACTION_CANCEL || ev.getAction() == MotionEvent.ACTION_UP){
 				upEventHandle();
@@ -96,10 +96,9 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 * 尝试回滚下拉刷新列表头
 	 */
 	private void tryRollbackPulldownRefreshListHeader(int begainHeight, int endHeight){
-		if(begainHeight != endHeight){
-			rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, rollbackDuration);
-			invalidate();
-		}
+		rollBackScroller.abortAnimation();
+		rollBackScroller.startScroll(0, begainHeight, 0, endHeight - begainHeight, rollbackDuration);
+		invalidate();
 	}
 	
 	/**
@@ -186,10 +185,8 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	
 	@Override
 	public void computeScroll() {
-		if (pulldownRefershListHeader != null) {	//如果有滚动的对象
-			if(rollBackScroller.computeScrollOffset()){
-				pulldownRefershListHeader.updateHeight(rollBackScroller.getCurrY());
-			}
+		if (pulldownRefershListHeader != null && rollBackScroller.computeScrollOffset()) {
+			pulldownRefershListHeader.updateHeight(rollBackScroller.getCurrY());
 		}
 	}
 
@@ -217,16 +214,17 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		//如果开启了加载更多模式，并且有监听器
-		if(loadMoreListFooter !=null && onLoadMoreListener != null){
-			full = visibleItemCount != totalItemCount;	//记录列表是否充满
+		//如果开启了加载更多模式
+		if(loadMoreListFooter !=null){
+			setFooterDividersEnabled(full = visibleItemCount != totalItemCount);	//根据列表是否充满来设定是否需要显示列表尾分割线
+			
 			//如果列表没有充满，并且加载更多列表尾正在显示就隐藏加载更多列表尾
 			if(!full && loadMoreListFooter.getContentView().getVisibility() == View.VISIBLE){
 				loadMoreListFooter.getContentView().setVisibility(View.GONE);
 			}
-			setFooterDividersEnabled(full);	//如果列表充满了就显示分割线，否则不显示
-			//如果列表充满了并且当前没有其他事件触发
-			if(full && isNoAction()){
+			
+			//如果有监听器，列表充满了并且当前没有其他事件触发
+			if(onLoadMoreListener != null && full && isNoAction()){
 				if(boundariesPosition == -1){
 					//如果当前滚动到了最后一行（不包括列表尾）并且列表尾正处于正常状态，就触发加载更多事件
 					if(getLastVisiblePosition() == totalItemCount - 1 - getFooterViewsCount() && loadMoreListFooter.getState() == BaseLoadMoreListFooter.State.NOMRAL){

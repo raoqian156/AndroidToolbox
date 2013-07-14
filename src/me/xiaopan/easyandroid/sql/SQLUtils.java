@@ -155,34 +155,27 @@ public class SQLUtils {
 					String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
 					//如果有注解
 					if(columnValue != null){
-						//获取列的值
-						String value = cursor.getString(cursor.getColumnIndex(columnValue));
-						//如果值不为null
-						if(value != null){
-							Object object = null;
-							if(field.getType() == byte.class){
-								object = Byte.valueOf(value);
-							}else if(field.getType() == short.class){
-								object = Short.valueOf(value);
-							}else if(field.getType() == int.class){
-								object = Integer.valueOf(value);
-							}else if(field.getType() == long.class){
-								object = Long.valueOf(value);
-							}else if(field.getType() == float.class){
-								object = Float.valueOf(value);
-							}else if(field.getType() == double.class){
-								object = Double.valueOf(value);
-							}else if(field.getType() == char.class){
-								object = value.charAt(0);
-							}else if(field.getType() == boolean.class){
-								object = Boolean.valueOf(value);
-							}else if(field.getType() == String.class){
-								object = value;
-							}else{
-								object = ClassUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{value});
-							}
-							field.setAccessible(true);
-							field.set(newInstance, object);
+						field.setAccessible(true);
+						if(field.getType() == byte.class){
+							field.set(newInstance, Byte.valueOf(cursor.getString(cursor.getColumnIndex(columnValue))));
+						}else if(field.getType() == short.class){
+							field.set(newInstance, cursor.getShort(cursor.getColumnIndex(columnValue)));
+						}else if(field.getType() == int.class){
+							field.set(newInstance, cursor.getInt(cursor.getColumnIndex(columnValue)));
+						}else if(field.getType() == long.class){
+							field.set(newInstance, cursor.getLong(cursor.getColumnIndex(columnValue)));
+						}else if(field.getType() == float.class){
+							field.set(newInstance, cursor.getFloat(cursor.getColumnIndex(columnValue)));
+						}else if(field.getType() == double.class){
+							field.set(newInstance, cursor.getDouble(cursor.getColumnIndex(columnValue)));
+						}else if(field.getType() == char.class){
+							field.set(newInstance, cursor.getString(cursor.getColumnIndex(columnValue)).charAt(0));
+						}else if(field.getType() == boolean.class){
+							field.set(newInstance, cursor.getBlob(cursor.getColumnIndex(columnValue)));
+						}else if(field.getType() == String.class){
+							field.set(newInstance, cursor.getString(cursor.getColumnIndex(columnValue)));
+						}else{
+							field.set(newInstance, ClassUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{cursor.getString(cursor.getColumnIndex(columnValue))}));
 						}
 					}
 				}
