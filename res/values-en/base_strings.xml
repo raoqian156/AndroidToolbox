@@ -63,6 +63,7 @@
     <string name="base_settings">Settings</string>
     
 	<!-- 常用动词 -->
+    <string name="base_auto">Auto</string>
     <string name="base_setting">Setting</string>
     <string name="base_help">Help</string>
 	<string name="base_preview">Preview</string>
@@ -103,6 +104,7 @@
 	<string name="base_run">Run</string>
 	
 	<!-- 常用否定动词 -->
+    <string name="base_notAuto">Not Auto</string>
     <string name="base_notSetting">Not  setting</string>
     <string name="base_notHelp">Not  help</string>
     <string name="base_notPreview">Not  preview</string>
