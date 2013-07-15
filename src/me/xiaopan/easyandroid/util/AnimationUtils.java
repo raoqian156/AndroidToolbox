@@ -19,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 
 /**
  * 动画工具箱
@@ -206,5 +207,35 @@ public class AnimationUtils {
 	 */
 	public static AlphaAnimation getShowAlphaAnimation(){
 		return getAlphaAnimation(0.0f, 1.0f, DEFAULT_ANIMATION_DURATION, null);
+	}
+	
+	public static ScaleAnimation getLessenScaleAnimation(long durationMillis, AnimationListener animationListener){
+		ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f, ScaleAnimation.RELATIVE_TO_SELF, ScaleAnimation.RELATIVE_TO_SELF);
+		scaleAnimation.setDuration(durationMillis);
+		scaleAnimation.setAnimationListener(animationListener);
+		return scaleAnimation;
+	}
+	
+	public static ScaleAnimation getLessenScaleAnimation(long durationMillis){
+		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION);
+	}
+	
+	public static ScaleAnimation getLessenScaleAnimation(AnimationListener animationListener){
+		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION, null);
+	}
+	
+	public static ScaleAnimation getAmplificationAnimation(long durationMillis, AnimationListener animationListener){
+		ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, ScaleAnimation.RELATIVE_TO_SELF, ScaleAnimation.RELATIVE_TO_SELF);
+		scaleAnimation.setDuration(durationMillis);
+		scaleAnimation.setAnimationListener(animationListener);
+		return scaleAnimation;
+	}
+	
+	public static ScaleAnimation getAmplificationAnimation(long durationMillis){
+		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION);
+	}
+	
+	public static ScaleAnimation getAmplificationAnimation(AnimationListener animationListener){
+		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION, null);
 	}
 }
