@@ -61,22 +61,22 @@ public class IntentUtils {
 	
 	/**
 	 * 获取安装给定APK文件的应用程序的Intent
-	 * @param apkFile 给定APK文件
+	 * @param fileUri 给定APK文件的Uri
 	 * @return 安装给定APK文件的Intent
 	 */
-	public static Intent getInstallAppplicationIntent(File apkFile){
+	public static Intent getInstallAppplicationIntent(Uri fileUri){
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+		intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
 		return intent;
 	}
 	
 	/**
-	 * 获取卸载给定包名的应用程序的Intent
-	 * @param applicationPackageName 给定包名
-	 * @return 卸载给定包名的应用程序的Intent
+	 * 获取安装给定APK文件的应用程序的Intent
+	 * @param apkFile 给定APK文件
+	 * @return 安装给定APK文件的Intent
 	 */
-	public static Intent getUninstallApplicationIntent(String applicationPackageName){
-		 return new Intent(Intent.ACTION_DELETE, Uri.parse("package: "+applicationPackageName));
+	public static Intent getInstallAppplicationIntent(File apkFile){
+		return getInstallAppplicationIntent(Uri.fromFile(apkFile));
 	}
 	
 	/**
@@ -86,6 +86,15 @@ public class IntentUtils {
 	 */
 	public static Intent getInstallAppplicationIntent(String apkFilePath){
 		return getInstallAppplicationIntent(new File(apkFilePath));
+	}
+	
+	/**
+	 * 获取卸载给定包名的应用程序的Intent
+	 * @param applicationPackageName 给定包名
+	 * @return 卸载给定包名的应用程序的Intent
+	 */
+	public static Intent getUninstallApplicationIntent(String applicationPackageName){
+		 return new Intent(Intent.ACTION_DELETE, Uri.parse("package: "+applicationPackageName));
 	}
 	
 	/**
