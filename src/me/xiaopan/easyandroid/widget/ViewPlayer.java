@@ -271,7 +271,7 @@ public class ViewPlayer extends FrameLayout{
 	 * 默认的画廊
 	 * @author xiaopan
 	 */
-	private class ViewGallery extends Gallery {
+	public class ViewGallery extends Gallery {
 		public ViewGallery(Context context) {
 			super(context);
 			setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.FILL_PARENT, Gallery.LayoutParams.FILL_PARENT));
