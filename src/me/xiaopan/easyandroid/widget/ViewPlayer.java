@@ -476,4 +476,12 @@ public class ViewPlayer extends FrameLayout{
 			this.playWay = playWay;
 		}
 	}
+
+	public ViewGallery getViewGallery() {
+		return viewGallery;
+	}
+
+	public void setViewGallery(ViewGallery viewGallery) {
+		this.viewGallery = viewGallery;
+	}
 }
