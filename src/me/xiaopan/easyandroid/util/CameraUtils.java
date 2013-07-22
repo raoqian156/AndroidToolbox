@@ -15,6 +15,9 @@
  */
 package me.xiaopan.easyandroid.util;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -78,6 +81,77 @@ public class CameraUtils {
 
         return optimalSize;
     }
+	
+	/**
+	 * 试图找到一个最接近屏幕的预览和输出尺寸
+	 * @param context
+	 * @param camera
+	 * @return
+	 */
+	public static Camera.Size getBestPreviewAndPictureSize(Context context, Camera camera){
+		Camera.Parameters cameraParameters = camera.getParameters();
+		List<Camera.Size> supportPreviewSizes = cameraParameters.getSupportedPreviewSizes();
+		List<Camera.Size> supportPictureSizes = cameraParameters.getSupportedPictureSizes();
+		Comparator<Camera.Size> comparator = new Comparator<Camera.Size>() {
+			@Override
+			public int compare(android.hardware.Camera.Size lhs, android.hardware.Camera.Size rhs) {
+				return (lhs.width - rhs.width) * -1;
+			}
+		};
+		Collections.sort(supportPreviewSizes, comparator);
+		Collections.sort(supportPictureSizes, comparator);
+		
+		Size screenSize = DeviceUtils.getScreenSize(context);
+		
+		Iterator<Camera.Size> supportPreviewSizeIterator;
+		Iterator<Camera.Size> supportPictureSizeIterator;
+		Camera.Size currentPreviewSize;
+		Camera.Size currentPictureSize;
+		
+		//先剔除预览尺寸集合中大于屏幕尺寸的
+		supportPreviewSizeIterator = supportPreviewSizes.iterator();
+		while(supportPreviewSizeIterator.hasNext()){
+			currentPreviewSize = supportPreviewSizeIterator.next();
+			if(currentPreviewSize.width > screenSize.getWidth() || currentPreviewSize.height > screenSize.getHeight()){
+				supportPreviewSizeIterator.remove();
+			}
+		}
+		
+		//然后剔除输出尺寸集合中大于屏幕尺寸的
+		supportPictureSizeIterator = supportPictureSizes.iterator();
+		while(supportPictureSizeIterator.hasNext()){
+			currentPictureSize = supportPictureSizeIterator.next();
+			if(currentPictureSize.width > screenSize.getWidth() || currentPictureSize.height > screenSize.getHeight()){
+				supportPictureSizeIterator.remove();
+			}
+		}
+		
+		//最后找到相同的
+		Camera.Size result = null;
+		supportPreviewSizeIterator = supportPreviewSizes.iterator();
+		while(supportPreviewSizeIterator.hasNext()){
+			currentPreviewSize = supportPreviewSizeIterator.next();
+			supportPictureSizeIterator = supportPictureSizes.iterator();
+			while(supportPictureSizeIterator.hasNext()){
+				currentPictureSize = supportPictureSizeIterator.next();
+				if(currentPreviewSize.width == currentPictureSize.width && currentPreviewSize.height == currentPictureSize.height){
+					result = currentPictureSize;
+					break;
+				}else if(currentPreviewSize.width > currentPictureSize.width || currentPreviewSize.height > currentPictureSize.height){
+					supportPreviewSizeIterator.remove();
+					break;
+				}else{
+					supportPictureSizeIterator.remove();
+				}
+			}
+			
+			if(result != null){
+				break;
+			}
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * 根据当前窗口的显示方向设置相机的显示方向
