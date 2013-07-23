@@ -195,28 +195,42 @@ public class ViewUtils {
 	}
 	
 	/**
-	 * 获取一个视图的测试高度
+	 * 执行测量，执行完成之后只需调用View的getMeasuredXXX()方法即可获取测量结果
 	 * @param view
 	 * @return
 	 */
-	public static final int getViewMeasureHeight(View view){
+	public static final View measure(View view){
 		ViewGroup.LayoutParams p = view.getLayoutParams();
 	    if (p == null) {
 	        p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 	    }
-	 
 	    int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
 	    int lpHeight = p.height;
 	    int childHeightSpec;
 	    if (lpHeight > 0) {
-	        childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight,
-	                MeasureSpec.EXACTLY);
+	    	childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight, MeasureSpec.EXACTLY);
 	    } else {
-	        childHeightSpec = MeasureSpec.makeMeasureSpec(0,
-	                MeasureSpec.UNSPECIFIED);
+	        childHeightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 	    }
 	    view.measure(childWidthSpec, childHeightSpec);
-	    
-	    return view.getMeasuredHeight();
+	    return view;
+	}
+	
+	/**
+	 * 获取给定视图的测量高度
+	 * @param view
+	 * @return
+	 */
+	public static final int getMeasureHeight(View view){
+	    return measure(view).getMeasuredHeight();
+	}
+	
+	/**
+	 * 获取给定视图的测量宽度
+	 * @param view
+	 * @return
+	 */
+	public static final int getMeasureWidth(View view){
+	    return measure(view).getMeasuredWidth();
 	}
 }

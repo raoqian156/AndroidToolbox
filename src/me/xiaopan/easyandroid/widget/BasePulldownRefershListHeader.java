@@ -25,7 +25,7 @@ public abstract class BasePulldownRefershListHeader extends LinearLayout{
 		
 		/* 初始化内容视图 */
 		contentView = onGetContentView();
-		contentViewHeight = ViewUtils.getViewMeasureHeight(contentView);	//测量内容的高度
+		contentViewHeight = ViewUtils.getMeasureHeight(contentView);	//测量内容的高度
 		contentView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, contentViewMinHeight));	//设置内容视图的高度为最小高度
 		addView(contentView);	//将内容视图添加到下拉刷新布局上
 	}
