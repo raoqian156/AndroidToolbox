@@ -7,11 +7,9 @@ import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.util.Colors;
 import me.xiaopan.easyandroid.widget.SlideTitleViewPager;
 import me.xiaopan.easyandroid.widget.ViewPagerAdapter;
-import android.app.Activity;
+import test.MyBaseActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,20 +17,29 @@ import android.widget.TextView;
 /**
  * 带滑动标题的ViewPager
  */
-public class SlideTitleViewPagerActivity extends Activity {
-	private SlideTitleViewPager slideTitlebar;
-	private boolean more;
-	
+public class SlideTitleViewPagerActivity extends MyBaseActivity {
+	private SlideTitleViewPager moreSlideTitlebar;
+	private SlideTitleViewPager shaoSlideTitlebar;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_slide_title_view_pager);
-		slideTitlebar = (SlideTitleViewPager) findViewById(R.id.slideTitlePager);
+		moreSlideTitlebar = (SlideTitleViewPager) findViewById(R.id.slideTitlePager_more);
+		shaoSlideTitlebar = (SlideTitleViewPager) findViewById(R.id.slideTitlePager_shao);
+	}
+
+	@Override
+	public void onInitListener(Bundle savedInstanceState) {
 		
+	}
+
+	@Override
+	public void onInitData(Bundle savedInstanceState) {
 		/* 初始化标题 */
 		List<View> tabs = new ArrayList<View>();
-		tabs.add(createTitle("游戏"));
+		tabs.add(createTitle("游戏娱乐"));
 		tabs.add(createTitle("工具"));
+		tabs.add(createTitle("天涯海角"));
 		tabs.add(createTitle("学习"));
 		tabs.add(createTitle("美化"));
 		tabs.add(createTitle("图书"));
@@ -41,7 +48,7 @@ public class SlideTitleViewPagerActivity extends Activity {
 		tabs.add(createTitle("医学"));
 		tabs.add(createTitle("艺术"));
 		tabs.add(createTitle("地理"));
-		slideTitlebar.setTitles(tabs);
+		moreSlideTitlebar.setTitles(tabs);
 		
 		/* 初始化内容 */
 		List<View> views = new ArrayList<View>();
@@ -55,7 +62,25 @@ public class SlideTitleViewPagerActivity extends Activity {
 		views.add(getContentView(Colors.GREEN));
 		views.add(getContentView(Colors.RED));
 		views.add(getContentView(Colors.YELLOW));
-		slideTitlebar.getViewPager().setAdapter(new ViewPagerAdapter(views));
+		views.add(getContentView(Colors.GRAY));
+		moreSlideTitlebar.getViewPager().setAdapter(new ViewPagerAdapter(views));
+		
+		
+		/* 初始化标题 */
+		List<View> tabs2 = new ArrayList<View>();
+		tabs2.add(createTitle("游戏娱乐"));
+		tabs2.add(createTitle("工具"));
+		tabs2.add(createTitle("天涯海角"));
+		tabs2.add(createTitle("学习"));
+		shaoSlideTitlebar.setTitles(tabs2);
+		
+		/* 初始化内容 */
+		List<View> views2 = new ArrayList<View>();
+		views2.add(getContentView(Colors.SKYBLUE));
+		views2.add(getContentView(Colors.CHOCOLATE));
+		views2.add(getContentView(Colors.CYAN));
+		views2.add(getContentView(Colors.FUCHSIA));
+		shaoSlideTitlebar.getViewPager().setAdapter(new ViewPagerAdapter(views2));
 	}
 	
 	private TextView createTitle(String title){
@@ -69,69 +94,5 @@ public class SlideTitleViewPagerActivity extends Activity {
 		View view = new View(getBaseContext());
 		view.setBackgroundColor(color);
 		return view;
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.slide_title_view_pager, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-		case R.id.menu_more: 
-			if(more){
-				/* 初始化标题 */
-				List<View> tabs = new ArrayList<View>();
-				tabs.add(createTitle("游戏"));
-				tabs.add(createTitle("工具"));
-				tabs.add(createTitle("天涯海角"));
-				tabs.add(createTitle("学习"));
-				tabs.add(createTitle("美化"));
-				slideTitlebar.setTitles(tabs);
-				
-				/* 初始化内容 */
-				List<View> views = new ArrayList<View>();
-				views.add(getContentView(Colors.SKYBLUE));
-				views.add(getContentView(Colors.CHOCOLATE));
-				views.add(getContentView(Colors.CYAN));
-				views.add(getContentView(Colors.FUCHSIA));
-				views.add(getContentView(Colors.GOLD));
-				slideTitlebar.getViewPager().setAdapter(new ViewPagerAdapter(views));
-			}else{
-				/* 初始化标题 */
-				List<View> tabs = new ArrayList<View>();
-				tabs.add(createTitle("游戏"));
-				tabs.add(createTitle("工具"));
-				tabs.add(createTitle("学习"));
-				tabs.add(createTitle("美化"));
-				tabs.add(createTitle("图书"));
-				tabs.add(createTitle("体育"));
-				tabs.add(createTitle("机械化"));
-				tabs.add(createTitle("医学"));
-				tabs.add(createTitle("艺术"));
-				tabs.add(createTitle("地理"));
-				slideTitlebar.setTitles(tabs);
-				
-				/* 初始化内容 */
-				List<View> views = new ArrayList<View>();
-				views.add(getContentView(Colors.SKYBLUE));
-				views.add(getContentView(Colors.CHOCOLATE));
-				views.add(getContentView(Colors.CYAN));
-				views.add(getContentView(Colors.FUCHSIA));
-				views.add(getContentView(Colors.GOLD));
-				views.add(getContentView(Colors.BLUE));
-				views.add(getContentView(Colors.GRAY));
-				views.add(getContentView(Colors.GREEN));
-				views.add(getContentView(Colors.RED));
-				views.add(getContentView(Colors.YELLOW));
-				slideTitlebar.getViewPager().setAdapter(new ViewPagerAdapter(views));
-			}
-			more = !more;
-			item.setTitle(more?"变多":"变少");
-			break;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 }

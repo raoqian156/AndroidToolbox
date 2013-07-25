@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <me.xiaopan.easyandroid.widget.SlideTitleViewPager 
-        android:layout_width="match_parent" 
-        android:layout_height="match_parent"
-    	android:id="@+id/slideTitlePager"
-    	/>
-</LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body_content">
+    <LinearLayout style="@style/layout_body_content">
+	    <me.xiaopan.easyandroid.widget.SlideTitleViewPager style="@style/base_match_weight" android:id="@+id/slideTitlePager_more" />
+	    <me.xiaopan.easyandroid.widget.SlideTitleViewPager style="@style/base_match_weight" android:id="@+id/slideTitlePager_shao" />
+    </LinearLayout>
+	
+	<!-- 阴影 -->
+    <include layout="@layout/include_shadow_down"/>
+</FrameLayout>
