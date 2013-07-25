@@ -62,6 +62,7 @@ public class CustomListActivity extends MyBaseActivity{
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTabHost), SlideTabHostActivity.class));
 		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slidingToggleButton), SlidingToggleButtonActivity.class));
+		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTitleViewPager), SlideTitleViewPagerActivity.class));
 		
 		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
 	}
