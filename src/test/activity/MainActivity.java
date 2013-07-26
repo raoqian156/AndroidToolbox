@@ -26,8 +26,9 @@ import test.activity.graphics.GraphicsListActivity;
 import test.activity.media.MediaListActivity;
 import test.activity.other.OtherListActivity;
 import test.activity.views.ViewListActivity;
-import test.adapter.ActivityAdapter;
-import test.adapter.ActivityAdapter.ActivityItem;
+import test.adapter.TextAdapter;
+import test.adapter.TextAdapter.Text;
+import test.beans.ActivityEntry;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -39,7 +40,7 @@ import android.widget.ListView;
  * 主页
  */
 public class MainActivity extends MyBaseActivity{
-	private List<ActivityItem> activityItemList;
+	private List<Text> texts;
 	private ListView listView;
 	
 	@Override
@@ -53,22 +54,22 @@ public class MainActivity extends MyBaseActivity{
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				startActivity(activityItemList.get(arg2 - listView.getHeaderViewsCount()).getAction());
+				startActivity(((ActivityEntry)texts.get(arg2 - listView.getHeaderViewsCount())).getAction());
 			}
 		});
 	}
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_animationList), AnimationListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_graphicsList), GraphicsListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_mediaList), MediaListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_viewsList), ViewListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customList), CustomListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_otherList), OtherListActivity.class));
+		texts = new ArrayList<Text>();
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_animationList), AnimationListActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_graphicsList), GraphicsListActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_mediaList), MediaListActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_viewsList), ViewListActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_customList), CustomListActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_otherList), OtherListActivity.class));
 		
-		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
+		listView.setAdapter(new TextAdapter(getBaseContext(), texts));
 	}
 	
 	@Override

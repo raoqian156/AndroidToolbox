@@ -18,7 +18,7 @@ package test.activity.views;
 import me.xiaopan.easyandroid.R;
 import test.MyBaseListActivity;
 import test.activity.custom.SuperListViewActivity;
-import test.adapter.SimpleAdapter;
+import test.adapter.StringAdapter;
 import android.os.Bundle;
 
 public class TabContentActivity extends MyBaseListActivity {
@@ -37,7 +37,7 @@ public class TabContentActivity extends MyBaseListActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		getListView().setAdapter(new SimpleAdapter(getBaseContext(), SuperListViewActivity.getStrings("这是选项卡 "+getIntent().getStringExtra(PARAM_TAB_INDEX)+" 的第 %s 条数据", 20)));
+		getListView().setAdapter(new StringAdapter(getBaseContext(), SuperListViewActivity.getStrings("这是选项卡 "+getIntent().getStringExtra(PARAM_TAB_INDEX)+" 的第 %s 条数据", 20)));
 	}
 
 	@Override

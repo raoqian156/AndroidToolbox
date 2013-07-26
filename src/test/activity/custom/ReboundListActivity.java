@@ -17,7 +17,7 @@ package test.activity.custom;
 
 import me.xiaopan.easyandroid.R;
 import test.MyBaseListActivity;
-import test.adapter.SimpleAdapter;
+import test.adapter.StringAdapter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +27,7 @@ import android.widget.Button;
  * 反弹列表
  */
 public class ReboundListActivity extends MyBaseListActivity {
-	private SimpleAdapter textAdapter;
+	private StringAdapter textAdapter;
 	private Button button;
 	
 	@Override
@@ -49,7 +49,7 @@ public class ReboundListActivity extends MyBaseListActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		getListView().setAdapter(textAdapter = new SimpleAdapter(getBaseContext(), SuperListViewActivity.getStringsByCurrentDate(30)));
+		getListView().setAdapter(textAdapter = new StringAdapter(getBaseContext(), SuperListViewActivity.getStringsByCurrentDate(30)));
 		handleButton(true);
 	}
 	

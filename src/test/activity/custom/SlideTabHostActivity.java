@@ -21,7 +21,7 @@ import java.util.List;
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.ViewPagerAdapter;
 import test.MyBaseActivity;
-import test.adapter.SimpleAdapter;
+import test.adapter.StringAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -114,7 +114,7 @@ public class SlideTabHostActivity extends MyBaseActivity{
 			contents.add("这是选项卡 "+index+" 的第 "+w+" 条数据");
 		}
 		ListView pullListView = (ListView) getViewByLayout(R.layout.list);
-		pullListView.setAdapter(new SimpleAdapter(getBaseContext(), contents));
+		pullListView.setAdapter(new StringAdapter(getBaseContext(), contents));
 		return pullListView;
 	}
 

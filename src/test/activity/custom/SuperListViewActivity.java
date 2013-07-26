@@ -24,7 +24,7 @@ import me.xiaopan.easyandroid.widget.SuperListView.OnLoadMoreListener;
 import me.xiaopan.easyandroid.widget.SuperListView.OnRefreshListener;
 import me.xiaopan.easyjava.util.DateTimeUtils;
 import test.MyBaseActivity;
-import test.adapter.SimpleAdapter;
+import test.adapter.StringAdapter;
 import test.widget.LoadMoreListFooter;
 import test.widget.PulldownRefreshListHeader;
 import android.os.AsyncTask;
@@ -38,7 +38,7 @@ import android.view.MenuItem;
 public class SuperListViewActivity extends MyBaseActivity {
 	private SuperListView superListView;
 	private List<String> contents;
-	private SimpleAdapter simpleAdapter;
+	private StringAdapter simpleAdapter;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		superListView.setAdapter(simpleAdapter = new SimpleAdapter(getBaseContext(), contents = getStringsByCurrentDate(5)));
+		superListView.setAdapter(simpleAdapter = new StringAdapter(getBaseContext(), contents = getStringsByCurrentDate(5)));
 	}
 	
 	public static final List<String> getStrings(String formatString, int number){

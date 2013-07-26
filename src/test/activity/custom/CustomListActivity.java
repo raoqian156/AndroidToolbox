@@ -20,8 +20,9 @@ import java.util.List;
 
 import me.xiaopan.easyandroid.R;
 import test.MyBaseActivity;
-import test.adapter.ActivityAdapter;
-import test.adapter.ActivityAdapter.ActivityItem;
+import test.adapter.TextAdapter;
+import test.adapter.TextAdapter.Text;
+import test.beans.ActivityEntry;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,11 +31,9 @@ import android.widget.ListView;
 
 /**
  * 自定义组件或特效界面
- * @author xiaopan
- *
  */
 public class CustomListActivity extends MyBaseActivity{
-	private List<ActivityItem> activityItemList;
+	private List<Text> texts;
 	private ListView listView;
 	
 	@Override
@@ -48,22 +47,22 @@ public class CustomListActivity extends MyBaseActivity{
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				startActivity(activityItemList.get(arg2 - listView.getHeaderViewsCount()).getAction());
+				startActivity(((ActivityEntry)texts.get(arg2 - listView.getHeaderViewsCount())).getAction());
 			}
 		});
 	}
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_reboundListView), ReboundListActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_superListView), SuperListViewActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_picturePlayer), PicturePlayerActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTabHost), SlideTabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slidingToggleButton), SlidingToggleButtonActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_slideTitleViewPager), SlideTitleViewPagerActivity.class));
+		texts = new ArrayList<Text>();
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_reboundListView), ReboundListActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_superListView), SuperListViewActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_picturePlayer), PicturePlayerActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_customEditText), CustomEditTextActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_slideTabHost), SlideTabHostActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_slidingToggleButton), SlidingToggleButtonActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_slideTitleViewPager), SlideTitleViewPagerActivity.class));
 		
-		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
+		listView.setAdapter(new TextAdapter(getBaseContext(), texts));
 	}
 }

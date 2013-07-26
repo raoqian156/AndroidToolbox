@@ -18,7 +18,6 @@ package test.adapter;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +27,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TextAdapter extends BaseAdapter{
-	private Context conetxt;
+	private Context context;
 	private List<Text> texts;
 	private Text text;
 	
-	public TextAdapter(Context conetxt, List<Text> texts){
-		this.conetxt = conetxt;
+	public TextAdapter(Context context, List<Text> texts){
+		this.context = context;
 		this.texts = texts;
 	}
 	
@@ -57,7 +56,7 @@ public class TextAdapter extends BaseAdapter{
 		ViewHolder viewHolder;
 		if(convertView == null){
 			viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(conetxt).inflate(R.layout.list_item_text, null);
+			convertView = LayoutInflater.from(context).inflate(R.layout.list_item_text, null);
 			viewHolder.text = (TextView) convertView.findViewById(R.id.text_textItem_text);
 			viewHolder.arrowImage = (ImageView) convertView.findViewById(R.id.image_textItem_arrow);
 			convertView.setTag(viewHolder);

@@ -140,7 +140,7 @@
     <!-- 文本 - 标题 -->
     <style name="text_title" parent="@style/base_wrap_wrap">
         <item name="android:textSize">@dimen/base_textSize_large</item>
-        <item name="android:textColor">@color/selector_text_theme</item>
+        <item name="android:textColor">@color/selector_text_title</item>
     </style>
 
     <!-- 文本 - 标题 - 充满 -->
@@ -157,7 +157,7 @@
     <!-- 文本 - 副标题 -->
     <style name="text_subTitle" parent="@style/base_wrap_wrap">
         <item name="android:textSize">@dimen/base_textSize_littleSmall</item>
-        <item name="android:textColor">@color/selector_text_theme_gray</item>
+        <item name="android:textColor">@color/selector_text_subtitle</item>
     </style>
 	
 	<!-- 文本 - 滑动选项卡 - 标题 -->

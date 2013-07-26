@@ -20,8 +20,9 @@ import java.util.List;
 
 import me.xiaopan.easyandroid.R;
 import test.MyBaseActivity;
-import test.adapter.ActivityAdapter;
-import test.adapter.ActivityAdapter.ActivityItem;
+import test.adapter.TextAdapter;
+import test.adapter.TextAdapter.Text;
+import test.beans.ActivityEntry;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,8 +33,7 @@ import android.widget.ListView;
  * 系统组件使用示例
  */
 public class ViewListActivity extends MyBaseActivity{
-
-	private List<ActivityItem> activityItemList;
+	private List<Text> texts;
 	private ListView listView;
 	
 	@Override
@@ -47,21 +47,21 @@ public class ViewListActivity extends MyBaseActivity{
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				startActivity(activityItemList.get(arg2 - listView.getHeaderViewsCount()).getAction());
+				startActivity(((ActivityEntry)texts.get(arg2 - listView.getHeaderViewsCount())).getAction());
 			}
 		});
 	}
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		activityItemList = new ArrayList<ActivityItem>();
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_tabHost), TabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_fragmentTabHost), FragmentTabHostActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_progressBar), ProgressBarActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_viewPager), ViewPagerActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_floatingWindow), FloatingWindowActivity.class));
-		activityItemList.add(new ActivityItem(getString(R.string.activityTitle_gallery), GalleryActivity.class));
+		texts = new ArrayList<Text>();
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_tabHost), TabHostActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_fragmentTabHost), FragmentTabHostActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_progressBar), ProgressBarActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_viewPager), ViewPagerActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_floatingWindow), FloatingWindowActivity.class));
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_gallery), GalleryActivity.class));
 		
-		listView.setAdapter(new ActivityAdapter(getBaseContext(), activityItemList));
+		listView.setAdapter(new TextAdapter(getBaseContext(), texts));
 	}
 }
