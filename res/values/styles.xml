@@ -209,11 +209,11 @@
     <!-- ******************************************************************************** 编辑器 ************************************************************************************ -->
    <!-- 编辑器 -->
     <style name="edit" parent="@style/base_match_wrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/edit_height</item>
         <item name="android:background">@drawable/selector_edit</item>
         <item name="android:textSize">@dimen/base_textSize_default</item>
         <item name="android:textColor">@color/base_black</item>
-        <item name="android:minHeight">@dimen/edit_minHeight</item>
-        <item name="android:minWidth">@dimen/edit_minWidth</item>
         <item name="android:padding">@dimen/base_padding_large</item>
 	    <item name="android:layout_margin">@dimen/base_margin_littleSmall</item>
         <item name="android:singleLine">true</item>

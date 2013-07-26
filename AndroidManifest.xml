@@ -65,6 +65,7 @@
      	<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/activityTitle_downloadImage"/>
     	<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/activityTitle_imageLoader"/>
    		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/activityTitle_otherList"/>
+   		<activity android:name="test.activity.other.TakeBusinessCardActivity" android:label="@string/activityTitle_takeBusinessCard" android:screenOrientation="landscape"/>
        	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/activityTitle_progressBar"/>
        	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/activityTitle_tabHost"/>
        	<activity android:name="test.activity.views.TabContentActivity"/>

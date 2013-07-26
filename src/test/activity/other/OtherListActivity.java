@@ -67,6 +67,7 @@ public class OtherListActivity extends MyBaseActivity{
 		ActivityEntry scann = new ActivityEntry(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class); 
 		scann.setRequestCode(REQUEST_CODE_BARCODE_SCANN);
 		texts.add(scann);
+		texts.add(new ActivityEntry(getString(R.string.activityTitle_takeBusinessCard), TakeBusinessCardActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_imageLoader), ImageLoaderActivity.class));
 		
 		listView.setAdapter(new TextAdapter(getBaseContext(), texts));

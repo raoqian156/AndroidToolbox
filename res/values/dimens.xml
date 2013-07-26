@@ -1,35 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 布局 - 列表项 - 最小高度 -->
-    <dimen name="layout_listItem_minHeight">48dp</dimen>
-
-    <!--  按钮 - 最小宽度 -->
-	<dimen name="button_minWidth">80dp</dimen>
-	
-	<!-- 按钮 - 最小高度 -->
-    <dimen name="button_minHeight">48dp</dimen>
+    <dimen name="layout_listItem_minHeight">52dp</dimen><!-- 布局 - 列表项 - 最小高度 -->
     
-    <!-- 按钮 - 列表项 -最小高度 -->
-    <dimen name="button_listItem_minHeight">40dp</dimen>
+	<dimen name="button_minWidth">80dp</dimen><!--  按钮 - 最小宽度 -->
+    <dimen name="button_minHeight">45dp</dimen><!-- 按钮 - 最小高度 -->
+    <dimen name="button_listItem_minHeight">40dp</dimen><!-- 按钮 - 列表项 -最小高度 -->
     
-    <!-- 编辑器 - 最小宽度 -->
-    <dimen name="edit_minWidth">100dp</dimen>
+    <dimen name="edit_height">50dp</dimen><!-- 编辑器 - 最小高度 -->
     
-    <!-- 编辑器 - 最小高度 -->
-    <dimen name="edit_minHeight">60dp</dimen>
+    <dimen name="pull_height">90dp</dimen><!-- 下拉刷新头的高度 -->
     
-    <!-- 下拉刷新头的高度 -->
-    <dimen name="pull_height">90dp</dimen>
+    <dimen name="shadow_height">6dp</dimen><!-- 阴影 - 高度 -->
     
-    <!-- 阴影 - 高度 -->
-    <dimen name="shadow_height">6dp</dimen>
-    
-    <!-- 间隔 - 高度 -->
-    <dimen name="spacing_height">10dp</dimen>
-    
-    <!-- 间隔 - 大的 - 高度 -->
-    <dimen name="spacing_large_height">15dp</dimen>
-    
-    <!-- 间隔 - 小的 - 高度 -->
-    <dimen name="spacing_small_height">5dp</dimen>
+    <dimen name="spacing_height">8dp</dimen><!-- 空格线 - 高度 -->
+    <dimen name="spacing_small_height">4dp</dimen><!-- 空格线 - 小的 - 高度 -->
+    <dimen name="spacing_large_height">16dp</dimen><!-- 空格线 - 大的 - 高度 -->
 </resources>
