@@ -24,6 +24,7 @@ public class ActivityEntry implements Text{
 	private Class<?> action;
 	private Bundle bundle;
 	private boolean checkNetwork;
+	private int requestCode = -1;
 	
 	public ActivityEntry(String name, Class<?> action, Bundle bundle){
 		setName(name);
@@ -86,5 +87,13 @@ public class ActivityEntry implements Text{
 
 	public void setCheckNetwork(boolean checkNetwork) {
 		this.checkNetwork = checkNetwork;
+	}
+
+	public int getRequestCode() {
+		return requestCode;
+	}
+
+	public void setRequestCode(int requestCode) {
+		this.requestCode = requestCode;
 	}
 }

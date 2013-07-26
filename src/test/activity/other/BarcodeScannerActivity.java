@@ -34,32 +34,31 @@ import android.os.Vibrator;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
 
 /**
- * 条码扫描器
+ * 条码扫描仪
  */
 public class BarcodeScannerActivity extends MyBaseActivity implements CameraManager.CameraCallback, Camera.PreviewCallback, ResultPointCallback, DecodeListener{
 	private static final String STATE_FLASH_CHECKED = "STATE_FLASH_CHECKED";
+	public static final String RETURN_BARCODE_CONTENT = "RETURN_BARCODE_CONTENT";
+	private int beepId;//哔哔音效
+	private boolean allowDecode;	//允许解码（当解码成功后要停止解码，只有点击屏幕后才会再次开始解码）
 	private SurfaceView surfaceView;	//显示画面的视图
 	private ScanFrameView scanFrameView;//扫描框（取景器）
-	private TextView resultText;	//显示扫描结果
-	private boolean allowDecode;	//允许解码（当解码成功后要停止解码，只有点击屏幕后才会再次开始解码）
 	private Decoder decoder;	//解码器
 	private SoundPool soundPool;//音效池
-	private int beepId;//哔哔音效
 	private CameraManager cameraManager;
 	private RefreshScanFrameRunnable refreshScanFrameRunnable;
 	private Handler handler;
-	private CheckBox flashButton;
-
+	private ToggleButton flashButton;
+	
 	@Override
 	public boolean isRemoveTitleBar() {
 		return true;
@@ -75,8 +74,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 		setContentView(R.layout.activity_barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
 		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
-		resultText = (TextView) findViewById(R.id.text_barcodeScanner_result);
-		flashButton = (CheckBox) findViewById(R.id.checkBox_barcodeScanner_flash);
+		flashButton = (ToggleButton) findViewById(R.id.checkBox_barcodeScanner_flash);
 	}
 
 	@Override
@@ -124,7 +122,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 		super.onResume();
 		cameraManager.openBackCamera();
 		setEnableTorckFlashMode(flashButton.isChecked());
-	}
+	}	
 	
 	@Override
 	public void onPause() {
@@ -227,7 +225,9 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 
 	@Override
 	public void onDecodeFail() {
-		cameraManager.autoFocus();//继续对焦
+		if(cameraManager != null){
+			cameraManager.autoFocus();//继续对焦
+		}
 	}
 
 	private class RefreshScanFrameRunnable implements Runnable{
@@ -282,10 +282,9 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	 * @param barcodeBitmap
 	 */
 	private void handleResult(Result result, Bitmap barcodeBitmap){
-		//显示扫描结果
-		resultText.setText(result.getBarcodeFormat().toString() + "：" + result.getText());
-		//将条码图片显示在扫描框中
-		scanFrameView.drawResultBitmap(barcodeBitmap);
+		getIntent().putExtra(RETURN_BARCODE_CONTENT, result.getText());
+		setResult(RESULT_OK, getIntent());
+		finishActivity();
 	}
 	
 	/**

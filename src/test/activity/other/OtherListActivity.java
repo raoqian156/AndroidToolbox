@@ -23,6 +23,7 @@ import test.MyBaseActivity;
 import test.adapter.TextAdapter;
 import test.adapter.TextAdapter.Text;
 import test.beans.ActivityEntry;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import android.widget.ListView;
  * 其它示例
  */
 public class OtherListActivity extends MyBaseActivity{
+	private static final int REQUEST_CODE_BARCODE_SCANN = 11231;
 	private List<Text> texts;
 	private ListView listView;
 	
@@ -47,7 +49,12 @@ public class OtherListActivity extends MyBaseActivity{
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				startActivity(((ActivityEntry)texts.get(arg2 - listView.getHeaderViewsCount())).getAction());
+				ActivityEntry activityEntry = (ActivityEntry)texts.get(arg2 - listView.getHeaderViewsCount());
+				if(activityEntry.getRequestCode() != -1){
+					startActivityForResult(activityEntry.getAction(), activityEntry.getRequestCode());
+				}else{
+					startActivity(activityEntry.getAction());
+				}
 			}
 		});
 	}
@@ -57,9 +64,18 @@ public class OtherListActivity extends MyBaseActivity{
 		texts = new ArrayList<Text>();
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_accessNetwork), AccessNetworkActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_downloadImage), DownloadImageActivity.class));
-		texts.add(new ActivityEntry(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class));
+		ActivityEntry scann = new ActivityEntry(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class); 
+		scann.setRequestCode(REQUEST_CODE_BARCODE_SCANN);
+		texts.add(scann);
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_imageLoader), ImageLoaderActivity.class));
 		
 		listView.setAdapter(new TextAdapter(getBaseContext(), texts));
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_BARCODE_SCANN){
+			toastL(data.getStringExtra(BarcodeScannerActivity.RETURN_BARCODE_CONTENT));
+		}
 	}
 }
