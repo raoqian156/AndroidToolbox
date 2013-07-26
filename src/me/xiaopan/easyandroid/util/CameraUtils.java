@@ -89,6 +89,16 @@ public class CameraUtils {
 	 * @return
 	 */
 	public static Camera.Size getBestPreviewAndPictureSize(Context context, Camera camera){
+		Size screenSize = DeviceUtils.getScreenSize(context);
+		boolean landscape = screenSize.getWidth() > screenSize.getHeight();
+		
+		//如果是竖屏就将宽高互换
+		if(!landscape){
+			screenSize.setWidth(screenSize.getWidth() + screenSize.getHeight());
+			screenSize.setHeight(screenSize.getWidth() - screenSize.getHeight());
+			screenSize.setWidth(screenSize.getWidth() - screenSize.getHeight());
+		}
+		
 		Camera.Parameters cameraParameters = camera.getParameters();
 		List<Camera.Size> supportPreviewSizes = cameraParameters.getSupportedPreviewSizes();
 		List<Camera.Size> supportPictureSizes = cameraParameters.getSupportedPictureSizes();
@@ -100,8 +110,6 @@ public class CameraUtils {
 		};
 		Collections.sort(supportPreviewSizes, comparator);
 		Collections.sort(supportPictureSizes, comparator);
-		
-		Size screenSize = DeviceUtils.getScreenSize(context);
 		
 		Iterator<Camera.Size> supportPreviewSizeIterator;
 		Iterator<Camera.Size> supportPictureSizeIterator;
@@ -149,6 +157,12 @@ public class CameraUtils {
 				break;
 			}
 		}
+		
+//		if(result != null && !landscape){
+//			result.width = result.width + result.height;
+//			result.height = result.width - result.height;
+//			result.width = result.width - result.height;
+//		}
 		
 		return result;
 	}
@@ -246,15 +260,15 @@ public class CameraUtils {
 	}
 	
 	/**
-	 * 根据屏幕分辨率以及相机预览分辨率获取取景框的位置
-	 * @param context 
-	 * @param findView
-	 * @param cameraPreviewSize
-	 * @return
+	 * 根据屏幕分辨率以及相机预览分辨率获取取景框在预览图中的位置
+	 * @param context 上下文
+	 * @param cameraApertureView 取景框视图
+	 * @param cameraPreviewSize 相机预览尺寸
+	 * @return 取景框在预览图中的位置
 	 */
-	public static Rect getFindViewRectByScreenAndCameraPreviewSize(Context context, View findView, Camera.Size cameraPreviewSize){
+	public static Rect getCameraApertureRectByScreenAndCameraPreviewSize(Context context, View cameraApertureView, Camera.Size cameraPreviewSize){
 		Rect rectInScreen = new Rect();	//扫描框相对于整个屏幕的矩形
-		findView.getGlobalVisibleRect(rectInScreen);
+		cameraApertureView.getGlobalVisibleRect(rectInScreen);
 		Rect rectInPreview= new Rect(rectInScreen);	//扫描框相对于预览界面的矩形
 		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();//获取屏幕分辨率
 		
@@ -271,5 +285,21 @@ public class CameraUtils {
 		}
 		
 		return rectInPreview;
+	}
+	
+	/**
+	 * 将YUV格式的图片的源数据从横屏模式转为竖屏模式，注意：将源图片的宽高互换一下就是新图片的宽高
+	 * @param sourceData YUV格式的图片的源数据
+	 * @param width 源图片的宽
+	 * @param height 源图片的高
+	 * @return 
+	 */
+	public static final byte[] yuvLandscapeToPortrait(byte[] sourceData, int width, int height){
+		byte[] rotatedData = new byte[sourceData.length];
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++)
+				rotatedData[x * height + height - y - 1] = sourceData[x + y * width];
+		}
+		return rotatedData;
 	}
 }

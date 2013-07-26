@@ -185,7 +185,7 @@ public class ScanFrameView extends View {
 	 */
 	public Rect getRectInPreview(Camera.Size cameraPreviewSize) {
 		if(rectInPreview == null){
-			rectInPreview= CameraUtils.getFindViewRectByScreenAndCameraPreviewSize(getContext(), this, cameraPreviewSize);
+			rectInPreview= CameraUtils.getCameraApertureRectByScreenAndCameraPreviewSize(getContext(), this, cameraPreviewSize);
 		}
 		return rectInPreview;
 	}

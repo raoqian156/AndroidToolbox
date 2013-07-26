@@ -202,6 +202,18 @@
         <item name="android:id">@id/button_listItemChoice</item>
     </style>
     
+    <!-- 按钮 - 快门 -->
+    <style name="button_shutter">
+        <item name="android:layout_width">85dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/selector_button_shutter</item>
+        <item name="android:padding">@dimen/base_padding_default</item>
+	    <item name="android:textColor">@color/base_white</item>
+	    <item name="android:layout_marginTop">@dimen/base_margin_verySmall</item>
+	    <item name="android:textSize">@dimen/base_textSize_default</item>
+	    <item name="android:gravity">center</item>
+    </style>
+    
     
     
     

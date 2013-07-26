@@ -18,6 +18,8 @@ package me.xiaopan.easyandroid.util.barcode;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import me.xiaopan.easyandroid.util.CameraUtils;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -118,7 +120,7 @@ public class Decoder {
 			// 如果是竖屏就旋转图片
 			if (isPortrait) {
 				//将横屏的源图片转换成竖屏的
-				sourceData = yuvLandscapeToPortrait(sourceData, previewWidth, previewHeight);
+				sourceData = CameraUtils.yuvLandscapeToPortrait(sourceData, previewWidth, previewHeight);
 				//高宽互换
 				int tmp = previewWidth;
 				previewWidth = previewHeight;
@@ -190,22 +192,6 @@ public class Decoder {
 			}
 		}
 		throw new IllegalArgumentException("Unsupported picture format: " + cameraPreviewFormat + '/' + cameraPreviewFormatString);
-	}
-
-	/**
-	 * 将YUV格式的图片的源数据从横屏模式转为竖屏模式，注意：将源图片的宽高互换一下就是新图片的宽高
-	 * @param sourceData YUV格式的图片的源数据
-	 * @param width 源图片的宽
-	 * @param height 源图片的高
-	 * @return 
-	 */
-	private static final byte[] yuvLandscapeToPortrait(byte[] sourceData, int width, int height){
-		byte[] rotatedData = new byte[sourceData.length];
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++)
-				rotatedData[x * height + height - y - 1] = sourceData[x + y * width];
-		}
-		return rotatedData;
 	}
 
 	/**

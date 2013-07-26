@@ -52,6 +52,8 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	private Rect cameraApertureRect;	//取景框的位置
 	private List<String> supportedFlashModes;	//当前设备支持的闪光模式
 	private CameraManager cameraManager;	//相机管理器
+	private Camera.Size previewSize;
+	private boolean landscape;
 
 	@Override
 	public boolean isRemoveTitleBar() {
@@ -179,6 +181,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
+		landscape = WindowUtils.isLandscape(getBaseContext());
 		cameraManager = new CameraManager(surfaceView.getHolder(), this);
 		shutterButton.setVisibility(View.VISIBLE);
 		userButton.setVisibility(View.INVISIBLE);
@@ -241,12 +244,14 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 		
 		camera.setParameters(parameters);
 
+		previewSize = parameters.getPictureSize();
+		
 		//设置预览界面旋转角度
 		if(SystemUtils.getAPILevel() >= 9){
 			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
 		}else{
 			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if (!WindowUtils.isLandscape(getBaseContext())) {
+			if (!landscape) {
 				camera.setDisplayOrientation(90);
 			}
 		}
@@ -283,8 +288,13 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	public void onPictureTaken(byte[] data, Camera camera) {
 		OutputStream fileOutputStream = null;
 		try {
+			/* 如果是竖屏就将图片旋转90度 */
+			if(!landscape){
+				data = CameraUtils.yuvLandscapeToPortrait(data, previewSize.width, previewSize.height);
+			}
+			
 			/* 根据取景框对原图进行截取，只要取景框内的部分 */
-			if(cameraApertureRect == null) cameraApertureRect = CameraUtils.getFindViewRectByScreenAndCameraPreviewSize(getBaseContext(), cameraApertureView, cameraManager.getCamera().getParameters().getPreviewSize()); //初始化取景框的位置
+			if(cameraApertureRect == null) cameraApertureRect = CameraUtils.getCameraApertureRectByScreenAndCameraPreviewSize(getBaseContext(), cameraApertureView, cameraManager.getCamera().getParameters().getPreviewSize()); //初始化取景框的位置
 			Bitmap srcBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Bitmap cutBitmap = Bitmap.createBitmap(srcBitmap, cameraApertureRect.left, cameraApertureRect.top, cameraApertureRect.width(), cameraApertureRect.height());
 			srcBitmap.recycle();
