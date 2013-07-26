@@ -29,21 +29,21 @@
         <item name="android:paddingTop">@dimen/base_padding_specialLarge</item>
         <item name="android:paddingBottom">@dimen/base_padding_specialLarge</item>
     </style>
-    
-	<!-- 布局 - 列表项 -->
-	<style name="layout_listItem" parent="@style/base_match_wrap">
-	    <item name="android:minHeight">@dimen/layout_listItem_minHeight</item>
-	    <item name="android:paddingLeft">@dimen/base_padding_veryLarge</item>
-	    <item name="android:paddingTop">@dimen/base_padding_littleSmall</item>
-	    <item name="android:paddingRight">@dimen/base_padding_veryLarge</item>
-	    <item name="android:paddingBottom">@dimen/base_padding_littleSmall</item>
-	    <item name="android:gravity">center_vertical</item>
-	</style>
-	
-	<!-- 布局 - 列表头和尾 -->
-	<style name="layout_listHeaderAndFooter" parent="@style/layout_listItem">
-	    <item name="android:clickable">true</item>
-	</style>
+
+    <!-- 布局 - 列表项 -->
+    <style name="layout_listItem" parent="@style/base_match_wrap">
+        <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
+        <item name="android:paddingTop">@dimen/base_padding_default</item>
+        <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
+        <item name="android:paddingBottom">@dimen/base_padding_default</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/layout_listItem_minHeight</item>
+    </style>
+
+    <!-- 布局 - 列表头和尾 -->
+    <style name="layout_listHeaderAndFooter" parent="@style/layout_listItem">
+        <item name="android:clickable">true</item>
+    </style>
     
     <!-- 布局 - 列表为空时的提示视图 -->
     <style name="layout_listEmptyHint" parent="@style/base_wrap_wrap">
@@ -101,37 +101,64 @@
 	
 	<!-- ******************************************************************************** 文本 ************************************************************************************ -->	
 	<!-- 文本 -->
-	<style name="text" parent="@style/base_wrap_wrap">
-		<item name="android:textColor">@color/base_black</item>
-		<item name="android:textSize">@dimen/base_textSize_default</item>
-	    <item name="android:layout_margin">@dimen/base_margin_littleSmall</item>
-	</style>
-	
-	<!-- 文本 - 可选择的 -->
-	<style name="text_selectable" parent="@style/text">
-	    <item name="android:textIsSelectable">true</item>
-	</style>
-	
-	<!-- 文本 - 宽度充满 -->
-	<style name="text_match" parent="@style/text">
-	    <item name="android:layout_width">match_parent</item>
-	</style>
-	
-	<!-- 文本 - 宽度充满 - 可选择的 -->
-	<style name="text_match_selectable" parent="@style/text_match">
-	    <item name="android:textIsSelectable">true</item>
-	</style>
-	
-	<!-- 文本 - 宽度权重 -->
-	<style name="text_weight" parent="@style/text">
-	    <item name="android:layout_width">0dp</item>
-	    <item name="android:layout_weight">1</item>
-	</style>
-	
-	<!-- 文本 - 宽度权重 - 可选择的 -->
-	<style name="text_weight_selectable" parent="@style/text_weight">
-	    <item name="android:textIsSelectable">true</item>
-	</style>
+    <style name="text" parent="@style/base_wrap_wrap">
+        <item name="android:textSize">@dimen/base_textSize_default</item>
+        <item name="android:textColor">@color/base_black</item>
+        <item name="android:layout_marginLeft">@dimen/base_margin_littleSmall</item>
+        <item name="android:layout_marginTop">@dimen/base_margin_specialSmall</item>
+        <item name="android:layout_marginRight">@dimen/base_margin_littleSmall</item>
+        <item name="android:layout_marginBottom">@dimen/base_margin_specialSmall</item>
+    </style>
+
+    <!-- 文本 - 充满 -->
+    <style name="text_match" parent="@style/text">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!-- 文本 - 权重 -->
+    <style name="text_weight" parent="@style/text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!-- 文本 - 小的 -->
+    <style name="text_small" parent="@style/text">
+        <item name="android:textSize">@dimen/base_textSize_small</item>
+    </style>
+
+    <!-- 文本 - 小的 - 充满 -->
+    <style name="text_small_match" parent="@style/text_small">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!-- 文本 - 小的 - 权重 -->
+    <style name="text_small_weight" parent="@style/text_small">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!-- 文本 - 标题 -->
+    <style name="text_title" parent="@style/base_wrap_wrap">
+        <item name="android:textSize">@dimen/base_textSize_large</item>
+        <item name="android:textColor">@color/selector_text_theme</item>
+    </style>
+
+    <!-- 文本 - 标题 - 充满 -->
+    <style name="text_title_match" parent="@style/text_title">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!-- 文本 - 标题 - 权重 -->
+    <style name="text_title_weight" parent="@style/text_title">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!-- 文本 - 副标题 -->
+    <style name="text_subTitle" parent="@style/base_wrap_wrap">
+        <item name="android:textSize">@dimen/base_textSize_littleSmall</item>
+        <item name="android:textColor">@color/selector_text_theme_gray</item>
+    </style>
 	
 	<!-- 文本 - 滑动选项卡 - 标题 -->
 	<style name="text_slideTabhost_tabtitle" parent="@style/base_weight_wrap">

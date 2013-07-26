@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test.activity.adapter;
+package test.adapter;
 
 import java.util.List;
 

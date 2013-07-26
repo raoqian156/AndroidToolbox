@@ -20,8 +20,8 @@ import java.util.List;
 
 import me.xiaopan.easyandroid.R;
 import test.MyBaseFragmentActivity;
-import test.activity.adapter.ImageFragmentPagerAdapter;
 import test.activity.fragment.ImageFragment;
+import test.adapter.ImageFragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
