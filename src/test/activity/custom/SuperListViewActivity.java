@@ -42,7 +42,7 @@ public class SuperListViewActivity extends MyBaseActivity {
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
-		setContentView(R.layout.list_super);
+		setContentView(R.layout.activity_super_list);
 		superListView = (SuperListView) findViewById(android.R.id.list);
 	}
 

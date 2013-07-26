@@ -76,24 +76,6 @@
 	    <item name="android:layout_height">0dp</item>
 	    <item name="android:layout_weight">1</item>
 	</style>
-   
-	<!-- 列表 - 有左右内边距 -->
-	<style name="list_padding" parent="@style/list">
-	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
-	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
-	</style>
-    
-	<!-- 列表 - 充满的 - 有左右内边距 -->
-	<style name="list_match_padding" parent="@style/list_match">
-	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
-	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
-	</style>
-    
-	<!-- 列表 - 高度权重1 - 有左右内边距 -->
-	<style name="list_weight_padding" parent="@style/list_weight">
-	    <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
-	    <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
-	</style>
 	
 	
 	
