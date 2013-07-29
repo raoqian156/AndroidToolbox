@@ -44,11 +44,41 @@
 	    <!-- 拍照操作栏 -->
 	    <LinearLayout style="@style/base_match_wrap_vertical" android:background="@drawable/backg_balack_translucent">
 	  	    <LinearLayout style="@style/base_match_wrap" android:background="@drawable/backg_bottom" android:gravity="center" android:padding="@dimen/base_padding_default">
-	          	<Button style="@style/button_shutter" android:id="@+id/button_takeBusinessCard_remake" android:visibility="invisible" android:text="重拍"/>
+	          	<Button 
+	          	    android:id="@+id/button_takeBusinessCard_remake" 
+	          	    android:visibility="invisible" 
+	          	    android:text="重拍"
+	          	    android:layout_width="85dp"
+	          	    android:layout_height="40dp"
+	          	    android:gravity="center"
+	          	    android:textSize="@dimen/base_textSize_default"
+	          	    android:padding="@dimen/base_padding_default"
+	          	    android:textColor="@color/base_white"
+	          	    android:background="@drawable/selector_button_shutter"
+	          	    android:layout_marginTop="@dimen/base_margin_verySmall"
+	          	    />
 	          	<LinearLayout style="@style/base_weight_wrap" android:gravity="center">
-		          	<ImageButton style="@style/button_shutter" android:id="@+id/button_takeBusinessCard_shutter" android:src="@drawable/icon_camera2" android:contentDescription="@string/base_image_contentDescription"/>
+		          	<ImageButton android:id="@+id/button_takeBusinessCard_shutter" android:src="@drawable/icon_camera2" android:contentDescription="@string/base_image_contentDescription"
+		          	    android:layout_width="85dp"
+		          	    android:layout_height="40dp"
+		          	    android:gravity="center"
+		          	    android:textSize="@dimen/base_textSize_default"
+		          	    android:padding="@dimen/base_padding_default"
+		          	    android:textColor="@color/base_white"
+		          	    android:background="@drawable/selector_button_shutter"
+		          	    android:layout_marginTop="@dimen/base_margin_verySmall"
+		          	    />
 	          	</LinearLayout>
-	          	<Button style="@style/button_shutter" android:id="@+id/button_takeBusinessCard_use" android:visibility="invisible" android:text="使用"/>
+	          	<Button android:id="@+id/button_takeBusinessCard_use" android:visibility="invisible" android:text="使用"
+	          	    android:layout_width="85dp"
+	          	    android:layout_height="40dp"
+	          	    android:gravity="center"
+	          	    android:textSize="@dimen/base_textSize_default"
+	          	    android:padding="@dimen/base_padding_default"
+	          	    android:textColor="@color/base_white"
+	          	    android:background="@drawable/selector_button_shutter"
+	          	    android:layout_marginTop="@dimen/base_margin_verySmall"
+	          	    />
 	       	</LinearLayout>
        	</LinearLayout>
     </LinearLayout>

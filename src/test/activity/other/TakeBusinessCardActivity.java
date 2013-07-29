@@ -168,7 +168,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						previewImage.setImageDrawable(null);	//将预览视图清空
-						cameraManager.startPreview();
+//						cameraManager.startPreview();
 					}
 				});
 			}
@@ -309,7 +309,16 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 			//渐隐快门按钮并渐现使用、重拍按钮
 			ViewAnimationUtils.invisibleViewByAlpha(shutterButton);
 			ViewAnimationUtils.visibleViewByAlpha(userButton);
-			ViewAnimationUtils.visibleViewByAlpha(remakeButton);
+			ViewAnimationUtils.visibleViewByAlpha(remakeButton, new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {}
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					cameraManager.startPreview();
+				}
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(fileOutputStream != null){
