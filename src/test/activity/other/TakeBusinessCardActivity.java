@@ -11,17 +11,15 @@ import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.util.BitmapUtils;
 import me.xiaopan.easyandroid.util.CameraManager;
 import me.xiaopan.easyandroid.util.CameraUtils;
-import me.xiaopan.easyandroid.util.SystemUtils;
 import me.xiaopan.easyandroid.util.ViewAnimationUtils;
-import me.xiaopan.easyandroid.util.WindowUtils;
 import me.xiaopan.easyjava.util.IOUtils;
+import me.xiaopan.easyjava.util.StringUtils;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -37,7 +35,15 @@ import android.widget.ImageView;
  */
 public class TakeBusinessCardActivity extends MyBaseActivity implements CameraManager.CameraCallback, Camera.PictureCallback{
 	/**
-	 * 返回 - 名片文件路径
+	 * 参数 - 可选的 - 字符串 - 名片保存路径，默认路径为SD中应用目录下cache/BusinessCardCache.jpeg
+	 */
+	public static final String PARAM_OPTIONAL_STRING_SAVE_PATH = "PARAM_OPTIONAL_STRING_SAVE_PATH";
+	/**
+	 * 参数 - 可选的 - 整型 - 名片的输出宽度，名片的输出高度将以1.67:1的比例计算得出，默认宽高为648*388
+	 */
+	public static final String PARAM_OPTIONAL_INT_BUSINESS_CARD_WIDTH = "PARAM_OPTIONAL_INT_BUSINESS_CARD_WIDTH";
+	/**
+	 * 返回 - 名片文件路径，默认路径为SD中应用目录下cache/BusinessCardCache.jpeg
 	 */
 	public static final String RETURN_BUSINESS_CARD_FILE_PATH = "RETURN_BUSINESS_CARD_FILE_PATH";
 	private boolean readTakePhotos;//准备拍照
@@ -48,22 +54,12 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	private Button flashModeButton;	//闪光等控制按钮
 	private ImageView previewImage;	//预览图
 	private SurfaceView surfaceView;	//Surface视图
-	private File localCacheFile;	//本地缓存文件爱你
+	private File localSaveFile;	//本地缓存文件爱你
 	private Rect cameraApertureRect;	//取景框的位置
 	private List<String> supportedFlashModes;	//当前设备支持的闪光模式
 	private CameraManager cameraManager;	//相机管理器
-	private Camera.Size previewSize;
-	private boolean landscape;
-
-	@Override
-	public boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	public boolean isRemoveStatusBar() {
-		return true;
-	}
+	private int businessCardWidth = 648;
+	private int businessCardHeight = 388;
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
@@ -115,21 +111,21 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 				Bitmap finalBitmap = null;
 				FileOutputStream fileOutputStream = null;
 				try {
-					//对原图进行缩小
-					sourceBitmap = BitmapFactory.decodeFile(localCacheFile.getPath());
-					finalBitmap = BitmapUtils.scale(sourceBitmap, 648, 388);	//对裁剪后的图片进行缩小
+					/* 对裁剪后的图片进行缩小 */
+					sourceBitmap = BitmapFactory.decodeFile(localSaveFile.getPath());
+					finalBitmap = BitmapUtils.scale(sourceBitmap, businessCardWidth, businessCardHeight);	
 					sourceBitmap.recycle();
 					
-					//将最终得到的图片输出到本地缓存文件中
-					if(!localCacheFile.exists()) localCacheFile.createNewFile();
-					fileOutputStream = new FileOutputStream(localCacheFile);
+					/* 将最终得到的图片输出到本地缓存文件中 */
+					if(!localSaveFile.exists()) localSaveFile.createNewFile();
+					fileOutputStream = new FileOutputStream(localSaveFile);
 					finalBitmap.compress(CompressFormat.JPEG, 90, fileOutputStream);	//输出到本地缓存文件中
 					fileOutputStream.flush();
 					fileOutputStream.close();
 					finalBitmap.recycle();
 					
-					//返回结果
-					getIntent().putExtra(RETURN_BUSINESS_CARD_FILE_PATH, localCacheFile.getPath());
+					/* 返回结果 */
+					getIntent().putExtra(RETURN_BUSINESS_CARD_FILE_PATH, localSaveFile.getPath());
 					setResult(RESULT_OK, getIntent());
 					finishActivity();
 				} catch (IOException e) {
@@ -181,20 +177,42 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		landscape = WindowUtils.isLandscape(getBaseContext());
-		cameraManager = new CameraManager(surfaceView.getHolder(), this);
-		shutterButton.setVisibility(View.VISIBLE);
-		userButton.setVisibility(View.INVISIBLE);
-		remakeButton.setVisibility(View.INVISIBLE);
-		localCacheFile =getFileFromDynamicCacheDir("BusinessCardCache.jpeg");
-		if(!localCacheFile.exists()){
+		/* 初始化本地保存文件 */
+		String savePath = getIntent().getStringExtra(PARAM_OPTIONAL_STRING_SAVE_PATH);
+		if(StringUtils.isNotNullAndEmpty(savePath)){
+			localSaveFile = new File(savePath);
+		}else{
+			localSaveFile = getFileFromDynamicCacheDir("BusinessCardCache.jpeg");
+		}
+		if(!localSaveFile.exists()){
 			try {
-				localCacheFile.createNewFile();
+				localSaveFile.getParentFile().mkdirs();
+				localSaveFile.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 				becauseExceptionFinishActivity();
 			}
 		}
+		
+		/* 初始化名片的宽高 */
+		businessCardWidth = getIntent().getIntExtra(PARAM_OPTIONAL_INT_BUSINESS_CARD_WIDTH, 648);
+		businessCardHeight = (int) (businessCardWidth/1.67);
+		
+		/* 初始化相机关机器以及按钮 */
+		cameraManager = new CameraManager(this, surfaceView.getHolder(), this);
+		shutterButton.setVisibility(View.VISIBLE);
+		userButton.setVisibility(View.INVISIBLE);
+		remakeButton.setVisibility(View.INVISIBLE);
+	}
+
+	@Override
+	public boolean isRemoveTitleBar() {
+		return true;
+	}
+
+	@Override
+	public boolean isRemoveStatusBar() {
+		return true;
 	}
 	
 	@Override
@@ -216,45 +234,20 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	}
 	
 	@Override
-	public void onInitCamera(Camera camera) {
-		Parameters parameters = camera.getParameters();
-		
-		//设置闪光模式
+	public void onInitCamera(Camera camera, Camera.Parameters cameraParameters) {
+		/* 设置闪光模式 */
 		supportedFlashModes = new ArrayList<String>(3);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_OFF);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_ON);
-		if(parameters.getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_AUTO)){
-			parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+		if(cameraParameters.getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_AUTO)){
+			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
 			supportedFlashModes.add(Camera.Parameters.FLASH_MODE_AUTO);
 			setFlashModeImageButton(Camera.Parameters.FLASH_MODE_AUTO);
 		}else{
-			parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			setFlashModeImageButton(Camera.Parameters.FLASH_MODE_OFF);
 		}
-
-		//设置最佳预览和图片输出分辨率
-		Camera.Size bestSize = CameraUtils.getBestPreviewAndPictureSize(getBaseContext(), camera);
-		if(bestSize != null){
-			parameters.setPreviewSize(bestSize.width, bestSize.height);
-			parameters.setPictureSize(bestSize.width, bestSize.height);
-		}else{
-			parameters.setPreviewSize(640, 480);
-			parameters.setPictureSize(640, 480);
-		}
-		
-		camera.setParameters(parameters);
-
-		previewSize = parameters.getPictureSize();
-		
-		//设置预览界面旋转角度
-		if(SystemUtils.getAPILevel() >= 9){
-			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
-		}else{
-			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if (!landscape) {
-				camera.setDisplayOrientation(90);
-			}
-		}
+		camera.setParameters(cameraParameters);
 	}
 
 	@Override
@@ -288,26 +281,30 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	public void onPictureTaken(byte[] data, Camera camera) {
 		OutputStream fileOutputStream = null;
 		try {
-			/* 如果是竖屏就将图片旋转90度 */
-			if(!landscape){
-				data = CameraUtils.yuvLandscapeToPortrait(data, previewSize.width, previewSize.height);
+			/* 初始化源图，如果预览方向有旋转，就将图片转过来 */
+			Bitmap srcBitmap = null;
+			if(cameraManager.getDisplayOrientation() != 0){
+				Bitmap sourceBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+				srcBitmap = BitmapUtils.rotate(sourceBitmap, cameraManager.getDisplayOrientation());
+				sourceBitmap.recycle();
+			}else{
+				srcBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 			}
 			
 			/* 根据取景框对原图进行截取，只要取景框内的部分 */
 			if(cameraApertureRect == null) cameraApertureRect = CameraUtils.getCameraApertureRectByScreenAndCameraPreviewSize(getBaseContext(), cameraApertureView, cameraManager.getCamera().getParameters().getPreviewSize()); //初始化取景框的位置
-			Bitmap srcBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 			Bitmap cutBitmap = Bitmap.createBitmap(srcBitmap, cameraApertureRect.left, cameraApertureRect.top, cameraApertureRect.width(), cameraApertureRect.height());
 			srcBitmap.recycle();
 			
 			//将裁减后的图片输出到本地缓存文件中
-			if(!localCacheFile.exists()) localCacheFile.createNewFile();
-			fileOutputStream = IOUtils.openOutputStream(localCacheFile, false);
+			if(!localSaveFile.exists()) localSaveFile.createNewFile();
+			fileOutputStream = IOUtils.openOutputStream(localSaveFile, false);
 			cutBitmap.compress(CompressFormat.JPEG, 100, fileOutputStream);
 			fileOutputStream.flush();
 			fileOutputStream.close();
 			
 			//显示到预览图上
-			previewImage.setImageURI(Uri.fromFile(localCacheFile));
+			previewImage.setImageURI(Uri.fromFile(localSaveFile));
 			
 			//渐隐快门按钮并渐现使用、重拍按钮
 			ViewAnimationUtils.invisibleViewByAlpha(shutterButton);

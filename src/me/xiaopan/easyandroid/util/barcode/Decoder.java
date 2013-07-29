@@ -19,7 +19,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import me.xiaopan.easyandroid.util.CameraUtils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;

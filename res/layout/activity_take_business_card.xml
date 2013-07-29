@@ -18,7 +18,6 @@
 			        android:text="@string/base_close"
 			        android:layout_gravity="right|top"
 			        android:gravity="center"
-			        android:layout_marginRight="@dimen/base_margin_specialLarge"
 			        android:drawablePadding="@dimen/base_padding_small"
 			        android:textSize="@dimen/base_textSize_littleSmall"/>
 	        </LinearLayout>

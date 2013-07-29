@@ -20,12 +20,8 @@ import java.util.List;
 
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.util.CameraManager;
-import me.xiaopan.easyandroid.util.CameraUtils;
-import me.xiaopan.easyandroid.util.SystemUtils;
-import me.xiaopan.easyandroid.util.WindowUtils;
 import test.MyBaseActivity;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
@@ -42,16 +38,6 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	private ImageButton flashModeImageButton;
 	private List<String> supportedFlashModes;
 	private CameraManager cameraManager;
-
-	@Override
-	public boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	public boolean isRemoveStatusBar() {
-		return true;
-	}
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
@@ -84,7 +70,17 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		cameraManager = new CameraManager(surfaceView.getHolder(), this);
+		cameraManager = new CameraManager(this, surfaceView.getHolder(), this);
+	}
+
+	@Override
+	public boolean isRemoveTitleBar() {
+		return true;
+	}
+
+	@Override
+	public boolean isRemoveStatusBar() {
+		return true;
 	}
 
 	@Override
@@ -106,40 +102,20 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	}
 	
 	@Override
-	public void onInitCamera(Camera camera) {
-		Parameters parameters = camera.getParameters();
-		
-		//设置闪光模式
+	public void onInitCamera(Camera camera, Camera.Parameters cameraParameters) {
+		/* 设置闪光模式 */
 		supportedFlashModes = new ArrayList<String>(3);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_OFF);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_ON);
-		if(parameters.getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_AUTO)){
-			parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+		if(cameraParameters.getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_AUTO)){
+			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
 			supportedFlashModes.add(Camera.Parameters.FLASH_MODE_AUTO);
 			setFlashModeImageButton(Camera.Parameters.FLASH_MODE_AUTO);
 		}else{
-			parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			setFlashModeImageButton(Camera.Parameters.FLASH_MODE_OFF);
 		}
-		
-		//设置最佳的预览分辨率
-		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
-		if(optimalPreviewSize != null){
-			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
-			parameters.setPictureSize(optimalPreviewSize.width, optimalPreviewSize.height);
-		}
-		
-		camera.setParameters(parameters);
-		
-		//设置预览界面旋转角度
-		if(SystemUtils.getAPILevel() >= 9){
-			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
-		}else{
-			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if (!WindowUtils.isLandscape(getBaseContext())) {
-				camera.setDisplayOrientation(90);
-			}
-		}
+		camera.setParameters(cameraParameters);
 	}
 
 	@Override

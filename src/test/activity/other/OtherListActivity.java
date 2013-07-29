@@ -51,9 +51,9 @@ public class OtherListActivity extends MyBaseActivity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				ActivityEntry activityEntry = (ActivityEntry)texts.get(arg2 - listView.getHeaderViewsCount());
 				if(activityEntry.getRequestCode() != -1){
-					startActivityForResult(activityEntry.getAction(), activityEntry.getRequestCode());
+					startActivityForResult(activityEntry.getAction(), activityEntry.getRequestCode(), activityEntry.getBundle());
 				}else{
-					startActivity(activityEntry.getAction());
+					startActivity(activityEntry.getAction(), activityEntry.getBundle());
 				}
 			}
 		});
@@ -64,9 +64,11 @@ public class OtherListActivity extends MyBaseActivity{
 		texts = new ArrayList<Text>();
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_accessNetwork), AccessNetworkActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_downloadImage), DownloadImageActivity.class));
+		
 		ActivityEntry scann = new ActivityEntry(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class); 
 		scann.setRequestCode(REQUEST_CODE_BARCODE_SCANN);
 		texts.add(scann);
+		
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_takeBusinessCard), TakeBusinessCardActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_imageLoader), ImageLoaderActivity.class));
 		

@@ -55,7 +55,6 @@ public class MediaListActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		texts = new ArrayList<Text>();
-		texts.add(new ActivityEntry(getString(R.string.activityTitle_takePicture), TakePicturesActivity.class));
 		listView.setAdapter(new TextAdapter(getBaseContext(), texts));
 	}
 }

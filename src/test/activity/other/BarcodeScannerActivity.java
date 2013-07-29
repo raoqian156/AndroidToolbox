@@ -18,8 +18,6 @@ package test.activity.other;
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.util.CameraManager;
 import me.xiaopan.easyandroid.util.CameraUtils;
-import me.xiaopan.easyandroid.util.SystemUtils;
-import me.xiaopan.easyandroid.util.WindowUtils;
 import me.xiaopan.easyandroid.util.barcode.Decoder;
 import me.xiaopan.easyandroid.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.easyandroid.util.barcode.ScanFrameView;
@@ -60,16 +58,6 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	private ToggleButton flashButton;
 	
 	@Override
-	public boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	public boolean isRemoveStatusBar() {
-		return true;
-	}
-	
-	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
@@ -102,7 +90,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 		}
 		
 		//初始化相机管理器
-		cameraManager = new CameraManager(surfaceView.getHolder(), this);
+		cameraManager = new CameraManager(this, surfaceView.getHolder(), this);
 		cameraManager.setFocusIntervalTime(3000);
 		
 		//初始化刷新扫描框的处理器
@@ -115,6 +103,16 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 		//初始化音效
 		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 		beepId = soundPool.load(getBaseContext(), R.raw.beep, 100);
+	}
+	
+	@Override
+	public boolean isRemoveTitleBar() {
+		return true;
+	}
+
+	@Override
+	public boolean isRemoveStatusBar() {
+		return true;
 	}
 
 	@Override
@@ -148,27 +146,9 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 	
 	@Override
-	public void onInitCamera(Camera camera) {
+	public void onInitCamera(Camera camera, Camera.Parameters cameraParameters) {
 		//设置预览回调
 		camera.setPreviewCallback(this);
-		
-		//设置最佳的预览分辨率
-		Camera.Size optimalPreviewSize = CameraUtils.getOptimalPreviewSize(getBaseContext(), camera);
-		if(optimalPreviewSize != null){
-			Camera.Parameters parameters = camera.getParameters();
-			parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
-			camera.setParameters(parameters);
-		}
-		
-		//设置预览界面旋转角度
-		if(SystemUtils.getAPILevel() >= 9){
-			cameraManager.setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(this, cameraManager.getCurrentCameraId()));
-		}else{
-			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if (!WindowUtils.isLandscape(getBaseContext())) {
-				camera.setDisplayOrientation(90);
-			}
-		}
 		
 		//如果解码器尚未创建的话，就创建解码器并设置其监听器
 		if(decoder == null){
@@ -284,6 +264,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	private void handleResult(Result result, Bitmap barcodeBitmap){
 		getIntent().putExtra(RETURN_BARCODE_CONTENT, result.getText());
 		setResult(RESULT_OK, getIntent());
+		scanFrameView.drawResultBitmap(barcodeBitmap);
 		finishActivity();
 	}
 	

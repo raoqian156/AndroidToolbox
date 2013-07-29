@@ -59,13 +59,12 @@
    		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/activityTitle_graphicsList"/>
    		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/activityTitle_rotateDrawable"/>
    		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/activityTitle_mediaList"/>
-   		<activity android:name="test.activity.media.TakePicturesActivity" android:label="@string/activityTitle_takePicture" android:screenOrientation="portrait"/>
      	<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/activityTitle_accessNetwork"/>
-     	<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/activityTitle_barcodeScanner" android:screenOrientation="portrait"/>
+     	<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/activityTitle_barcodeScanner"/>
      	<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/activityTitle_downloadImage"/>
     	<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/activityTitle_imageLoader"/>
    		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/activityTitle_otherList"/>
-   		<activity android:name="test.activity.other.TakeBusinessCardActivity" android:label="@string/activityTitle_takeBusinessCard" android:screenOrientation="landscape"/>
+   		<activity android:name="test.activity.other.TakeBusinessCardActivity" android:label="@string/activityTitle_takeBusinessCard"/>
        	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/activityTitle_progressBar"/>
        	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/activityTitle_tabHost"/>
        	<activity android:name="test.activity.views.TabContentActivity"/>

@@ -17,7 +17,7 @@
 			        android:textColor="@color/base_black"
 			        android:text="@string/base_close"
 			        android:layout_gravity="right"
-			        android:layout_marginRight="@dimen/base_margin_specialLarge"
+			        android:layout_marginRight="@dimen/base_margin_default"
 			        android:drawablePadding="@dimen/base_padding_small"
 			        android:textSize="@dimen/base_textSize_littleSmall"/>
 	        </LinearLayout>

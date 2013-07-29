@@ -16,7 +16,6 @@
 	<string name="activityTitle_clipDrawable">Clip Drawable</string>
 	<string name="activityTitle_rotateDrawable">Rotate Drawable</string>
 	<string name="activityTitle_mediaList">多媒体</string>
-	<string name="activityTitle_takePicture">拍照</string>
 	<string name="activityTitle_otherList">其它</string>
    	<string name="activityTitle_accessNetwork">访问网络</string>
    	<string name="activityTitle_downloadImage">下载图片</string>
