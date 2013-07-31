@@ -37,7 +37,7 @@ public class AndroidLogger {
 	/**
 	 * 默认的Log tag
 	 */
-	private static String defaultLogTag = "LOG";
+	private static String defaultLogTag = "AndroidLogger";
 	/**
 	 * 是否将Log输出到控制台
 	 */
