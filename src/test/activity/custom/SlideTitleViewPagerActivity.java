@@ -11,6 +11,7 @@ import test.MyBaseActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,7 +31,12 @@ public class SlideTitleViewPagerActivity extends MyBaseActivity {
 
 	@Override
 	public void onInitListener(Bundle savedInstanceState) {
-		
+		moreSlideTitlebar.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moreSlideTitlebar.setCurrentItem(5);
+			}
+		});
 	}
 
 	@Override
