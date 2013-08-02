@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * 带有滑动标题的ViewPager，你只需调用setTabs
@@ -24,22 +25,21 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 	private FrameLayout titleLayout;	//标题布局
 	private LinearLayout titleItemLayout;	//标题项布局
 	private LinearLayout sliderLayout;
-	private View titleSliderView;	//标题滑块视图
+	private View sliderView;	//标题滑块视图
 	private ViewPager viewPager;
 	private int center;	//中间位置
 	private int width;	//宽度
 	private View lastTitleItem;	//上一个标题项
 	private View currentTitleItem;	//当前标题项
 	private View nextTitleItem;	//下一个标题项
-	private int leftDistance;
-	private int rightDistance;
 	private OnPageChangeListener onPageChangeListener;	//页面改变监听器
 	private int sliderColor = Colors.SKYBLUE_DARK;	//滑块颜色
 	private boolean draggingState;	//拖动状态
 	private boolean settlingState;	//沉淀状态
 	private boolean idleState;	//静止状态
-	private int lastPosition;
 	private boolean slideToLeft;	//向左滑动
+	private TitleScrollHandler titleScrollHandler;
+	private boolean first = true;
 	
 	public SlideTitleViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -51,6 +51,7 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 	 */
 	private void init(){
 		setOrientation(LinearLayout.VERTICAL);
+		titleScrollHandler = new TitleScrollHandler();
 		
 		/*
 		 * 初始化滑动标题栏
@@ -61,9 +62,9 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 		titleLayout.addView(sliderLayout = new LinearLayout(getContext()), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 		sliderLayout.setOrientation(LinearLayout.VERTICAL);
 		sliderLayout.setGravity(Gravity.BOTTOM);
-		titleSliderView = onCreateSilderView();
-		if(titleSliderView != null){
-			sliderLayout.addView(titleSliderView);
+		sliderView = onCreateSilderView();
+		if(sliderView != null){
+			sliderLayout.addView(sliderView);
 		}
 		
 		//初始化标题横向滚动布局
@@ -149,10 +150,11 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 		}
 		
 		//初始化滑块的宽度
-		if(currentTitleItem != null){
-			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) titleSliderView.getLayoutParams();
+		if(first && currentTitleItem != null){
+			first = false;
+			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) sliderView.getLayoutParams();
 			layoutParams.width = currentTitleItem.getLayoutParams().width;
-			titleSliderView.setLayoutParams(layoutParams);
+			sliderView.setLayoutParams(layoutParams);
 		}
 		
 		super.onLayout(changed, l, t, r, b);
@@ -160,6 +162,7 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 	
 	@Override
 	public void onPageSelected(int position) {
+		AndroidLogger.e("onPageSelected");
 		if(position > -1 && position < titleItemLayout.getChildCount()){
 			if(currentTitleItem != null){
 				currentTitleItem.setSelected(false);	//取消上一次的选中的标题视图的选中状态
@@ -170,18 +173,15 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 			currentTitleItem.setSelected(true);	//将当前点击的TabView设为选中状态
 			if(position > 0){//更新当前选中标题视图的上一个视图
 				lastTitleItem = titleItemLayout.getChildAt(position - 1);
-				leftDistance = currentTitleItem.getLeft() - lastTitleItem.getLeft();
 			}else{
-				lastTitleItem = null;
-				leftDistance = 0;
+				lastTitleItem = currentTitleItem;
 			}
 			if(position < titleItemLayout.getChildCount() - 1){//更新当前选中标题视图的下一个视图
 				nextTitleItem = titleItemLayout.getChildAt(position + 1);
-				rightDistance = nextTitleItem.getLeft() - currentTitleItem.getLeft();
 			}else{
-				nextTitleItem = null;
-				rightDistance = 0;
+				nextTitleItem = currentTitleItem;
 			}
+			AndroidLogger.e("选中："+((TextView)currentTitleItem).getText());
 			
 			//处理滑动
 			titleHorizontalScrollView.smoothScrollTo((currentTitleItem.getLeft() + currentTitleItem.getRight())/2 - center, currentTitleItem.getTop());
@@ -190,32 +190,7 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 	
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		AndroidLogger.e("arg2："+arg2);
-		slideToLeft = lastPosition < arg2;
-		lastPosition = arg2;	
-		if(!settlingState || arg2 != 0 ){
-			if(slideToLeft){
-				if(nextTitleItem != null){
-					arg2 = width/(nextTitleItem.getLeft() - currentTitleItem.getLeft()) * arg2;
-				}
-				int newLeft = currentTitleItem.getLeft() + arg2;
-				if(newLeft > width){
-					newLeft = width;
-				}
-//				AndroidLogger.e("往左滑动："+newLeft);
-				sliderLayout.scrollTo(newLeft * -1, sliderLayout.getScrollY());
-			}else{
-				if(lastTitleItem != null){
-					arg2 = (width/(currentTitleItem.getLeft() - lastTitleItem.getLeft())*arg2);
-				}
-				int newLeft = currentTitleItem.getLeft() + arg2;
-				if(newLeft < 0){
-					newLeft = 0;
-				}
-//				AndroidLogger.e("往右滑动："+newLeft);
-				sliderLayout.scrollTo(newLeft, sliderLayout.getScrollY());
-			}
-		}
+		titleScrollHandler.onPageScrolled(arg0, arg1, arg2);
 		if(onPageChangeListener != null){
 			onPageChangeListener.onPageScrolled(arg0, arg1, arg2);
 		}
@@ -227,10 +202,13 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 		settlingState = arg0 == ViewPager.SCROLL_STATE_SETTLING;//记录是否是沉淀状态
 		idleState = arg0 == ViewPager.SCROLL_STATE_IDLE;//记录是否是静止状态
 		
-		if(draggingState){}
-		if(settlingState){}
+		if(draggingState){
+			titleScrollHandler.onDragging();
+		}
+		if(settlingState){
+		}
 		if(idleState){
-			lastPosition = 0;
+			titleScrollHandler.onIdle();
 		}
 		
 		if(onPageChangeListener != null){
@@ -283,12 +261,106 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 	public boolean setCurrentItem(int currentItemPosition){
 		if(currentItemPosition > -1 && currentItemPosition < titleItemLayout.getChildCount()){
 			viewPager.setCurrentItem(currentItemPosition, true);
-			if(!titleSliderView.isShown()){
+			if(!sliderView.isShown()){
 				onPageSelected(currentItemPosition);
 			}
 			return true;
 		}else{
 			return false;
+		}
+	}
+	
+	/**
+	 * 标题滚动处理器
+	 */
+	private class TitleScrollHandler{
+		private int lastPosition;	//上一次的位置
+		private int distance;	//距离
+		private float proportion;	//比例
+		private boolean resetDistanceAndProportion;	//是否需要重置距离和比例
+		private View startTitle;	//本次滑动的起始位置
+		private View endTitle;	//本次滑动的结束位置
+		private boolean jingzhi = true;
+		
+		public void onPageScrolled(int arg0, float arg1, int arg2){
+			if(arg2 != 0){
+				if(lastPosition != -1 && lastPosition != arg2){
+					slideToLeft = lastPosition < arg2;	//记录滑动方向
+					tryReset();	//尝试重置位置信息
+					int newX = getRealPostion(arg2);
+					AndroidLogger.e("开始位置："+(-startTitle.getLeft())+"; 结束位置："+(-endTitle.getLeft())+"; 比例："+proportion+"; 移动位置："+arg2+"; 当前位置："+newX);
+					sliderLayout.scrollTo(newX, 0);
+					
+//					ViewGroup.LayoutParams viewGroupLayoutParams = sliderView.getLayoutParams();
+//					viewGroupLayoutParams.width = getNewWidth(arg2);
+//					sliderView.setLayoutParams(viewGroupLayoutParams);
+				}
+				lastPosition = arg2;	
+			}
+		}
+		
+		public int getRealPostion(int arg2){
+			if(-startTitle.getLeft() > -endTitle.getLeft()){
+				return (int) (-startTitle.getLeft() + ((arg2 * -1)/proportion));
+			}else{
+				return (int) ((int) -startTitle.getLeft() + (distance - ((arg2)/proportion)));
+			}
+		}
+		
+		public int getNewWidth(int arg2){
+			if(sliderView.getWidth() > endTitle.getWidth()){
+				return (int) (sliderView.getWidth() + ((arg2 * -1)/proportion));
+			}else{
+				return (int) ((int) sliderView.getWidth() + (Math.abs(sliderView.getWidth() - endTitle.getWidth()) - ((arg2)/proportion)));
+			}
+		}
+		
+		/**
+		 * 当开始拖动的时候
+		 */
+		public void onDragging(){
+			if(jingzhi){
+				jingzhi = false;
+				resetDistanceAndProportion = true;
+			}
+			AndroidLogger.e("拖动");
+		}
+		
+		/**
+		 * 当静止的时候
+		 */
+		public void onIdle(){
+			jingzhi = true;
+			lastPosition = -1;	//重置位置记录
+			if(startTitle != null && endTitle != null){
+				if(Math.abs(sliderLayout.getScrollX() - -startTitle.getLeft()) < Math.abs(sliderLayout.getScrollX() - -endTitle.getLeft())){
+					sliderLayout.scrollTo(-startTitle.getLeft(), 0);
+					AndroidLogger.e("停止在："+((TextView)startTitle).getText());
+				}else{
+					sliderLayout.scrollTo(-endTitle.getLeft(), 0);
+					AndroidLogger.e("停止在："+((TextView)endTitle).getText());
+				}
+			}
+			AndroidLogger.e("最终停留位置："+sliderLayout.getScrollX()+"; 开始位置间距："+Math.abs(sliderLayout.getScrollX() - (-startTitle.getLeft()))+"; 结束位置间距："+Math.abs(sliderLayout.getScrollX() - (-endTitle.getLeft())));
+		}
+		
+		/**
+		 * 尝试重置
+		 */
+		public void tryReset(){
+			if(resetDistanceAndProportion){	//如果需要重置距离和比例
+				resetDistanceAndProportion = false;
+				if(slideToLeft){
+					startTitle = currentTitleItem;
+					endTitle = nextTitleItem;
+				}else{
+					startTitle = currentTitleItem;
+					endTitle = lastTitleItem;
+				}
+				distance = Math.abs(-startTitle.getLeft() - -endTitle.getLeft());
+				proportion = distance == 0?1:(float)width/(float)distance;
+				AndroidLogger.e("重置，开始位置："+(-startTitle.getLeft())+"；结束位置："+(-endTitle.getLeft())+"；距离："+distance+"；总宽度："+width+"；比例："+proportion);
+			}
 		}
 	}
 }
