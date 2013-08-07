@@ -19,7 +19,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import me.xiaopan.easyandroid.util.CameraUtils;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -235,10 +234,7 @@ public class Decoder {
 	
 	/**
 	 * 解码处理器
-	 * @author xiaopan
-	 *
 	 */
-	@SuppressLint("HandlerLeak")
 	private class DecodeHandler extends Handler{
 		@Override
 		public void handleMessage(Message msg) {
