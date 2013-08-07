@@ -262,9 +262,9 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	 * @param barcodeBitmap
 	 */
 	private void handleResult(Result result, Bitmap barcodeBitmap){
+		scanFrameView.drawResultBitmap(barcodeBitmap);
 		getIntent().putExtra(RETURN_BARCODE_CONTENT, result.getText());
 		setResult(RESULT_OK, getIntent());
-		scanFrameView.drawResultBitmap(barcodeBitmap);
 		finishActivity();
 	}
 	

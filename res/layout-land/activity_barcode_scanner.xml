@@ -31,7 +31,7 @@
        	        android:textOff="@string/base_close"
        	        android:checked="false"
        	        android:gravity="center"
-       	        android:background="@drawable/button_flash"/>
+       	        android:background="@drawable/button_flashlight_normal"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

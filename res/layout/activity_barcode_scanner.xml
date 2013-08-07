@@ -15,7 +15,7 @@
        	        android:textOn="@string/base_open"
        	        android:textOff="@string/base_close"
        	        android:checked="false"
-       	        android:background="@drawable/button_flash"/>
+       	        android:background="@drawable/button_flashlight_normal"/>
         </LinearLayout>
         
         <!-- 扫描框区 -->

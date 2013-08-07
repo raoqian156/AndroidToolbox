@@ -8,11 +8,11 @@
     <LinearLayout style="@style/base_match_match">
 	    <!-- 取景框 -->
 	    <LinearLayout style="@style/base_weight_match_vertical" android:gravity="center">
-	        <LinearLayout style="@style/base_match_weight_vertical" android:background="@drawable/backg_balack_translucent" android:gravity="center_vertical">
+	        <LinearLayout style="@style/base_match_weight_vertical" android:background="@drawable/translucent_balack" android:gravity="center_vertical">
 	            <Button 
 	                style="@style/base_wrap_wrap"
 	                android:id="@+id/button_takeBusinessCard_flashMode" 
-			        android:background="@drawable/button_flash"
+			        android:background="@drawable/button_flashlight_normal"
 			        android:drawableLeft="@drawable/icon_flash_off" 
 			        android:textColor="@color/base_black"
 			        android:text="@string/base_close"
@@ -29,7 +29,7 @@
 		        </FrameLayout>
 	        	<View style="@style/base_weight_match" android:background="@color/base_black_translucent"/>
 	        </LinearLayout>
-	        <LinearLayout style="@style/base_match_weight" android:background="@drawable/backg_balack_translucent" android:gravity="bottom">
+	        <LinearLayout style="@style/base_match_weight" android:background="@drawable/translucent_balack" android:gravity="bottom">
 		        <TextView 
 		            style="@style/base_match_wrap"
 		            android:padding="@dimen/base_padding_default"
@@ -42,7 +42,7 @@
 	    </LinearLayout>
 	    
 	    <!-- 拍照操作栏 -->
-	    <LinearLayout style="@style/base_wrap_match_vertical" android:background="@drawable/backg_balack_translucent">
+	    <LinearLayout style="@style/base_wrap_match_vertical" android:background="@drawable/translucent_balack">
 	  	    <LinearLayout style="@style/base_wrap_match_vertical" android:background="@drawable/backg_bottom" android:gravity="center" android:padding="@dimen/base_padding_default">
 	          	<Button 
 	          	    android:id="@+id/button_takeBusinessCard_use" 
@@ -55,14 +55,13 @@
 	          	    android:textSize="@dimen/base_textSize_default"
 	          	    android:padding="@dimen/base_padding_default"
 	          	    android:textColor="@color/base_white"
-	          	    android:background="@drawable/selector_button_shutter"
+	          	    android:background="@drawable/selector_button_shutter_use"
 	          	    android:layout_marginLeft="@dimen/base_margin_verySmall"
 	          	    />
 	          	<LinearLayout style="@style/base_wrap_weight" android:gravity="center">
 		          	<ImageButton 
 		          	    android:id="@+id/button_takeBusinessCard_shutter" 
-		          	    android:src="@drawable/icon_camera2" 
-		          	    android:contentDescription="@string/base_image_contentDescription"
+		          	    android:src="@drawable/icon_camera_theme" 
 	          	    	android:layout_width="40dp"
 	          	    	android:layout_height="85dp"
 		          	    android:gravity="center"
@@ -71,6 +70,7 @@
 		          	    android:textColor="@color/base_white"
 		          	    android:background="@drawable/selector_button_shutter"
 	          	    	android:layout_marginLeft="@dimen/base_margin_verySmall"
+		          	    android:contentDescription="@string/base_image_contentDescription"
 		          	    />
 	          	</LinearLayout>
 	          	<Button 

@@ -55,7 +55,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	private Button flashModeButton;	//闪光等控制按钮
 	private ImageView previewImage;	//预览图
 	private SurfaceView surfaceView;	//Surface视图
-	private File localSaveFile;	//本地缓存文件爱你
+	private File localCacheFile;	//本地缓存文件
 	private Rect cameraApertureRect;	//取景框的位置
 	private List<String> supportedFlashModes;	//当前设备支持的闪光模式
 	private CameraManager cameraManager;	//相机管理器
@@ -113,20 +113,20 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 				FileOutputStream fileOutputStream = null;
 				try {
 					/* 对裁剪后的图片进行缩小 */
-					sourceBitmap = BitmapFactory.decodeFile(localSaveFile.getPath());
+					sourceBitmap = BitmapFactory.decodeFile(localCacheFile.getPath());
 					finalBitmap = BitmapUtils.scale(sourceBitmap, businessCardWidth, businessCardHeight);	
 					sourceBitmap.recycle();
 					
 					/* 将最终得到的图片输出到本地缓存文件中 */
-					if(!localSaveFile.exists()) localSaveFile.createNewFile();
-					fileOutputStream = new FileOutputStream(localSaveFile);
+					if(!localCacheFile.exists()) localCacheFile.createNewFile();
+					fileOutputStream = new FileOutputStream(localCacheFile);
 					finalBitmap.compress(CompressFormat.JPEG, 90, fileOutputStream);	//输出到本地缓存文件中
 					fileOutputStream.flush();
 					fileOutputStream.close();
 					finalBitmap.recycle();
 					
 					/* 返回结果 */
-					getIntent().putExtra(RETURN_BUSINESS_CARD_FILE_PATH, localSaveFile.getPath());
+					getIntent().putExtra(RETURN_BUSINESS_CARD_FILE_PATH, localCacheFile.getPath());
 					setResult(RESULT_OK, getIntent());
 					finishActivity();
 				} catch (IOException e) {
@@ -181,14 +181,14 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 		/* 初始化本地保存文件 */
 		String savePath = getIntent().getStringExtra(PARAM_OPTIONAL_STRING_SAVE_PATH);
 		if(StringUtils.isNotNullAndEmpty(savePath)){
-			localSaveFile = new File(savePath);
+			localCacheFile = new File(savePath);
 		}else{
-			localSaveFile = FileUtils.getFileFromDynamicCacheDir(getBaseContext(), "BusinessCardCache.jpeg");
+			localCacheFile = FileUtils.getFileFromDynamicCacheDir(getBaseContext(), "BusinessCardCache.jpeg");
 		}
-		if(!localSaveFile.exists()){
+		if(!localCacheFile.exists()){
 			try {
-				localSaveFile.getParentFile().mkdirs();
-				localSaveFile.createNewFile();
+				localCacheFile.getParentFile().mkdirs();
+				localCacheFile.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 				becauseExceptionFinishActivity();
@@ -298,14 +298,14 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 			srcBitmap.recycle();
 			
 			//将裁减后的图片输出到本地缓存文件中
-			if(!localSaveFile.exists()) localSaveFile.createNewFile();
-			fileOutputStream = IOUtils.openOutputStream(localSaveFile, false);
+			if(!localCacheFile.exists()) localCacheFile.createNewFile();
+			fileOutputStream = IOUtils.openOutputStream(localCacheFile, false);
 			cutBitmap.compress(CompressFormat.JPEG, 100, fileOutputStream);
 			fileOutputStream.flush();
 			fileOutputStream.close();
 			
 			//显示到预览图上
-			previewImage.setImageURI(Uri.fromFile(localSaveFile));
+			previewImage.setImageURI(Uri.fromFile(localCacheFile));
 			
 			//渐隐快门按钮并渐现使用、重拍按钮
 			ViewAnimationUtils.invisibleViewByAlpha(shutterButton);
