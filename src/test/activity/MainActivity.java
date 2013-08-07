@@ -61,6 +61,8 @@ public class MainActivity extends MyBaseActivity{
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
+		setEnableDoubleClickExitApplication(true);
+		
 		texts = new ArrayList<Text>();
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_animationList), AnimationListActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_graphicsList), GraphicsListActivity.class));
@@ -81,10 +83,5 @@ public class MainActivity extends MyBaseActivity{
 	@Override
 	protected boolean isEnableBackHome() {
 		return false;
-	}
-
-	@Override
-	public boolean isEnableDoubleClickBackButtonExitApplication() {
-		return true;
 	}
 }

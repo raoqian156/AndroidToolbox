@@ -11,6 +11,7 @@ import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.util.BitmapUtils;
 import me.xiaopan.easyandroid.util.CameraManager;
 import me.xiaopan.easyandroid.util.CameraUtils;
+import me.xiaopan.easyandroid.util.FileUtils;
 import me.xiaopan.easyandroid.util.ViewAnimationUtils;
 import me.xiaopan.easyjava.util.IOUtils;
 import me.xiaopan.easyjava.util.StringUtils;
@@ -182,7 +183,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 		if(StringUtils.isNotNullAndEmpty(savePath)){
 			localSaveFile = new File(savePath);
 		}else{
-			localSaveFile = getFileFromDynamicCacheDir("BusinessCardCache.jpeg");
+			localSaveFile = FileUtils.getFileFromDynamicCacheDir(getBaseContext(), "BusinessCardCache.jpeg");
 		}
 		if(!localSaveFile.exists()){
 			try {

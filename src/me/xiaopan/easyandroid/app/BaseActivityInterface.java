@@ -15,7 +15,6 @@
  */
 package me.xiaopan.easyandroid.app;
 
-import java.io.File;
 import java.util.Set;
 
 import android.content.Intent;
@@ -102,23 +101,6 @@ public interface BaseActivityInterface {
 	 */
 	public boolean isRemoveStatusBar();
 
-	/**
-	 * 是否启用双击返回按钮退出应用程序功能
-	 * @return
-	 */
-	public boolean isEnableDoubleClickBackButtonExitApplication();
-	
-	/**
-	 * 当启用双击返回按钮退出应用程序的功能时，通过此方法来获取双击的最大间隔时间
-	 * @return
-	 */
-	public int onGetDoubleClickSpacingInterval();
-	
-	/**
-	 * 当启用双击返回按钮退出应用程序的功能时，用户第一次点击返回按钮的时候提示用户再次点击将退出程序。
-	 */
-	public void onPromptExitApplication();
-	
 	/**
 	 * 主线程收到消息
 	 * @param message 要处理的消息
@@ -863,60 +845,6 @@ public interface BaseActivityInterface {
 	 * @return 视图
 	 */
 	public View getViewByLayout(int resId);
-	
-	/**
-	 * 获取动态文件目录
-	 * @return 如果SD卡可用，就返回外部文件目录，否则返回机身自带文件目录
-	 */
-	public File getDynamicFilesDir();
-	
-	/**
-	 * 获取动态获取缓存目录
-	 * @return 如果SD卡可用，就返回外部缓存目录，否则返回机身自带缓存目录
-	 */
-	public File getDynamicCacheDir();
-	
-	/**
-	 * 从文件目录中获取一个文件
-	 * @param fileName 要获取的文件的名称
-	 * @return
-	 */
-	public File getFileFromFilesDir(String fileName);
-	
-	/**
-	 * 从外部文件目录中获取一个文件
-	 * @param fileName 要获取的文件的名称
-	 * @return null：SD卡不可用
-	 */
-	public File getFileFromExternalFilesDir(String fileName);
-	
-	/**
-	 * 从文缓存目录中获取一个文件
-	 * @param fileName 要获取的文件的名称
-	 * @return
-	 */
-	public File getFileFromCacheDir(String fileName);
-	
-	/**
-	 * 从外部缓存目录中获取一个文件
-	 * @param fileName 要获取的文件的名称
-	 * @return null：SD卡不可用
-	 */
-	public File getFileFromExternalCacheDir(String fileName);
-	
-	/**
-	 * 从动态文件目录中获取文件
-	 * @param fileName 要获取的文件的名称
-	 * @return 如果SD卡可用，就返回外部文件目录中获取文件，否则从机身自带文件目录中获取文件
-	 */
-	public File getFileFromDynamicFilesDir(String fileName);
-	
-	/**
-	 * 从动态缓存目录中获取文件
-	 * @param fileName 要获取的文件的名称
-	 * @return 如果SD卡可用，就返回外部缓存目录中获取文件，否则从机身自带缓存目录中获取文件
-	 */
-	public File getFileFromDynamicCacheDir(String fileName);
 	
 	
 	

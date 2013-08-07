@@ -15,12 +15,10 @@
  */
 package me.xiaopan.easyandroid.app;
 
-import java.io.File;
 import java.util.Set;
 
 import me.xiaopan.easyandroid.util.ActivityUtils;
 import me.xiaopan.easyandroid.util.NetworkUtils;
-import me.xiaopan.easyandroid.util.SDCardUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -53,9 +51,14 @@ import android.widget.Toast;
  */
 public abstract class BaseActivity extends Activity implements BaseActivityInterface{
 	private static long lastClickBackButtonTime;	//记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
+	private int doubleClickSpacingInterval = 2000;	//双击退出程序的间隔时间
+	private int[] startActivityAnimation;	//启动Activity的动画
+	private int[] finishActivityAnimation;	//终止Activity的动画
 	private long activityId = -5;	//当前Activity在ActivityManager中的ID
 	private long createTime;	//创建时间
 	private boolean openedBroadcaseReceiver;	//已经打开了广播接收器
+	private boolean enableDoubleClickExitApplication;	//是否开启双击退出程序功能
+	private boolean enableCustomActivitySwitchAnimation;	//是否启用自定义的Activity切换动画
 	private MessageHandler messageHanlder;	//主线程消息处理器
 	private MyBroadcastReceiver broadcastReceiver;	//广播接收器
 	
@@ -78,24 +81,20 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	 * 在初始化之前
 	 * @param savedInstanceState
 	 */
-	public void onPreInit(Bundle savedInstanceState){
-		
-	}
+	public void onPreInit(Bundle savedInstanceState){}
 	
 	/**
 	 * 在初始化之后
 	 * @param savedInstanceState
 	 */
-	public void onPostInit(Bundle savedInstanceState){
-		
-	}
+	public void onPostInit(Bundle savedInstanceState){}
 	
 	@Override
 	public void onBackPressed() {
-		if(isEnableDoubleClickBackButtonExitApplication()){
+		if(isEnableDoubleClickExitApplication()){
 			long currentMillisTime = System.currentTimeMillis();
 			//两次点击的间隔时间尚未超过规定的间隔时间将执行退出程序
-			if(lastClickBackButtonTime != 0 && (currentMillisTime - lastClickBackButtonTime) < onGetDoubleClickSpacingInterval()){
+			if(lastClickBackButtonTime != 0 && (currentMillisTime - lastClickBackButtonTime) < getDoubleClickSpacingInterval()){
 				finishApplication();
 			}else{
 				onPromptExitApplication();
@@ -106,26 +105,15 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 		}
 	}
 	
+	protected void onPromptExitApplication(){
+		toastS("再按一次退出程序！");
+	}
+	
 	@Override
 	protected void onDestroy() {
 		ActivityManager.getInstance().removeActivity(getActivityId());
 		closeBroadcastReceiver();
 		super.onDestroy();
-	}
-	
-	@Override
-	public boolean isEnableDoubleClickBackButtonExitApplication(){
-		return false;
-	}
-	
-	@Override
-	public int onGetDoubleClickSpacingInterval(){
-		return 2000;
-	}
-	
-	@Override
-	public void onPromptExitApplication(){
-		toastS("再按一次退出程序！");
 	}
 
 	@Override
@@ -189,14 +177,6 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	}
 	
 	/**
-	 * 判断在启动或者终止Activity的时候是否使用自定义动画
-	 * @return 在启动或者终止Activity的时候是否使用自定义动画
-	 */
-	protected boolean isUseCustomAnimation(){
-		return true;
-	}
-	
-	/**
 	 * 判断是否需要去除标题栏，默认不去除
 	 * @return 是否需要去除标题栏
 	 */
@@ -229,22 +209,6 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 		Editor editor = getDefultPreferences().edit();
 		editor.putBoolean(PRFERENCES_FIRST_USING, firstUsing);
 		editor.commit();
-	} 
-	
-	/**
-	 * 当需要获取默认的启动Activity动画
-	 * @return 默认的启动Activity动画
-	 */
-	protected int[] onGetDefaultStartActivityAnimation(){
-		return null;
-	}
-	
-	/**
-	 * 当需要获取默认的终止Activity动画
-	 * @return 默认的终止Activity动画
-	 */
-	protected int[] onGetDefaultFinishActivityAnimation(){
-		return null;
 	} 
 	
 
@@ -451,13 +415,12 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	@Override
 	public void onStartActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
-		if(isUseCustomAnimation()){
+		if(isEnableCustomActivitySwitchAnimation()){
 			if(inAnimation > 0 && outAnimation > 0){
 				ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, inAnimation, outAnimation);
 			}else{
-				int[] animations = onGetDefaultStartActivityAnimation();
-				if(animations != null && animations.length >= 2){
-					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, animations[0], animations[1]);
+				if(startActivityAnimation != null && startActivityAnimation.length >= 2){
+					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, startActivityAnimation[0], startActivityAnimation[1]);
 				}else{
 					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose);
 				}
@@ -565,13 +528,12 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	@Override
 	public void onStartActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
-		if(isUseCustomAnimation()){
+		if(isEnableCustomActivitySwitchAnimation()){
 			if(inAnimation > 0 && outAnimation > 0){
 				ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, inAnimation, outAnimation);
 			}else{
-				int[] animations = onGetDefaultStartActivityAnimation();
-				if(animations != null && animations.length >= 2){
-					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, animations[0], animations[1]);
+				if(startActivityAnimation != null && startActivityAnimation.length >= 2){
+					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, startActivityAnimation[0], startActivityAnimation[1]);
 				}else{
 					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
 				}
@@ -627,10 +589,9 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	@Override
 	public void onFinishActivity(){
 		finish();
-		if(isUseCustomAnimation()){
-			int[] animations = onGetDefaultFinishActivityAnimation();
-			if(animations != null && animations.length >= 2){
-				overridePendingTransition(animations[0], animations[1]);
+		if(isEnableCustomActivitySwitchAnimation()){
+			if(finishActivityAnimation != null && finishActivityAnimation.length >= 2){
+				overridePendingTransition(finishActivityAnimation[0], finishActivityAnimation[1]);
 			}
 		}
 	}
@@ -647,7 +608,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	@Override
 	public void onFinishActivity(int inAnimation, int outAnimation){
 		finish();
-		if(isUseCustomAnimation()){
+		if(isEnableCustomActivitySwitchAnimation()){
 			overridePendingTransition(inAnimation, outAnimation);
 		}
 	}
@@ -904,45 +865,6 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 		return getViewByLayout(resId, null);
 	}
 	
-	@Override
-	public File getDynamicFilesDir(){
-		return SDCardUtils.isAvailable() ? getExternalFilesDir(null) : getFilesDir();
-	}
-	
-	@Override
-	public File getDynamicCacheDir(){
-		return SDCardUtils.isAvailable() ? getExternalCacheDir() : getCacheDir();
-	}
-	
-	@Override
-	public File getFileFromFilesDir(String fileName){
-		return new File(getFilesDir().getPath() + File.separator + fileName);
-	}
-	
-	@Override
-	public File getFileFromExternalFilesDir(String fileName){
-		return SDCardUtils.isAvailable() ? new File(getExternalFilesDir(null).getPath() + File.separator + fileName) : null;
-	}
-	
-	@Override
-	public File getFileFromCacheDir(String fileName){
-		return new File(getCacheDir().getPath() + File.separator + fileName);
-	}
-	
-	@Override
-	public File getFileFromExternalCacheDir(String fileName){
-		return SDCardUtils.isAvailable() ? new File(getExternalCacheDir().getPath() + File.separator + fileName) : null;
-	}
-	
-	@Override
-	public File getFileFromDynamicFilesDir(String fileName){
-		return new File(getDynamicFilesDir().getPath() + File.separator + fileName);
-	}
-	
-	@Override
-	public File getFileFromDynamicCacheDir(String fileName){
-		return new File(getDynamicCacheDir().getPath() + File.separator + fileName);
-	}
 	
 	
 	
@@ -985,5 +907,55 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	@Override
 	public void setOpenedBroadcaseReceiver(boolean openedBroadcaseReceiver) {
 		this.openedBroadcaseReceiver = openedBroadcaseReceiver;
+	}
+
+	public long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
+	}
+
+	public boolean isEnableDoubleClickExitApplication() {
+		return enableDoubleClickExitApplication;
+	}
+
+	public void setEnableDoubleClickExitApplication(
+			boolean enableDoubleClickExitApplication) {
+		this.enableDoubleClickExitApplication = enableDoubleClickExitApplication;
+	}
+
+	public int getDoubleClickSpacingInterval() {
+		return doubleClickSpacingInterval;
+	}
+
+	public void setDoubleClickSpacingInterval(int doubleClickSpacingInterval) {
+		this.doubleClickSpacingInterval = doubleClickSpacingInterval;
+	}
+
+	public int[] getStartActivityAnimation() {
+		return startActivityAnimation;
+	}
+
+	public void setStartActivityAnimation(int[] startActivityAnimation) {
+		this.startActivityAnimation = startActivityAnimation;
+	}
+
+	public int[] getFinishActivityAnimation() {
+		return finishActivityAnimation;
+	}
+
+	public void setFinishActivityAnimation(int[] finishActivityAnimation) {
+		this.finishActivityAnimation = finishActivityAnimation;
+	}
+
+	public boolean isEnableCustomActivitySwitchAnimation() {
+		return enableCustomActivitySwitchAnimation;
+	}
+
+	public void setEnableCustomActivitySwitchAnimation(
+			boolean enableCustomActivitySwitchAnimation) {
+		this.enableCustomActivitySwitchAnimation = enableCustomActivitySwitchAnimation;
 	}
 }

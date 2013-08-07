@@ -15,9 +15,6 @@
  */
 package test;
 
-import java.io.File;
-import java.io.IOException;
-
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.app.BaseTabActivity;
 import android.os.Bundle;
@@ -27,6 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 
 @SuppressWarnings("deprecation")
 public abstract class MyBaseTabActivity extends BaseTabActivity {
+
 	@Override
 	public void onPreInit(Bundle savedInstanceState) {
 		ApplicationExceptionHandler.getInstance().setContext(this);
@@ -37,6 +35,9 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 			}
 		}
 		MobclickAgent.onError(this);
+		setEnableCustomActivitySwitchAnimation(true);
+		setStartActivityAnimation(new int[]{R.anim.base_slide_to_left_in, R.anim.base_normal});
+		setFinishActivityAnimation(new int[]{R.anim.base_normal, R.anim.base_slide_to_right_out});
 	}
 	
 	@Override
@@ -51,27 +52,12 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 		MobclickAgent.onPause(this);
 	}
 
-	@Override
-	protected boolean isUseCustomAnimation() {
-		return true;
-	}
-
 	/**
 	 * 判断是否启用返回主页
 	 * @return 是否启用返回主页
 	 */
 	protected boolean isEnableBackHome() {
 		return true;
-	}
-
-	@Override
-	protected int[] onGetDefaultStartActivityAnimation() {
-		return new int[]{R.anim.base_slide_to_left_in, R.anim.base_normal};
-	}
-
-	@Override
-	protected int[] onGetDefaultFinishActivityAnimation() {
-		return new int[]{R.anim.base_normal, R.anim.base_slide_to_right_out};
 	}
 
 	public void showLoadingHintView(){
@@ -110,18 +96,5 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 			default: break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * 获取拍摄的照片文件
-	 * @return 拍摄的照片文件
-	 * @throws IOException 
-	 */
-	public File getPhotoFile() throws IOException{
-		File file = getFileFromDynamicCacheDir("card.jpeg");
-		if(!file.exists()){
-			file.createNewFile();
-		}
-		return file;
 	}
 }
