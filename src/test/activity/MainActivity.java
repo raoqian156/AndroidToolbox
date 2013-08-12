@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xiaopan.easyandroid.R;
+import me.xiaopan.easyandroid.widget.SlideTitleViewPager;
 import test.MyBaseActivity;
 import test.activity.animation.AnimationListActivity;
 import test.activity.custom.CustomListActivity;
+import test.activity.custom.SlideTitleViewPagerActivity;
 import test.activity.graphics.GraphicsListActivity;
 import test.activity.media.MediaListActivity;
 import test.activity.other.OtherListActivity;
@@ -72,6 +74,8 @@ public class MainActivity extends MyBaseActivity{
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_otherList), OtherListActivity.class));
 		
 		listView.setAdapter(new TextAdapter(getBaseContext(), texts));
+		
+		startActivity(SlideTitleViewPagerActivity.class);
 	}
 	
 	@Override
