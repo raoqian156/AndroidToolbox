@@ -21,8 +21,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.easyjava.util.AnnotationUtils;
 import me.xiaopan.easyjava.util.ClassUtils;
+import me.xiaopan.easyjava.util.StringUtils;
 import android.content.ContentValues;
 import android.database.Cursor;
 
@@ -40,63 +40,63 @@ public class SQLUtils {
 	 */
 	public static String getCreateTableSQL(Class<?> clas) throws NotFoundTableAnnotationException{
 		//处理表注解
-		String tableValue = (String) AnnotationUtils.getDefaultAttributeValue(clas, Table.class);
-		if(tableValue == null ){
-			throw new NotFoundTableAnnotationException();
-		}
-		
-		StringBuffer sql = new StringBuffer();
-		sql.append("create table ");
-		sql.append(tableValue + "(");
-		
-		//循环遍历所有字段
-		boolean addSeparator = false;
-		for(Field field : ClassUtils.getFileds(clas, true, true, true)){
-			//处理列注解
-			String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
-			if(columnValue != null){
-				//处理数据类型注解
-				String typeValue = (String) AnnotationUtils.getDefaultAttributeValue(field, DataType.class);
-				if(typeValue != null){
-					//如果需要添加分隔符
-					if(addSeparator){
-						sql.append(", ");
-						addSeparator = false;
-					}
-					
-					//追加当前字段的名字与类型
-					sql.append(columnValue +" " + typeValue);
-					
-					//如果存在非空注解，就添加非空标识，否则处理默认值注解
-					if(AnnotationUtils.contain(field, NotNull.class)){
-						sql.append(" not null");
-					}else{
-						//处理默认值注解
-						String defultValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Default.class);
-						if(defultValue != null){
-							if(typeValue.startsWith("text") || typeValue.startsWith("varchar") || typeValue.startsWith("varchar2") || typeValue.startsWith("char")){
-								sql.append(" defult '"+defultValue+"'");
-							}else{
-								sql.append(" defult "+defultValue);
+		Table table = clas.getAnnotation(Table.class);
+		if(table != null && StringUtils.isNotNullAndEmpty(table.value())){
+			StringBuffer sql = new StringBuffer();
+			sql.append("create table ");
+			sql.append(table.value() + "(");
+			
+			//循环遍历所有字段
+			boolean addSeparator = false;
+			for(Field field : ClassUtils.getFields(clas, true, true, true)){
+				//处理列注解
+				Column column = field.getAnnotation(Column.class);
+				if(column != null && StringUtils.isNotNullAndEmpty(column.value())){
+					//处理数据类型注解
+					DataType dataType = field.getAnnotation(DataType.class);
+					if(dataType != null && StringUtils.isNotNullAndEmpty(dataType.value())){
+						//如果需要添加分隔符
+						if(addSeparator){
+							sql.append(", ");
+							addSeparator = false;
+						}
+						
+						//追加当前字段的名字与类型
+						sql.append(column.value() +" " + dataType.value());
+						
+						//如果存在非空注解，就添加非空标识，否则处理默认值注解
+						if(field.getAnnotation(NotNull.class) != null){
+							sql.append(" not null");
+						}else{
+							//处理默认值注解
+							Default defultValue = field.getAnnotation(Default.class);
+							if(defultValue != null && StringUtils.isNotNullAndEmpty(defultValue.value())){
+								if(dataType.value().startsWith("text") || dataType.value().startsWith("varchar") || dataType.value().startsWith("varchar2") || dataType.value().startsWith("char")){
+									sql.append(" defult '"+defultValue.value()+"'");
+								}else{
+									sql.append(" defult "+defultValue.value());
+								}
 							}
 						}
+						
+						//如果存在主键注解，就添加主键标识
+						if(field.getAnnotation(PrimaryKey.class) != null){
+							sql.append(" primary key");
+						}
+						
+						//下次循环时添加分隔符
+						addSeparator = true;
 					}
-					
-					//如果存在主键注解，就添加主键标识
-					if(AnnotationUtils.contain(field, PrimaryKey.class)){
-						sql.append(" primary key");
-					}
-					
-					//下次循环时添加分隔符
-					addSeparator = true;
 				}
 			}
+			
+			//添加字段结束符
+			sql.append(")");
+			
+			return sql.toString();
+		}else{
+			throw new NotFoundTableAnnotationException();
 		}
-		
-		//添加字段结束符
-		sql.append(")");
-		
-		return sql.toString();
 	}
 	
 	/**
@@ -108,19 +108,20 @@ public class SQLUtils {
 	public static ContentValues getContentValues(Object object) throws NotFoundTableAnnotationException{
 		Class<?> clas = object.getClass();
 		ContentValues contentValues = new ContentValues();
-		for(Field field : ClassUtils.getFileds(clas, true, true, true)){
+		for(Field field : ClassUtils.getFields(clas, true, true, true)){
 			//处理列注解
-			String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
-			if(columnValue != null){
+			Column column = field.getAnnotation(Column.class);
+			if(column != null && StringUtils.isNotNullAndEmpty(column.value())){
 				//处理数据类型注解
-				if((String) AnnotationUtils.getDefaultAttributeValue(field, DataType.class) != null){
+				DataType dataType = field.getAnnotation(DataType.class);
+				if(dataType != null && StringUtils.isNotNullAndEmpty(dataType.value())){
 					try {
 						field.setAccessible(true);
 						Object result = field.get(object);
 						if(result != null){
-							contentValues.put(columnValue, result.toString());
+							contentValues.put(column.value(), result.toString());
 						}else{
-							contentValues.putNull(columnValue);
+							contentValues.putNull(column.value());
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -148,34 +149,33 @@ public class SQLUtils {
 			//根据class创建新的实例
 			Object newInstance = clas.newInstance();
 			//遍历所有字段
-			for(Field field : ClassUtils.getFileds(clas, true, true, true)){
+			for(Field field : ClassUtils.getFields(clas, true, true, true)){
 				//如果不是静态的
 				if(!Modifier.isStatic(field.getModifiers())){
 					//获取列注解
-					String columnValue = (String) AnnotationUtils.getDefaultAttributeValue(field, Column.class);
-					//如果有注解
-					if(columnValue != null){
+					Column column = field.getAnnotation(Column.class);
+					if(column != null && StringUtils.isNotNullAndEmpty(column.value())){
 						field.setAccessible(true);
 						if(field.getType() == byte.class){
-							field.set(newInstance, Byte.valueOf(cursor.getString(cursor.getColumnIndex(columnValue))));
+							field.set(newInstance, Byte.valueOf(cursor.getString(cursor.getColumnIndex(column.value()))));
 						}else if(field.getType() == short.class){
-							field.set(newInstance, cursor.getShort(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getShort(cursor.getColumnIndex(column.value())));
 						}else if(field.getType() == int.class){
-							field.set(newInstance, cursor.getInt(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getInt(cursor.getColumnIndex(column.value())));
 						}else if(field.getType() == long.class){
-							field.set(newInstance, cursor.getLong(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getLong(cursor.getColumnIndex(column.value())));
 						}else if(field.getType() == float.class){
-							field.set(newInstance, cursor.getFloat(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getFloat(cursor.getColumnIndex(column.value())));
 						}else if(field.getType() == double.class){
-							field.set(newInstance, cursor.getDouble(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getDouble(cursor.getColumnIndex(column.value())));
 						}else if(field.getType() == char.class){
-							field.set(newInstance, cursor.getString(cursor.getColumnIndex(columnValue)).charAt(0));
+							field.set(newInstance, cursor.getString(cursor.getColumnIndex(column.value())).charAt(0));
 						}else if(field.getType() == boolean.class){
-							field.set(newInstance, cursor.getBlob(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getBlob(cursor.getColumnIndex(column.value())));
 						}else if(field.getType() == String.class){
-							field.set(newInstance, cursor.getString(cursor.getColumnIndex(columnValue)));
+							field.set(newInstance, cursor.getString(cursor.getColumnIndex(column.value())));
 						}else{
-							field.set(newInstance, ClassUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{cursor.getString(cursor.getColumnIndex(columnValue))}));
+							field.set(newInstance, ClassUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{cursor.getString(cursor.getColumnIndex(column.value()))}));
 						}
 					}
 				}

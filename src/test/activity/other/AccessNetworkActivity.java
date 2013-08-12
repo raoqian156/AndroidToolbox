@@ -17,10 +17,7 @@ package test.activity.other;
 
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easynetwork.android.http.EasyHttpClient;
-import me.xiaopan.easynetwork.android.http.StringResponseHandler;
-
-import org.apache.http.HttpResponse;
-
+import me.xiaopan.easynetwork.android.http.StringHttpResponseHandler;
 import test.MyBaseActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -53,7 +50,7 @@ public class AccessNetworkActivity extends MyBaseActivity {
 	}
 	
 	private void loadData(){
-		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringResponseHandler(){
+		EasyHttpClient.getInstance().get("http://www.miui.com/forum.php", new StringHttpResponseHandler(){
 			@Override
 			public void onStart() {
 				showLoadingHintView();
@@ -65,14 +62,8 @@ public class AccessNetworkActivity extends MyBaseActivity {
 			}
 
 			@Override
-			public void onFailure(HttpResponse httpResponse) {
-				text.setText("失败了："+httpResponse.getStatusLine().getStatusCode());
-			}
-
-			@Override
-			public void onException(Throwable e) {
-				e.printStackTrace();
-				text.setText("异常了："+e.getMessage());
+			public void onFailure(Throwable throwable) {
+				text.setText("失败了："+throwable.getMessage());
 			}
 
 			@Override
