@@ -40,6 +40,7 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 	private boolean slideToLeft;	//向左滑动
 	private TitleScrollHandler titleScrollHandler;
 	private boolean first = true;
+	private boolean enableSlider;
 	
 	public SlideTitleViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -64,6 +65,7 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 		sliderLayout.setGravity(Gravity.BOTTOM);
 		sliderView = onCreateSilderView();
 		if(sliderView != null){
+			sliderView.setVisibility(View.GONE);
 			sliderLayout.addView(sliderView);
 		}
 		
@@ -150,7 +152,7 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 		}
 		
 		//初始化滑块的宽度
-		if(first && currentTitleItem != null){
+		if(enableSlider && first && currentTitleItem != null){
 			first = false;
 			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) sliderView.getLayoutParams();
 			layoutParams.width = currentTitleItem.getLayoutParams().width;
@@ -186,11 +188,17 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 			//处理滑动
 			titleHorizontalScrollView.smoothScrollTo((currentTitleItem.getLeft() + currentTitleItem.getRight())/2 - center, currentTitleItem.getTop());
 		}
+		
+		if(onPageChangeListener != null){
+			onPageChangeListener.onPageSelected(position);
+		}
 	}
 	
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		titleScrollHandler.onPageScrolled(arg0, arg1, arg2);
+		if(enableSlider){
+			titleScrollHandler.onPageScrolled(arg0, arg1, arg2);
+		}
 		if(onPageChangeListener != null){
 			onPageChangeListener.onPageScrolled(arg0, arg1, arg2);
 		}
@@ -203,12 +211,16 @@ public class SlideTitleViewPager extends LinearLayout implements OnPageChangeLis
 		idleState = arg0 == ViewPager.SCROLL_STATE_IDLE;//记录是否是静止状态
 		
 		if(draggingState){
-			titleScrollHandler.onDragging();
+			if(enableSlider){
+				titleScrollHandler.onDragging();
+			}
 		}
 		if(settlingState){
 		}
 		if(idleState){
-			titleScrollHandler.onIdle();
+			if(enableSlider){
+				titleScrollHandler.onIdle();
+			}
 		}
 		
 		if(onPageChangeListener != null){
