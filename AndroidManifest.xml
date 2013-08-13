@@ -53,7 +53,6 @@
        	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/activityTitle_slideTabHost"/>
        	<activity android:name="test.activity.custom.SlidingToggleButtonActivity" android:label="@string/activityTitle_slidingToggleButton"/>
        	<activity android:name="test.activity.custom.SuperListViewActivity" android:label="@string/activityTitle_superListView"/>
-  		<activity android:name="test.activity.custom.SlideTitleViewPagerActivity" android:label="@string/activityTitle_slideTitleViewPager"/>
     	<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/activityTitle_cameraPreview"/>
    		<activity android:name="test.activity.graphics.ClipDrawableActivity" android:label="@string/activityTitle_clipDrawable"/>
    		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/activityTitle_graphicsList"/>
