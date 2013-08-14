@@ -38,6 +38,7 @@ public class DrawabLevelController {
 	private Listener listener;	//监听器
 	private int minLevel = 0;	//最小级别，默认0
 	private int maxLevel = 10000;	//最大级别，默认10000
+	private boolean delayStop;	//是否需要延迟停止
 	
 	/**
 	 * 创建一个图片级别控制器
@@ -61,42 +62,83 @@ public class DrawabLevelController {
 	
 	/**
 	 * 开始执行
-	 * @return true：执行成功；false：执行次数已经达到规定的最大重复次数，所以不再执行，您可以通过reset()方法重置执行次数
+	 * @return true：启动成功；false：启动失败，以为当前正在运行中
 	 */
-	public void start(){
-		running = true;
-		if(repeatMode == RepeatMode.ORDER){
-			if(drawable.getLevel() < minLevel || drawable.getLevel() >= maxLevel){
-				drawable.setLevel(minLevel);
-			}
-		}else if(repeatMode == RepeatMode.REVERSE){
-			if(drawable.getLevel() <= minLevel || drawable.getLevel() > maxLevel){
-				drawable.setLevel(maxLevel);
-			}
-		}else if(repeatMode == RepeatMode.MIRROR){
-			if(drawable.getLevel() < minLevel || drawable.getLevel() >= maxLevel){
-				if(hasRepeatCount % 2 == 0){
+	public boolean start(){
+		if(!isRunning()){
+			running = true;
+			if(repeatMode == RepeatMode.ORDER){
+				if(drawable.getLevel() < minLevel || drawable.getLevel() >= maxLevel){
 					drawable.setLevel(minLevel);
-				}else{
+				}
+			}else if(repeatMode == RepeatMode.REVERSE){
+				if(drawable.getLevel() <= minLevel || drawable.getLevel() > maxLevel){
 					drawable.setLevel(maxLevel);
 				}
+			}else if(repeatMode == RepeatMode.MIRROR){
+				if(drawable.getLevel() < minLevel || drawable.getLevel() >= maxLevel){
+					if(hasRepeatCount % 2 == 0){
+						drawable.setLevel(minLevel);
+					}else{
+						drawable.setLevel(maxLevel);
+					}
+				}
 			}
-		}
-		handler.post(handle);
-		if(listener != null){
-			listener.onStart();
+			handler.post(handle);
+			if(listener != null){
+				listener.onStart();
+			}
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
 	/**
 	 * 暂停执行
+	 * @return true：暂停成功；false：暂停失败，以为当前没有运行，所以无需暂停
 	 */
-	public void pause(){
-		running = false;
-		handler.removeCallbacks(handle);
-		if(listener != null){
-			listener.onPause();
+	public boolean pause(){
+		if(isRunning()){
+			running = false;
+			handler.removeCallbacks(handle);
+			if(listener != null){
+				listener.onPause();
+			}
+			return true;
+		}else{
+			return false;
 		}
+	}
+	
+	/**
+	 * 停止执行，停止后进度会清零
+	 * @param delayStop 是否需要延迟到当前这一圈执行完再停止
+	 * @return true：停止成功；false：停止失败，以为当前没有运行，所以无需停止
+	 */
+	public boolean stop(boolean delayStop){
+		if(isRunning()){
+			this.delayStop = delayStop;
+			if(!this.delayStop){
+				running = false;
+				handler.removeCallbacks(handle);
+				drawable.setLevel(minLevel);
+				if(listener != null){
+					listener.onStop();
+				}
+			}
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * 停止执行，停止后进度会清零
+	 * @return true：停止成功；false：停止失败，以为当前没有运行，所以无需停止
+	 */
+	public boolean stop(){
+		return stop(false);
 	}
 	
 	/**
@@ -153,24 +195,27 @@ public class DrawabLevelController {
 	 * 顺序执行
 	 */
 	private void orderExecuteHandle(){
-		//因为当前是顺向执行，所以下一个级别就是当前级别加上级别增量
-		int nextLevel = drawable.getLevel() + incremental;
-		//如果重复次数有限制并且当前正好完成了一圈
-		if(nextLevel >= maxLevel){
-			hasRepeatCount++;
-			if(listener != null){
-				listener.onCompletedACircle(repeatCount, hasRepeatCount);
-			}
-			if(repeatCount > 0 && hasRepeatCount >= repeatCount){
-				pause();
-				reset(false);
+		int nextLevel = drawable.getLevel() + incremental;	//因为当前是顺向执行，所以下一个级别就是当前级别加上级别增量
+		
+		if(nextLevel >= maxLevel){	//如果当前正好完成一圈了
+			if(delayStop){	//如果需要延迟停止
+				stop();
 			}else{
-				nextLevel %= maxLevel;
-				if(nextLevel < minLevel){
-					nextLevel += minLevel;
+				hasRepeatCount++;
+				if(listener != null){
+					listener.onCompletedACircle(repeatCount, hasRepeatCount);
 				}
-				drawable.setLevel(nextLevel);
-				handler.postDelayed(handle, delayed);
+				if(repeatCount > 0 && hasRepeatCount >= repeatCount){
+					pause();
+					reset(false);
+				}else{
+					nextLevel %= maxLevel;
+					if(nextLevel < minLevel){
+						nextLevel += minLevel;
+					}
+					drawable.setLevel(nextLevel);
+					handler.postDelayed(handle, delayed);
+				}
 			}
 		}else{
 			nextLevel %= maxLevel;
@@ -190,25 +235,29 @@ public class DrawabLevelController {
 		int nextLevel = drawable.getLevel() - incremental;
 		//如果重复次数有限制并且已经完成了重复任务，那么就暂停执行，否则继续执行
 		if(nextLevel <= minLevel){
-			hasRepeatCount++;
-			if(listener != null){
-				listener.onCompletedACircle(repeatCount, hasRepeatCount);
-			}
-			if(repeatCount > 0 && hasRepeatCount >= repeatCount){
-				pause();
-				reset(false);
+			if(delayStop){	//如果需要延迟停止
+				stop();
 			}else{
-				if(nextLevel < minLevel){
-					if(nextLevel < 0){
-						nextLevel = maxLevel + nextLevel;
-					}else{
-						nextLevel = maxLevel - (minLevel - nextLevel);
-					}
-				}else if(nextLevel == minLevel){
-					nextLevel = maxLevel;
+				hasRepeatCount++;
+				if(listener != null){
+					listener.onCompletedACircle(repeatCount, hasRepeatCount);
 				}
-				drawable.setLevel(nextLevel);
-				handler.postDelayed(handle, delayed);
+				if(repeatCount > 0 && hasRepeatCount >= repeatCount){
+					pause();
+					reset(false);
+				}else{
+					if(nextLevel < minLevel){
+						if(nextLevel < 0){
+							nextLevel = maxLevel + nextLevel;
+						}else{
+							nextLevel = maxLevel - (minLevel - nextLevel);
+						}
+					}else if(nextLevel == minLevel){
+						nextLevel = maxLevel;
+					}
+					drawable.setLevel(nextLevel);
+					handler.postDelayed(handle, delayed);
+				}
 			}
 		}else{
 			if(nextLevel < minLevel){
@@ -232,19 +281,23 @@ public class DrawabLevelController {
 			int nextLevel = drawable.getLevel() + incremental;
 			//如果重复次数有限制并且已经完成了重复任务，那么就暂停执行，否则继续执行
 			if(nextLevel >= maxLevel){
-				hasRepeatCount++;
-				if(listener != null){
-					listener.onCompletedACircle(repeatCount, hasRepeatCount);
-				}
-				if(repeatCount > 0 && hasRepeatCount >= repeatCount){
-					pause();
-					reset(false);
+				if(delayStop){	//如果需要延迟停止
+					stop();
 				}else{
-					if(nextLevel > maxLevel){
-						nextLevel = maxLevel;
+					hasRepeatCount++;
+					if(listener != null){
+						listener.onCompletedACircle(repeatCount, hasRepeatCount);
 					}
-					drawable.setLevel(nextLevel);
-					handler.postDelayed(handle, delayed);
+					if(repeatCount > 0 && hasRepeatCount >= repeatCount){
+						pause();
+						reset(false);
+					}else{
+						if(nextLevel > maxLevel){
+							nextLevel = maxLevel;
+						}
+						drawable.setLevel(nextLevel);
+						handler.postDelayed(handle, delayed);
+					}
 				}
 			}else{
 				if(nextLevel > maxLevel){
@@ -258,19 +311,23 @@ public class DrawabLevelController {
 			int nextLevel = drawable.getLevel() - incremental;
 			//如果重复次数有限制并且已经完成了重复任务，那么就暂停执行，否则继续执行
 			if(nextLevel <= minLevel){
-				hasRepeatCount++;
-				if(listener != null){
-					listener.onCompletedACircle(repeatCount, hasRepeatCount);
-				}
-				if(repeatCount > 0 && hasRepeatCount >= repeatCount){
-					pause();
-					reset(false);
+				if(delayStop){	//如果需要延迟停止
+					stop();
 				}else{
-					if(nextLevel < minLevel){
-						nextLevel = minLevel;
+					hasRepeatCount++;
+					if(listener != null){
+						listener.onCompletedACircle(repeatCount, hasRepeatCount);
 					}
-					drawable.setLevel(nextLevel);
-					handler.postDelayed(handle, delayed);
+					if(repeatCount > 0 && hasRepeatCount >= repeatCount){
+						pause();
+						reset(false);
+					}else{
+						if(nextLevel < minLevel){
+							nextLevel = minLevel;
+						}
+						drawable.setLevel(nextLevel);
+						handler.postDelayed(handle, delayed);
+					}
 				}
 			}else{
 				if(nextLevel < minLevel){
@@ -432,6 +489,11 @@ public class DrawabLevelController {
 		 * 当重置的时候
 		 */
 		public void onReset();
+		
+		/**
+		 * 当停止
+		 */
+		public void onStop();
 		
 		/**
 		 * 当完成一圈的时候

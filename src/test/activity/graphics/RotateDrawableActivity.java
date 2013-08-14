@@ -107,6 +107,11 @@ public class RotateDrawableActivity extends MyBaseActivity {
 			public void onCompletedACircle(int totalRepeatCount, int hasRepeatCount) {
 				orderText.setText(hasRepeatCount+"/"+totalRepeatCount);
 			}
+
+			@Override
+			public void onStop() {
+				
+			}
 		});
 		reverseDrawableController = new DrawabLevelController(this, reverseDrawable);
 		reverseDrawableController.setListener(new Listener() {
@@ -127,6 +132,11 @@ public class RotateDrawableActivity extends MyBaseActivity {
 				reverseText.setText(hasRepeatCount+"/"+totalRepeatCount);
 				Log.i("测试", "完成次数="+hasRepeatCount);
 			}
+
+			@Override
+			public void onStop() {
+				
+			}
 		});
 		mirrorDrawableController = new DrawabLevelController(this, mirrorDrawable);
 		mirrorDrawableController.setListener(new Listener() {
@@ -145,6 +155,11 @@ public class RotateDrawableActivity extends MyBaseActivity {
 			@Override
 			public void onCompletedACircle(int totalRepeatCount, int hasRepeatCount) {
 				mirrorText.setText(hasRepeatCount+"/"+totalRepeatCount);
+			}
+
+			@Override
+			public void onStop() {
+				
 			}
 		});
 	} 
