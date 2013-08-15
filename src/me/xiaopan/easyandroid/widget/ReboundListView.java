@@ -658,7 +658,7 @@ public class ReboundListView extends ListView implements PullDownRefreshFinishLi
 		openPullDownRefreshMode(new AbsPullDownRefreshListHeader(getContext()) {
 			@Override
 			protected LinearLayout onGetContentView(){
-				return ViewUtils.createLinearLayout(getContext(), LinearLayout.HORIZONTAL, LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				return ViewUtils.createLinearLayout(getContext(), LinearLayout.HORIZONTAL, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			}
 			
 			@Override
@@ -687,7 +687,7 @@ public class ReboundListView extends ListView implements PullDownRefreshFinishLi
 		openPullUpLoadMoreMode(new AbsPullUpLoadMoreListFooter(getContext()) {
 			@Override
 			protected LinearLayout onGetContentView(){
-				return ViewUtils.createLinearLayout(getContext(), LinearLayout.HORIZONTAL, LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				return ViewUtils.createLinearLayout(getContext(), LinearLayout.HORIZONTAL, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			}
 
 			@Override

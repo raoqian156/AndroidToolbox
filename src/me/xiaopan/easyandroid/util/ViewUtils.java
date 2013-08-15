@@ -202,7 +202,7 @@ public class ViewUtils {
 	public static final View measure(View view){
 		ViewGroup.LayoutParams p = view.getLayoutParams();
 	    if (p == null) {
-	        p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+	        p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 	    }
 	    int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
 	    int lpHeight = p.height;
@@ -221,7 +221,7 @@ public class ViewUtils {
 	 * @param view
 	 * @return
 	 */
-	public static final int getMeasureHeight(View view){
+	public static final int getMeasuredHeight(View view){
 	    return measure(view).getMeasuredHeight();
 	}
 	
@@ -230,7 +230,7 @@ public class ViewUtils {
 	 * @param view
 	 * @return
 	 */
-	public static final int getMeasureWidth(View view){
+	public static final int getMeasuredWidth(View view){
 	    return measure(view).getMeasuredWidth();
 	}
 }

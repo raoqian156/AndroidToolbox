@@ -74,7 +74,7 @@ public abstract class AbsPullListHeaderAndFoooter extends LinearLayout {
 		//初始化内容视图
 		setContentView(onGetContentView());
 		//设置视图的高度为最小高度
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, getMinHeight());
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getMinHeight());
 		getContentView().setLayoutParams(layoutParams);
 		//初始化原始高度
 		setOriginalHeight(onGetOriginalHeight(getContentView()));

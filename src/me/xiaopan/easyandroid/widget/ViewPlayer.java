@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 /**
  * 视图播放器，用于循环播放视图，至于播放什么，你可以提供一个PlayAdapter来提供播放的内容
  */
+@SuppressWarnings("deprecation")
 public class ViewPlayer extends FrameLayout{
 	public static final int GALLERY_ID = 214789677;
 	private int switchSpace = 4000;//切换间隔

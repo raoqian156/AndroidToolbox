@@ -29,6 +29,7 @@ import android.widget.ImageView.ScaleType;
 /**
  * 图片播放适配器，给我一组图片再给我，再把我交给一个ViewPlayer，我就可以在ViewPlayer上播放你给我的图片
  */
+@SuppressWarnings("deprecation")
 public class PicturePlayAdapter extends BaseViewPlayAdapter{
 	private Context context;//上下文
 	private List<String> pictures;//图片列表
@@ -47,7 +48,7 @@ public class PicturePlayAdapter extends BaseViewPlayAdapter{
 		if(convertView == null){
 			viewHolder = new ViewHolder();
 			ImageView imageView = new ImageView(context);
-			imageView.setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.FILL_PARENT, Gallery.LayoutParams.FILL_PARENT));
+			imageView.setLayoutParams(new Gallery.LayoutParams(Gallery.LayoutParams.MATCH_PARENT, Gallery.LayoutParams.MATCH_PARENT));
 			imageView.setScaleType(imageScaleType);
 			viewHolder.imageView = imageView;
 			convertView = imageView;

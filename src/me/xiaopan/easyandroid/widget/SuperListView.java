@@ -47,7 +47,7 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 */
 	private void init(){
 		rollBackScroller = new Scroller(getContext(), new AccelerateDecelerateInterpolator());
-		gestureDetector = new GestureDetector(this);
+		gestureDetector = new GestureDetector(getContext(), this);
 		
 		//设置滚动监听器
 		init = true;
