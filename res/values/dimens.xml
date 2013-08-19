@@ -10,7 +10,7 @@
     
     <dimen name="pull_height">90dp</dimen><!-- 下拉刷新头的高度 -->
     
-    <dimen name="shadow_height">6dp</dimen><!-- 阴影 - 高度 -->
+    <dimen name="shadow_height">4dp</dimen><!-- 阴影 - 高度 -->
     
     <dimen name="spacing_height">8dp</dimen><!-- 空格线 - 高度 -->
     <dimen name="spacing_small_height">4dp</dimen><!-- 空格线 - 小的 - 高度 -->
