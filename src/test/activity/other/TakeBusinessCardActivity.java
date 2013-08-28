@@ -178,6 +178,9 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
+		hiddenTitleBar();
+		hiddenStatusBar();
+		
 		/* 初始化本地保存文件 */
 		String savePath = getIntent().getStringExtra(PARAM_OPTIONAL_STRING_SAVE_PATH);
 		if(StringUtils.isNotNullAndEmpty(savePath)){
@@ -206,16 +209,6 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 		remakeButton.setVisibility(View.INVISIBLE);
 	}
 
-	@Override
-	public boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	public boolean isRemoveStatusBar() {
-		return true;
-	}
-	
 	@Override
 	public void onResume() {
 		super.onResume();

@@ -62,6 +62,7 @@ public class MainActivity extends MyBaseActivity{
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
 		setEnableDoubleClickExitApplication(true);
+		setEnableBackHome(false);
 		
 		texts = new ArrayList<Text>();
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_animationList), AnimationListActivity.class));
@@ -78,10 +79,5 @@ public class MainActivity extends MyBaseActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.comm, menu);
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	protected boolean isEnableBackHome() {
-		return false;
 	}
 }

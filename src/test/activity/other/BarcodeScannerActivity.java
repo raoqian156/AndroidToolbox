@@ -85,6 +85,8 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
+		hiddenTitleBar();
+		hiddenStatusBar();
 		if(savedInstanceState != null){
 			flashButton.setChecked(savedInstanceState.getBoolean(STATE_FLASH_CHECKED));
 		}
@@ -105,16 +107,6 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 		beepId = soundPool.load(getBaseContext(), R.raw.beep, 100);
 	}
 	
-	@Override
-	public boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	public boolean isRemoveStatusBar() {
-		return true;
-	}
-
 	@Override
 	public void onResume() {
 		super.onResume();

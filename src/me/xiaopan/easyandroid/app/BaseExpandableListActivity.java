@@ -26,15 +26,12 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,34 +57,29 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	private boolean enableDoubleClickExitApplication;	//是否开启双击退出程序功能
 	private boolean enableCustomActivitySwitchAnimation;	//是否启用自定义的Activity切换动画
 	private MessageHandler messageHanlder;	//主线程消息处理器
-	private MyBroadcastReceiver broadcastReceiver;	//广播接收器
+	private SimpleBroadcastReceiver broadcastReceiver;	//广播接收器
+	private OnDoubleClickPromptExitListener onDoubleClickPromptExitListener;	//双击退出监听器
+	private OnNetworkVerifyListener onNetworkVerifyListener;	//网络验证监听器
+	private OnExceptionFinishActivityListener onExceptionFinishActivityListener;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		createTime = System.currentTimeMillis();	//记录创建时间，用于异常终止时判断是否需要等待一段时间再终止，因为时间过短的话体验不好
 		activityId = ActivityManager.getInstance().putActivity(this);	//将当前Activity放入ActivityManager中，并获取其ID
-		if(isRemoveTitleBar()) requestWindowFeature(Window.FEATURE_NO_TITLE);	//如果需要去掉标题栏	
-		if(isRemoveStatusBar()) getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	//如果需要全屏就去掉通知栏
-		messageHanlder = new MessageHandler(this);//实例化消息处理器
-		onPreInit(savedInstanceState);//在初始化之前											
-		onInitLayout(savedInstanceState);//初始化布局								
-		onInitListener(savedInstanceState);//初始化监听器						
-		onInitData(savedInstanceState);//初始化数据
-		onPostInit(savedInstanceState);//在初始化之后
+		onExceptionFinishActivityListener = new OnExceptionFinishActivityListener() {
+			@Override
+			public void onExceptionFinishActivity() {
+				finishActivity();
+			}
+		};
+		onDoubleClickPromptExitListener = new OnDoubleClickPromptExitListener() {
+			@Override
+			public void onPrompt() {
+				toastS("再按一次退出程序");
+			}
+		};
 	}
-	
-	/**
-	 * 在初始化之前
-	 * @param savedInstanceState
-	 */
-	public void onPreInit(Bundle savedInstanceState){}
-	
-	/**
-	 * 在初始化之后
-	 * @param savedInstanceState
-	 */
-	public void onPostInit(Bundle savedInstanceState){}
 	
 	@Override
 	public void onBackPressed() {
@@ -97,16 +89,14 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 			if(lastClickBackButtonTime != 0 && (currentMillisTime - lastClickBackButtonTime) < getDoubleClickSpacingInterval()){
 				finishApplication();
 			}else{
-				onPromptExitApplication();
+				if(onDoubleClickPromptExitListener != null){
+					onDoubleClickPromptExitListener.onPrompt();
+				}
 				lastClickBackButtonTime = currentMillisTime;
 			}
 		}else{
 			finishActivity();
 		}
-	}
-	
-	protected void onPromptExitApplication(){
-		toastS("再按一次退出程序！");
 	}
 	
 	@Override
@@ -176,40 +166,16 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 		ActivityManager.getInstance().finishApplication();
 	}
 	
-	/**
-	 * 判断是否需要去除标题栏，默认不去除
-	 * @return 是否需要去除标题栏
-	 */
 	@Override
-	public boolean isRemoveTitleBar() {
-		return false;
-	}
-	
-	/**
-	 * 判断是否需要全屏，默认不全屏
-	 * @return 是否需要全屏
-	 */
-	@Override
-	public boolean isRemoveStatusBar() {
-		return false;
+	public void hiddenTitleBar(){
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 	
 	@Override
-	public SharedPreferences getDefultPreferences(){
-		return PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	public void hiddenStatusBar(){
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	
 	}
 	
-	@Override
-	public boolean isFirstUsing(){
-		return getDefultPreferences().getBoolean(PRFERENCES_FIRST_USING, true);
-	}
-	
-	@Override
-	public void setFirstUsing(boolean firstUsing){
-		Editor editor = getDefultPreferences().edit();
-		editor.putBoolean(PRFERENCES_FIRST_USING, firstUsing);
-		editor.commit();
-	} 
 	
 
 	
@@ -249,19 +215,14 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	/* ********************************************** 网络 ************************************************ */
 	@Override
 	public boolean isNetworkAvailable() {
-		boolean result = false;
-		result = NetworkUtils.isConnectedByState(getBaseContext());
-		if(!result){
-			onNetworkNotAvailable();
+		if(!NetworkUtils.isConnectedByState(getBaseContext())){
+			if(onNetworkVerifyListener != null){
+				onNetworkVerifyListener.onVerifyFailure();
+			}
+			return false;
+		}else{
+			return true;
 		}
-		return result;
-	}
-
-	/**
-	 * 在验证网络是否可用时发现网络不可用
-	 */
-	protected void onNetworkNotAvailable() {
-		
 	}
 
 	/* ********************************************** 消息/广播 ************************************************ */
@@ -301,8 +262,9 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void openBroadcastReceiver(String filterAction){
-		setOpenedBroadcaseReceiver(true);
-		setBroadcastReceiver(new MyBroadcastReceiver(this));
+		closeBroadcastReceiver();
+		openedBroadcaseReceiver = true;
+		broadcastReceiver = new SimpleBroadcastReceiver(this);
 	    registerReceiver(getBroadcastReceiver(), new IntentFilter(filterAction));
 	}
 	
@@ -310,9 +272,9 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	public void closeBroadcastReceiver(){
 		if(getBroadcastReceiver() != null){
 			unregisterReceiver(getBroadcastReceiver());
+			openedBroadcaseReceiver = false;
+			broadcastReceiver = null;
 		}
-		setOpenedBroadcaseReceiver(false);
-		setBroadcastReceiver(null);
 	}
 	
 	
@@ -656,7 +618,9 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void onBecauseExceptionFinishActivity(){
-		finishActivity();
+		if(onExceptionFinishActivityListener != null){
+			onExceptionFinishActivityListener.onExceptionFinishActivity();
+		}
 	}
 	
 	@Override
@@ -875,28 +839,16 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	}
 
 	@Override
-	public void setActivityId(long activityId) {
-		this.activityId = activityId;
-	}
-
-	@Override
 	public MessageHandler getMessageHanlder() {
+		if(messageHanlder == null){
+			messageHanlder = new MessageHandler(this);
+		}
 		return messageHanlder;
 	}
 
 	@Override
-	public void setMessageHanlder(MessageHandler messageHanlder) {
-		this.messageHanlder = messageHanlder;
-	}
-
-	@Override
-	public MyBroadcastReceiver getBroadcastReceiver() {
+	public SimpleBroadcastReceiver getBroadcastReceiver() {
 		return broadcastReceiver;
-	}
-
-	@Override
-	public void setBroadcastReceiver(MyBroadcastReceiver broadcastReceiver) {
-		this.broadcastReceiver = broadcastReceiver;
 	}
 
 	@Override
@@ -904,58 +856,132 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 		return openedBroadcaseReceiver;
 	}
 
-	@Override
-	public void setOpenedBroadcaseReceiver(boolean openedBroadcaseReceiver) {
-		this.openedBroadcaseReceiver = openedBroadcaseReceiver;
-	}
-
+	/**
+	 * 获取Activty创建时间
+	 * @return Activty创建时间
+	 */
 	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
-		this.createTime = createTime;
-	}
-
+	/**
+	 * 判断是否激活了双击退出程序功能
+	 * @return 是否激活了双击退出程序功能
+	 */
 	public boolean isEnableDoubleClickExitApplication() {
 		return enableDoubleClickExitApplication;
 	}
 
-	public void setEnableDoubleClickExitApplication(
-			boolean enableDoubleClickExitApplication) {
+	/**
+	 * 设置是否激活了双击退出程序功能
+	 * @param enableDoubleClickExitApplication 是否激活了双击退出程序功能
+	 */
+	public void setEnableDoubleClickExitApplication(boolean enableDoubleClickExitApplication) {
 		this.enableDoubleClickExitApplication = enableDoubleClickExitApplication;
 	}
 
+	/**
+	 * 获取双击时间间隔
+	 * @return 双击时间间隔
+	 */
 	public int getDoubleClickSpacingInterval() {
 		return doubleClickSpacingInterval;
 	}
 
+	/**
+	 * 设置双击时间间隔
+	 * @param doubleClickSpacingInterval 双击时间间隔
+	 */
 	public void setDoubleClickSpacingInterval(int doubleClickSpacingInterval) {
 		this.doubleClickSpacingInterval = doubleClickSpacingInterval;
 	}
 
+	/**
+	 * 获取启动Activity动画
+	 * @return 启动Activity动画
+	 */
 	public int[] getStartActivityAnimation() {
 		return startActivityAnimation;
 	}
 
+	/**
+	 * 设置启动Activity动画
+	 * @param startActivityAnimation 启动Activity动画
+	 */
 	public void setStartActivityAnimation(int[] startActivityAnimation) {
 		this.startActivityAnimation = startActivityAnimation;
 	}
 
+	/**
+	 * 获取终止Activity动画
+	 * @return 终止Activity动画
+	 */
 	public int[] getFinishActivityAnimation() {
 		return finishActivityAnimation;
 	}
 
+	/**
+	 * 设置终止Activity动画
+	 * @param finishActivityAnimation 终止Activity动画
+	 */
 	public void setFinishActivityAnimation(int[] finishActivityAnimation) {
 		this.finishActivityAnimation = finishActivityAnimation;
 	}
 
+	/**
+	 * 判断是否激活了自定义Activity切换动画功能
+	 * @return 是否激活了自定义Activity切换动画功能
+	 */
 	public boolean isEnableCustomActivitySwitchAnimation() {
 		return enableCustomActivitySwitchAnimation;
 	}
 
-	public void setEnableCustomActivitySwitchAnimation(
-			boolean enableCustomActivitySwitchAnimation) {
+	/**
+	 * 设置是否激活了自定义Activity切换动画功能
+	 * @param enableCustomActivitySwitchAnimation 是否激活了自定义Activity切换动画功能
+	 */
+	public void setEnableCustomActivitySwitchAnimation(boolean enableCustomActivitySwitchAnimation) {
 		this.enableCustomActivitySwitchAnimation = enableCustomActivitySwitchAnimation;
+	}
+
+	/**
+	 * 获取双击退出监听器
+	 * @return 双击退出监听器
+	 */
+	public OnDoubleClickPromptExitListener getOnDoubleClickPromptExitListener() {
+		return onDoubleClickPromptExitListener;
+	}
+
+	/**
+	 * 设置双击退出监听器
+	 * @param onDoubleClickPromptExitListener 双击退出监听器
+	 */
+	public void setOnDoubleClickPromptExitListener(OnDoubleClickPromptExitListener onDoubleClickPromptExitListener) {
+		this.onDoubleClickPromptExitListener = onDoubleClickPromptExitListener;
+	}
+
+	/**
+	 * 获取网络验证监听器
+	 * @return 网络验证监听器
+	 */
+	public OnNetworkVerifyListener getOnNetworkVerifyListener() {
+		return onNetworkVerifyListener;
+	}
+
+	/**
+	 * 设置网络验证监听器
+	 * @param onNetworkVerifyListener 网络验证监听器
+	 */
+	public void setOnNetworkVerifyListener(OnNetworkVerifyListener onNetworkVerifyListener) {
+		this.onNetworkVerifyListener = onNetworkVerifyListener;
+	}
+
+	public OnExceptionFinishActivityListener getOnExceptionFinishActivityListener() {
+		return onExceptionFinishActivityListener;
+	}
+
+	public void setOnExceptionFinishActivityListener(
+			OnExceptionFinishActivityListener onExceptionFinishActivityListener) {
+		this.onExceptionFinishActivityListener = onExceptionFinishActivityListener;
 	}
 }

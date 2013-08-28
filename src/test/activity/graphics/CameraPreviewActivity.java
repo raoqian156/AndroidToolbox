@@ -70,17 +70,9 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
+		hiddenTitleBar();
+		hiddenStatusBar();
 		cameraManager = new CameraManager(this, surfaceView.getHolder(), this);
-	}
-
-	@Override
-	public boolean isRemoveTitleBar() {
-		return true;
-	}
-
-	@Override
-	public boolean isRemoveStatusBar() {
-		return true;
 	}
 
 	@Override

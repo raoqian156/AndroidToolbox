@@ -18,7 +18,6 @@ package me.xiaopan.easyandroid.app;
 import java.util.Set;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Movie;
@@ -57,50 +56,11 @@ public interface BaseActivityInterface {
 	 */
 	String KEY_DIALOG_CONFRIM_BUTTON_NAME = "KEY_DIALOG_CONFRIM_BUTTON_NAME";
 	/**
-	 * Prefences选项 - 第一次使用
+	 * 版本号
 	 */
-	String PRFERENCES_FIRST_USING = "FIRST_USING";
+	String PRFERENCES_VERSION_CODE = "PRFERENCES_VERSION_CODE";
 	
 	/* ********************************************** 初始化 ************************************************ */
-	/**
-	 * 在初始化之前
-	 * @param savedInstanceState
-	 */
-	public void onPreInit(Bundle savedInstanceState);
-	
-	/**
-	 * 初始化布局，设置ContentView并通过findViewById()初始化视图
-	 */
-	public void onInitLayout(Bundle savedInstanceState);
-
-	/**
-	 * 初始化监听器，设置视图的监听器
-	 */
-	public void onInitListener(Bundle savedInstanceState);
-
-	/**
-	 * 初始化数据，为视图初始化数据
-	 */
-	public void onInitData(Bundle savedInstanceState);
-	
-	/**
-	 * 在初始化之后
-	 * @param savedInstanceState
-	 */
-	public void onPostInit(Bundle savedInstanceState);
-	
-	/**
-	 * 判断是否需要去除标题栏，默认不去除
-	 * @return 是否需要去除标题栏
-	 */
-	public boolean isRemoveTitleBar();
-	
-	/**
-	 * 判断是否需要去掉状态栏
-	 * @return 是否需要去掉状态栏
-	 */
-	public boolean isRemoveStatusBar();
-
 	/**
 	 * 主线程收到消息
 	 * @param message 要处理的消息
@@ -122,23 +82,16 @@ public interface BaseActivityInterface {
 	public void finishApplication();
 	
 	/**
-	 * 获取默认的Preferecnes对象
-	 * @return 默认的Preferecnes对象
+	 * 隐藏标题栏
 	 */
-	public SharedPreferences getDefultPreferences();
+	public void hiddenTitleBar();
 	
 	/**
-	 * 判断是否是第一次使用
-	 * @return 是否是第一次使用
+	 * 隐藏状态栏
 	 */
-	public boolean isFirstUsing();
+	public void hiddenStatusBar();
 	
-	/**
-	 * 设置是否是第一次使用
-	 * @param firstUsing 是否是第一次使用
-	 */
-	public void setFirstUsing(boolean firstUsing);
-
+	
 	
 	
 	/* ********************************************** 提示视图 ************************************************ */
@@ -857,44 +810,20 @@ public interface BaseActivityInterface {
 	public long getActivityId();
 
 	/**
-	 * 设置当前Activity的ID
-	 * @param activityId 当前Activity的ID
-	 */
-	public void setActivityId(long activityId);
-
-	/**
 	 * 获取消息处理器
 	 * @return 消息处理器
 	 */
 	public MessageHandler getMessageHanlder();
 
 	/**
-	 * 设置消息处理器
-	 * @param messageHanlder 消息处理器
-	 */
-	public void setMessageHanlder(MessageHandler messageHanlder);
-
-	/**
 	 * 获取广播接收器
 	 * @return 广播接收器
 	 */
-	public MyBroadcastReceiver getBroadcastReceiver();
-
-	/**
-	 * 设置广播接收器
-	 * @param broadcastReceiver 广播接收器
-	 */
-	public void setBroadcastReceiver(MyBroadcastReceiver broadcastReceiver);
+	public SimpleBroadcastReceiver getBroadcastReceiver();
 
 	/**
 	 * 是否已经开启了广播接收器
 	 * @return 已经开启了广播接收器
 	 */
 	public boolean isOpenedBroadcaseReceiver();
-
-	/**
-	 * 设置已经开启了广播接收器
-	 * @param openedBroadcaseReceiver 已经开启了广播接收器
-	 */
-	public void setOpenedBroadcaseReceiver(boolean openedBroadcaseReceiver);
 }
