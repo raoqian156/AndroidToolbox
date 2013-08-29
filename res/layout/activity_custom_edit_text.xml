@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/body">
     <ScrollView style="@style/base_match_match">
-	    <LinearLayout style="@style/layout_body_content_padding">
+	    <LinearLayout style="@style/body_content_padding">
 	    	<me.xiaopan.easyandroid.widget.SuperEditText style="@style/edit_account" android:drawableLeft="@drawable/icon_user_name" android:id="@+id/edit_customEditText_account" android:contentDescription="账号：" android:hint="左边有图标和名称的"/> 
 	    	<me.xiaopan.easyandroid.widget.SuperEditText style="@style/edit_password" android:drawableLeft="@drawable/icon_password" android:contentDescription="密码：" android:id="@+id/edit_customEditText_password" android:hint="左边有图标和名称的"/>
 	    	<me.xiaopan.easyandroid.widget.SuperEditText style="@style/edit_confirmPassword" android:contentDescription="确认密码：" android:id="@+id/edit_customEditText_confirmPassword" android:hint="左边有名称的"/>

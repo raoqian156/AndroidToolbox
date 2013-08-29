@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/body">
     <!-- 正文内容 -->
     <ScrollView style="@style/base_match_match">
-        <LinearLayout style="@style/layout_body_content_padding">
+        <LinearLayout style="@style/body_content_padding">
 	    	<TextView style="@style/text" android:id="@+id/tv_network" android:autoLink="all"/>
         </LinearLayout>
     </ScrollView>

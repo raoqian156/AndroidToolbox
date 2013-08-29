@@ -2,36 +2,36 @@
 <!-- 私有的样式 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- ******************************************************************************** 布局 ************************************************************************************ -->
-    <!-- 布局 - 正文 -->
-    <style name="layout_body" parent="@style/base_match_match_vertical">
+    <!-- 正文 -->
+    <style name="body" parent="@style/base_match_match_vertical">
         <item name="android:id">@id/layout_body</item>
         <item name="android:background">@color/body_backg</item>
     </style>
     
-    <!-- 布局 - 正文 - 内容 -->
-    <style name="layout_body_content" parent="@style/base_match_match_vertical">
+    <!-- 正文 - 内容 -->
+    <style name="body_content" parent="@style/base_match_match_vertical">
         <item name="android:id">@id/layout_bodyContent</item>
     </style>
     
-    <!-- 布局 - 正文  - 内容 - 四边有内边距-->
-    <style name="layout_body_content_padding" parent="@style/layout_body_content">
+    <!-- 正文  - 内容 - 四边有内边距-->
+    <style name="body_content_padding" parent="@style/body_content">
         <item name="android:padding">@dimen/base_padding_specialLarge</item>
     </style>
     
-    <!-- 布局 - 正文  - 内容 - 左右有内边距-->
-    <style name="layout_body_content_leftPadding" parent="@style/layout_body_content">
+    <!-- 正文  - 内容 - 左右有内边距-->
+    <style name="body_content_leftPadding" parent="@style/body_content">
         <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
         <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
     </style>
     
-    <!-- 布局 - 正文  - 内容 - 上下有内边距-->
-    <style name="layout_body_content_topPadding" parent="@style/layout_body_content">
+    <!-- 正文  - 内容 - 上下有内边距-->
+    <style name="body_content_topPadding" parent="@style/body_content">
         <item name="android:paddingTop">@dimen/base_padding_specialLarge</item>
         <item name="android:paddingBottom">@dimen/base_padding_specialLarge</item>
     </style>
 
-    <!-- 布局 - 列表项 -->
-    <style name="layout_listItem" parent="@style/base_match_wrap">
+    <!-- 列表项 -->
+    <style name="listItem" parent="@style/base_match_wrap">
         <item name="android:paddingLeft">@dimen/base_padding_specialLarge</item>
         <item name="android:paddingTop">@dimen/base_padding_default</item>
         <item name="android:paddingRight">@dimen/base_padding_specialLarge</item>
@@ -40,18 +40,9 @@
         <item name="android:minHeight">@dimen/layout_listItem_minHeight</item>
     </style>
 
-    <!-- 布局 - 列表头和尾 -->
-    <style name="layout_listHeaderAndFooter" parent="@style/layout_listItem">
+    <!-- 列表头和尾 -->
+    <style name="listHeaderAndFooter" parent="@style/listItem">
         <item name="android:clickable">true</item>
-    </style>
-    
-    <!-- 布局 - 列表为空时的提示视图 -->
-    <style name="layout_listEmptyHint" parent="@style/base_wrap_wrap">
-        <item name="android:id">@id/layout_listEmptyHint</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:visibility">gone</item>
-	    <item name="android:gravity">center</item>  
-	    <item name="android:clickable">true</item>
     </style>
     
     

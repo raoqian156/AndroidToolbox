@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/body">
     <android.support.v4.view.ViewPager style="@style/base_match_match" android:id="@+id/viewPager_viewPager">
         <android.support.v4.view.PagerTabStrip style="@style/base_match_wrap" android:id="@+id/pagerTab_viewPager"/>
     </android.support.v4.view.ViewPager>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_body">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/body">
     <!-- 正文内容 -->
-    <LinearLayout style="@style/layout_body_content">
+    <LinearLayout style="@style/body_content">
    		<Button style="@style/button_match" android:id="@+id/button_floatingWindow"/>
     </LinearLayout>
 	
