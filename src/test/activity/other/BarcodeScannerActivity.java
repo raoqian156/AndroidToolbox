@@ -59,6 +59,8 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
+		hiddenTitleBar();
+		hiddenStatusBar();
 		setContentView(R.layout.activity_barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
 		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
@@ -85,8 +87,6 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		hiddenTitleBar();
-		hiddenStatusBar();
 		if(savedInstanceState != null){
 			flashButton.setChecked(savedInstanceState.getBoolean(STATE_FLASH_CHECKED));
 		}

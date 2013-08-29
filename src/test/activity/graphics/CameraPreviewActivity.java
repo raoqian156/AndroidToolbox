@@ -41,6 +41,8 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
+		hiddenTitleBar();
+		hiddenStatusBar();
 		setContentView(R.layout.activity_camera_preview);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_cameraPreview);
 		flashModeImageButton = (ImageButton) findViewById(R.id.imageButton_cameraPreview_flashMode);
@@ -70,8 +72,6 @@ public class CameraPreviewActivity extends MyBaseActivity implements CameraManag
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		hiddenTitleBar();
-		hiddenStatusBar();
 		cameraManager = new CameraManager(this, surfaceView.getHolder(), this);
 	}
 

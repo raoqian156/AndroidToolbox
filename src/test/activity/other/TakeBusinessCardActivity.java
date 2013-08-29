@@ -64,6 +64,8 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	
 	@Override
 	public void onInitLayout(Bundle savedInstanceState) {
+		hiddenTitleBar();
+		hiddenStatusBar();
 		setContentView(R.layout.activity_take_business_card);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_takeBusinessCard);
 		cameraApertureView = findViewById(R.id.view_takeBusinessCard_cameraAperture);
@@ -178,9 +180,6 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		hiddenTitleBar();
-		hiddenStatusBar();
-		
 		/* 初始化本地保存文件 */
 		String savePath = getIntent().getStringExtra(PARAM_OPTIONAL_STRING_SAVE_PATH);
 		if(StringUtils.isNotNullAndEmpty(savePath)){

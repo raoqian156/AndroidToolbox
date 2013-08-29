@@ -183,7 +183,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	@Override
 	public void showLoadingHintView(View loadingHintView){
 		if(loadingHintView != null){
-			Message message = messageHanlder.obtainMessage();
+			Message message = getMessageHanlder().obtainMessage();
 			message.what = MessageHandler.SHOW_LOADING_HINT_VIEW;
 			message.obj = loadingHintView;
 			message.sendToTarget();
@@ -233,7 +233,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	@Override
 	public void sendMessage(Message message){
-		message.setTarget(messageHanlder);
+		message.setTarget(getMessageHanlder());
 		message.sendToTarget();
 	}
 	
