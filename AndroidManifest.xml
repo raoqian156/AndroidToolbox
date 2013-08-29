@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
     package="me.xiaopan.easyandroid" 
-    android:versionCode="264" 
-    android:versionName="2.6.4" >
+    android:versionCode="265" 
+    android:versionName="2.6.5" >
     
     <!-- 声明兼容的系统版本 -->
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
     
     <!-- 声明要使用的权限 -->
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
