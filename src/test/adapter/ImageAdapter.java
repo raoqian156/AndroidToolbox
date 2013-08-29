@@ -15,6 +15,7 @@
  */
 package test.adapter;
 
+import test.utils.ImageLoadOptionsFactory;
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.MyBaseAdapter;
 import me.xiaopan.easynetwork.android.image.ImageLoader;
@@ -47,7 +48,7 @@ public class ImageAdapter extends MyBaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		ImageLoader.getInstance().load(imageUrls[realPosition], viewHolder.image);
+		ImageLoader.getInstance().load(imageUrls[realPosition], viewHolder.image, ImageLoadOptionsFactory.getListImageLoadOptions(getContext()));
 		choiceButtonHandle(viewHolder.choiceButton, realPosition);
 		return convertView;
 	}

@@ -15,6 +15,7 @@
  */
 package test.adapter;
 
+import test.utils.ImageLoadOptionsFactory;
 import me.xiaopan.easynetwork.android.image.ImageLoader;
 import android.content.Context;
 import android.view.View;
@@ -63,7 +64,7 @@ public class GalleryAdapter extends BaseAdapter{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		ImageLoader.getInstance().load(urls[position], viewHolder.imageView);
+		ImageLoader.getInstance().load(urls[position], viewHolder.imageView, ImageLoadOptionsFactory.getListImageLoadOptions(context));
 		return convertView;
 	}
 	
