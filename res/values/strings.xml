@@ -119,22 +119,22 @@
     <string name="hint_firstLoad">首次加载</string>
     <string name="hint_pullDownRefersh">下拉刷新</string>
     <string name="hint_firstRefersh">首次刷新</string>
-    <string name="hint_cameraPreview_autoFocus">触摸屏幕对焦！</string>
-	<string name="hint_barcodeScanner">请将条码置于扫描框内！</string>
+    <string name="hint_cameraPreview_autoFocus">触摸屏幕对焦</string>
+	<string name="hint_barcodeScanner">请将条码置于扫描框内</string>
     <string name="hint_takeBusinessCard">名片尽量充满取景框，避免反光和阴影</string>
     
-    <string name="toast_exitHint">再按一次退出程序！</string>
+    <string name="toast_exitHint">再按一次退出程序</string>
     <string name="toast_checkUpdateing">正在检查更新，请稍后…</string>
-    <string name="toast_network_connectionTimeout">网络连接超时！</string>
-    <string name="toast_network_connectionException">网络连接异常！</string>
-    <string name="toast_network_fileNotFoundException">网络连接失败！</string>
-    <string name="toast_network_unknownException">网络连接失败！</string>
-    <string name="toast_cameraOpenFailed">打开摄像头失败，请确保其他程序没有占用您的摄像头！</string>
-    <string name="toast_dowloadFailed">下载失败！</string>
-    <string name="toast_cannot_little">%1$s 不能少于 %2$s 位！</string>
-    <string name="toast_cannot_much">%1$s 不能多于 %2$s 位！</string>
-    <string name="toast_reloadIn">正在重新加载！</string>
-	<string name="toast_barcodeScanner_notSupport">抱歉，您的设备不支持此功能！</string>
+    <string name="toast_network_connectionTimeout">网络连接超时</string>
+    <string name="toast_network_connectionException">网络连接异常</string>
+    <string name="toast_network_fileNotFoundException">网络连接失败</string>
+    <string name="toast_network_unknownException">网络连接失败</string>
+    <string name="toast_cameraOpenFailed">打开摄像头失败，请确保其他程序没有占用您的摄像头</string>
+    <string name="toast_dowloadFailed">下载失败</string>
+    <string name="toast_cannot_little">%1$s 不能少于 %2$s 位</string>
+    <string name="toast_cannot_much">%1$s 不能多于 %2$s 位</string>
+    <string name="toast_reloadIn">正在重新加载</string>
+	<string name="toast_barcodeScanner_notSupport">抱歉，您的设备不支持此功能</string>
 
 	<string name="button_rotateDrawable_startRotary">开始旋转</string>
 	<string name="button_rotateDrawable_stopRotary">停止旋转</string>
