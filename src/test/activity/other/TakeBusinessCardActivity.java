@@ -285,7 +285,11 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 			}
 			
 			/* 根据取景框对原图进行截取，只要取景框内的部分 */
-			if(cameraApertureRect == null) cameraApertureRect = CameraUtils.getCameraApertureRectByScreenAndCameraPreviewSize(getBaseContext(), cameraApertureView, cameraManager.getCamera().getParameters().getPreviewSize()); //初始化取景框的位置
+			if(cameraApertureRect == null){
+				Rect cameraApertureViewInSurfaceViewRect = new Rect();
+				cameraApertureView.getGlobalVisibleRect(cameraApertureViewInSurfaceViewRect);
+				cameraApertureRect = CameraUtils.computeCameraApertureInPictureRect(getBaseContext(), surfaceView.getWidth(), surfaceView.getHeight(), cameraApertureViewInSurfaceViewRect, cameraManager.getCamera().getParameters().getPictureSize());
+			}
 			Bitmap cutBitmap = Bitmap.createBitmap(srcBitmap, cameraApertureRect.left, cameraApertureRect.top, cameraApertureRect.width(), cameraApertureRect.height());
 			srcBitmap.recycle();
 			

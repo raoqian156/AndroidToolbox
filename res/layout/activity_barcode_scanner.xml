@@ -21,7 +21,7 @@
         <!-- 扫描框区 -->
         <LinearLayout style="@style/base_match_weight" android:layout_weight="0.9">
             <LinearLayout style="@style/base_weight_match" android:background="@color/base_black_translucent"/>
-            <me.xiaopan.easyandroid.util.barcode.ScanFrameView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_weight_match" android:background="@drawable/shape_scan_frame" android:layout_weight="4" />
+            <me.xiaopan.easyandroid.util.barcode.BarcodeCameraApertureView android:id="@+id/scanningFrame_barcodeScanner" style="@style/base_weight_match" android:background="@drawable/shape_scan_frame" android:layout_weight="4" />
             <LinearLayout style="@style/base_weight_match" android:background="@color/base_black_translucent"/>
         </LinearLayout>
         

@@ -18,9 +18,9 @@ package test.activity.other;
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.util.CameraManager;
 import me.xiaopan.easyandroid.util.CameraUtils;
+import me.xiaopan.easyandroid.util.barcode.BarcodeCameraApertureView;
 import me.xiaopan.easyandroid.util.barcode.Decoder;
 import me.xiaopan.easyandroid.util.barcode.Decoder.DecodeListener;
-import me.xiaopan.easyandroid.util.barcode.ScanFrameView;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -49,7 +49,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	private int beepId;//哔哔音效
 	private boolean allowDecode;	//允许解码（当解码成功后要停止解码，只有点击屏幕后才会再次开始解码）
 	private SurfaceView surfaceView;	//显示画面的视图
-	private ScanFrameView scanFrameView;//扫描框（取景器）
+	private BarcodeCameraApertureView scanFrameView;//扫描框（取景器）
 	private Decoder decoder;	//解码器
 	private SoundPool soundPool;//音效池
 	private CameraManager cameraManager;
@@ -63,7 +63,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 		hiddenStatusBar();
 		setContentView(R.layout.activity_barcode_scanner);
 		surfaceView = (SurfaceView) findViewById(R.id.surface_barcodeScanner);
-		scanFrameView = (ScanFrameView) findViewById(R.id.scanningFrame_barcodeScanner);
+		scanFrameView = (BarcodeCameraApertureView) findViewById(R.id.scanningFrame_barcodeScanner);
 		flashButton = (ToggleButton) findViewById(R.id.checkBox_barcodeScanner_flash);
 	}
 

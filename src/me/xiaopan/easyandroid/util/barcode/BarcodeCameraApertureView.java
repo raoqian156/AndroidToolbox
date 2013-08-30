@@ -26,28 +26,20 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.zxing.ResultPoint;
 
 /**
- * 扫描框
- * @author xiaopan
- *
+ * 条码取景框
  */
-public class ScanFrameView extends View {
+public class BarcodeCameraApertureView extends View {
 	private static final int OPAQUE = 0xFF;//不透明
-
-	/*
-	 * 可疑点相关
-	 */
 	private int resultPointColor = -256;	//可疑点的颜色，默认为黄色
 	private float newResultPointRadius = 6.0f;	//新的可疑点半径
 	private float lastResultPointRadius = 3.0f;	//旧的可疑点半径
-	
-	/*
-	 * 激光线相关
-	 */
 	private int laserLineColor = -65536;	//激光线的颜色，默认为红色
 	private int laserLineSlidePace = 5;	//激光线滑动步伐
 	private int laserLineHeight = 4;//激光线高度
@@ -60,10 +52,6 @@ public class ScanFrameView extends View {
 	private int laserLineAlphaIndex;	//激光线透明度索引
 	private int[] laserLineAlphas = {120, 140, 160, 180, 200, 220, 240, 255, 250, 230, 210, 190, 170, 150, 130, 110};//激光线透明度变化表
 	private boolean closeSlideLaserLineMode;	//是否关闭滑动激光线模式
-
-	/*
-	 * 其它
-	 */
 	private int width;	//扫描框的宽
 	private int height;	//扫描框的高
 	private int strokeWidth;	//描边的宽度
@@ -74,7 +62,7 @@ public class ScanFrameView extends View {
 	private Collection<ResultPoint> possibleResultPoints;	//当前可疑点集合
 	private Collection<ResultPoint> lastPossibleResultPoints;	//上次可疑点集合
 	
-	public ScanFrameView(Context context, AttributeSet attrs) {
+	public BarcodeCameraApertureView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		paint = new Paint();
 		possibleResultPoints = new HashSet<ResultPoint>(5);
@@ -180,12 +168,16 @@ public class ScanFrameView extends View {
 	
 	/**
 	 * 获取扫描框相对于预览界面的矩形
-	 * @param cameraPreviewSize 相机预览分辨率
+	 * @param cameraPictureSize 相机预览分辨率
 	 * @return 扫描框相对的预览界面的矩形
 	 */
-	public Rect getRectInPreview(Camera.Size cameraPreviewSize) {
+	public Rect getRectInPreview(Camera.Size cameraPictureSize) {
 		if(rectInPreview == null){
-			rectInPreview= CameraUtils.getCameraApertureRectByScreenAndCameraPreviewSize(getContext(), this, cameraPreviewSize);
+			WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+			Display display = windowManager.getDefaultDisplay();
+			Rect goRect = new Rect();
+			getGlobalVisibleRect(goRect);
+			rectInPreview= CameraUtils.computeCameraApertureInPictureRect(getContext(), display.getWidth(), display.getHeight(), goRect, cameraPictureSize);
 		}
 		return rectInPreview;
 	}

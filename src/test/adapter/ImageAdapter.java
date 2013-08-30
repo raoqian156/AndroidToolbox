@@ -15,10 +15,10 @@
  */
 package test.adapter;
 
-import test.utils.ImageLoadOptionsFactory;
 import me.xiaopan.easyandroid.R;
 import me.xiaopan.easyandroid.widget.MyBaseAdapter;
 import me.xiaopan.easynetwork.android.image.ImageLoader;
+import test.utils.ImageLoadOptionsFactory;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

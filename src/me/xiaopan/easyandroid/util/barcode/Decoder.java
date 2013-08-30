@@ -50,7 +50,7 @@ public class Decoder {
 	private Camera.Size cameraPreviewSize;	//相机预览尺寸
 	private int cameraPreviewFormat;	//相机预览格式的整型表示形式
 	private String cameraPreviewFormatString;	//相机预览格式的字符串表示形式
-	private Rect scanFrameRectInPreview;	//扫描框相对于预览界面的矩形
+	private Rect barcodeCameraApertureInPreviewRect;	//扫描框相对于预览界面的矩形
 	private MultiFormatReader multiFormatReader;	//解码读取器
 	private Vector<BarcodeFormat> decodeFormats;	//支持的编码格式
 	private ResultPointCallback resultPointCallback;	//结果可疑点回调对象
@@ -60,11 +60,11 @@ public class Decoder {
 	private DecodeHandler decodeHandler;	//解码处理器
 	private boolean isPortrait;	//是否是竖屏
 	
-	public Decoder(Context context, Camera.Parameters cameraParameters, ScanFrameView scanFrameView){
+	public Decoder(Context context, Camera.Parameters cameraParameters, BarcodeCameraApertureView barcodeCameraApertureView){
 		cameraPreviewSize = cameraParameters.getPreviewSize();
 		cameraPreviewFormat = cameraParameters.getPreviewFormat();
 		cameraPreviewFormatString = cameraParameters.get("preview-format");
-		scanFrameRectInPreview = scanFrameView.getRectInPreview(cameraPreviewSize);
+		barcodeCameraApertureInPreviewRect = barcodeCameraApertureView.getRectInPreview(cameraPreviewSize);
 		isPortrait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 		
 		// 初始化解码对象
@@ -179,14 +179,14 @@ public class Decoder {
 			// we only care
 			// about the Y channel, so allow it.
 		case PixelFormat.YCbCr_422_SP:
-			return new PlanarYUVLuminanceSource(data, previewWidth, previewHeight, scanFrameRectInPreview.left, scanFrameRectInPreview.top, scanFrameRectInPreview.width(), scanFrameRectInPreview.height());
+			return new PlanarYUVLuminanceSource(data, previewWidth, previewHeight, barcodeCameraApertureInPreviewRect.left, barcodeCameraApertureInPreviewRect.top, barcodeCameraApertureInPreviewRect.width(), barcodeCameraApertureInPreviewRect.height());
 		default:
 			// The Samsung Moment incorrectly uses this variant instead of the
 			// 'sp' version.
 			// Fortunately, it too has all the Y data up front, so we can read
 			// it.
 			if ("yuv420p".equals(cameraPreviewFormatString)) {
-				return new PlanarYUVLuminanceSource(data, previewWidth, previewHeight, scanFrameRectInPreview.left, scanFrameRectInPreview.top, scanFrameRectInPreview.width(), scanFrameRectInPreview.height());
+				return new PlanarYUVLuminanceSource(data, previewWidth, previewHeight, barcodeCameraApertureInPreviewRect.left, barcodeCameraApertureInPreviewRect.top, barcodeCameraApertureInPreviewRect.width(), barcodeCameraApertureInPreviewRect.height());
 			}
 		}
 		throw new IllegalArgumentException("Unsupported picture format: " + cameraPreviewFormat + '/' + cameraPreviewFormatString);

@@ -26,10 +26,7 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.view.Display;
 import android.view.OrientationEventListener;
-import android.view.View;
-import android.view.WindowManager;
 
 /**
  * 相机工具箱
@@ -158,12 +155,6 @@ public class CameraUtils {
 			}
 		}
 		
-//		if(result != null && !landscape){
-//			result.width = result.width + result.height;
-//			result.height = result.width - result.height;
-//			result.width = result.width - result.height;
-//		}
-		
 		return result;
 	}
 	
@@ -260,31 +251,28 @@ public class CameraUtils {
 	}
 	
 	/**
-	 * 根据屏幕分辨率以及相机预览分辨率获取取景框在预览图中的位置
-	 * @param context 上下文
-	 * @param cameraApertureView 取景框视图
-	 * @param cameraPreviewSize 相机预览尺寸
-	 * @return 取景框在预览图中的位置
+	 * 计算取景框在Picture中的位置，可通过此Rect在Picture上裁剪出取景框中的内容
+	 * @param context 上下文 用来判断是横屏还是竖屏
+	 * @param surfaceViewWidth SurfaceView的宽度
+	 * @param surfaceViewHeight SurfaceView的高度
+	 * @param cameraApertureViewInSurfaceViewRect 取景框视图在SurfaceView上的Rect
+	 * @param cameraPictureSize 输出图片的分辨率，可通过Camera.getParameters().getPictureSize()获得
+	 * @return
 	 */
-	public static Rect getCameraApertureRectByScreenAndCameraPreviewSize(Context context, View cameraApertureView, Camera.Size cameraPreviewSize){
-		Rect rectInScreen = new Rect();	//扫描框相对于整个屏幕的矩形
-		cameraApertureView.getGlobalVisibleRect(rectInScreen);
-		Rect rectInPreview= new Rect(rectInScreen);	//扫描框相对于预览界面的矩形
-		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();//获取屏幕分辨率
-		
+	public static Rect computeCameraApertureInPictureRect(Context context, int surfaceViewWidth, int surfaceViewHeight, Rect cameraApertureViewInSurfaceViewRect, Camera.Size cameraPictureSize){
+		Rect finslCameraApertureInSurfaceViewRect = new Rect(cameraApertureViewInSurfaceViewRect);
 		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {//如果是横屏
-			rectInPreview.left = rectInPreview.left * cameraPreviewSize.width / display.getWidth();
-			rectInPreview.right = rectInPreview.right * cameraPreviewSize.width / display.getWidth();
-			rectInPreview.top = rectInPreview.top * cameraPreviewSize.height / display.getHeight();
-			rectInPreview.bottom = rectInPreview.bottom * cameraPreviewSize.height / display.getHeight();
+			finslCameraApertureInSurfaceViewRect.left = finslCameraApertureInSurfaceViewRect.left * cameraPictureSize.width / surfaceViewWidth;
+			finslCameraApertureInSurfaceViewRect.right = finslCameraApertureInSurfaceViewRect.right * cameraPictureSize.width / surfaceViewWidth;
+			finslCameraApertureInSurfaceViewRect.top = finslCameraApertureInSurfaceViewRect.top * cameraPictureSize.height / surfaceViewHeight;
+			finslCameraApertureInSurfaceViewRect.bottom = finslCameraApertureInSurfaceViewRect.bottom * cameraPictureSize.height / surfaceViewHeight;
 		} else {
-			rectInPreview.left = rectInPreview.left * cameraPreviewSize.height / display.getWidth();
-			rectInPreview.right = rectInPreview.right * cameraPreviewSize.height / display.getWidth();
-			rectInPreview.top = rectInPreview.top * cameraPreviewSize.width / display.getHeight();
-			rectInPreview.bottom = rectInPreview.bottom * cameraPreviewSize.width / display.getHeight();
+			finslCameraApertureInSurfaceViewRect.left = finslCameraApertureInSurfaceViewRect.left * cameraPictureSize.height / surfaceViewWidth;
+			finslCameraApertureInSurfaceViewRect.right = finslCameraApertureInSurfaceViewRect.right * cameraPictureSize.height / surfaceViewWidth;
+			finslCameraApertureInSurfaceViewRect.top = finslCameraApertureInSurfaceViewRect.top * cameraPictureSize.width / surfaceViewHeight;
+			finslCameraApertureInSurfaceViewRect.bottom = finslCameraApertureInSurfaceViewRect.bottom * cameraPictureSize.width / surfaceViewHeight;
 		}
-		
-		return rectInPreview;
+		return finslCameraApertureInSurfaceViewRect;
 	}
 	
 	/**
