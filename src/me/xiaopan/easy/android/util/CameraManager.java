@@ -66,8 +66,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	
 	/**
 	 * 打开后置摄像头
+	 * @param autoFocus
 	 */
-	public void openBackCamera(){
+	public void openBackCamera(boolean autoFocus){
 		try {
 			camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
 			currentCameraId = backCameraId;
@@ -80,7 +81,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(resumeRestore){
 				resumeRestore = false;
 				initCamera();
-				startPreview();
+				startPreview(autoFocus);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,10 +97,18 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
+	 * 打开后置摄像头
+	 */
+	public void openBackCamera(){
+		openBackCamera(true);
+	}
+	
+	/**
 	 * 打开前置摄像头
+	 * @param autoFocus
 	 * @throws Exception 没有前置摄像头 
 	 */
-	public void openForntCamera() throws Exception{
+	public void openForntCamera(boolean autoFocus) throws Exception{
 		if(frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
@@ -131,6 +140,14 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		}
 	}
 	
+	/**
+	 * 打开前置摄像头
+	 * @throws Exception 没有前置摄像头 
+	 */
+	public void openForntCamera() throws Exception{
+		openForntCamera(true);
+	}
+	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		initCamera();
@@ -138,7 +155,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		startPreview();
+		startPreview(false);
 	}
 
 	@Override
