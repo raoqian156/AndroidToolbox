@@ -18,8 +18,8 @@ package test.activity.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.easy.android.util.CameraManager;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.util.CameraManager;
 import test.MyBaseActivity;
 import android.hardware.Camera;
 import android.os.Bundle;

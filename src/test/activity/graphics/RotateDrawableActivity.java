@@ -15,10 +15,10 @@
  */
 package test.activity.graphics;
 
+import me.xiaopan.easy.android.util.DrawabLevelController;
+import me.xiaopan.easy.android.util.DrawabLevelController.Listener;
+import me.xiaopan.easy.android.util.DrawabLevelController.RepeatMode;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.util.DrawabLevelController;
-import me.xiaopan.easyandroid.util.DrawabLevelController.Listener;
-import me.xiaopan.easyandroid.util.DrawabLevelController.RepeatMode;
 import test.MyBaseActivity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

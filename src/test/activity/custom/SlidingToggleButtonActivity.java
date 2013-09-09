@@ -15,9 +15,9 @@
  */
 package test.activity.custom;
 
+import me.xiaopan.easy.android.widget.BaseSlidingToggleButton;
+import me.xiaopan.easy.android.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.BaseSlidingToggleButton;
-import me.xiaopan.easyandroid.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
 import test.MyBaseActivity;
 import test.widget.Preference;
 import android.os.Bundle;

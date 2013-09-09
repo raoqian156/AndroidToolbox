@@ -15,8 +15,8 @@
  */
 package test.widget;
 
+import me.xiaopan.easy.android.widget.ViewPlayer.BaseViewPlayIndicator;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.ViewPlayer.BaseViewPlayIndicator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;

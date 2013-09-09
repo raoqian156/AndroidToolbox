@@ -18,11 +18,11 @@ package test.activity.custom;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.easy.android.widget.SuperListView;
+import me.xiaopan.easy.android.widget.SuperListView.OnLoadMoreListener;
+import me.xiaopan.easy.android.widget.SuperListView.OnRefreshListener;
+import me.xiaopan.easy.java.util.DateTimeUtils;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.SuperListView;
-import me.xiaopan.easyandroid.widget.SuperListView.OnLoadMoreListener;
-import me.xiaopan.easyandroid.widget.SuperListView.OnRefreshListener;
-import me.xiaopan.easyjava.util.DateTimeUtils;
 import test.MyBaseActivity;
 import test.adapter.StringAdapter;
 import test.widget.LoadMoreListFooter;

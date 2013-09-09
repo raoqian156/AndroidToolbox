@@ -15,8 +15,8 @@
  */
 package test.widget;
 
+import me.xiaopan.easy.android.widget.BaseSlidingToggleButton;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.BaseSlidingToggleButton;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -3,7 +3,7 @@
 	<!-- 内容 -->
     <LinearLayout style="@style/body_content">
 	    <!-- 列表 -->
-	    <me.xiaopan.easyandroid.widget.ReboundListView style="@style/list_weight"/>
+	    <me.xiaopan.easy.android.widget.ReboundListView style="@style/list_weight"/>
 	
 	    <!-- 变多变少按钮 -->
         <Button style="@style/button_match" android:id="@+id/imageLoader_button"/>

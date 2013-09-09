@@ -15,12 +15,12 @@
  */
 package test.activity.other;
 
+import me.xiaopan.easy.android.util.CameraManager;
+import me.xiaopan.easy.android.util.CameraUtils;
+import me.xiaopan.easy.android.util.barcode.BarcodeCameraApertureView;
+import me.xiaopan.easy.android.util.barcode.Decoder;
+import me.xiaopan.easy.android.util.barcode.Decoder.DecodeListener;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.util.CameraManager;
-import me.xiaopan.easyandroid.util.CameraUtils;
-import me.xiaopan.easyandroid.util.barcode.BarcodeCameraApertureView;
-import me.xiaopan.easyandroid.util.barcode.Decoder;
-import me.xiaopan.easyandroid.util.barcode.Decoder.DecodeListener;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.hardware.Camera;

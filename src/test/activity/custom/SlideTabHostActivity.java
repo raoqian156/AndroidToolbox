@@ -18,8 +18,8 @@ package test.activity.custom;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.easy.android.widget.ViewPagerAdapter;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.widget.ViewPagerAdapter;
 import test.MyBaseActivity;
 import test.adapter.StringAdapter;
 import android.os.Bundle;

@@ -15,11 +15,11 @@
  */
 package test;
 
+import me.xiaopan.easy.android.app.BaseFragmentActivity;
+import me.xiaopan.easy.android.app.OnDoubleClickPromptExitListener;
+import me.xiaopan.easy.android.app.OnExceptionFinishActivityListener;
+import me.xiaopan.easy.android.app.OnNetworkVerifyListener;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easyandroid.app.BaseFragmentActivity;
-import me.xiaopan.easyandroid.app.OnDoubleClickPromptExitListener;
-import me.xiaopan.easyandroid.app.OnExceptionFinishActivityListener;
-import me.xiaopan.easyandroid.app.OnNetworkVerifyListener;
 import android.os.Bundle;
 import android.view.MenuItem;
 
