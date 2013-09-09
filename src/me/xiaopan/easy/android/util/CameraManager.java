@@ -155,13 +155,24 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 
 	/**
-	 * 开始预览
+	 * 开始预览，默认对焦
 	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化
 	 */
 	public boolean startPreview(){
+		return startPreview(true);
+	}
+
+	/**
+	 * 开始预览
+	 * @param autoFocus 
+	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化
+	 */
+	public boolean startPreview(boolean autoFocus){
 		if(camera != null){
 			camera.startPreview();
-			autoFocus();
+			if(autoFocus){
+				autoFocus();
+			}
 			if(cameraCallback != null){
 				cameraCallback.onStartPreview();
 			}
