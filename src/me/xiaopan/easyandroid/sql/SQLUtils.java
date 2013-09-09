@@ -41,7 +41,7 @@ public class SQLUtils {
 	public static String getCreateTableSQL(Class<?> clas) throws NotFoundTableAnnotationException{
 		//处理表注解
 		Table table = clas.getAnnotation(Table.class);
-		if(table != null && StringUtils.isNotNullAndEmpty(table.value())){
+		if(table != null && StringUtils.isNotEmpty(table.value())){
 			StringBuffer sql = new StringBuffer();
 			sql.append("create table ");
 			sql.append(table.value() + "(");
@@ -51,10 +51,10 @@ public class SQLUtils {
 			for(Field field : ClassUtils.getFields(clas, true, true, true)){
 				//处理列注解
 				Column column = field.getAnnotation(Column.class);
-				if(column != null && StringUtils.isNotNullAndEmpty(column.value())){
+				if(column != null && StringUtils.isNotEmpty(column.value())){
 					//处理数据类型注解
 					DataType dataType = field.getAnnotation(DataType.class);
-					if(dataType != null && StringUtils.isNotNullAndEmpty(dataType.value())){
+					if(dataType != null && StringUtils.isNotEmpty(dataType.value())){
 						//如果需要添加分隔符
 						if(addSeparator){
 							sql.append(", ");
@@ -70,7 +70,7 @@ public class SQLUtils {
 						}else{
 							//处理默认值注解
 							Default defultValue = field.getAnnotation(Default.class);
-							if(defultValue != null && StringUtils.isNotNullAndEmpty(defultValue.value())){
+							if(defultValue != null && StringUtils.isNotEmpty(defultValue.value())){
 								if(dataType.value().startsWith("text") || dataType.value().startsWith("varchar") || dataType.value().startsWith("varchar2") || dataType.value().startsWith("char")){
 									sql.append(" defult '"+defultValue.value()+"'");
 								}else{
@@ -111,10 +111,10 @@ public class SQLUtils {
 		for(Field field : ClassUtils.getFields(clas, true, true, true)){
 			//处理列注解
 			Column column = field.getAnnotation(Column.class);
-			if(column != null && StringUtils.isNotNullAndEmpty(column.value())){
+			if(column != null && StringUtils.isNotEmpty(column.value())){
 				//处理数据类型注解
 				DataType dataType = field.getAnnotation(DataType.class);
-				if(dataType != null && StringUtils.isNotNullAndEmpty(dataType.value())){
+				if(dataType != null && StringUtils.isNotEmpty(dataType.value())){
 					try {
 						field.setAccessible(true);
 						Object result = field.get(object);
@@ -154,7 +154,7 @@ public class SQLUtils {
 				if(!Modifier.isStatic(field.getModifiers())){
 					//获取列注解
 					Column column = field.getAnnotation(Column.class);
-					if(column != null && StringUtils.isNotNullAndEmpty(column.value())){
+					if(column != null && StringUtils.isNotEmpty(column.value())){
 						field.setAccessible(true);
 						if(field.getType() == byte.class){
 							field.set(newInstance, Byte.valueOf(cursor.getString(cursor.getColumnIndex(column.value()))));

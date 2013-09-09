@@ -176,7 +176,7 @@ public class Preference extends LinearLayout{
 	public void setSubtitle(String subtitle){
 		subtitleText.setText(subtitle);
 		//刷新副标题
-		if(StringUtils.isNotNullAndEmpty((String) subtitleText.getText())){
+		if(StringUtils.isNotEmpty((String) subtitleText.getText())){
 			subtitleText.setVisibility(View.VISIBLE);
 			space.setVisibility(View.VISIBLE);
 		}else{

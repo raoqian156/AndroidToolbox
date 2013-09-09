@@ -76,7 +76,7 @@ public class SuperEditText extends EditText {
 	 * 尝试初始化编辑器名称
 	 */
 	private void tryInitEditName(String editName, Bitmap leftBitmap){
-		if(StringUtils.isNotNullAndEmpty(editName) || leftBitmap != null){
+		if(StringUtils.isNotEmpty(editName) || leftBitmap != null){
 			new BitmapFactory();
 			Drawable[] drawables = getCompoundDrawables();
 			setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(getContext().getResources(), TextUtils.getTextBitmap(getContext(), editName, getCurrentTextColor(), getTextSize(), leftBitmap)), drawables[1], drawables[2], drawables[3]);

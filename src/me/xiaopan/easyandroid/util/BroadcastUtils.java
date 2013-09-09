@@ -35,7 +35,7 @@ public class BroadcastUtils {
 	 */
 	public static final boolean sendBroadcast(Context context, String filterAction, Bundle bundle){
 		boolean result = false;
-		if(context != null && StringUtils.isNotNullAndEmpty(filterAction)){
+		if(context != null && StringUtils.isNotEmpty(filterAction)){
 			Intent intent = new Intent(filterAction);
 			if(bundle != null){
 				intent.putExtras(bundle);

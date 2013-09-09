@@ -182,7 +182,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	public void onInitData(Bundle savedInstanceState) {
 		/* 初始化本地保存文件 */
 		String savePath = getIntent().getStringExtra(PARAM_OPTIONAL_STRING_SAVE_PATH);
-		if(StringUtils.isNotNullAndEmpty(savePath)){
+		if(StringUtils.isNotEmpty(savePath)){
 			localCacheFile = new File(savePath);
 		}else{
 			localCacheFile = FileUtils.getFileFromDynamicCacheDir(getBaseContext(), "BusinessCardCache.jpeg");
