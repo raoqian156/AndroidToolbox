@@ -227,11 +227,12 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	}
 	
 	@Override
-	public void onInitCamera(Camera camera, Camera.Parameters cameraParameters) {
+	public void onInitCamera(Camera camera) {
 		/* 设置闪光模式 */
 		supportedFlashModes = new ArrayList<String>(3);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_OFF);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_ON);
+		Camera.Parameters cameraParameters = camera.getParameters();
 		if(cameraParameters.getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_AUTO)){
 			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
 			supportedFlashModes.add(Camera.Parameters.FLASH_MODE_AUTO);

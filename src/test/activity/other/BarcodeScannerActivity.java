@@ -138,7 +138,7 @@ public class BarcodeScannerActivity extends MyBaseActivity implements CameraMana
 	}
 	
 	@Override
-	public void onInitCamera(Camera camera, Camera.Parameters cameraParameters) {
+	public void onInitCamera(Camera camera) {
 		//设置预览回调
 		camera.setPreviewCallback(this);
 		

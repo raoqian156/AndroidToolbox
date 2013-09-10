@@ -26,13 +26,11 @@ import android.view.SurfaceHolder;
 
 /**
  * 相机管理器
- * @author xiaopan
  */
 public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCallback{
 	private Activity activity;
 	private SurfaceHolder surfaceHolder;
 	private Camera camera;
-	private Camera.Parameters cameraParameters;
 	private int frontCameraId = -1;
 	private int backCameraId = -1;
 	private int currentCameraId = -1;
@@ -72,7 +70,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		try {
 			camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
 			currentCameraId = backCameraId;
-			cameraParameters = camera.getParameters();
 			//初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
 			//当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
 			//然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
@@ -88,7 +85,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(camera != null){
 				camera.release();
 				camera = null;
-				cameraParameters = null;
 			}
 			if(cameraCallback != null){
 				cameraCallback.onOpenCameraException(e);
@@ -113,7 +109,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			try {
 				camera = Camera.open(frontCameraId);
 				currentCameraId = frontCameraId;
-				cameraParameters = camera.getParameters();
 				//初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
 				//当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
 				//然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
@@ -129,7 +124,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 				if(camera != null){
 					camera.release();
 					camera = null;
-					cameraParameters = null;
 				}
 				if(cameraCallback != null){
 					cameraCallback.onOpenCameraException(e);
@@ -230,7 +224,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			camera.setPreviewCallback(null);
 			camera.release();
 			camera = null;
-			cameraParameters = null;
 			resumeRestore = true;
 			return true;
 		}else{
@@ -282,6 +275,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean setFlashMode(String newFlashMode){
 		if(camera != null){
+			Camera.Parameters cameraParameters = camera.getParameters();
 			cameraParameters.setFlashMode(newFlashMode);
 			camera.setParameters(cameraParameters);
 			return true;
@@ -305,6 +299,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(SystemUtils.getAPILevel() >= 9){
 				camera.setDisplayOrientation(displayOrientation);
 			}else{
+				Camera.Parameters cameraParameters = camera.getParameters();
 				cameraParameters.setRotation(displayOrientation);
 				camera.setParameters(cameraParameters);
 			}
@@ -325,6 +320,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 				if(cameraCallback != null){
 					/* 设置最佳（最接近屏幕尺寸的）预览和图片输出分辨率 */
 					Camera.Size bestSize = CameraUtils.getBestPreviewAndPictureSize(activity, camera);
+					Camera.Parameters cameraParameters = camera.getParameters();
 					if(bestSize != null){
 						cameraParameters.setPreviewSize(bestSize.width, bestSize.height);
 						cameraParameters.setPictureSize(bestSize.width, bestSize.height);
@@ -344,7 +340,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 						}
 					}
 					
-					cameraCallback.onInitCamera(camera, cameraParameters);	//回调初始化
+					cameraCallback.onInitCamera(camera);	//回调初始化
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -383,12 +379,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		return currentCameraId;
 	}
 
-	public Camera.Parameters getCameraParameters() {
-		return cameraParameters;
-	}
-
 	public interface CameraCallback{
-		public void onInitCamera(Camera camera, Camera.Parameters cameraParameters);
+		public void onInitCamera(Camera camera);
 		public void onAutoFocus(boolean success, Camera camera);
 		public void onOpenCameraException(Exception e);
 		public void onStartPreview();
