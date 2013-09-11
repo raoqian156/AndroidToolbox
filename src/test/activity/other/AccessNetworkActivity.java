@@ -15,9 +15,9 @@
  */
 package test.activity.other;
 
+import me.xiaopan.easy.network.android.http.EasyHttpClient;
+import me.xiaopan.easy.network.android.http.StringHttpResponseHandler;
 import me.xiaopan.easyandroid.R;
-import me.xiaopan.easynetwork.android.http.EasyHttpClient;
-import me.xiaopan.easynetwork.android.http.StringHttpResponseHandler;
 import test.MyBaseActivity;
 import android.os.Bundle;
 import android.text.Html;

@@ -18,7 +18,7 @@ package me.xiaopan.easy.android.widget;
 import java.util.List;
 
 import me.xiaopan.easy.android.widget.ViewPlayer.BaseViewPlayAdapter;
-import me.xiaopan.easynetwork.android.image.ImageLoader;
+import me.xiaopan.easy.network.android.image.ImageLoader;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
