@@ -62,9 +62,13 @@ public abstract class MyBaseTabActivity extends BaseTabActivity {
 		onInitData(savedInstanceState);
 		
 		if(!hiddenTitleBar){
-			getActionBar().setBackgroundDrawable(getDrawable(R.drawable.shape_titlebar));
-			if(isEnableBackHome()){
-				getActionBar().setDisplayHomeAsUpEnabled(true);
+			try{
+				getActionBar().setBackgroundDrawable(getDrawable(R.drawable.shape_titlebar));
+				if(isEnableBackHome()){
+					getActionBar().setDisplayHomeAsUpEnabled(true);
+				}
+			}catch(Throwable throwable){
+				throwable.printStackTrace();
 			}
 		}
 	}

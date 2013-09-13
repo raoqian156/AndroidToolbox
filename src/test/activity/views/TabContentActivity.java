@@ -37,7 +37,6 @@ public class TabContentActivity extends MyBaseListActivity {
 
 	@Override
 	public void onInitData(Bundle savedInstanceState) {
-		hiddenTitleBar();
 		getListView().setAdapter(new StringAdapter(getBaseContext(), SuperListViewActivity.getStrings("这是选项卡 "+getIntent().getStringExtra(PARAM_TAB_INDEX)+" 的第 %s 条数据", 20)));
 	}
 }
