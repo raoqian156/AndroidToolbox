@@ -22,7 +22,7 @@ import me.xiaopan.easy.android.widget.SuperListView;
 import me.xiaopan.easy.android.widget.SuperListView.OnLoadMoreListener;
 import me.xiaopan.easy.android.widget.SuperListView.OnRefreshListener;
 import me.xiaopan.easy.java.util.DateTimeUtils;
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import test.adapter.StringAdapter;
 import test.widget.LoadMoreListFooter;

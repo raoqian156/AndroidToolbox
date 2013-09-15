@@ -18,7 +18,7 @@ package test.activity.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import test.adapter.TextAdapter;
 import test.adapter.TextAdapter.Text;

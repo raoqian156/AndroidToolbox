@@ -15,7 +15,7 @@
  */
 package test.activity.views;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseTabActivity;
 import android.content.Intent;
 import android.os.Bundle;

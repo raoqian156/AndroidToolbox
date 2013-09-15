@@ -14,7 +14,7 @@ import me.xiaopan.easy.android.util.FileUtils;
 import me.xiaopan.easy.android.util.ViewAnimationUtils;
 import me.xiaopan.easy.java.util.IOUtils;
 import me.xiaopan.easy.java.util.StringUtils;
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;

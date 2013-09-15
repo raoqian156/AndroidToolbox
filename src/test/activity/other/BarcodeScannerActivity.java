@@ -20,7 +20,7 @@ import me.xiaopan.easy.android.util.CameraUtils;
 import me.xiaopan.easy.android.util.barcode.BarcodeCameraApertureView;
 import me.xiaopan.easy.android.util.barcode.Decoder;
 import me.xiaopan.easy.android.util.barcode.Decoder.DecodeListener;
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.hardware.Camera;

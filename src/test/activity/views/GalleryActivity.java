@@ -15,7 +15,7 @@
  */
 package test.activity.views;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import test.adapter.GalleryAdapter;
 import android.os.Bundle;

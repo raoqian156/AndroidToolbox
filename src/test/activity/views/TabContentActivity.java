@@ -15,7 +15,7 @@
  */
 package test.activity.views;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseListActivity;
 import test.activity.custom.SuperListViewActivity;
 import test.adapter.StringAdapter;

@@ -18,7 +18,7 @@ package test.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

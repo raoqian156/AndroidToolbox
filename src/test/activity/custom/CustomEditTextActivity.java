@@ -15,7 +15,7 @@
  */
 package test.activity.custom;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import android.os.Bundle;
 

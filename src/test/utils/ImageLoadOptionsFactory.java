@@ -3,7 +3,7 @@ package test.utils;
 import me.xiaopan.easy.network.android.image.DefaultAlphaAnimationListener;
 import me.xiaopan.easy.network.android.image.DefaultBitmapLoadHandler;
 import me.xiaopan.easy.network.android.image.ImageLoadOptions;
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import android.content.Context;
 
 /**

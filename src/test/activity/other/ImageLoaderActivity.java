@@ -15,7 +15,7 @@
  */
 package test.activity.other;
 
-import me.xiaopan.easyandroid.R;
+import me.xiaopan.easy.android.R;
 import test.MyBaseListActivity;
 import test.adapter.ImageAdapter;
 import android.os.Bundle;
