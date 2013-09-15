@@ -55,7 +55,7 @@ public class DateTimeUtils {
 	 * @return 日期格式化器
 	 */
 	public static DateFormat getDateFormatByDefultCustomFormat(){
-		return getDateTimeFormatByCustomFormat("yyyy:MM:dd");
+		return getDateTimeFormatByCustomFormat("yyyy-MM-dd");
 	}
 	
 	
@@ -166,7 +166,7 @@ public class DateTimeUtils {
 	 * @return 日期时间格式化器
 	 */
 	public static DateFormat getDateTimeFormatByDefultCustomFormat(){
-		return getDateTimeFormatByCustomFormat("yyyy:MM:dd hh:mm:ss");
+		return getDateTimeFormatByCustomFormat("yyyy-MM-dd hh:mm:ss");
 	}
 	
 	/**
@@ -174,7 +174,7 @@ public class DateTimeUtils {
 	 * @return 日期时间格式化器
 	 */
 	public static DateFormat getDateTimeFormatByDefultCustomFormatAnd24Hour(){
-		return getDateTimeFormatByCustomFormat("yyyy:MM:dd HH:mm:ss");
+		return getDateTimeFormatByCustomFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
 	/* **************************************获取其它具体的Format********************************* */
