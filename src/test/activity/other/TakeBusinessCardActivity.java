@@ -289,7 +289,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 			if(cameraApertureRect == null){
 				Rect cameraApertureViewInSurfaceViewRect = new Rect();
 				cameraApertureView.getGlobalVisibleRect(cameraApertureViewInSurfaceViewRect);
-				cameraApertureRect = CameraUtils.computeCameraApertureInPictureRect(getBaseContext(), surfaceView.getWidth(), surfaceView.getHeight(), cameraApertureViewInSurfaceViewRect, cameraManager.getCamera().getParameters().getPictureSize());
+				cameraApertureRect = CameraUtils.computeRect(getBaseContext(), surfaceView.getWidth(), surfaceView.getHeight(), cameraApertureViewInSurfaceViewRect, cameraManager.getCamera().getParameters().getPictureSize());
 			}
 			Bitmap cutBitmap = Bitmap.createBitmap(srcBitmap, cameraApertureRect.left, cameraApertureRect.top, cameraApertureRect.width(), cameraApertureRect.height());
 			srcBitmap.recycle();

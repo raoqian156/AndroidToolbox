@@ -26,6 +26,7 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
+import android.os.Build;
 import android.view.OrientationEventListener;
 
 /**
@@ -165,7 +166,7 @@ public class CameraUtils {
 	 */
 	public static int getOptimalDisplayOrientationByWindowDisplayRotation(Activity activity, int cameraId) {      
 		int degrees = WindowUtils.getDisplayRotation(activity);      
-		if(SystemUtils.getAPILevel() >= 9){
+		if(Build.VERSION.SDK_INT >= 9){
 			Camera.CameraInfo info = new Camera.CameraInfo();      
 			Camera.getCameraInfo(cameraId, info);      
 			int result;
@@ -255,24 +256,24 @@ public class CameraUtils {
 	 * @param context 上下文 用来判断是横屏还是竖屏
 	 * @param surfaceViewWidth SurfaceView的宽度
 	 * @param surfaceViewHeight SurfaceView的高度
-	 * @param cameraApertureViewInSurfaceViewRect 取景框视图在SurfaceView上的Rect
-	 * @param cameraPictureSize 输出图片的分辨率，可通过Camera.getParameters().getPictureSize()获得
+	 * @param rectInSurfaceView 取景框视图在SurfaceView上的Rect
+	 * @param size 输出图片的分辨率，可通过Camera.getParameters().getPictureSize()获得
 	 * @return
 	 */
-	public static Rect computeCameraApertureInPictureRect(Context context, int surfaceViewWidth, int surfaceViewHeight, Rect cameraApertureViewInSurfaceViewRect, Camera.Size cameraPictureSize){
-		Rect finslCameraApertureInSurfaceViewRect = new Rect(cameraApertureViewInSurfaceViewRect);
+	public static Rect computeRect(Context context, int surfaceViewWidth, int surfaceViewHeight, Rect rectInSurfaceView, Camera.Size size){
+		Rect finalRect = new Rect(rectInSurfaceView);
 		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {//如果是横屏
-			finslCameraApertureInSurfaceViewRect.left = finslCameraApertureInSurfaceViewRect.left * cameraPictureSize.width / surfaceViewWidth;
-			finslCameraApertureInSurfaceViewRect.right = finslCameraApertureInSurfaceViewRect.right * cameraPictureSize.width / surfaceViewWidth;
-			finslCameraApertureInSurfaceViewRect.top = finslCameraApertureInSurfaceViewRect.top * cameraPictureSize.height / surfaceViewHeight;
-			finslCameraApertureInSurfaceViewRect.bottom = finslCameraApertureInSurfaceViewRect.bottom * cameraPictureSize.height / surfaceViewHeight;
+			finalRect.left = finalRect.left * size.width / surfaceViewWidth;
+			finalRect.right = finalRect.right * size.width / surfaceViewWidth;
+			finalRect.top = finalRect.top * size.height / surfaceViewHeight;
+			finalRect.bottom = finalRect.bottom * size.height / surfaceViewHeight;
 		} else {
-			finslCameraApertureInSurfaceViewRect.left = finslCameraApertureInSurfaceViewRect.left * cameraPictureSize.height / surfaceViewWidth;
-			finslCameraApertureInSurfaceViewRect.right = finslCameraApertureInSurfaceViewRect.right * cameraPictureSize.height / surfaceViewWidth;
-			finslCameraApertureInSurfaceViewRect.top = finslCameraApertureInSurfaceViewRect.top * cameraPictureSize.width / surfaceViewHeight;
-			finslCameraApertureInSurfaceViewRect.bottom = finslCameraApertureInSurfaceViewRect.bottom * cameraPictureSize.width / surfaceViewHeight;
+			finalRect.left = finalRect.left * size.height / surfaceViewWidth;
+			finalRect.right = finalRect.right * size.height / surfaceViewWidth;
+			finalRect.top = finalRect.top * size.width / surfaceViewHeight;
+			finalRect.bottom = finalRect.bottom * size.width / surfaceViewHeight;
 		}
-		return finslCameraApertureInSurfaceViewRect;
+		return finalRect;
 	}
 	
 	/**

@@ -22,6 +22,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
+import android.os.Build;
 import android.view.SurfaceHolder;
 
 /**
@@ -48,7 +49,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		this.cameraCallback = cameraCallback;
 		
 		//获取前置和后置摄像头的ID
-		if(SystemUtils.getAPILevel() >= 9){
+		if(Build.VERSION.SDK_INT >= 9){
 			int cameraNumbers = Camera.getNumberOfCameras();
 			CameraInfo cameraInfo = new CameraInfo();
 			for(int w = 0; w < cameraNumbers; w++){
@@ -64,9 +65,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	
 	/**
 	 * 打开后置摄像头
-	 * @param autoFocus
 	 */
-	public void openBackCamera(boolean autoFocus){
+	public void openBackCamera(){
 		try {
 			camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
 			currentCameraId = backCameraId;
@@ -78,7 +78,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(resumeRestore){
 				resumeRestore = false;
 				initCamera();
-				startPreview(autoFocus);
+				startPreview();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,18 +93,10 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
-	 * 打开后置摄像头
-	 */
-	public void openBackCamera(){
-		openBackCamera(true);
-	}
-	
-	/**
 	 * 打开前置摄像头
-	 * @param autoFocus
 	 * @throws Exception 没有前置摄像头 
 	 */
-	public void openForntCamera(boolean autoFocus) throws Exception{
+	public void openForntCamera() throws Exception{
 		if(frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
@@ -134,14 +126,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		}
 	}
 	
-	/**
-	 * 打开前置摄像头
-	 * @throws Exception 没有前置摄像头 
-	 */
-	public void openForntCamera() throws Exception{
-		openForntCamera(true);
-	}
-	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		initCamera();
@@ -149,7 +133,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		startPreview(false);
+		startPreview();
 	}
 
 	@Override
@@ -166,24 +150,12 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 
 	/**
-	 * 开始预览，默认对焦
+	 * 开始预览
 	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化
 	 */
 	public boolean startPreview(){
-		return startPreview(true);
-	}
-
-	/**
-	 * 开始预览
-	 * @param autoFocus 
-	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化
-	 */
-	public boolean startPreview(boolean autoFocus){
 		if(camera != null){
 			camera.startPreview();
-			if(autoFocus){
-				autoFocus();
-			}
 			if(cameraCallback != null){
 				cameraCallback.onStartPreview();
 			}
@@ -296,7 +268,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	public boolean setDisplayOrientation(int displayOrientation){
 		if(camera != null){
 			this.displayOrientation = displayOrientation;
-			if(SystemUtils.getAPILevel() >= 9){
+			if(Build.VERSION.SDK_INT >= 9){
 				camera.setDisplayOrientation(displayOrientation);
 			}else{
 				Camera.Parameters cameraParameters = camera.getParameters();
@@ -318,20 +290,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
 				if(cameraCallback != null){
-					/* 设置最佳（最接近屏幕尺寸的）预览和图片输出分辨率 */
-					Camera.Size bestSize = CameraUtils.getBestPreviewAndPictureSize(activity, camera);
-					Camera.Parameters cameraParameters = camera.getParameters();
-					if(bestSize != null){
-						cameraParameters.setPreviewSize(bestSize.width, bestSize.height);
-						cameraParameters.setPictureSize(bestSize.width, bestSize.height);
-					}else{
-						cameraParameters.setPreviewSize(640, 480);
-						cameraParameters.setPictureSize(640, 480);
-					}
-					camera.setParameters(cameraParameters);
-					
 					//设置预览界面旋转角度
-					if(SystemUtils.getAPILevel() >= 9){
+					if(Build.VERSION.SDK_INT >= 9){
 						setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(activity, getCurrentCameraId()));
 					}else{
 						//如果是当前竖屏就将预览角度顺时针旋转90度

@@ -341,15 +341,7 @@ public class SystemUtils {
 	 * @return 0：是；小于0：小于4.0；大于0：大于4.0
 	 */
 	public static int isAndroid14(){
-		return getAPILevel() - 14;
-	}
-	
-	/**
-	 * 获取API级别
-	 * @return AndroidAPI级别
-	 */
-	public static int getAPILevel(){
-		return Build.VERSION.SDK_INT;
+		return Build.VERSION.SDK_INT - 14;
 	}
 	
 	/**

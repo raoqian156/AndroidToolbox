@@ -1,11 +1,8 @@
 package me.xiaopan.easy.java.util;
 
-
-
 /**
  * 这是一个圆圈
  * @author xiaopan
- *
  * @param <T>
  */
 public class Circle<T> {
@@ -39,17 +36,18 @@ public class Circle<T> {
 	 * @param object
 	 */
 	public void put(T object){
-		//如果还没有满
-		if(size < maxSize){
-			//如果头节点还是空的，说明当前是空的
-			if(headerNode == null){
-				headerNode = new Node(object);
-				footerNode = headerNode;
-			}else{
-				Node endNode = new Node(object);
-				footerNode.setNext(endNode);
-				footerNode = endNode;
+		if(headerNode == null || footerNode == null){
+			if(maxSize > 0){
+				size = 0;
+				Node newNode = new Node(object);
+				headerNode = newNode;
+				footerNode = newNode;
+				size++;
 			}
+		}else if(size < maxSize){
+			Node endNode = new Node(object);
+			footerNode.setNext(endNode);
+			footerNode = endNode;
 			size++;
 		}else{
 			Node endNode = new Node(object);
@@ -89,6 +87,22 @@ public class Circle<T> {
 	 */
 	public int size(){
 		return size;
+	}
+	
+	/**
+	 * 是否空
+	 * @return
+	 */
+	public boolean isEmpty(){
+		return size == 0;
+	}
+	
+	/**
+	 * 是否满了
+	 * @return
+	 */
+	public boolean isFull(){
+		return size >= maxSize;
 	}
 
 	/**

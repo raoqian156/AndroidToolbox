@@ -177,7 +177,7 @@ public class BarcodeCameraApertureView extends View {
 			Display display = windowManager.getDefaultDisplay();
 			Rect goRect = new Rect();
 			getGlobalVisibleRect(goRect);
-			rectInPreview= CameraUtils.computeCameraApertureInPictureRect(getContext(), display.getWidth(), display.getHeight(), goRect, cameraPictureSize);
+			rectInPreview= CameraUtils.computeRect(getContext(), display.getWidth(), display.getHeight(), goRect, cameraPictureSize);
 		}
 		return rectInPreview;
 	}
