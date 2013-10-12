@@ -19,7 +19,6 @@
 	<string name="activityTitle_otherList">其它</string>
    	<string name="activityTitle_accessNetwork">访问网络</string>
    	<string name="activityTitle_downloadImage">下载图片</string>
-    <string name="activityTitle_barcodeScanner">条码扫描器</string>
     <string name="activityTitle_imageLoader">图片批量加载器</string>
     <string name="activityTitle_floatingWindow">悬浮窗</string>
     <string name="activityTitle_viewsList">Views</string>
@@ -114,13 +113,8 @@
 	<string name="formKey_companyWebHomeUrl">公司网站：</string>
 	<string name="formKey_keyword">关键字：</string>
     
-    <string name="hint_clickLoadMore">点击加载更多</string>
-    <string name="hint_pullUpLoadMore">上拉加载更多</string>
-    <string name="hint_firstLoad">首次加载</string>
     <string name="hint_pullDownRefersh">下拉刷新</string>
-    <string name="hint_firstRefersh">首次刷新</string>
     <string name="hint_cameraPreview_autoFocus">触摸屏幕对焦</string>
-	<string name="hint_barcodeScanner">请将条码置于扫描框内</string>
     <string name="hint_takeBusinessCard">名片尽量充满取景框，避免反光和阴影</string>
     
     <string name="toast_exitHint">再按一次退出程序</string>

@@ -59,7 +59,6 @@
    		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/activityTitle_rotateDrawable"/>
    		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/activityTitle_mediaList"/>
      	<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/activityTitle_accessNetwork"/>
-     	<activity android:name="test.activity.other.BarcodeScannerActivity" android:label="@string/activityTitle_barcodeScanner"/>
      	<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/activityTitle_downloadImage"/>
     	<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/activityTitle_imageLoader"/>
    		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/activityTitle_otherList"/>

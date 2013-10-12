@@ -179,17 +179,6 @@
         <item>http://cdn-img.easyicon.cn/png/10660/1066017.gif</item>
     </string-array>
     
-    <string-array name="autoPlayGallery_urls">        
-        <item>http://img.wallba.com/Public/Upload/Image/mingxingbizi/liuyifei1/11/201131165352312.jpg</item>
-        <item>http://image11.m1905.cn/uploadfile/2009/0910/195/20090910034039520.jpg</item>
-        <item>http://image11.m1905.cn/uploadfile/2009/0910/195/20090910034035421.jpg</item>
-        <item>http://image11.m1905.cn/uploadfile/2009/0910/195/20090910034033168.jpg</item>
-        <item>http://image11.m1905.cn/uploadfile/2009/0910/195/20090910034037572.jpg</item>
-        <item>http://pic17.nipic.com/20111012/8042943_122136222000_2.jpg</item>
-        <item>http://club.eliqun.com/bbs/attachments/month_0910/20091006_a94022e6f39ebc6abdd0g6ywrqcbckql.jpg</item>
-        <item>http://pic.qcgd.com/uppic/201203/20120330122730140.jpg</item>
-    </string-array>
-    
     <string-array name="autoPlayGallery_urls2">  
         <item>http://www.sinoace.net/android/a7_1.jpg</item>
         <item>http://www.sinoace.net/android/a7_2.jpg</item>
