@@ -15,9 +15,9 @@
  */
 package test.activity.other;
 
+import me.xiaopan.easy.android.R;
 import me.xiaopan.easy.network.android.http.DownloadImageAsyncTask;
 import me.xiaopan.easy.network.android.http.DownloadImageAsyncTask.DownloadImageListener;
-import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import android.content.Context;
 import android.graphics.BitmapFactory;

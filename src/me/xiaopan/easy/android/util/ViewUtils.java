@@ -16,6 +16,7 @@
 package me.xiaopan.easy.android.util;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -232,5 +233,19 @@ public class ViewUtils {
 	 */
 	public static final int getMeasuredWidth(View view){
 	    return measure(view).getMeasuredWidth();
+	}
+	
+	/**
+	 * 获取视图1相对于视图2的位置，注意在屏幕上看起来视图1应该被视图2包含，但是视图1和视图并不一定是绝对的父子关系也可以是兄弟关系，只是一个大一个小而已
+	 * @param view1
+	 * @param view2
+	 * @return
+	 */
+	public static final Rect getRelativeRect(View view1, View view2){
+		Rect childViewGlobalRect = new Rect();
+		Rect parentViewGlobalRect = new Rect();
+		view1.getGlobalVisibleRect(childViewGlobalRect);
+		view2.getGlobalVisibleRect(parentViewGlobalRect);
+		return new Rect(childViewGlobalRect.left - parentViewGlobalRect.left, childViewGlobalRect.top - parentViewGlobalRect.top, childViewGlobalRect.right - parentViewGlobalRect.left, childViewGlobalRect.bottom - parentViewGlobalRect.top);
 	}
 }

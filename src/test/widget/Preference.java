@@ -15,11 +15,11 @@
  */
 package test.widget;
 
+import me.xiaopan.easy.android.R;
 import me.xiaopan.easy.android.util.Colors;
 import me.xiaopan.easy.android.widget.BaseSlidingToggleButton;
 import me.xiaopan.easy.android.widget.BaseSlidingToggleButton.OnCheckedChanageListener;
 import me.xiaopan.easy.java.util.StringUtils;
-import me.xiaopan.easy.android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils.TruncateAt;

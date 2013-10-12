@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.easy.android.R;
 import me.xiaopan.easy.android.util.BitmapUtils;
 import me.xiaopan.easy.android.util.CameraManager;
 import me.xiaopan.easy.android.util.CameraUtils;
@@ -14,7 +15,6 @@ import me.xiaopan.easy.android.util.FileUtils;
 import me.xiaopan.easy.android.util.ViewAnimationUtils;
 import me.xiaopan.easy.java.util.IOUtils;
 import me.xiaopan.easy.java.util.StringUtils;
-import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -289,7 +289,7 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 			if(cameraApertureRect == null){
 				Rect cameraApertureViewInSurfaceViewRect = new Rect();
 				cameraApertureView.getGlobalVisibleRect(cameraApertureViewInSurfaceViewRect);
-				cameraApertureRect = CameraUtils.computeRect(getBaseContext(), surfaceView.getWidth(), surfaceView.getHeight(), cameraApertureViewInSurfaceViewRect, cameraManager.getCamera().getParameters().getPictureSize());
+				cameraApertureRect = CameraUtils.computeFinderFrameRect(getBaseContext(), surfaceView.getWidth(), surfaceView.getHeight(), cameraApertureViewInSurfaceViewRect, cameraManager.getCamera().getParameters().getPictureSize());
 			}
 			Bitmap cutBitmap = Bitmap.createBitmap(srcBitmap, cameraApertureRect.left, cameraApertureRect.top, cameraApertureRect.width(), cameraApertureRect.height());
 			srcBitmap.recycle();

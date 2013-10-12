@@ -1,7 +1,7 @@
 package test.widget;
 
-import me.xiaopan.easy.android.widget.BasePulldownRefershListHeader;
 import me.xiaopan.easy.android.R;
+import me.xiaopan.easy.android.widget.BasePulldownRefershListHeader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

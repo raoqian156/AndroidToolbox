@@ -18,9 +18,9 @@ package test.activity.custom;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.easy.android.R;
 import me.xiaopan.easy.android.widget.PicturePlayAdapter;
 import me.xiaopan.easy.android.widget.ViewPlayer.PlayWay;
-import me.xiaopan.easy.android.R;
 import test.MyBaseActivity;
 import test.widget.PointViewPlayer;
 import android.os.Bundle;

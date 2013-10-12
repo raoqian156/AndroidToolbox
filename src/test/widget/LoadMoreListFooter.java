@@ -15,8 +15,8 @@
  */
 package test.widget;
 
-import me.xiaopan.easy.android.widget.BaseLoadMoreListFooter;
 import me.xiaopan.easy.android.R;
+import me.xiaopan.easy.android.widget.BaseLoadMoreListFooter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

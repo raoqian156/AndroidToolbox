@@ -65,9 +65,9 @@ public class OtherListActivity extends MyBaseActivity{
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_accessNetwork), AccessNetworkActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_downloadImage), DownloadImageActivity.class));
 		
-		ActivityEntry scann = new ActivityEntry(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class); 
-		scann.setRequestCode(REQUEST_CODE_BARCODE_SCANN);
-		texts.add(scann);
+//		ActivityEntry scann = new ActivityEntry(getString(R.string.activityTitle_barcodeScanner), BarcodeScannerActivity.class); 
+//		scann.setRequestCode(REQUEST_CODE_BARCODE_SCANN);
+//		texts.add(scann);
 		
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_takeBusinessCard), TakeBusinessCardActivity.class));
 		texts.add(new ActivityEntry(getString(R.string.activityTitle_imageLoader), ImageLoaderActivity.class));
@@ -78,7 +78,7 @@ public class OtherListActivity extends MyBaseActivity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_BARCODE_SCANN){
-			toastL(data.getStringExtra(BarcodeScannerActivity.RETURN_BARCODE_CONTENT));
+//			toastL(data.getStringExtra(BarcodeScannerActivity.RETURN_BARCODE_CONTENT));
 		}
 	}
 }

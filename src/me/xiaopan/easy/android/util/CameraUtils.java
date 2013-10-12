@@ -15,11 +15,6 @@
  */
 package me.xiaopan.easy.android.util;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -31,134 +26,8 @@ import android.view.OrientationEventListener;
 
 /**
  * 相机工具箱
- * @author xiaopan
- *
  */
 public class CameraUtils {
-	/**
-	 * 获取最佳的预览尺寸
-	 * @param context
-	 * @param camera
-	 * @return
-	 */
-	public static Camera.Size getOptimalPreviewSize(Context context, Camera camera) {
-		Camera.Size optimalSize = null;
-		List<Camera.Size> supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
-		if (supportedPreviewSizes != null && supportedPreviewSizes.size() > 0){
-			Size screenSize = DeviceUtils.getScreenSize(context);
-			int screenWidth = screenSize.getHeight();
-			int screenHeight = screenSize.getWidth();
-			final double ASPECT_TOLERANCE = 0.1;
-			double minDiff = Double.MAX_VALUE;
-			
-			//计算最佳的宽高比例
-			double targetRatio = (double) screenWidth / screenHeight;
-			int targetHeight = screenHeight;
-			
-			//视图找到一个宽高和屏幕最接近的尺寸
-			for (Camera.Size size : supportedPreviewSizes) {
-				double ratio = (double) size.width / size.height;
-				if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
-				if (Math.abs(size.height - targetHeight) < minDiff) {
-					optimalSize = size;
-					minDiff = Math.abs(size.height - targetHeight);
-				}
-			}
-			
-			//当找不到的时候
-			if (optimalSize == null) {
-				minDiff = Double.MAX_VALUE;
-				for (Camera.Size size : supportedPreviewSizes) {
-					if (Math.abs(size.height - targetHeight) < minDiff) {
-						optimalSize = size;
-						minDiff = Math.abs(size.height - targetHeight);
-					}
-				}
-			}
-		}
-
-        return optimalSize;
-    }
-	
-	/**
-	 * 试图找到一个最接近屏幕的预览和输出尺寸
-	 * @param context
-	 * @param camera
-	 * @return
-	 */
-	public static Camera.Size getBestPreviewAndPictureSize(Context context, Camera camera){
-		Size screenSize = DeviceUtils.getScreenSize(context);
-		boolean landscape = screenSize.getWidth() > screenSize.getHeight();
-		
-		//如果是竖屏就将宽高互换
-		if(!landscape){
-			screenSize.setWidth(screenSize.getWidth() + screenSize.getHeight());
-			screenSize.setHeight(screenSize.getWidth() - screenSize.getHeight());
-			screenSize.setWidth(screenSize.getWidth() - screenSize.getHeight());
-		}
-		
-		Camera.Parameters cameraParameters = camera.getParameters();
-		List<Camera.Size> supportPreviewSizes = cameraParameters.getSupportedPreviewSizes();
-		List<Camera.Size> supportPictureSizes = cameraParameters.getSupportedPictureSizes();
-		Comparator<Camera.Size> comparator = new Comparator<Camera.Size>() {
-			@Override
-			public int compare(android.hardware.Camera.Size lhs, android.hardware.Camera.Size rhs) {
-				return (lhs.width - rhs.width) * -1;
-			}
-		};
-		Collections.sort(supportPreviewSizes, comparator);
-		Collections.sort(supportPictureSizes, comparator);
-		
-		Iterator<Camera.Size> supportPreviewSizeIterator;
-		Iterator<Camera.Size> supportPictureSizeIterator;
-		Camera.Size currentPreviewSize;
-		Camera.Size currentPictureSize;
-		
-		//先剔除预览尺寸集合中大于屏幕尺寸的
-		supportPreviewSizeIterator = supportPreviewSizes.iterator();
-		while(supportPreviewSizeIterator.hasNext()){
-			currentPreviewSize = supportPreviewSizeIterator.next();
-			if(currentPreviewSize.width > screenSize.getWidth() || currentPreviewSize.height > screenSize.getHeight()){
-				supportPreviewSizeIterator.remove();
-			}
-		}
-		
-		//然后剔除输出尺寸集合中大于屏幕尺寸的
-		supportPictureSizeIterator = supportPictureSizes.iterator();
-		while(supportPictureSizeIterator.hasNext()){
-			currentPictureSize = supportPictureSizeIterator.next();
-			if(currentPictureSize.width > screenSize.getWidth() || currentPictureSize.height > screenSize.getHeight()){
-				supportPictureSizeIterator.remove();
-			}
-		}
-		
-		//最后找到相同的
-		Camera.Size result = null;
-		supportPreviewSizeIterator = supportPreviewSizes.iterator();
-		while(supportPreviewSizeIterator.hasNext()){
-			currentPreviewSize = supportPreviewSizeIterator.next();
-			supportPictureSizeIterator = supportPictureSizes.iterator();
-			while(supportPictureSizeIterator.hasNext()){
-				currentPictureSize = supportPictureSizeIterator.next();
-				if(currentPreviewSize.width == currentPictureSize.width && currentPreviewSize.height == currentPictureSize.height){
-					result = currentPictureSize;
-					break;
-				}else if(currentPreviewSize.width > currentPictureSize.width || currentPreviewSize.height > currentPictureSize.height){
-					supportPreviewSizeIterator.remove();
-					break;
-				}else{
-					supportPictureSizeIterator.remove();
-				}
-			}
-			
-			if(result != null){
-				break;
-			}
-		}
-		
-		return result;
-	}
-	
 	/**
 	 * 根据当前窗口的显示方向设置相机的显示方向
 	 * @param activity 用来获取当前窗口的显示方向
@@ -252,7 +121,7 @@ public class CameraUtils {
 	}
 	
 	/**
-	 * 计算取景框在Picture中的位置，可通过此Rect在Picture上裁剪出取景框中的内容
+	 * 计算取景框的位置，可通过此Rect在裁剪出取景框中的内容
 	 * @param context 上下文 用来判断是横屏还是竖屏
 	 * @param surfaceViewWidth SurfaceView的宽度
 	 * @param surfaceViewHeight SurfaceView的高度
@@ -260,7 +129,7 @@ public class CameraUtils {
 	 * @param size 输出图片的分辨率，可通过Camera.getParameters().getPictureSize()获得
 	 * @return
 	 */
-	public static Rect computeRect(Context context, int surfaceViewWidth, int surfaceViewHeight, Rect rectInSurfaceView, Camera.Size size){
+	public static Rect computeFinderFrameRect(Context context, int surfaceViewWidth, int surfaceViewHeight, Rect rectInSurfaceView, Camera.Size size){
 		Rect finalRect = new Rect(rectInSurfaceView);
 		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {//如果是横屏
 			finalRect.left = finalRect.left * size.width / surfaceViewWidth;
