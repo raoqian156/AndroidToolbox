@@ -84,7 +84,7 @@ public class ListMenuDialog extends AlertDialog {
 		//设置窗体显示位置
 		Window window = getWindow();
 		WindowManager.LayoutParams lp = window.getAttributes();
-		lp.y = DeviceUtils.getScreenSize(getContext()).getHeight() - lp.height;
+		lp.y = DeviceUtils.getScreenSize(getContext())[1] - lp.height;
 		window.setAttributes(lp);
 	}
 

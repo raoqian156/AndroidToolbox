@@ -10,6 +10,7 @@ import java.util.List;
 import me.xiaopan.easy.android.R;
 import me.xiaopan.easy.android.util.BitmapUtils;
 import me.xiaopan.easy.android.util.CameraManager;
+import me.xiaopan.easy.android.util.CameraOptimalSizeCalculator;
 import me.xiaopan.easy.android.util.CameraUtils;
 import me.xiaopan.easy.android.util.FileUtils;
 import me.xiaopan.easy.android.util.ViewAnimationUtils;
@@ -21,6 +22,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.hardware.Camera.Size;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -171,7 +173,6 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						previewImage.setImageDrawable(null);	//将预览视图清空
-//						cameraManager.startPreview();
 					}
 				});
 			}
@@ -228,11 +229,12 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 	
 	@Override
 	public void onInitCamera(Camera camera) {
+		Camera.Parameters cameraParameters = camera.getParameters();
+		
 		/* 设置闪光模式 */
 		supportedFlashModes = new ArrayList<String>(3);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_OFF);
 		supportedFlashModes.add(Camera.Parameters.FLASH_MODE_ON);
-		Camera.Parameters cameraParameters = camera.getParameters();
 		if(cameraParameters.getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_AUTO)){
 			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
 			supportedFlashModes.add(Camera.Parameters.FLASH_MODE_AUTO);
@@ -241,6 +243,12 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 			cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			setFlashModeImageButton(Camera.Parameters.FLASH_MODE_OFF);
 		}
+		
+		/* 设置预览和输出分辨率 */
+		Size[] optimalSizes = new CameraOptimalSizeCalculator().getPreviewAndPictureSize(surfaceView.getWidth(), surfaceView.getHeight(), cameraParameters.getSupportedPreviewSizes(), cameraParameters.getSupportedPictureSizes());
+		cameraParameters.setPreviewSize(optimalSizes[0].width, optimalSizes[0].height);
+		cameraParameters.setPictureSize(optimalSizes[1].width, optimalSizes[1].height);
+		
 		camera.setParameters(cameraParameters);
 	}
 
@@ -252,21 +260,20 @@ public class TakeBusinessCardActivity extends MyBaseActivity implements CameraMa
 
 	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
-		//如果对焦成功
 		if(success){
-			//如果准备拍摄照片
 			if(readTakePhotos){
 				readTakePhotos = false;
 				cameraManager.takePicture(null, null, this);
 			}
 		}else{
-			//继续对焦
 			cameraManager.autoFocus();
 		}
 	}
 
 	@Override
-	public void onStartPreview() {}
+	public void onStartPreview() {
+		cameraManager.autoFocus();
+	}
 
 	@Override
 	public void onStopPreview() {}

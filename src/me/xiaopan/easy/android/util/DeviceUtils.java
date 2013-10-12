@@ -15,11 +15,10 @@ public class DeviceUtils {
 	 * @param context
 	 * @return
 	 */
-	public static Size getScreenSize(Context context){
+	public static int[] getScreenSize(Context context){
 		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = windowManager.getDefaultDisplay();
-		Size size = new Size(display.getWidth(), display.getHeight());
-		return size;
+		return new int[]{display.getWidth(), display.getHeight()};
 	}
 
 	/**
@@ -30,5 +29,4 @@ public class DeviceUtils {
 	public static String getDeviceId(Context context){
 		return ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 	}
-	
 }
