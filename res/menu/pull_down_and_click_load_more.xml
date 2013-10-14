@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menu_pullDownRefreshAndCliclLoadMore_refresh" android:icon="@drawable/icon_refresh" android:title="刷新" android:showAsAction="ifRoom"/>
-    <item android:id="@+id/menu_pullDownRefreshAndCliclLoadMore_load" android:icon="@drawable/icon_refresh_none" android:title="加载" android:showAsAction="ifRoom"/>
-</menu>

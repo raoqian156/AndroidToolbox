@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="view_cameraAperture_width">350dp</dimen>
-    <dimen name="view_cameraAperture_height">210dp</dimen>
-</resources>

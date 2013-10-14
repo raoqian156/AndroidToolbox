@@ -5,7 +5,7 @@
     android:versionName="2.7.1" >
     
     <!-- 声明兼容的系统版本 -->
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="18"/>
     
     <!-- 声明要使用的权限 -->
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -38,43 +38,6 @@
     <uses-feature android:name="android.hardware.location.gps"/>
 
     <!-- 声明应用需要的各种组件 -->
-    <application android:allowBackup="true" android:icon="@drawable/icon_launcher" android:label="@string/app_name" android:theme="@style/AppTheme" android:name="test.MyApplication" >
-		<activity android:name="test.activity.MainActivity" android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>
-        </activity>
-       	<activity android:name="test.activity.animation.AnimationListActivity" android:label="@string/activityTitle_animationList"/>
-       	<activity android:name="test.activity.custom.CustomEditTextActivity" android:label="@string/activityTitle_customEditText"/>
-    	<activity android:name="test.activity.custom.CustomListActivity" android:label="@string/activityTitle_customList"/>
-       	<activity android:name="test.activity.custom.PicturePlayerActivity" android:label="@string/activityTitle_picturePlayer"/>
-       	<activity android:name="test.activity.custom.ReboundListActivity" android:label="@string/activityTitle_reboundListView"/>
-       	<activity android:name="test.activity.custom.SlideTabHostActivity" android:label="@string/activityTitle_slideTabHost"/>
-       	<activity android:name="test.activity.custom.SlidingToggleButtonActivity" android:label="@string/activityTitle_slidingToggleButton"/>
-       	<activity android:name="test.activity.custom.SuperListViewActivity" android:label="@string/activityTitle_superListView"/>
-    	<activity android:name="test.activity.graphics.CameraPreviewActivity" android:label="@string/activityTitle_cameraPreview"/>
-   		<activity android:name="test.activity.graphics.ClipDrawableActivity" android:label="@string/activityTitle_clipDrawable"/>
-   		<activity android:name="test.activity.graphics.GraphicsListActivity" android:label="@string/activityTitle_graphicsList"/>
-   		<activity android:name="test.activity.graphics.RotateDrawableActivity" android:label="@string/activityTitle_rotateDrawable"/>
-   		<activity android:name="test.activity.media.MediaListActivity" android:label="@string/activityTitle_mediaList"/>
-     	<activity android:name="test.activity.other.AccessNetworkActivity" android:label="@string/activityTitle_accessNetwork"/>
-     	<activity android:name="test.activity.other.DownloadImageActivity" android:label="@string/activityTitle_downloadImage"/>
-    	<activity android:name="test.activity.other.ImageLoaderActivity" android:label="@string/activityTitle_imageLoader"/>
-   		<activity android:name="test.activity.other.OtherListActivity" android:label="@string/activityTitle_otherList"/>
-   		<activity android:name="test.activity.other.TakeBusinessCardActivity" android:label="@string/activityTitle_takeBusinessCard"/>
-       	<activity android:name="test.activity.views.ProgressBarActivity" android:label="@string/activityTitle_progressBar"/>
-       	<activity android:name="test.activity.views.TabHostActivity" android:label="@string/activityTitle_tabHost"/>
-       	<activity android:name="test.activity.views.TabContentActivity"/>
-      	<activity android:name="test.activity.views.ViewPagerActivity" android:label="@string/activityTitle_viewPager"/>
-   		<activity android:name="test.activity.views.ViewListActivity" android:label="@string/activityTitle_viewsList"/>
-   		<activity android:name="test.activity.views.FragmentTabHostActivity" android:label="@string/activityTitle_fragmentTabHost"/>
-  		<activity android:name="test.activity.views.FloatingWindowActivity" android:label="@string/activityTitle_floatingWindow"/>
-  		<activity android:name="test.activity.views.GalleryActivity" android:label="@string/activityTitle_gallery"/>
-     		
-    	<service android:name="test.service.FloatingWindowService"/>
-        
-	    <meta-data android:name="UMENG_APPKEY" android:value="51610b7b56240b2228004d73"/>
-    	<meta-data android:name="UMENG_CHANNEL" android:value="GUAN_FANG"/>
+    <application android:allowBackup="true" android:icon="@drawable/icon_launcher" android:label="Easy Android">
     </application>
 </manifest>
