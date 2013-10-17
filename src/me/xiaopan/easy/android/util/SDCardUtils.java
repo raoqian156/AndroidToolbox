@@ -17,6 +17,8 @@ package me.xiaopan.easy.android.util;
 
 import java.io.File;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
@@ -24,7 +26,6 @@ import android.os.StatFs;
  * SD卡工具箱
  */
 public class SDCardUtils {
-	
 	/**
 	 * 获取SD卡的状态
 	 * @return 
@@ -62,25 +63,37 @@ public class SDCardUtils {
 	 * 获取SD卡总的容量
 	 * @return 总容量；-1：SD卡不可用
 	 */
+	@SuppressWarnings("deprecation")
+	@TargetApi(18)
 	public static long getTotalSize(){
-		long result = -1;
 		if(isAvailable()){
 			StatFs statFs = new StatFs(getRootDirectory().getPath());
-			result = statFs.getBlockCount() * statFs.getBlockSize();
+			if(Build.VERSION.SDK_INT < 18){
+				return statFs.getBlockCount() * statFs.getBlockSize();
+			}else{
+				return statFs.getBlockCountLong() * statFs.getBlockSizeLong();
+			}
+		}else{
+			return -1;
 		}
-		return result;
 	}
 	
 	/**
 	 * 获取SD卡中可用的容量
 	 * @return 可用的容量；-1：SD卡不可用
 	 */
+	@SuppressWarnings("deprecation")
+	@TargetApi(18)
 	public static long getAvailableSize(){
-		long result = -1;
 		if(isAvailable()){
 			StatFs statFs = new StatFs(getRootDirectory().getPath());
-			result = statFs.getAvailableBlocks() * statFs.getBlockSize();
+			if(Build.VERSION.SDK_INT < 18){
+				return statFs.getAvailableBlocks() * statFs.getBlockSize();
+			}else{
+				return statFs.getAvailableBlocksLong() * statFs.getBlockSizeLong();
+			}
+		}else{
+			return -1;
 		}
-		return result;
 	}
 }

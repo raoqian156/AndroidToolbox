@@ -15,9 +15,6 @@
  */
 package me.xiaopan.easy.android.util;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -25,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -286,53 +282,6 @@ public class SettingsUtils {
 			}
 		}
 		return Settings.System.putInt(context.getContentResolver(), Settings.System.VOLUME_MUSIC, ringVloume);
-	}
-	
-	/**
-	 * 获取手机号码
-	 * @param context 上下文
-	 * @return 手机号码，手机号码不一定能获取到
-	 */
-	public static String getMobilePhoneNumber(Context context){
-		return ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getLine1Number();
-	}
-	
-	/**
-	 * 判断当前应用是否已经获取ROOT权限。
-	 * <br>如果当前设备没有ROOT就直接返回false；
-	 * <br>如果当前设备已经ROOT，但是当前应用没有获得ROOT权限，系统就会弹出 申请获取ROOT权限提示；
-	 * <br>如果当前设备已经ROOT，当前应用已经获得ROOT权限就直接返回true。
-	 * @return true：当前设备已经ROOT，当前应用已经获得ROOT权限；<br> false：当前设备没有ROOT或者当前设备已经ROOT，但是当前应用没有获得ROOT权限。
-	 */
-	public static boolean isRooted(){
-    	boolean result = false;
-    	try {
-			Process process = Runtime.getRuntime().exec("su -");
-			DataOutputStream dos = new DataOutputStream(process.getOutputStream());
-			dos.writeBytes("ls /data/\n");
-			dos.flush();
-			dos.writeBytes("exit\n");
-			dos.flush();
-			try {
-				if(process.waitFor() == 0){
-					result = true;
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			process.destroy();
-        } catch (IOException e) {
-			e.printStackTrace();
-		}
-        return result;
-    }
-	
-	/**
-	 * 判断当前系统是否是Android4.0
-	 * @return 0：是；小于0：小于4.0；大于0：大于4.0
-	 */
-	public static int isAndroid14(){
-		return Build.VERSION.SDK_INT - 14;
 	}
 	
 	/**

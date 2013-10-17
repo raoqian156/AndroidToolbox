@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -127,5 +128,14 @@ public class GeneralUtils {
 	 */
 	public static void toggleSoftKeyboardState(Context context){
 		((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+	}
+	
+	/**
+	 * 获取手机号码
+	 * @param context 上下文
+	 * @return 手机号码，手机号码不一定能获取到
+	 */
+	public static String getMobilePhoneNumber(Context context){
+		return ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getLine1Number();
 	}
 }

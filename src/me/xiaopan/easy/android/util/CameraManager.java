@@ -41,10 +41,13 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	private long lastFocusTime;//上次对焦的时间
 	private int displayOrientation;	//显示方向
 	
+	@SuppressWarnings("deprecation")
 	public CameraManager(Activity activity, SurfaceHolder surfaceHolder, CameraCallback cameraCallback){
 		this.activity = activity;
 		this.surfaceHolder = surfaceHolder;
-		this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		if(Build.VERSION.SDK_INT < 11){
+			this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		}
 		this.surfaceHolder.addCallback(this);
 		this.cameraCallback = cameraCallback;
 		

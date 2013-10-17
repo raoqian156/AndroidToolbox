@@ -115,7 +115,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 					AlertDialog messageDialog = new AlertDialog.Builder(this).create();
 					if(args != null){
 						messageDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
-						messageDialog.setButton(args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
+						messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
 					}
 					dialog = messageDialog;
 				break;
@@ -139,7 +139,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 				if(args != null){
 					AlertDialog messageDialog = (AlertDialog) dialog;
 					messageDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
-					messageDialog.setButton(args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
+					messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
 				}
 				break;
 			case DIALOG_PROGRESS : 
