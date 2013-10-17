@@ -64,11 +64,11 @@ public class SDCardUtils {
 	 * @return 总容量；-1：SD卡不可用
 	 */
 	@SuppressWarnings("deprecation")
-	@TargetApi(18)
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	public static long getTotalSize(){
 		if(isAvailable()){
 			StatFs statFs = new StatFs(getRootDirectory().getPath());
-			if(Build.VERSION.SDK_INT < 18){
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
 				return statFs.getBlockCount() * statFs.getBlockSize();
 			}else{
 				return statFs.getBlockCountLong() * statFs.getBlockSizeLong();
@@ -83,11 +83,11 @@ public class SDCardUtils {
 	 * @return 可用的容量；-1：SD卡不可用
 	 */
 	@SuppressWarnings("deprecation")
-	@TargetApi(18)
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	public static long getAvailableSize(){
 		if(isAvailable()){
 			StatFs statFs = new StatFs(getRootDirectory().getPath());
-			if(Build.VERSION.SDK_INT < 18){
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
 				return statFs.getAvailableBlocks() * statFs.getBlockSize();
 			}else{
 				return statFs.getAvailableBlocksLong() * statFs.getBlockSizeLong();

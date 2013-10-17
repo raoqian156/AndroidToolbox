@@ -29,7 +29,7 @@ public class DeviceUtils {
 	public static int[] getScreenSize(Context context){
 		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = windowManager.getDefaultDisplay();
-		if(Build.VERSION.SDK_INT < 13){
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
 			return new int[]{display.getWidth(), display.getHeight()};
 		}else{
 			Point point = new Point();
