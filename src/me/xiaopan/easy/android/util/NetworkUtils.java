@@ -18,12 +18,13 @@ package me.xiaopan.easy.android.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import me.xiaopan.easy.android.util.SettingsUtils.DeviceNotFoundException;
 import me.xiaopan.easy.java.util.ClassUtils;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 
 /**
@@ -124,8 +125,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return 当前网络的类型是否是蓝牙。false：当前没有网络连接或者网络类型不是蓝牙
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	public static boolean isBluetoothByType(Context context){
-		return getCurrentNetworkType(context) == ConnectivityManager.TYPE_BLUETOOTH;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
+			return false;
+		}else{
+			return getCurrentNetworkType(context) == ConnectivityManager.TYPE_BLUETOOTH;
+		}
 	}
 	
 	/**
@@ -133,8 +139,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return 当前网络的类型是否是虚拟网络。false：当前没有网络连接或者网络类型不是虚拟网络
 	 */
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public static boolean isDummyByType(Context context){
-		return getCurrentNetworkType(context) == ConnectivityManager.TYPE_DUMMY;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
+			return false;
+		}else{
+			return getCurrentNetworkType(context) == ConnectivityManager.TYPE_DUMMY;
+		}
 	}
 	
 	/**
@@ -142,8 +153,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return 当前网络的类型是否是ETHERNET。false：当前没有网络连接或者网络类型不是ETHERNET
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	public static boolean isEthernetByType(Context context){
-		return getCurrentNetworkType(context) == ConnectivityManager.TYPE_ETHERNET;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
+			return false;
+		}else{
+			return getCurrentNetworkType(context) == ConnectivityManager.TYPE_ETHERNET;
+		}
 	}
 	
 	/**
@@ -304,8 +320,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return false：当前网络的具体类型是否是HSPAP。false：当前没有网络连接或者具体类型不是HSPAP
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	public static boolean isHSPAPBySubtype(Context context){
-		return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_HSPAP;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
+			return false;
+		}else{
+			return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_HSPAP;
+		}
 	}
 	
 	/**
@@ -402,14 +423,15 @@ public class NetworkUtils {
 	 * 获取Wifi的状态，需要ACCESS_WIFI_STATE权限
 	 * @param context 上下文
 	 * @return 取值为WifiManager中的WIFI_STATE_ENABLED、WIFI_STATE_ENABLING、WIFI_STATE_DISABLED、WIFI_STATE_DISABLING、WIFI_STATE_UNKNOWN之一
-	 * @throws DeviceNotFoundException 没有找到wifi设备
+	 * @throws Exception 没有找到wifi设备
 	 */
-	public static int getWifiState(Context context) throws DeviceNotFoundException{
+	public static int getWifiState(Context context) throws Exception{
 		WifiManager wifiManager = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
-		if(wifiManager == null){
-			throw new DeviceNotFoundException("wifi device not found!");
+		if(wifiManager != null){
+			return wifiManager.getWifiState();
+		}else{
+			throw new Exception("wifi device not found!");
 		}
-		return wifiManager.getWifiState();
 	}
 	
 	/**
@@ -418,7 +440,7 @@ public class NetworkUtils {
 	 * @return true：打开；false：关闭
 	 * @throws DeviceNotFoundException 没有找到wifi设备
 	 */
-	public static boolean isWifiOpen(Context context) throws DeviceNotFoundException{
+	public static boolean isWifiOpen(Context context) throws Exception{
 		int wifiState = getWifiState(context);
 		return wifiState == WifiManager.WIFI_STATE_ENABLED || wifiState == WifiManager.WIFI_STATE_ENABLING ? true : false;
 	}
@@ -430,7 +452,7 @@ public class NetworkUtils {
 	 * @return 设置是否成功
 	 * @throws DeviceNotFoundException 
 	 */
-	public static boolean setWifi(Context context, boolean enable) throws DeviceNotFoundException{
+	public static boolean setWifi(Context context, boolean enable) throws Exception{
 		//如果当前wifi的状态和要设置的状态不一样
 		if(isWifiOpen(context) != enable){
 			((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).setWifiEnabled(enable);

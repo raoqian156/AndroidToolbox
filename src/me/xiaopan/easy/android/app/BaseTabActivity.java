@@ -46,6 +46,7 @@ import android.widget.Toast;
 /**
  * 自定义抽象的Activity基类
  */
+@SuppressWarnings("deprecation")
 public abstract class BaseTabActivity extends TabActivity implements BaseActivityInterface{
 	private static long lastClickBackButtonTime;	//记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
 	private int doubleClickSpacingInterval = 2000;	//双击退出程序的间隔时间

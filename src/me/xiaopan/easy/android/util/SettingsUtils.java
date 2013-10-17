@@ -194,12 +194,12 @@ public class SettingsUtils {
 	/**
 	 * 获取蓝牙的状态
 	 * @return 取值为BluetoothAdapter的四个静态字段：STATE_OFF, STATE_TURNING_OFF, STATE_ON, STATE_TURNING_ON
-	 * @throws DeviceNotFoundException 没有找到蓝牙设备
+	 * @throws Exception 没有找到蓝牙设备
 	 */
-	public static int getBluetoothState() throws DeviceNotFoundException{
+	public static int getBluetoothState() throws Exception{
 		 BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		 if(bluetoothAdapter == null){
-			 throw new DeviceNotFoundException("bluetooth device not found!");
+			 throw new Exception("bluetooth device not found!");
 		 }else{
 			 return bluetoothAdapter.getState();
 		 }
@@ -210,7 +210,7 @@ public class SettingsUtils {
 	 * @return true：已经打开或者正在打开；false：已经关闭或者正在关闭
 	 * @throws DeviceNotFoundException 没有找到蓝牙设备
 	 */
-	public static boolean isBluetoothOpen() throws DeviceNotFoundException{
+	public static boolean isBluetoothOpen() throws Exception{
 		int bluetoothStateCode = getBluetoothState();
 		return bluetoothStateCode == BluetoothAdapter.STATE_ON || bluetoothStateCode == BluetoothAdapter.STATE_TURNING_ON ? true : false;
 	}
@@ -220,7 +220,7 @@ public class SettingsUtils {
 	 * @param enable 打开
 	 * @throws DeviceNotFoundException 没有找到蓝牙设备
 	 */
-	public static void setBluetooth(boolean enable) throws DeviceNotFoundException{
+	public static void setBluetooth(boolean enable) throws Exception{
 		//如果当前蓝牙的状态与要设置的状态不一样
 		if(isBluetoothOpen() != enable){
 			//如果是要打开就打开，否则关闭
@@ -284,16 +284,16 @@ public class SettingsUtils {
 		return Settings.System.putInt(context.getContentResolver(), Settings.System.VOLUME_MUSIC, ringVloume);
 	}
 	
-	/**
-	 * 找不到设备异常
-	 */
-	public static class DeviceNotFoundException extends Exception{
-		private static final long serialVersionUID = 1L;
-		
-		public DeviceNotFoundException(){}
-		
-		public DeviceNotFoundException(String  message){
-			super(message);
-		}
-	}
+//	/**
+//	 * 找不到设备异常
+//	 */
+//	public static class DeviceNotFoundException extends Exception{
+//		private static final long serialVersionUID = 1L;
+//		
+//		public DeviceNotFoundException(){}
+//		
+//		public DeviceNotFoundException(String  message){
+//			super(message);
+//		}
+//	}
 }
