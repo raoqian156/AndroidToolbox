@@ -18,6 +18,7 @@ package me.xiaopan.easy.android.util;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -29,9 +30,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * 系统工具箱
+ * 设置工具箱
  */
-public class SystemUtils {
+public class SettingsUtils {
 	/**
 	 * 获取系统屏幕亮度模式的状态，需要WRITE_SETTINGS权限
 	 * @param context 上下文
@@ -152,8 +153,14 @@ public class SystemUtils {
 	 * @param context 上下文
 	 * @return 1：打开；0：关闭；默认：关闭
 	 */
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static int getAirplaneModeState(Context context){
-		return Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
+		if(Build.VERSION.SDK_INT < 17){
+			return Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
+		}else{
+			return Settings.Global.getInt( context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0);
+		}
 	}
 	
 	/**
@@ -171,11 +178,17 @@ public class SystemUtils {
 	 * @param enable 飞行模式的状态
 	 * @return 设置是否成功
 	 */
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static boolean setAirplaneMode(Context context, boolean enable){
 		boolean result = true;
 		//如果飞行模式当前的状态与要设置的状态不一样
 		if(isAirplaneModeOpen(context) != enable){
-			result = Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, enable?1:0);
+			if(Build.VERSION.SDK_INT < 17){
+				result = Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, enable?1:0);
+			}else{
+				result = Settings.Global.putInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, enable?1:0);
+			}
 			//发送飞行模式已经改变广播
 			context.sendBroadcast(new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED));
 		}
@@ -273,28 +286,6 @@ public class SystemUtils {
 			}
 		}
 		return Settings.System.putInt(context.getContentResolver(), Settings.System.VOLUME_MUSIC, ringVloume);
-	}
-	
-	/**
-	 * 关机，需要SHUTDOWN权限 
-	 * @param context
-	 */
-	public static void shutDown(Context context){
-//		Intent intent = new Intent();
-//		intent.setAction("android.intent.action.ACTION_SHUTDOWN");  
-//		context.sendBroadcast(intent);
-	}
-	
-	/**
-	 * 重启，需要REBOOT权限 
-	 * @param context
-	 */
-	public static void reboot(Context context){
-//		Intent intent =  new Intent(Intent.ACTION_REBOOT);
-//		intent.putExtra("nowait", 1);
-//		intent.putExtra("interval", 1);
-//		intent.putExtra("window", 0);
-//		context.sendBroadcast(intent);
 	}
 	
 	/**

@@ -18,7 +18,7 @@ package me.xiaopan.easy.android.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import me.xiaopan.easy.android.util.SystemUtils.DeviceNotFoundException;
+import me.xiaopan.easy.android.util.SettingsUtils.DeviceNotFoundException;
 import me.xiaopan.easy.java.util.ClassUtils;
 import android.content.Context;
 import android.net.ConnectivityManager;

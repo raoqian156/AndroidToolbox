@@ -29,11 +29,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 /**
- * Android工具箱
- * @author panpf
- *
+ * 普通工具箱
  */
-public class AndroidUtils {
+public class GeneralUtils {
 	public static final String SMS_BODY = "sms_body";
 	
 	/**
