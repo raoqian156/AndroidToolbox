@@ -19,10 +19,15 @@ import java.util.Set;
 
 import me.xiaopan.easy.android.util.ActivityUtils;
 import me.xiaopan.easy.android.util.NetworkUtils;
+import me.xiaopan.easy.android.util.ViewAnimationUtils;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -31,6 +36,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +50,7 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 /**
- * 自定义抽象的Activity基类
+ * 自定义抽象的Activity基类，提供了很多实用的方法以及功能
  */
 public abstract class BaseListActivity extends ListActivity implements BaseActivityInterface{
 	private static long lastClickBackButtonTime;	//记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
@@ -57,9 +63,9 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	private boolean enableDoubleClickExitApplication;	//是否开启双击退出程序功能
 	private boolean enableCustomActivitySwitchAnimation;	//是否启用自定义的Activity切换动画
 	private MessageHandler messageHanlder;	//主线程消息处理器
-	private SimpleBroadcastReceiver broadcastReceiver;	//广播接收器
+	private BroadcastReceiver broadcastReceiver;	//广播接收器
 	private OnDoubleClickPromptExitListener onDoubleClickPromptExitListener;	//双击退出监听器
-	private OnNetworkVerifyListener onNetworkVerifyListener;	//网络验证监听器
+	private OnNetworkVerifyFailureListener onNetworkVerifyFailureListener;	//网络验证失败监听器
 	private OnExceptionFinishActivityListener onExceptionFinishActivityListener;
 	
 	@Override
@@ -150,12 +156,10 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 		}
 	}
 	
-	@Override
 	public void onReceivedMessage(Message message){
 		
 	};
 	
-	@Override
 	public void onReceivedBroadcast(Intent intent){
 		
 	}
@@ -184,7 +188,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	@Override
 	public void showLoadingHintView(View loadingHintView){
 		if(loadingHintView != null){
-			Message message = getMessageHanlder().obtainMessage();
+			Message message = getHanlder().obtainMessage();
 			message.what = MessageHandler.SHOW_LOADING_HINT_VIEW;
 			message.obj = loadingHintView;
 			message.sendToTarget();
@@ -217,8 +221,8 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	@Override
 	public boolean isNetworkAvailable() {
 		if(!NetworkUtils.isConnectedByState(getBaseContext())){
-			if(onNetworkVerifyListener != null){
-				onNetworkVerifyListener.onVerifyFailure();
+			if(onNetworkVerifyFailureListener != null){
+				onNetworkVerifyFailureListener.onVerifyFailure();
 			}
 			return false;
 		}else{
@@ -234,7 +238,7 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	
 	@Override
 	public void sendMessage(Message message){
-		message.setTarget(getMessageHanlder());
+		message.setTarget(getHanlder());
 		message.sendToTarget();
 	}
 	
@@ -262,19 +266,31 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public void openBroadcastReceiver(String filterAction){
-		closeBroadcastReceiver();
-		openedBroadcaseReceiver = true;
-		broadcastReceiver = new SimpleBroadcastReceiver(this);
-	    registerReceiver(getBroadcastReceiver(), new IntentFilter(filterAction));
+	public boolean openBroadcastReceiver(String filterAction){
+		if(broadcastReceiver == null){
+			openedBroadcaseReceiver = true;
+			broadcastReceiver = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					onReceivedBroadcast(intent);
+				}
+			};
+			registerReceiver(broadcastReceiver, new IntentFilter(filterAction));
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	@Override
-	public void closeBroadcastReceiver(){
-		if(getBroadcastReceiver() != null){
-			unregisterReceiver(getBroadcastReceiver());
+	public boolean closeBroadcastReceiver(){
+		if(broadcastReceiver != null){
+			unregisterReceiver(broadcastReceiver);
 			openedBroadcaseReceiver = false;
 			broadcastReceiver = null;
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
@@ -377,23 +393,6 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public void onStartActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
-		if(isEnableCustomActivitySwitchAnimation()){
-			if(inAnimation > 0 && outAnimation > 0){
-				ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, inAnimation, outAnimation);
-			}else{
-				if(startActivityAnimation != null && startActivityAnimation.length >= 2){
-					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose, startActivityAnimation[0], startActivityAnimation[1]);
-				}else{
-					ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose);
-				}
-			}
-		}else{
-			ActivityUtils.startActivity(this, targetActivity, flag, bundle, isClose);
-		}
-	}
-	
-	@Override
 	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose){
 		startActivity(targetActivity, flag, bundle, isClose, -5, -5);
 	}
@@ -490,23 +489,6 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public void onStartActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
-		if(isEnableCustomActivitySwitchAnimation()){
-			if(inAnimation > 0 && outAnimation > 0){
-				ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, inAnimation, outAnimation);
-			}else{
-				if(startActivityAnimation != null && startActivityAnimation.length >= 2){
-					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle, startActivityAnimation[0], startActivityAnimation[1]);
-				}else{
-					ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
-				}
-			}
-		}else{
-			ActivityUtils.startActivityForResult(this, targetActivity, requestCode, flag, bundle);
-		}
-	}
-	
-	@Override
 	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle){
 		startActivityForResult(targetActivity, requestCode, flag, bundle, -5, -5);
 	}
@@ -550,30 +532,12 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 	
 	@Override
-	public void onFinishActivity(){
-		finish();
-		if(isEnableCustomActivitySwitchAnimation()){
-			if(finishActivityAnimation != null && finishActivityAnimation.length >= 2){
-				overridePendingTransition(finishActivityAnimation[0], finishActivityAnimation[1]);
-			}
-		}
-	}
-	
-	@Override
 	public void finishActivity(int inAnimation, int outAnimation){
 		Message message = new Message();
 		message.what = MessageHandler.FINISH_ACTIVITY_ANIMATION;
 		message.arg1 = inAnimation;
 		message.arg2 = outAnimation;
 		sendMessage(message);
-	}
-	
-	@Override
-	public void onFinishActivity(int inAnimation, int outAnimation){
-		finish();
-		if(isEnableCustomActivitySwitchAnimation()){
-			overridePendingTransition(inAnimation, outAnimation);
-		}
 	}
 	
 	@Override
@@ -614,13 +578,6 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 			}).start();
 		}else{
 			sendMessage(MessageHandler.BECAUSE_EXCEPTION_FINISH_ACTIVITY);
-		}
-	}
-	
-	@Override
-	public void onBecauseExceptionFinishActivity(){
-		if(onExceptionFinishActivityListener != null){
-			onExceptionFinishActivityListener.onExceptionFinishActivity();
 		}
 	}
 	
@@ -840,13 +797,8 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 
 	@Override
-	public MessageHandler getMessageHanlder() {
+	public Handler getHanlder() {
 		return messageHanlder;
-	}
-
-	@Override
-	public SimpleBroadcastReceiver getBroadcastReceiver() {
-		return broadcastReceiver;
 	}
 
 	@Override
@@ -959,19 +911,19 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	}
 
 	/**
-	 * 获取网络验证监听器
-	 * @return 网络验证监听器
+	 * 获取网络验证失败监听器
+	 * @return 网络验证失败监听器
 	 */
-	public OnNetworkVerifyListener getOnNetworkVerifyListener() {
-		return onNetworkVerifyListener;
+	public OnNetworkVerifyFailureListener getOnNetworkVerifyListener() {
+		return onNetworkVerifyFailureListener;
 	}
 
 	/**
-	 * 设置网络验证监听器
-	 * @param onNetworkVerifyListener 网络验证监听器
+	 * 设置网络验证失败监听器
+	 * @param onNetworkVerifyFailureListener 网络验证失败监听器
 	 */
-	public void setOnNetworkVerifyListener(OnNetworkVerifyListener onNetworkVerifyListener) {
-		this.onNetworkVerifyListener = onNetworkVerifyListener;
+	public void setOnNetworkVerifyFailureListener(OnNetworkVerifyFailureListener onNetworkVerifyFailureListener) {
+		this.onNetworkVerifyFailureListener = onNetworkVerifyFailureListener;
 	}
 
 	public OnExceptionFinishActivityListener getOnExceptionFinishActivityListener() {
@@ -981,5 +933,120 @@ public abstract class BaseListActivity extends ListActivity implements BaseActiv
 	public void setOnExceptionFinishActivityListener(
 			OnExceptionFinishActivityListener onExceptionFinishActivityListener) {
 		this.onExceptionFinishActivityListener = onExceptionFinishActivityListener;
+	}
+	
+	/**
+	 * 处理器
+	 */
+	@SuppressLint("HandlerLeak")
+	private class MessageHandler extends Handler{
+		public static final int SHOW_LOADING_HINT_VIEW = 40;
+		public static final int CLOSE_LOADING_HINT_VIEW = 41;
+		public static final int SHOW_MESSAGE_DIALOG = 45;
+		public static final int CLOSE_MESSAGE_DIALOG = 46;
+		public static final int SHOW_PROGRESS_DIALOG = 47;
+		public static final int CLOSE_PROGRESS_DIALOG = 48;
+		public static final int TOAST = 300;
+		public static final int BECAUSE_EXCEPTION_FINISH_ACTIVITY = 2001;
+		public static final int FINISH_ACTIVITY = 2002;
+		public static final int FINISH_ACTIVITY_ANIMATION = 2003;
+		public static final int START_ACTIVITY = 2004;
+		public static final int START_ACTIVITY_FOR_RESULT = 2005;
+		public static final String FLAG = "FLAG";
+		public static final String IS_CLOSE = "IS_CLOSE";
+		public static final String IN_ANIMATION = "IN_ANIMATION";
+		public static final String OUT_ANIMATION = "OUT_ANIMATION";
+		public static final String HAVE_BUNDLE = "HAVE_BUNDLE";
+		public static final String REQUEST_CODE = "REQUEST_CODE";
+		public Activity activity;
+		
+		private MessageHandler(Activity activity){
+			this.activity = activity;
+		}
+		
+		@SuppressWarnings("deprecation")
+		@Override
+		public void handleMessage(Message msg) {
+			if(!isFinishing()){
+				switch(msg.what){
+					case SHOW_MESSAGE_DIALOG : 
+						showDialog(BaseActivityInterface.DIALOG_MESSAGE, msg.getData()); 
+						break;
+					case CLOSE_MESSAGE_DIALOG : 
+						dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); 
+						break;
+					case SHOW_PROGRESS_DIALOG : 
+						showDialog(BaseActivityInterface.DIALOG_PROGRESS, msg.getData()); 
+						break;
+					case CLOSE_PROGRESS_DIALOG : 
+						dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); 
+						break;
+					case SHOW_LOADING_HINT_VIEW : 
+						if(msg.obj != null && msg.obj instanceof View){
+							((View) msg.obj).setVisibility(View.VISIBLE);
+						}
+						break;
+					case CLOSE_LOADING_HINT_VIEW : 
+						if(msg.obj != null && msg.obj instanceof View){
+							ViewAnimationUtils.goneViewByAlpha((View) msg.obj);
+						}
+						break;
+					case TOAST : 
+						Toast.makeText(getBaseContext(), (String)msg.obj, msg.arg1).show(); 
+						break;
+					case BECAUSE_EXCEPTION_FINISH_ACTIVITY : 
+						if(onExceptionFinishActivityListener != null){
+							onExceptionFinishActivityListener.onExceptionFinishActivity();
+						}
+						break;
+					case FINISH_ACTIVITY : 
+						finish();
+						if(isEnableCustomActivitySwitchAnimation()){
+							if(finishActivityAnimation != null && finishActivityAnimation.length >= 2){
+								overridePendingTransition(finishActivityAnimation[0], finishActivityAnimation[1]);
+							}
+						}
+						break;
+					case FINISH_ACTIVITY_ANIMATION : 
+						finish();
+						if(isEnableCustomActivitySwitchAnimation()){
+							overridePendingTransition(msg.arg1, msg.arg2);
+						}
+						break;
+					case START_ACTIVITY : 
+						if(isEnableCustomActivitySwitchAnimation()){
+							if(msg.getData().getInt(IN_ANIMATION) > 0 && msg.getData().getInt(OUT_ANIMATION) > 0){
+								ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE), msg.getData().getInt(IN_ANIMATION), msg.getData().getInt(OUT_ANIMATION));
+							}else{
+								if(startActivityAnimation != null && startActivityAnimation.length >= 2){
+									ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE), startActivityAnimation[0], startActivityAnimation[1]);
+								}else{
+									ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE));
+								}
+							}
+						}else{
+							ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE));
+						}
+						break;
+					case START_ACTIVITY_FOR_RESULT : 
+						if(isEnableCustomActivitySwitchAnimation()){
+							if(msg.getData().getInt(IN_ANIMATION) > 0 && msg.getData().getInt(OUT_ANIMATION) > 0){
+								ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getInt(IN_ANIMATION), msg.getData().getInt(OUT_ANIMATION));
+							}else{
+								if(startActivityAnimation != null && startActivityAnimation.length >= 2){
+									ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, startActivityAnimation[0], startActivityAnimation[1]);
+								}else{
+									ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null);
+								}
+							}
+						}else{
+							ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null);
+						}
+						break;
+					default :  onReceivedMessage(msg); break;
+				}
+			}
+			super.handleMessage(msg);
+		}
 	}
 }

@@ -17,12 +17,12 @@ package me.xiaopan.easy.android.app;
 
 import java.util.Set;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,19 +60,7 @@ public interface BaseActivityInterface {
 	 */
 	String PRFERENCES_VERSION_CODE = "PRFERENCES_VERSION_CODE";
 	
-	/* ********************************************** 初始化 ************************************************ */
-	/**
-	 * 主线程收到消息
-	 * @param message 要处理的消息
-	 */
-	public void onReceivedMessage(Message message);
-	
-	/**
-	 * 主线程收到广播
-	 * @param intent
-	 */
-	public void onReceivedBroadcast(Intent intent);
-	
+
 	
 	
 	/* ********************************************** 常用 ************************************************ */
@@ -165,13 +153,15 @@ public interface BaseActivityInterface {
 	/**
 	 * 打开广播接收器
 	 * @param filterAction Itent过滤器的动作
+	 * @return true：打开成功；false：打开失败，因为已经打开了一个广播接收器了
 	 */
-	public void openBroadcastReceiver(String filterAction);
+	public boolean openBroadcastReceiver(String filterAction);
 	
 	/**
 	 * 关闭广播接收器
+	 * @return true：关闭成功；false：关闭失败，因为当前没有已经打开的广播接收器
 	 */
-	public void closeBroadcastReceiver();
+	public boolean closeBroadcastReceiver();
 	
 	
 	
@@ -243,17 +233,6 @@ public interface BaseActivityInterface {
 	 */
 	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation);
 
-	/**
-	 * 当启动Activity
-	 * @param targetActivity 目标Activity
-	 * @param flag Intent标记。-5：不添加标记
-	 * @param bundle 在跳的过程中要传的数据，为null的话不传
-	 * @param isClose fromActivity在跳转完成后是否关闭
-	 * @param inAnimation targetActivity的进入动画。inAnimation和fromActivity都大于0才会使用动画
-	 * @param outAnimation fromActivity的出去动画。inAnimation和fromActivity都大于0才会使用动画
-	 */
-	public void onStartActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation);
-	
 	/**
 	 * 启动Activity
 	 * @param targetActivity 目标Activity
@@ -392,17 +371,6 @@ public interface BaseActivityInterface {
 	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation);
 	
 	/**
-	 * 当启动Activity
-	 * @param targetActivity 目标Activity
-	 * @param requestCode 请求码
-	 * @param flag Intent标记。-5：不添加标记
-	 * @param bundle 在跳的过程中要传的数据，为null的话不传
-	 * @param inAnimation targetActivity的进入动画。inAnimation和fromActivity都大于0才会使用动画
-	 * @param outAnimation fromActivity的出去动画。inAnimation和fromActivity都大于0才会使用动画
-	 */
-	public void onStartActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation);
-	
-	/**
 	 * 启动Activity
 	 * @param targetActivity 目标Activity
 	 * @param requestCode 请求码
@@ -472,23 +440,11 @@ public interface BaseActivityInterface {
 	public void finishActivity();
 	
 	/**
-	 * 当终止当前Activity
-	 */
-	public void onFinishActivity();
-	
-	/**
 	 * 终止当前Activity
 	 * @param inAnimation 下一个Activity的进入动画
 	 * @param outAnimation 当前Activity的退出动画
 	 */
 	public void finishActivity(int inAnimation, int outAnimation);
-	
-	/**
-	 * 终止当前Activity
-	 * @param inAnimation 下一个Activity的进入动画
-	 * @param outAnimation 当前Activity的退出动画
-	 */
-	public void onFinishActivity(int inAnimation, int outAnimation);
 	
 	/**
 	 * 终止给定ID的Activity
@@ -517,11 +473,6 @@ public interface BaseActivityInterface {
 	 * 因异常而需要终止Activity
 	 */
 	public void becauseExceptionFinishActivity();
-	
-	/**
-	 * 当因为异常而需要终止Activity
-	 */
-	public void onBecauseExceptionFinishActivity();
 	
 	/**
 	 * 将当前Activity放到等待终止的Activity列表中
@@ -813,17 +764,41 @@ public interface BaseActivityInterface {
 	 * 获取消息处理器
 	 * @return 消息处理器
 	 */
-	public MessageHandler getMessageHanlder();
-
-	/**
-	 * 获取广播接收器
-	 * @return 广播接收器
-	 */
-	public SimpleBroadcastReceiver getBroadcastReceiver();
+	public Handler getHanlder();
 
 	/**
 	 * 是否已经开启了广播接收器
 	 * @return 已经开启了广播接收器
 	 */
 	public boolean isOpenedBroadcaseReceiver();
+	
+	/**
+	 * 双击提示退出程序监听器
+	 */
+	public interface OnDoubleClickPromptExitListener {
+		/**
+		 * 第一击之后会执行此方法来提示用户
+		 */
+		public void onPrompt();
+	}
+	
+	/**
+	 * 因异常需要终止Activity监听器
+	 */
+	public interface OnExceptionFinishActivityListener {
+		/**
+		 * 当因异常需要终止Activity
+		 */
+		public void onExceptionFinishActivity();
+	}
+	
+	/**
+	 * 网络验证失败监听器
+	 */
+	public interface OnNetworkVerifyFailureListener {
+		/**
+		 * 当验证失败
+		 */
+		public void onVerifyFailure();
+	}
 }
