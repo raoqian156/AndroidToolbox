@@ -17,6 +17,7 @@ package me.xiaopan.easy.android.util;
 
 import java.io.IOException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
@@ -41,6 +42,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	private long lastFocusTime;//上次对焦的时间
 	private int displayOrientation;	//显示方向
 	
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	@SuppressWarnings("deprecation")
 	public CameraManager(Activity activity, SurfaceHolder surfaceHolder, CameraCallback cameraCallback){
 		this.activity = activity;
@@ -69,9 +71,14 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	/**
 	 * 打开后置摄像头
 	 */
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public void openBackCamera(){
 		try {
-			camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
+			if(Build.VERSION.SDK_INT < 9){
+				camera = Camera.open();
+			}else{
+				camera = backCameraId != -1?Camera.open(backCameraId):Camera.open();
+			}
 			currentCameraId = backCameraId;
 			//初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
 			//当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
@@ -99,8 +106,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 * 打开前置摄像头
 	 * @throws Exception 没有前置摄像头 
 	 */
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public void openForntCamera() throws Exception{
-		if(frontCameraId != -1){
+		if(Build.VERSION.SDK_INT >= 9 && frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
 				currentCameraId = frontCameraId;

@@ -1,5 +1,6 @@
 package me.xiaopan.easy.java.util;
 
+import android.annotation.SuppressLint;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,9 +10,7 @@ import java.util.Map;
 
 /**
  * <h2>日期时间工具类，提供一些有关日期时间的便捷方法</h2>
- * @author panpf
  */
-
 public class DateTimeUtils {
 	/* **************************************获取DateFormat********************************* */
 	/**
@@ -158,7 +157,7 @@ public class DateTimeUtils {
 	 * @return 日期时间格式化器
 	 */
 	public static DateFormat getDateTimeFormatByCustomFormat(String customFormat){
-		return new SimpleDateFormat(customFormat);
+		return new SimpleDateFormat(customFormat, Locale.getDefault());
 	}
 	
 	/**
@@ -871,6 +870,7 @@ public class DateTimeUtils {
 		};
 	}
 	
+	@SuppressLint("UseSparseArrays")
 	private static final Map<Integer, String> WEEK_CHINESE_NAME_MAP = new HashMap<Integer, String>(7);
 	
 	public static String getWeekChineseName(int dayOfWeek){

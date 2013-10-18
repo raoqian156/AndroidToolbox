@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -1256,7 +1257,7 @@ public class FileUtils {
 	 */
 	public static boolean checkFileType(File file, String... types){
 		boolean result = false;
-		String stringX = file.getName().toLowerCase();
+		String stringX = file.getName().toLowerCase(Locale.getDefault());
 		for(String type : types){
 			if(stringX.endsWith(type)){
 				result = true;

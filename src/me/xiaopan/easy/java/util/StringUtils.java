@@ -1,5 +1,6 @@
 package me.xiaopan.easy.java.util;
 
+import android.annotation.SuppressLint;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,8 +11,8 @@ import java.util.List;
 
 /**
  * <h2>字符串工具类，提供一些字符串相关的便捷方法</h2>
- * @author panpf
  */
+@SuppressLint("DefaultLocale")
 public class StringUtils {
 	
 	/**
@@ -418,6 +419,7 @@ public class StringUtils {
 	 * @param str 给定字符串
 	 * @return 新的字符串
 	 */
+	@SuppressLint("DefaultLocale")
 	public static String firstLetterToLowerCase(String str){
 		return toLowerCase(str, 0, 1);
 	}
@@ -427,6 +429,7 @@ public class StringUtils {
 	 * @param str 给定字符串
 	 * @return 新的字符串
 	 */
+	@SuppressLint("DefaultLocale")
 	public static String firstLetterToUpperCase(String str){
 		return toUpperCase(str, 0, 1);
 	}

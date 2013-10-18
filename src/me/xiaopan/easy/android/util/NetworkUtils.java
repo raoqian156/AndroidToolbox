@@ -257,8 +257,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return false：当前网络的具体类型是否是EHRPD。false：当前没有网络连接或者具体类型不是EHRPD
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static boolean isEHRPDBySubtype(Context context){
-		return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_EHRPD;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
+			return false;
+		}else{
+			return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_EHRPD;
+		}
 	}
 	
 	/**
@@ -284,8 +289,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return false：当前网络的具体类型是否是EVDO_B。false：当前没有网络连接或者具体类型不是EVDO_B
 	 */
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public static boolean isEVDO_BBySubtype(Context context){
-		return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_EVDO_B;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD){
+			return false;
+		}else{
+			return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_EVDO_B;
+		}
 	}
 	
 	/**
@@ -352,8 +362,13 @@ public class NetworkUtils {
 	 * @param context 上下文
 	 * @return false：当前网络的具体类型是否是LTE。false：当前没有网络连接或者具体类型不是LTE
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static boolean isLTEBySubtype(Context context){
-		return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_LTE;
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
+			return false;
+		}else{
+			return getCurrentNetworkSubtype(context) == TelephonyManager.NETWORK_TYPE_LTE;
+		}
 	}
 	
 	/**

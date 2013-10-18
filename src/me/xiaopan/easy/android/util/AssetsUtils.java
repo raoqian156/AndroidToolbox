@@ -26,9 +26,9 @@ public class AssetsUtils {
 		InputStream inputStream = null;
 		try {
 			inputStream = context.getAssets().open(fileName);
-			String string = new String(IOUtils.read(inputStream), charset);
+			byte[] bytes = IOUtils.read(inputStream);
 			inputStream.close();
-			return string;
+			return new String(bytes, 0, bytes.length, charset.name());
 		} catch (IOException e) {
 			e.printStackTrace();
 			if(inputStream != null){
