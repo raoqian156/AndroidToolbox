@@ -17,6 +17,9 @@ package me.xiaopan.easy.android.util;
 
 import java.io.File;
 
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -27,7 +30,6 @@ import android.provider.MediaStore;
  *
  */
 public class IntentUtils {
-	
 	/**
 	 * 获取使用相机拍照的Intent
 	 * @param saveFileUri 保存照片的文件
@@ -90,17 +92,71 @@ public class IntentUtils {
 	
 	/**
 	 * 获取卸载给定包名的应用程序的Intent
-	 * @param applicationPackageName 给定包名
+	 * @param packageName 给定包名，例如：com.example
 	 * @return 卸载给定包名的应用程序的Intent
 	 */
-	public static Intent getUninstallApplicationIntent(String applicationPackageName){
-		 return new Intent(Intent.ACTION_DELETE, Uri.parse("package: "+applicationPackageName));
+	public static Intent getUninstallApplicationIntent(String packageName){
+		 return new Intent(Intent.ACTION_DELETE, Uri.parse("package: "+packageName));
+	}
+	
+	/**
+	 * 获取能够启动指定应用程序的Intent
+	 * @param context 上下文
+	 * @param packageName 要启动的应用程序的包名，例如：com.example
+	 * @return
+	 */
+	public static Intent getStartApplicationIntent(Context context, String packageName){
+		return context.getPackageManager().getLaunchIntentForPackage(packageName);
+	}
+	
+	/**
+	 * 获取一个能够回到指定应用程序的Intent
+	 * @param packageName 指定应用程序的包名，例如：com.example
+	 * @param mainActivityPath 指定应用程序的主Activity的完整路径，例如com.example.activity.MainActivity
+	 * @return
+	 */
+	public static Intent getBackAppcationItent(String packageName, String mainActivityPath){
+		return new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(new ComponentName(packageName, mainActivityPath));
+	}
+	
+	/**
+	 * 获取一个能够回到指定应用程序的Intent
+	 * @param context 上下文
+	 * @param requestCode 请求码
+	 * @param packageName 指定应用程序的包名，例如：com.example
+	 * @param mainActivityPath 指定应用程序的主Activity的完整路径，例如com.example.activity.MainActivity
+	 * @param pendingIntentFlag PendingIntent的Flag
+	 * @return
+	 */
+	public static PendingIntent getBackAppcationPendingItent(Context context, int requestCode, String packageName, String mainActivityPath, int pendingIntentFlag){
+		return PendingIntent.getActivity(context, requestCode, getBackAppcationItent(packageName, mainActivityPath), pendingIntentFlag);
+	}
+	
+	/**
+	 * 获取一个能够回到指定应用程序的Intent，pendingIntentFlag默认为0
+	 * @param context 上下文
+	 * @param requestCode 请求码
+	 * @param packageName 指定应用程序的包名，例如：com.example
+	 * @param mainActivityPath 指定应用程序的主Activity的完整路径，例如com.example.activity.MainActivity
+	 * @return
+	 */
+	public static PendingIntent getBackAppcationPendingItent(Context context, int requestCode, String packageName, String mainActivityPath){
+		return PendingIntent.getActivity(context, requestCode, getBackAppcationItent(packageName, mainActivityPath), 0);
+	}
+	
+	/**
+	 * 获取一个能够回到指定应用程序的Intent，requestCode默认为0，pendingIntentFlag默认为0
+	 * @param context 上下文
+	 * @param packageName 指定应用程序的包名，例如：com.example
+	 * @param mainActivityPath 指定应用程序的主Activity的完整路径，例如com.example.activity.MainActivity
+	 * @return
+	 */
+	public static PendingIntent getBackAppcationPendingItent(Context context, String packageName, String mainActivityPath){
+		return PendingIntent.getActivity(context, 0, getBackAppcationItent(packageName, mainActivityPath), 0);
 	}
 	
 	/**
 	 * 从图库获取图片Intent构造器
-	 * @author panpf
-	 *
 	 */
 	public static class FromGalleryGetImageIntentBuilder{
 		/**
