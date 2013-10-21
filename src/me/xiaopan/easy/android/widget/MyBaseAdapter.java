@@ -1066,7 +1066,6 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 	/**
 	 * 选择方式
 	 * @version 1.0 
-	 * @author panpf
 	 * @date Jun 16, 2012
 	 */
 	public enum ChoiceWay{

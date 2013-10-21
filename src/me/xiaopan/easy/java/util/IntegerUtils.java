@@ -9,10 +9,7 @@ import java.util.Random;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(01)、获取指定数量的随机数，可以指定是否允许重复：static int[] getRandoms(int size, int maxValue, boolean repeat)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(02)、计算chuShu与beiChuShu的百分比，默认保留两位小数：static String countPercent(int chuShu, int beiChuShu)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(03)、计算chuShu与beiChuShu的百分比，并将结果用df格式化：static String countPercent(int chuShu, int beiChuShu, DecimalFormat df)
- *
- * @author panpf
  */
-
 public class IntegerUtils {
 	/**
 	 * (01)、获取指定数量的随机数，可以指定是否允许重复

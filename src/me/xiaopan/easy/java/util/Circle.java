@@ -1,8 +1,10 @@
 package me.xiaopan.easy.java.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 这是一个圆圈
- * @author xiaopan
  * @param <T>
  */
 public class Circle<T> {
@@ -35,25 +37,28 @@ public class Circle<T> {
 	 * 放入一个对象
 	 * @param object
 	 */
-	public void put(T object){
-		if(headerNode == null || footerNode == null){
-			if(maxSize > 0){
-				size = 0;
-				Node newNode = new Node(object);
-				headerNode = newNode;
-				footerNode = newNode;
+	public void add(T object){
+		if(maxSize > 0){
+			//如果还没有满
+			if(size < maxSize){
+				//如果头节点还是空的，说明当前是空的
+				if(headerNode == null){
+					headerNode = new Node(object);
+					footerNode = headerNode;
+				}else{
+					Node endNode = new Node(object);
+					footerNode.setNext(endNode);
+					footerNode = endNode;
+				}
 				size++;
+			}else{
+				if(footerNode != null && headerNode != null){
+					Node endNode = new Node(object);
+					footerNode.setNext(endNode);
+					footerNode = endNode;
+					headerNode = headerNode.getNext();
+				}
 			}
-		}else if(size < maxSize){
-			Node endNode = new Node(object);
-			footerNode.setNext(endNode);
-			footerNode = endNode;
-			size++;
-		}else{
-			Node endNode = new Node(object);
-			footerNode.setNext(endNode);
-			footerNode = endNode;
-			headerNode = headerNode.getNext();
 		}
 	}
 	
@@ -62,14 +67,15 @@ public class Circle<T> {
 	 * @return 被删除的对象
 	 */
 	@SuppressWarnings("unchecked")
-	public T remove(){
-		T object = null;
+	public T poll(){
 		if(headerNode != null){
-			object = (T) headerNode.getObject();
+			T object = (T) headerNode.getObject();
 			headerNode = headerNode.getNext();
 			size--;
+			return object;
+		}else{
+			return null;
 		}
-		return object;
 	}
 	
 	/**
@@ -82,27 +88,28 @@ public class Circle<T> {
 	}
 	
 	/**
+	 * 获取当前存储的所有实体
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> entrys(){
+		List<T> entrys = new ArrayList<T>(size);
+		if(size > 0 && headerNode != null){
+			Node currentNode = null;
+			do{
+				currentNode = currentNode == null?headerNode:currentNode.getNext();
+				entrys.add((T) currentNode.getObject());
+			}while(currentNode.getNext() != null);
+		}
+		return entrys;
+	}
+	
+	/**
 	 * 当前大小
 	 * @return 当前大小
 	 */
 	public int size(){
 		return size;
-	}
-	
-	/**
-	 * 是否空
-	 * @return
-	 */
-	public boolean isEmpty(){
-		return size == 0;
-	}
-	
-	/**
-	 * 是否满了
-	 * @return
-	 */
-	public boolean isFull(){
-		return size >= maxSize;
 	}
 
 	/**
@@ -118,7 +125,28 @@ public class Circle<T> {
 	 * @param maxSize 最大容量
 	 */
 	public void setMaxSize(int maxSize) {
+		if(maxSize < 0){
+			maxSize = 0;
+		}
 		this.maxSize = maxSize;
+		if(maxSize == 0){
+			clear();
+		}else{
+			if(maxSize < size && headerNode != null){
+				int index = 0;
+				Node currentNode = headerNode;
+				while(index < size){
+					if(index == maxSize - 1){
+						currentNode.setNext(null);
+						footerNode = currentNode;
+						break;
+					}else{
+						currentNode = currentNode.getNext();
+					}
+					index++;
+				}
+			}
+		}
 	}
 	
 	/**

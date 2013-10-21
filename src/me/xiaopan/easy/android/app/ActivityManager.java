@@ -24,8 +24,6 @@ import android.app.Activity;
 
 /**
  * Activity管理器
- * @author feifei
- *
  */
 public class ActivityManager {
 	/**

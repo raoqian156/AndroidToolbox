@@ -1,6 +1,5 @@
 package me.xiaopan.easy.java.util;
 
-import android.annotation.SuppressLint;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,11 +7,11 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * <h2>字符串工具类，提供一些字符串相关的便捷方法</h2>
  */
-@SuppressLint("DefaultLocale")
 public class StringUtils {
 	
 	/**
@@ -233,7 +232,8 @@ public class StringUtils {
 	/**
 	 * 根据给定的字节数组以及给定的字符集创建一个字符串
 	 * @param bytes 给定的字节数组
-	 * @param charset 给定的字符集	 * @return 字符串
+	 * @param charset 给定的字符集
+	 * @return 字符串
 	 */
 	public static String valueOf(byte[] bytes, Charset charset){
 		try {
@@ -400,7 +400,7 @@ public class StringUtils {
 	 * @return 新的字符串
 	 */
 	public static String toLowerCase(String str, int beginIndex, int endIndex){
-		return str.replaceFirst(str.substring(beginIndex, endIndex), str.substring(beginIndex, endIndex).toLowerCase());
+		return str.replaceFirst(str.substring(beginIndex, endIndex), str.substring(beginIndex, endIndex).toLowerCase(Locale.getDefault()));
 	}
 	
 	/**
@@ -411,7 +411,7 @@ public class StringUtils {
 	 * @return 新的字符串
 	 */
 	public static String toUpperCase(String str, int beginIndex, int endIndex){
-		return str.replaceFirst(str.substring(beginIndex, endIndex), str.substring(beginIndex, endIndex).toUpperCase());
+		return str.replaceFirst(str.substring(beginIndex, endIndex), str.substring(beginIndex, endIndex).toUpperCase(Locale.getDefault()));
 	}
 	
 	/**
@@ -419,7 +419,6 @@ public class StringUtils {
 	 * @param str 给定字符串
 	 * @return 新的字符串
 	 */
-	@SuppressLint("DefaultLocale")
 	public static String firstLetterToLowerCase(String str){
 		return toLowerCase(str, 0, 1);
 	}
@@ -429,7 +428,6 @@ public class StringUtils {
 	 * @param str 给定字符串
 	 * @return 新的字符串
 	 */
-	@SuppressLint("DefaultLocale")
 	public static String firstLetterToUpperCase(String str){
 		return toUpperCase(str, 0, 1);
 	}

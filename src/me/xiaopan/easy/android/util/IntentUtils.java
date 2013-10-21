@@ -249,7 +249,6 @@ public class IntentUtils {
 	
 	/**
 	 * 图片裁剪Intent构造器
-	 * @author panpf
 	 */
 	public static class ImageCropIntentBuilder{
 		/**

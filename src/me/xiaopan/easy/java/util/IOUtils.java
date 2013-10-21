@@ -55,9 +55,7 @@ import java.nio.charset.Charset;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;打开一个加了缓冲区的字符输出流：public static BufferedWriter openBufferedWriter(File file, boolean isAppend)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;打开一个使用给定的字符集编码并且加了缓冲区的字符输出流：public static BufferedWriter openBufferedWriter(File file, boolean isAppend, Charset charset)
  * <br>
- * @author panpf
  */
-
 public class IOUtils {
 	
 	/**

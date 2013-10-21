@@ -1,9 +1,7 @@
 package me.xiaopan.easy.java.util;
 
 /**
- * boolean相关的工具函数
- * @author panpf
- *
+ * Boolean相关的工具函数
  */
 public class BooleanUtils {
 

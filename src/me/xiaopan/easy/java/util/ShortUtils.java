@@ -1,9 +1,7 @@
 package me.xiaopan.easy.java.util;
 
 /**
- * short相关的工具函数
- * @author panpf
- *
+ * Short相关的工具函数
  */
 public class ShortUtils {
 	/**

@@ -2,7 +2,6 @@ package me.xiaopan.easy.java.util;
 
 /**
  * <h2>正则表达式工具类，提供一些常用的正则表达式</h2>
- * @author panpf
  */
 public class RegexUtils {
 	/**

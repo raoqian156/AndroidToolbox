@@ -1,9 +1,7 @@
 package me.xiaopan.easy.java.util;
 
 /**
- * float相关的工具函数
- * @author panpf
- *
+ * Float相关的工具函数
  */
 public class FloatUtils {
 

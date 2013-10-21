@@ -11,8 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 文件扫描器，只要文件
- * @author feifei
- *
  */
 public class FileScanner {
 	/**
@@ -588,8 +586,6 @@ public class FileScanner {
 	
 	/**
 	 * 文件长度过滤方式
-	 * @author panpf
-	 *
 	 */
 	public enum FileLengthFilterWayEnum {
 		/**
@@ -604,8 +600,6 @@ public class FileScanner {
 	
 	/**
 	 * 文件路径过滤方式
-	 * @author panpf
-	 *
 	 */
 	public enum FilePathFilterWayEnum {
 		/**
@@ -620,7 +614,6 @@ public class FileScanner {
 	
 	/**
 	 * 文件扫描监听器
-	 * @author feifei
 	 */
  	public interface FileScanListener {
 		/**

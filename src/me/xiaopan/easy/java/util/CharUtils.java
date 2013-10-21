@@ -2,6 +2,7 @@ package me.xiaopan.easy.java.util;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
+
 /**
  * <b>字符工具类，提供一些字符常用的方法</b>
  * 
@@ -9,9 +10,6 @@ import net.sourceforge.pinyin4j.PinyinHelper;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(02)、获取字符cha的第一个拼音：static String getPinYinByCharOnlyFirst(char cha)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(03)、判断字符cha是否是中文：static boolean isChinese(char cha) 
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(04)、判断Unicode编码为cha的字符是否是中文：static boolean isChinese(int cha)
- * 
- * @author feifei
- *
  */
 public class CharUtils {
 	

@@ -11,10 +11,7 @@ import java.io.ObjectOutputStream;
  * 
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(01)、将指定的Object序列化成字节：static byte[] objectToByte(Object object) 
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(02)、将指定的字节反序列化成一个Object：static Object byteToObject(byte[] bytes)
- * 
- * @author panpf
  */
-
 public class ObjectUtils {
 	
 	/**

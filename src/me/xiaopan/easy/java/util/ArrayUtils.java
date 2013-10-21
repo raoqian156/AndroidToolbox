@@ -22,11 +22,7 @@ import java.util.Stack;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(2.03)、使用冒泡排序法，对数组intArray进行排序：static void SortingByBubbling(int[] intArray, int type)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(2.04)、使用递归快排法，对数组intArray进行排序：static void SortingByFastRecursion(int[] intArray, int start, int end, int type)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(2.05)、使用栈快排法，对数组intArray进行排序：static void SortingByFastStack(int[] intArray, int type)
- * 
- * @author panpf
- * 
  */
-
 public class ArrayUtils {
 
 	/* **************************************************************1、增删移动相关start************************************************************ */

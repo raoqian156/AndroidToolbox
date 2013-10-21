@@ -29,11 +29,7 @@ import java.io.IOException;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(4.06)、对指定的文件对象进行是否null、是否存在以及是否是文件校验，不合法的话抛出异常：static void valiFile(File file)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(4.07)、用于在执行读取之前对指定的文件对象进行是否null、是否存在、是否是文件以及能否读取校验，不合法的话抛出异常：static void valiFileByReadBefore(File file)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(4.08)、用于在执行写入之前对指定的文件对象进行是否null、是否存在、是否是文件以及能否写入校验，不合法的话抛出异常：static void valiFileByWriteBefore(File file)
- * 
- * @author panpf
- *
  */
-
 public class CheckingUtils {
 	/* *****************************************************1、Object相关验证start*********************************************************************** */
 	/**

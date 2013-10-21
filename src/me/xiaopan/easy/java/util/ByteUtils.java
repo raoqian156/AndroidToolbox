@@ -5,10 +5,7 @@ package me.xiaopan.easy.java.util;
  * 
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(01)、位移加密：static void byteJiaMi(byte[] bytes)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(02)、从bytes上截取一段：static byte[] cutOut(byte[] bytes, int off, int length)
- * 
- * @author panpf
  */
-
 public class ByteUtils{
 	/**
 	 * (01)、位移加密

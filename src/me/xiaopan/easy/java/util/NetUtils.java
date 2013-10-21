@@ -31,10 +31,7 @@ import java.net.URLConnection;
  * <br><b>3、其它</b>
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(3.01)、根据指定的文件的大小，以及线程数，计算每个线程所对应的开始与结束位置：static int[][] countThread(int fileSize, int threadNumber)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;(3.02)、从一个url中获取字节数据：static byte[] getDataFromUrl(URL url, int connTimeout, int length)
- * 
- * @author panpf
  */
-
 public class NetUtils {
 	/* *****************************************************1、Http方面start******************************************************************* */
 	/**

@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 
 /**
  * 时间
- * @author xiaopan
  */
 public class Time{
 	private long timeInMillis;

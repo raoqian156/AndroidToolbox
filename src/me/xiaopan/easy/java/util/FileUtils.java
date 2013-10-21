@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * <b>文件工具类，提供一些有关文件的便捷方法</b>
  * <br>
@@ -67,7 +66,7 @@ import java.util.Locale;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;把给定的对象写到给定的文件中：public static void writeObject(File file, Object object)
  * <br>
  * <br><b>文件内容的删除、替换与插入操作：</b>
- * <br>&nbsp;&nbsp;&nbsp;&nbsp;使用切割的方式来删除给定文件中的一段数据：public static void removeFileDataByCutWay(File file, long off, long length) throws IOException, LengthTooBigExceptionn{
+ * <br>&nbsp;&nbsp;&nbsp;&nbsp;使用切割的方式来删除给定文件中的一段数据：public static void removeFileDataByCutWay(File file, long off, long length) throws IOException, IllegalArgumentExceptionn{
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;使用创建新文件的方式来删除给定文件中的一段数据：public static void removeFileDataByNewFileWay(File file, long off, long length) throws IOException{
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;使用切割的方式来替换给定文件中的一段数据：public static void replaceFileDataByCutWay(File file, long off, long length, byte[] newData)
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;使用创建新文件的方式来替换给定文件中的一段数据：public static void replaceFileDataByNewFileWay(File file, long off, long length, byte[] newData)
@@ -100,9 +99,7 @@ import java.util.Locale;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;根据文件名对给定的文件数组进行升序排序：public static void sortAscByName(File[] files){
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;根据文件名对给定的文件数组进行降序排序：public static void sortDescByName(File[] files){
  * <br>
- * @author panpf
  */
-
 public class FileUtils {
 	
 	/**
@@ -615,9 +612,9 @@ public class FileUtils {
 	 * @param off 偏移量，从此处开始删除数据
 	 * @param length 要删除的数据的长度，大于0
 	 * @throws IOException 
-	 * @throws LengthTooBigException (fileLength - (off + length)) > 31457280 因为本方法采用的是先把需要删除的数据之后的数据读到内存中，然后将文件截短，最后把之前保存的数据写到文件中。因此读到内存中的数据不能太大
+	 * @throws IllegalArgumentException (fileLength - (off + length)) > 31457280 因为本方法采用的是先把需要删除的数据之后的数据读到内存中，然后将文件截短，最后把之前保存的数据写到文件中。因此读到内存中的数据不能太大
 	 */
-	public static void removeFileDataByCutWay(File file, long off, long length) throws IOException, LengthTooBigException{
+	public static void removeFileDataByCutWay(File file, long off, long length) throws IOException, IllegalArgumentException{
 		//获取文件长度
 		long fileLength = file.length();
 		
@@ -657,7 +654,7 @@ public class FileUtils {
 			//关闭原文件
 			raf.close();
 		}else{
-			throw new LengthTooBigException("Need to read the length of data of the memory more than 30720 ((fileLength - (off + length)) > 30720)");
+			throw new IllegalArgumentException("Need to read the length of data of the memory more than 30720 ((fileLength - (off + length)) > 30720)");
 		}
 	}
 	
@@ -744,9 +741,9 @@ public class FileUtils {
 	 * @param length 要替换的一段数据的长度，大于1
 	 * @param newData 用来替换旧数据的新数据
 	 * @throws IOException 
-	 * @throws LengthTooBigException (fileLength - (off + length)) > 31457280 因为本方法采用的是先把需要替换的数据之后的数据读到内存中，然后将文件截短，最后把之前保存的数据写到文件中。因此读到内存中的数据不能太大
+	 * @throws IllegalArgumentException (fileLength - (off + length)) > 31457280 因为本方法采用的是先把需要替换的数据之后的数据读到内存中，然后将文件截短，最后把之前保存的数据写到文件中。因此读到内存中的数据不能太大
 	 */
-	public static void replaceFileDataByCutWay(File file, long off, long length, byte[] newData) throws IOException, LengthTooBigException{
+	public static void replaceFileDataByCutWay(File file, long off, long length, byte[] newData) throws IOException, IllegalArgumentException{
 
 		//获取文件长度
 		long fileLength = file.length();
@@ -797,7 +794,7 @@ public class FileUtils {
 				//关闭原文件
 				raf.close();
 			}else{
-				throw new LengthTooBigException("Need to read the length of data of the memory more than 30720 ((fileLength - (off + length)) > 30720)");
+				throw new IllegalArgumentException("Need to read the length of data of the memory more than 30720 ((fileLength - (off + length)) > 30720)");
 			}
 		}
 	}
@@ -891,9 +888,9 @@ public class FileUtils {
 	 * @param off 在此处开始插入数据最小值为0表示将数据插在文件头部，最大值为文件长度表示将数据插在文件尾部
 	 * @param data 要插入的数据
 	 * @throws IOException
-	 * @throws LengthTooBigException (fileLength - (off + length)) > 30720 因为本方法采用的是先把需要替换的数据之后的数据读到内存中，然后将文件截短，最后把之前保存的数据写到文件中。因此读到内存中的数据不能太大
+	 * @throws IllegalArgumentException (fileLength - (off + length)) > 30720 因为本方法采用的是先把需要替换的数据之后的数据读到内存中，然后将文件截短，最后把之前保存的数据写到文件中。因此读到内存中的数据不能太大
 	 */
-	public static void insertFileDataByCutWay(File file, long off, byte[] data) throws IOException, LengthTooBigException{
+	public static void insertFileDataByCutWay(File file, long off, byte[] data) throws IOException, IllegalArgumentException{
 
 		//获取文件长度
 		long fileLength = file.length();
@@ -928,7 +925,7 @@ public class FileUtils {
 				//关闭原文件
 				raf.close();
 			}else{
-				throw new LengthTooBigException("Need to read the length of data of the memory more than 30720 ((fileLength - (off + length)) > 30720)");
+				throw new IllegalArgumentException("Need to read the length of data of the memory more than 30720 ((fileLength - (off + length)) > 30720)");
 			}
 		}
 	}
@@ -1036,15 +1033,15 @@ public class FileUtils {
 	 * @param fileName
 	 * @return 
 	 * @throws FileNotFoundException 给定的目录不存在
-	 * @throws FileNotDirectoryException 给定的dir不是目录
+	 * @throws IllegalArgumentException 给定的dir不是目录
 	 * @throws IOException 
 	 */
-	public static File getFile(File dir, String fileName) throws FileNotFoundException, FileNotDirectoryException, IOException{
+	public static File getFile(File dir, String fileName) throws FileNotFoundException, IllegalArgumentException, IOException{
 		if(dir.exists()){
 			if(dir.isDirectory()){
 				return getFile(dir.getPath() + File.separator + fileName);
 			}else{
-				throw new FileNotDirectoryException();
+				throw new IllegalArgumentException();
 			}
 		}else{
 			throw new FileNotFoundException();
@@ -1068,9 +1065,9 @@ public class FileUtils {
 	 * 获取目录，如果不存在就创建
 	 * @param directoryPath 目录路径
 	 * @return 目录
-	 * @throws FileNotDirectoryException 不是目录
+	 * @throws IllegalArgumentException 不是目录
 	 */
-	public static File getDirectory(String directoryPath) throws FileNotDirectoryException{
+	public static File getDirectory(String directoryPath) throws IllegalArgumentException{
 		File dir = new File(directoryPath);
 		//如果不存在的话就创建
 		if(!dir.exists()){
@@ -1078,7 +1075,7 @@ public class FileUtils {
 		}else{
 			//如果不是目录
 			if(!dir.isDirectory()){
-				throw new FileNotDirectoryException();
+				throw new IllegalArgumentException();
 			}
 		}
 		return dir;
@@ -1193,15 +1190,15 @@ public class FileUtils {
 	 * 清空给定的目录下所有的文件
 	 * @param directory 给定的目录
 	 * @throws FileNotFoundException 给定的目录不存在
-	 * @throws FileNotDirectoryException 给定的目录不是目录
+	 * @throws IllegalArgumentException 给定的目录不是目录
 	 * @return 删除失败的文件列表
 	 */
-	public static List<File> clearDirectory(File directory) throws FileNotFoundException, FileNotDirectoryException{
+	public static List<File> clearDirectory(File directory) throws FileNotFoundException, IllegalArgumentException{
 		if(!directory.exists()){
 			throw new FileNotFoundException();
 		}
 		if(!directory.isDirectory()){
-			throw new  FileNotDirectoryException();
+			throw new  IllegalArgumentException();
 		}
 		return deleteFiles(directory.listFiles());
 	}
@@ -1210,10 +1207,10 @@ public class FileUtils {
 	 * 清空给定的目录路径下所有的文件
 	 * @param directoryPath 给定的目录路径
 	 * @throws FileNotFoundException 给定的目录不存在
-	 * @throws FileNotDirectoryException 给定的目录不是目录
+	 * @throws IllegalArgumentException 给定的目录不是目录
 	 * @return 删除失败的文件列表
 	 */
-	public static List<File> clearDirectory(String directoryPath) throws FileNotFoundException, FileNotDirectoryException{
+	public static List<File> clearDirectory(String directoryPath) throws FileNotFoundException, IllegalArgumentException{
 		return clearDirectory(new File(directoryPath));
 	}
 
