@@ -1,6 +1,5 @@
 package me.xiaopan.easy.java.util;
 
-import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
@@ -118,44 +117,5 @@ public class IntegerUtils {
 	 */
 	public static String fillZero(long digit, int stringLength){
 		return String.format("%0"+stringLength+"d", digit);
-	}
-	
-	/**
-	 * (02)、计算chuShu与beiChuShu的百分比，默认保留两位小数
-	 * @param chuShu 除数
-	 * @param beiChuShu 被除数
-	 * @return 例如：17.34%
-	 */
-	public static String countPercent(int chuShu, int beiChuShu){
-		String r = new DecimalFormat("##.00%").format((double)chuShu/(double)beiChuShu);
-		if(r.indexOf('.') <= 0){
-			r="0"+r; 
-		}
-		return r;
-	}
-	
-	/**
-	 * (02)、计算chuShu与beiChuShu的百分比，默认保留两位小数
-	 * @param chuShu 除数
-	 * @param beiChuShu 被除数
-	 * @return 例如：17.34%
-	 */
-	public static String countPercent(long chuShu, long beiChuShu){
-		String r = new DecimalFormat("##.00%").format((double)chuShu/(double)beiChuShu);
-		if(r.indexOf('.') <= 0){
-			r="0"+r; 
-		}
-		return r;
-	}
-	
-	/**
-	 * (03)、计算chuShu与beiChuShu的百分比，并将结果用df格式化
-	 * @param chuShu 除数
-	 * @param beiChuShu 被除数
-	 * @param df 浮点数格式化器
-	 * @return 例如：17.34%
-	 */
-	public static String countPercent(int chuShu, int beiChuShu, DecimalFormat df){
-		return df.format((double)chuShu/(double)beiChuShu);
 	}
 }

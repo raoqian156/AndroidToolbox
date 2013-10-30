@@ -37,29 +37,50 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
 
 /**
- * 图片工具箱
- * @author xiaopan
- *
+ * 位图工具箱
  */
 public class BitmapUtils {
 	/**
 	 * 缩放处理
 	 * @param bitmap 原图
-	 * @param newWidth 新的宽度
-	 * @param newHeight 新的高度
+	 * @param widthScaling 宽度缩放比例
+	 * @param heightScaling 高度缩放比例
 	 * @return 缩放后的图片
 	 */
-	public static Bitmap scale(Bitmap bitmap, int newWidth, int newHeight) {
-		//获取原图的宽
-		int width = bitmap.getWidth();
-		//获取原图的高
-		int height = bitmap.getHeight();
-		//创建一个矩阵，用来处理图片
+	public static Bitmap scale(Bitmap bitmap, float widthScaling, float heightScaling) {
 		Matrix matrix = new Matrix();
-		//设置之后缩放的比例
-		matrix.postScale(((float) newWidth / width), ((float) newHeight / height));
-		//根据原图以及矩阵创建一个新的图片
-		return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+		matrix.postScale(widthScaling, heightScaling);
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+	}
+	
+	/**
+	 * 缩放处理
+	 * @param bitmap 原图
+	 * @param scaling 缩放比例
+	 * @return 缩放后的图片
+	 */
+	public static Bitmap scale(Bitmap bitmap, float scaling) {
+		return scale(bitmap, scaling, scaling);
+	}
+	
+	/**
+	 * 缩放处理
+	 * @param bitmap 原图
+	 * @param newWidth 新的宽度
+	 * @return
+	 */
+	public static Bitmap scaleByWidth(Bitmap bitmap, int newWidth) {
+		return scale(bitmap, (float) newWidth / bitmap.getWidth());
+	}
+	
+	/**
+	 * 缩放处理
+	 * @param bitmap 原图
+	 * @param newHeight 新的高度
+	 * @return
+	 */
+	public static Bitmap scaleByHeight(Bitmap bitmap, int newHeight) {
+		return scale(bitmap, (float) newHeight / bitmap.getHeight());
 	}
 	
 	/**
@@ -68,11 +89,8 @@ public class BitmapUtils {
 	 * @return 水平翻转后的图片
 	 */
 	public static Bitmap reverseByHorizontal(Bitmap bitmap){
-		//创建一个矩阵
 		Matrix matrix = new Matrix();
-		//垂直翻转
 		matrix.preScale(-1, 1);
-		//创建一个将原图垂直翻转的图片
 		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
 	}
 	
@@ -82,11 +100,8 @@ public class BitmapUtils {
 	 * @return 垂直翻转后的图片
 	 */
 	public static Bitmap reverseByVertical(Bitmap bitmap){
-		//创建一个矩阵
 		Matrix matrix = new Matrix();
-		//垂直翻转
 		matrix.preScale(1, -1);
-		//创建一个将原图垂直翻转的图片
 		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
 	}
 	
@@ -96,7 +111,7 @@ public class BitmapUtils {
 	 * @param resId Drawable资源文件的ID
 	 * @return 新的Bitmap
 	 */
-	public static Bitmap drawableToBitmapByResouceId(Context context, int resId) {
+	public static Bitmap drawableToBitmap(Context context, int resId) {
 		BitmapFactory.Options opt = new BitmapFactory.Options();
 		opt.inPreferredConfig = Bitmap.Config.RGB_565;
 		opt.inPurgeable = true;
@@ -108,30 +123,21 @@ public class BitmapUtils {
 	/**
 	 * 圆角处理
 	 * @param bitmap 原图片
-	 * @param pixels 角度数，度数越大圆角越大
+	 * @param pixels 角度，度数越大圆角越大
 	 * @return 转换成圆角后的图片
 	 */
 	public static Bitmap roundCorner(Bitmap bitmap, float pixels) { 
-		//创建一张跟原图片一样大小的空白图片
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888); 
-        //用新创建的空白图片创建一张画布
         Canvas canvas = new Canvas(output); 
-        //创建画笔
-        final Paint paint = new Paint(); 
-        //创建一个同原图一样大小的矩形，用于把原图绘制到这个矩形上
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()); 
-        //创建一个精度更高的矩形，用于画出圆角效果
-        final RectF rectF = new RectF(rect); 
+        Paint paint = new Paint(); 
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());  //创建一个同原图一样大小的矩形，用于把原图绘制到这个矩形上
+        RectF rectF = new RectF(rect);  //创建一个精度更高的矩形，用于画出圆角效果
         paint.setAntiAlias(true); 
-        //涂上黑色全透明的底色
-        canvas.drawARGB(0, 0, 0, 0); 
-        //设置画笔的颜色为不透明的灰色
-        paint.setColor(0xff424242); 
-        //用给给定的画笔把给定的矩形以给定的圆角的度数画到画布
-        canvas.drawRoundRect(rectF, pixels, pixels, paint); 
+        canvas.drawARGB(0, 0, 0, 0); //涂上黑色全透明的底色
+        paint.setColor(0xff424242);  //设置画笔的颜色为不透明的灰色
+        canvas.drawRoundRect(rectF, pixels, pixels, paint); //用给给定的画笔把给定的矩形以给定的圆角的度数画到画布
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN)); 
-        //用画笔paint将原图bitmap根据新的矩形重新绘制
-        canvas.drawBitmap(bitmap, rect, rect, paint); 
+        canvas.drawBitmap(bitmap, rect, rect, paint); //用画笔paint将原图bitmap根据新的矩形重新绘制
         return output; 
     }
 	
@@ -142,30 +148,19 @@ public class BitmapUtils {
 	 * @return 加上倒影后的图片
 	 */
 	public static Bitmap reflection(Bitmap bitmap, int reflectionSpacing, int reflectionHeight) {
-		//原图的宽度
 		int width = bitmap.getWidth();
-		//原图的高度
 		int height = bitmap.getHeight();
 
-		//获取倒影图片
-		Bitmap reflectionImage = reverseByVertical(bitmap);
-		
-		//创建一张宽度与原图相同，但高度等于原图的高度加上间距加上倒影的高度的图片，并创建画布。画布分为上中下三部分，上：是原图；中：是原图与倒影的间距；下：是倒影
+		/* 获取倒影图片，并创建一张宽度与原图相同，但高度等于原图的高度加上间距加上倒影的高度的图片，并创建画布。画布分为上中下三部分，上：是原图；中：是原图与倒影的间距；下：是倒影 */
+		Bitmap reflectionImage = reverseByVertical(bitmap);//
 		Bitmap bitmapWithReflection = Bitmap.createBitmap(width, height + reflectionSpacing + reflectionHeight, Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmapWithReflection);
 		
-		/*
-		 * 将原图与倒影画到画布上
-		 */
-		//将原图画到画布的上半部分
+		/* 将原图画到画布的上半部分，将倒影画到画布的下半部分，倒影与画布顶部的间距是原图的高度加上原图与倒影之间的间距 */
 		canvas.drawBitmap(bitmap, 0, 0, null);
-		//将倒影画到画布的下半部分，倒影与画布顶部的间距是原图的高度加上原图与倒影之间的间距
 		canvas.drawBitmap(reflectionImage, 0, height + reflectionSpacing, null);
 		
-		/*
-		 * 将倒影改成半透明
-		 */
-		//创建画笔，并设置画笔的渐变从半透明的白色到全透明的白色，然后再倒影上面画半透明效果
+		/* 将倒影改成半透明，创建画笔，并设置画笔的渐变从半透明的白色到全透明的白色，然后再倒影上面画半透明效果 */
 		Paint paint = new Paint();
 		paint.setShader(new LinearGradient(0, bitmap.getHeight(), 0, bitmapWithReflection.getHeight() + reflectionSpacing, 0x70ffffff, 0x00ffffff, TileMode.CLAMP));
 		paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
