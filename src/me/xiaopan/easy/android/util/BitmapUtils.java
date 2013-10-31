@@ -43,24 +43,13 @@ public class BitmapUtils {
 	/**
 	 * 缩放处理
 	 * @param bitmap 原图
-	 * @param widthScaling 宽度缩放比例
-	 * @param heightScaling 高度缩放比例
-	 * @return 缩放后的图片
-	 */
-	public static Bitmap scale(Bitmap bitmap, float widthScaling, float heightScaling) {
-		Matrix matrix = new Matrix();
-		matrix.postScale(widthScaling, heightScaling);
-		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-	}
-	
-	/**
-	 * 缩放处理
-	 * @param bitmap 原图
 	 * @param scaling 缩放比例
 	 * @return 缩放后的图片
 	 */
 	public static Bitmap scale(Bitmap bitmap, float scaling) {
-		return scale(bitmap, scaling, scaling);
+		Matrix matrix = new Matrix();
+		matrix.postScale(scaling, scaling);
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 	}
 	
 	/**
