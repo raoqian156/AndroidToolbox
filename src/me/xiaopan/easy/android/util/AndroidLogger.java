@@ -139,7 +139,7 @@ public class AndroidLogger {
 		if(enableOutputToLocalFile && outputFile != null){
 			if(outputFile.exists()){
 				try {
-					FileUtils.writeStringByLine(outputFile, DateTimeUtils.getCurrentDateTimeByDefultCustomFormat()+"" +logContent, true);
+					FileUtils.writeStringByLine(outputFile, DateTimeUtils.getCurrentDateTimeByDefultFormat()+"" +logContent, true);
 					return true;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -153,7 +153,7 @@ public class AndroidLogger {
 				}
 				try {
 					if(outputFile.createNewFile()){
-						FileUtils.writeStringByLine(outputFile, DateTimeUtils.getCurrentDateTimeByDefultCustomFormat()+"" +logContent, true);
+						FileUtils.writeStringByLine(outputFile, DateTimeUtils.getCurrentDateTimeByDefultFormat()+"" +logContent, true);
 						return true;
 					}else{
 						return false;

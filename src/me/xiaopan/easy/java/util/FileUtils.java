@@ -1120,10 +1120,10 @@ public class FileUtils {
 	 * @throws IOException
 	 */
 	public static File createFileByCurrentDateTime(File directory) throws IOException{
-		File newFile = new File(directory.getPath() + File.separator + DateTimeUtils.getCurrentDateTimeByCustomFormat("yyyyMMddhhmmssSSS") + ".tmp");
+		File newFile = new File(directory.getPath() + File.separator + DateTimeUtils.getCurrentDateTimeByFormat("yyyyMMddhhmmssSSS") + ".tmp");
 		boolean isSuccess = newFile.createNewFile();
 		while(!isSuccess){
-			newFile = new File(directory.getPath() + File.separator + DateTimeUtils.getCurrentDateTimeByCustomFormat("yyyyMMddhhmmssSSS") + ".tmp");
+			newFile = new File(directory.getPath() + File.separator + DateTimeUtils.getCurrentDateTimeByFormat("yyyyMMddhhmmssSSS") + ".tmp");
 			isSuccess = newFile.createNewFile();
 		}
 		return newFile;

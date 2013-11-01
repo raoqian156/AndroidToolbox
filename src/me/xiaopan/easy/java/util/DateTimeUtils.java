@@ -1,13 +1,12 @@
 package me.xiaopan.easy.java.util;
 
+import android.annotation.SuppressLint;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import android.annotation.SuppressLint;
 
 /**
  * <h2>日期时间工具类，提供一些有关日期时间的便捷方法</h2>
@@ -51,11 +50,11 @@ public class DateTimeUtils {
 	}
 	
 	/**
-	 * 根据默认的自定义格式，获取一个日期格式化器
+	 * 获取一个默认格式（yyyy-MM-dd）的日期格式化器
 	 * @return 日期格式化器
 	 */
-	public static DateFormat getDateFormatByDefultCustomFormat(){
-		return getDateTimeFormatByCustomFormat("yyyy-MM-dd");
+	public static DateFormat getDateFormatByDefult(){
+		return getDateTimeFormatByCustom("yyyy-MM-dd");
 	}
 	
 	
@@ -97,19 +96,19 @@ public class DateTimeUtils {
 	}
 	
 	/**
-	 * 根据默认的自定义格式，获取一个时间格式化器
+	 * 获取一个默认格式（hh:mm:ss）的时间格式化器
 	 * @return 时间格式化器
 	 */
-	public static DateFormat getTimeFormatByDefultCustomFormat(){
-		return getDateTimeFormatByCustomFormat("hh:mm:ss");
+	public static DateFormat getTimeFormatByDefult(){
+		return getDateTimeFormatByCustom("hh:mm:ss");
 	}
 	
 	/**
-	 * 根据默认的24小时制的自定义格式，获取一个时间格式化器
+	 * 获取一个默认的24小时制格式（HH:mm:ss）的时间格式化器
 	 * @return 时间格式化器
 	 */
-	public static DateFormat getTimeFormatByDefultCustomFormatAnd24Hour(){
-		return getDateTimeFormatByCustomFormat("HH:mm:ss");
+	public static DateFormat getTimeFormatByDefult24Hour(){
+		return getDateTimeFormatByCustom("HH:mm:ss");
 	}
 	
 	
@@ -153,28 +152,28 @@ public class DateTimeUtils {
 	}
 	
 	/**
-	 * 根据给定的自定义格式，获取一个日期时间格式化器
+	 * 获取一个自定义格式的日期时间格式化器
 	 * @param customFormat 给定的自定义格式，例如："yyyy-MM-dd hh:mm:ss"
 	 * @return 日期时间格式化器
 	 */
-	public static DateFormat getDateTimeFormatByCustomFormat(String customFormat){
+	public static DateFormat getDateTimeFormatByCustom(String customFormat){
 		return new SimpleDateFormat(customFormat, Locale.getDefault());
 	}
 	
 	/**
-	 * 根据默认的自定义格式，获取一个日期时间格式化器
+	 * 获取一个默认格式的（yyyy-MM-dd hh:mm:ss）日期时间格式化器
 	 * @return 日期时间格式化器
 	 */
-	public static DateFormat getDateTimeFormatByDefultCustomFormat(){
-		return getDateTimeFormatByCustomFormat("yyyy-MM-dd hh:mm:ss");
+	public static DateFormat getDateTimeFormatByDefult(){
+		return getDateTimeFormatByCustom("yyyy-MM-dd hh:mm:ss");
 	}
 	
 	/**
-	 * 根据默认的自定义格式，获取一个24小时制的日期时间格式化器
+	 * 获取一个默认24小时制格式的（yyyy-MM-dd HH:mm:ss）日期时间格式化器
 	 * @return 日期时间格式化器
 	 */
-	public static DateFormat getDateTimeFormatByDefultCustomFormatAnd24Hour(){
-		return getDateTimeFormatByCustomFormat("yyyy-MM-dd HH:mm:ss");
+	public static DateFormat getDateTimeFormatByDefult24Hour(){
+		return getDateTimeFormatByCustom("yyyy-MM-dd HH:mm:ss");
 	}
 	
 	/* **************************************获取其它具体的Format********************************* */
@@ -183,7 +182,7 @@ public class DateTimeUtils {
 	 * @return 年份格式化器
 	 */
 	public static DateFormat getYearFormat(){
-		return getDateTimeFormatByCustomFormat("yyyy");
+		return getDateTimeFormatByCustom("yyyy");
 	}
 	
 	/**
@@ -191,7 +190,7 @@ public class DateTimeUtils {
 	 * @return 月份格式化器
 	 */
 	public static DateFormat getMonthFormat(){
-		return getDateTimeFormatByCustomFormat("MM");
+		return getDateTimeFormatByCustom("MM");
 	}
 	
 	/**
@@ -199,11 +198,15 @@ public class DateTimeUtils {
 	 * @return 日份格式化器
 	 */
 	public static DateFormat getDayFormat(){
-		return getDateTimeFormatByCustomFormat("dd");
+		return getDateTimeFormatByCustom("dd");
 	}
 	
+	/**
+	 * 获取星期格式化器
+	 * @return 星期格式化器
+	 */
 	public static DateFormat getWeekFormat(){
-		return getDateTimeFormatByCustomFormat("E");
+		return getDateTimeFormatByCustom("E");
 	}
 	
 	/**
@@ -211,15 +214,15 @@ public class DateTimeUtils {
 	 * @return 小时格式化器
 	 */
 	public static DateFormat getHourFormat(){
-		return getDateTimeFormatByCustomFormat("hh");
+		return getDateTimeFormatByCustom("hh");
 	}
 	
 	/**
 	 * 获取24小时制的小时格式化器
 	 * @return 24小时格式化器
 	 */
-	public static DateFormat getHourFormatBy24Hour(){
-		return getDateTimeFormatByCustomFormat("HH");
+	public static DateFormat getHourFormatBy24(){
+		return getDateTimeFormatByCustom("HH");
 	}
 	
 	/**
@@ -227,7 +230,7 @@ public class DateTimeUtils {
 	 * @return 分钟格式化器
 	 */
 	public static DateFormat getMinuteFormat(){
-		return getDateTimeFormatByCustomFormat("mm");
+		return getDateTimeFormatByCustom("mm");
 	}
 	
 	/**
@@ -235,58 +238,18 @@ public class DateTimeUtils {
 	 * @return 秒格式化器
 	 */
 	public static DateFormat getSecondFormat(){
-		return getDateTimeFormatByCustomFormat("ss");
+		return getDateTimeFormatByCustom("ss");
 	}
 	
 	
 	/* **************************************获取日期时间********************************* */
-	/**
-	 * 根据给定的Date对象以及给定的格式化器获取日期时间
-	 * @param date 给定的Date对象
-	 * @param format 给定的格式化器
-	 * @return 日期时间
-	 */
-	public static String getDateTimeByDateAndFormat(Date date, DateFormat format){
-		return format.format(date);
-	}
-	
-	/**
-	 * 根据给定的时间毫秒值以及给定的格式化器获取日期时间
-	 * @param timeMillis 给定的时间毫秒值，请注意时间毫秒与普通毫秒的区别
-	 * @param format 给定的格式化器
-	 * @return 日期时间
-	 */
-	public static String getDateTimeByTimeMillisAndFormat(long timeMillis, DateFormat format){
-		return getDateTimeByDateAndFormat(new Date(timeMillis), format);
-	}
-	
-	/**
-	 * 根据给定的Date对象以及给定的自定义格式获取日期时间 
-	 * @param date 给定的Date对象
-	 * @param customFormat 给定的自定义格式
-	 * @return 日期时间 
-	 */
-	public static String getDateTimeByDateAndCustomFormat(Date date, String customFormat){
-		return getDateTimeByDateAndFormat(date, getDateTimeFormatByCustomFormat(customFormat));
-	}
-	
-	/**
-	 * 根据给定的时间毫秒值以及给定的自定义格式获取日期时间
-	 * @param timeMillis 给定的时间毫秒值，请注意时间毫秒与普通毫秒的区别
-	 * @param customFormat 给定的自定义格式
-	 * @return 日期时间
-	 */
-	public static String getDateTimeByTimeMillisAndCustomFormat(long timeMillis, String customFormat){
-		return getDateTimeByTimeMillisAndFormat(timeMillis, getDateTimeFormatByCustomFormat(customFormat));
-	}
-	
 	/**
 	 * 根据给定的格式化器，获取当前的日期时间
 	 * @param fromat 给定的格式化器
 	 * @return 当前的日期时间
 	 */
 	public static String getCurrentDateTimeByFormat(DateFormat fromat){
-		return getDateTimeByTimeMillisAndFormat(System.currentTimeMillis(), fromat);
+		return fromat.format(new Date());
 	}
 	
 	/**
@@ -294,24 +257,24 @@ public class DateTimeUtils {
 	 * @param customFormat 给定的自定义的格式，例如："yyyy-MM-dd hh:mm:ss"
 	 * @return 当前的日期时间
 	 */
-	public static String getCurrentDateTimeByCustomFormat(String customFormat){
-		return getCurrentDateTimeByFormat(getDateTimeFormatByCustomFormat(customFormat));
+	public static String getCurrentDateTimeByFormat(String customFormat){
+		return getCurrentDateTimeByFormat(getDateTimeFormatByCustom(customFormat));
 	}
 	
 	/**
-	 * 获取默认的自定义格式，获取当前的日期时间，格式为："yyyy-MM-dd hh:mm:ss"
+	 * 根据默认的格式（yyyy-MM-dd hh:mm:ss）获取当前的日期时间
 	 * @return 当前的日期时间
 	 */
-	public static String getCurrentDateTimeByDefultCustomFormat(){
-		return getCurrentDateTimeByCustomFormat("yyyy-MM-dd hh:mm:ss");
+	public static String getCurrentDateTimeByDefultFormat(){
+		return getCurrentDateTimeByFormat(getDateTimeFormatByDefult());
 	}
 	
 	/**
-	 * 获取默认的自定义格式，获取24小时制的当前的日期时间，格式为："yyyy-MM-dd hh:mm:ss"
+	 * 根据默认的24小时制格式（yyyy-MM-dd HH:mm:ss）获取当前的日期时间
 	 * @return 当前的日期时间
 	 */
-	public static String getCurrentDateTimeByDefultCustomFormatAnd24Hour(){
-		return getCurrentDateTimeByCustomFormat("yyyy-MM-dd HH:mm:ss");
+	public static String getCurrentDateTimeByDefult24HourFormat(){
+		return getCurrentDateTimeByFormat(getDateTimeFormatByDefult24Hour());
 	}
 	
 	/**
@@ -393,8 +356,8 @@ public class DateTimeUtils {
 	 * 根据默认的自定义格式的获取当前的日期，格式为"yyyy-MM-dd"
 	 * @return 当前的日期
 	 */
-	public static String getCurrentDateByDefultCustomFormat(){
-		return getCurrentDateTimeByCustomFormat("yyyy-MM-dd");
+	public static String getCurrentDateByDefultFormat(){
+		return getCurrentDateTimeByFormat(getDateFormatByDefult());
 	}
 	
 	
@@ -436,19 +399,19 @@ public class DateTimeUtils {
 	}
 	
 	/**
-	 * 根据默认的自定义格式，获取当前的时间，格式为"hh:mm:ssd"
+	 * 根据默认格式的（hh:mm:ss）当前时间
 	 * @return 当前的时间
 	 */
-	public static String getCurrentTimeByDefultCustomFormat(){
-		return getCurrentDateTimeByCustomFormat("hh:mm:ss");
+	public static String getCurrentTimeByDefultFormat(){
+		return getCurrentDateTimeByFormat(getTimeFormatByDefult());
 	}
 	
 	/**
-	 * 根据默认的自定义格式，获取24小时制的当前时间，格式为"hh:mm:ssd"
+	 * 根据默认24小时制格式的（HH:mm:ss）当前时间
 	 * @return 当前的时间
 	 */
-	public static String getCurrentTimeByDefultCustomFormatAnd24Hour(){
-		return getCurrentDateTimeByCustomFormat("HH:mm:ss");
+	public static String getCurrentTimeByDefult24HourFormat(){
+		return getCurrentDateTimeByFormat(getTimeFormatByDefult24Hour());
 	}
 	
 	/* **************************************获取年********************************* */
@@ -564,8 +527,8 @@ public class DateTimeUtils {
 	 * @param date 给定的日期
 	 * @return 小时
 	 */
-	public static int getHourBy24Hour(Date date){
-		return Integer.valueOf(getHourFormatBy24Hour().format(date));
+	public static int getHourBy24(Date date){
+		return Integer.valueOf(getHourFormatBy24().format(date));
 	}
 	
 	/**
@@ -573,16 +536,16 @@ public class DateTimeUtils {
 	 * @param timeMillis 给定的时间的毫秒值
 	 * @return 小时
 	 */
-	public static int getHourBy24Hour(long timeMillis){
-		return getHourBy24Hour(new Date(timeMillis));
+	public static int getHourBy24(long timeMillis){
+		return getHourBy24(new Date(timeMillis));
 	}
 	
 	/**
 	 * 获取当前的小时
 	 * @return 当前的小时
 	 */
-	public static int getCurrentHourBy24Hour(){
-		return getHourBy24Hour(System.currentTimeMillis());
+	public static int getCurrentHourBy24(){
+		return getHourBy24(System.currentTimeMillis());
 	}
 	
 	/* **************************************获取分********************************* */
@@ -866,7 +829,7 @@ public class DateTimeUtils {
 			Integer.valueOf(DateTimeUtils.getYearFormat().format(date)), 
 			Integer.valueOf(DateTimeUtils.getMonthFormat().format(date)), 
 			Integer.valueOf(DateTimeUtils.getDayFormat().format(date)), 
-			Integer.valueOf(DateTimeUtils.getHourFormatBy24Hour().format(date)), 
+			Integer.valueOf(DateTimeUtils.getHourFormatBy24().format(date)), 
 			Integer.valueOf(DateTimeUtils.getMinuteFormat().format(date))
 		};
 	}
