@@ -17,9 +17,6 @@ package me.xiaopan.easy.android.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Build;
@@ -125,31 +122,6 @@ public class CameraUtils {
 	 */
 	public static boolean isSupportFlashMode(Camera camera, String flashMode){
 		return camera != null?camera.getParameters().getSupportedFlashModes().contains(flashMode):false;
-	}
-	
-	/**
-	 * 计算取景框的位置，可通过此Rect在裁剪出取景框中的内容
-	 * @param context 上下文 用来判断是横屏还是竖屏
-	 * @param surfaceViewWidth SurfaceView的宽度
-	 * @param surfaceViewHeight SurfaceView的高度
-	 * @param rectInSurfaceView 取景框视图在SurfaceView上的Rect
-	 * @param size 输出图片的分辨率，可通过Camera.getParameters().getPictureSize()获得
-	 * @return
-	 */
-	public static Rect computeFinderFrameRect(Context context, int surfaceViewWidth, int surfaceViewHeight, Rect rectInSurfaceView, Camera.Size size){
-		Rect finalRect = new Rect(rectInSurfaceView);
-		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {//如果是横屏
-			finalRect.left = finalRect.left * size.width / surfaceViewWidth;
-			finalRect.right = finalRect.right * size.width / surfaceViewWidth;
-			finalRect.top = finalRect.top * size.height / surfaceViewHeight;
-			finalRect.bottom = finalRect.bottom * size.height / surfaceViewHeight;
-		} else {
-			finalRect.left = finalRect.left * size.height / surfaceViewWidth;
-			finalRect.right = finalRect.right * size.height / surfaceViewWidth;
-			finalRect.top = finalRect.top * size.width / surfaceViewHeight;
-			finalRect.bottom = finalRect.bottom * size.width / surfaceViewHeight;
-		}
-		return finalRect;
 	}
 	
 	/**

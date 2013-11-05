@@ -1,12 +1,13 @@
 package me.xiaopan.easy.java.util;
 
-import android.annotation.SuppressLint;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import android.annotation.SuppressLint;
 
 /**
  * <h2>日期时间工具类，提供一些有关日期时间的便捷方法</h2>

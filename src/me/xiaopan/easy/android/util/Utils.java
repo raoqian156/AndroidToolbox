@@ -15,7 +15,10 @@
  */
 package me.xiaopan.easy.android.util;
 
-public class OtherUtils {
+import android.graphics.Point;
+import android.graphics.Rect;
+
+public class Utils {
 	/**
 	 * 为给定的字符串添加HTML红色标记，当使用Html.fromHtml()方式显示到TextView 的时候其将是红色的
 	 * @param string 给定的字符串
@@ -41,5 +44,24 @@ public class OtherUtils {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * 映射矩形，将源尺寸中的一个矩形映射到目标尺寸中
+	 * @param sourceSize 源尺寸
+	 * @param rectIntSourceSize 源尺寸中的一个矩形
+	 * @param targetSize 目标尺寸
+	 * @param landscape 是否是横屏
+	 * @return 源尺寸中的矩形映射到目标尺寸中后的矩形
+	 */
+	public static Rect mappingRect(Point sourceSize, Rect rectIntSourceSize, Point targetSize, boolean landscape){
+		Rect finalRect = new Rect(rectIntSourceSize);
+		float xScale = (float) (landscape?targetSize.x:targetSize.y) / sourceSize.x;
+		float yScale = (float) (landscape?targetSize.y:targetSize.x) / sourceSize.y;
+		finalRect.left *= xScale;
+		finalRect.top *= yScale;
+		finalRect.right *= xScale;
+		finalRect.bottom *= yScale;
+		return finalRect;
 	}
 }
