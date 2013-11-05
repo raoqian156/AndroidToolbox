@@ -7,6 +7,7 @@ import me.xiaopan.easy.java.util.StringUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
@@ -302,5 +303,31 @@ public class PreferenceUtils {
 	 */
 	public static final <T> T getObject(Context context, String key, Type typeofT){
 		return getObject(PreferenceManager.getDefaultSharedPreferences(context), key, typeofT);
+	}
+	
+	/**
+	 * 删除
+	 * @param preferences
+	 * @param keys
+	 */
+	public static final void remove(SharedPreferences preferences, String... keys){
+		Editor editor = preferences.edit();
+		for(String key : keys){
+			editor.remove(key);
+		}
+		editor.commit();
+	}
+	
+	/**
+	 * 删除
+	 * @param context
+	 * @param keys
+	 */
+	public static final void remove(Context context, String... keys){
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+		for(String key : keys){
+			editor.remove(key);
+		}
+		editor.commit();
 	}
 }
