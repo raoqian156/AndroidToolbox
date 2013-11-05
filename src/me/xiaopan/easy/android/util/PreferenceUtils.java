@@ -173,7 +173,7 @@ public class PreferenceUtils {
 	}
 	
 	/**
-	 * 保存一个Set<String>到默认的Preference中
+	 * 保存一个Set<String>
 	 * @param context
 	 * @param key
 	 * @param value
@@ -188,7 +188,7 @@ public class PreferenceUtils {
 	}
 	
 	/**
-	 * 从默认的Preference中取出一个Set<String>
+	 * 取出一个Set<String>
 	 * @param context
 	 * @param key
 	 * @param defaultVaule
