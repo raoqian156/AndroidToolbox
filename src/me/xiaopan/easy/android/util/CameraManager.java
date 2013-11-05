@@ -41,6 +41,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	private int focusIntervalTime;//两次对焦的间隔时间
 	private long lastFocusTime;//上次对焦的时间
 	private int displayOrientation;	//显示方向
+	private boolean autoFocusing;	//对焦中
 	
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	@SuppressWarnings("deprecation")
@@ -155,6 +156,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 
 	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
+		lastFocusTime = System.currentTimeMillis();
+		autoFocusing = false;
 		if(cameraCallback != null){
 			cameraCallback.onAutoFocus(success, camera);
 		}
@@ -215,21 +218,26 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
+	 * 是否可以自动对焦
+	 * @return
+	 */
+	public boolean isCanAutoFocus(){
+		return !autoFocusing && System.currentTimeMillis() - lastFocusTime > focusIntervalTime;
+	}
+	
+	/**
 	 * 自动对焦
-	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化
+	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化或正在对焦或者对焦间隔时间太短
 	 */
 	public boolean autoFocus(){
 		if(camera != null){
-			if(focusIntervalTime > 0){
-				long currentTime = System.currentTimeMillis();
-				if(lastFocusTime == 0 || currentTime - lastFocusTime >= focusIntervalTime){
-					camera.autoFocus(this);
-					lastFocusTime = currentTime;
-				}
-			}else{
+			if(isCanAutoFocus()){
+				autoFocusing = true;
 				camera.autoFocus(this);
+				return true;
+			}else{
+				return false;
 			}
-			return true;
 		}else{
 			return false;
 		}
@@ -338,16 +346,36 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		this.focusIntervalTime = focusIntervalTime;
 	}
 	
+	/**
+	 * 获取Camera
+	 * @return
+	 */
 	public Camera getCamera() {
 		return camera;
 	}
 
+	/**
+	 * 获取当前Camera的ID
+	 * @return
+	 */
+	public int getCurrentCameraId() {
+		return currentCameraId;
+	}
+
+	/**
+	 * 设置Camera回调
+	 * @param cameraCallback
+	 */
 	public void setCameraCallback(CameraCallback cameraCallback) {
 		this.cameraCallback = cameraCallback;
 	}
 
-	public int getCurrentCameraId() {
-		return currentCameraId;
+	/**
+	 * 是否正在自动对焦
+	 * @return
+	 */
+	public boolean isAutoFocusing() {
+		return autoFocusing;
 	}
 
 	public interface CameraCallback{
