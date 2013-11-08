@@ -71,9 +71,11 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	
 	/**
 	 * 打开后置摄像头
+	 * @param isResume 是否是在onResume()方法中调用此方法的
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public void openBackCamera(){
+	public void openBackCamera(boolean isResume){
+		AndroidLogger.e("openBackCamera");
 		try {
 			if(Build.VERSION.SDK_INT < 9){
 				camera = Camera.open();
@@ -86,7 +88,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			//然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
 			//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
 			//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
-			if(resumeRestore){
+			if(isResume && resumeRestore){
+				AndroidLogger.e("resumeRestore");
 				resumeRestore = false;
 				initCamera();
 				startPreview();
@@ -104,11 +107,20 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
+	 * 打开后置摄像头
+	 */
+	public void openBackCamera(){
+		openBackCamera(true);
+	}
+	
+	/**
 	 * 打开前置摄像头
+	 * @param isResume 是否是在onResume()方法中调用此方法的
 	 * @throws Exception 没有前置摄像头 
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public void openForntCamera() throws Exception{
+	public void openForntCamera(boolean isResume) throws Exception{
+		AndroidLogger.e("openForntCamera");
 		if(Build.VERSION.SDK_INT >= 9 && frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
@@ -118,7 +130,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 				//然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
 				//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
 				//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
-				if(resumeRestore){
+				if(isResume && resumeRestore){
+					AndroidLogger.e("resumeRestore");
 					resumeRestore = false;
 					initCamera();
 					startPreview();
@@ -138,18 +151,29 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		}
 	}
 	
+	/**
+	 * 打开后置摄像头
+	 * @throws Exception 
+	 */
+	public void openForntCamera() throws Exception{
+		openForntCamera(true);
+	}
+	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		AndroidLogger.e("surfaceCreated");
 		initCamera();
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		AndroidLogger.e("surfaceChanged");
 		startPreview();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		AndroidLogger.e("surfaceDestroyed");
 		stopPreview();
 		resumeRestore = false;
 	}
