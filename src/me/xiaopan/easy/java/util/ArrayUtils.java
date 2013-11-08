@@ -460,7 +460,7 @@ public class ArrayUtils {
 	 * @param startSymbols 开始符号
 	 * @param separator 分隔符
 	 * @param endSymbols 结束符号
-	 * @return 例如开始符号为"{"分隔符为", "结束符号为"}"那么结果为：{1, 2, 3}
+	 * @return 例如开始符号为"{"，分隔符为", "，结束符号为"}"，那么结果为：{1, 2, 3}
 	 */
 	public static String toString(int[] objects, String startSymbols, String separator, String endSymbols){
 		boolean addSeparator = false;
@@ -495,6 +495,50 @@ public class ArrayUtils {
 	 * @return 例如分隔符为", "那么结果为：1, 2, 3
 	 */
 	public static String toString(int[] objects, String separator){
+		return toString(objects, null, separator, null);
+	}
+	
+	/**
+	 * 将给定的数组转换成字符串
+	 * @param objects 给定的数组
+	 * @param startSymbols 开始符号
+	 * @param separator 分隔符
+	 * @param endSymbols 结束符号
+	 * @return 例如开始符号为"{"，分隔符为", "，结束符号为"}"，那么结果为：{1, 2, 3}
+	 */
+	public static String toString(Object[] objects, String startSymbols, String separator, String endSymbols){
+		boolean addSeparator = false;
+		StringBuffer sb = new StringBuffer();
+		//如果开始符号不为null且不空
+		if(StringUtils.isNotEmpty(startSymbols)){
+			sb.append(startSymbols);
+		}
+		
+		//循环所有的对象
+		for(Object object : objects){
+			//如果需要添加分隔符
+			if(addSeparator){
+				sb.append(separator);
+				addSeparator = false;
+			}
+			sb.append(object);
+			addSeparator = true;
+		}
+		
+		//如果结束符号不为null且不空
+		if(StringUtils.isNotEmpty(endSymbols)){
+			sb.append(endSymbols);
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * 将给定的数组转换成字符串
+	 * @param objects 给定的数组
+	 * @param separator 分隔符
+	 * @return 例如分隔符为", "那么结果为：1, 2, 3
+	 */
+	public static String toString(Object[] objects, String separator){
 		return toString(objects, null, separator, null);
 	}
 }

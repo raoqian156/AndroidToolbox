@@ -1,5 +1,6 @@
 package me.xiaopan.easy.java.util;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
@@ -106,9 +107,9 @@ public class CollectionUtils {
 	 * @param startSymbols 开始符号
 	 * @param separator 分隔符
 	 * @param endSymbols 结束符号
-	 * @return 例如开始符号为"{"分隔符为", "结束符号为"}"那么结果为：{你好, 我好, 大家好}
+	 * @return 例如开始符号为"{"，分隔符为", "，结束符号为"}"，那么结果为：{你好, 我好, 大家好}
 	 */
-	public static String toString(List<?> objects, String startSymbols, String separator, String endSymbols){
+	public static String toString(Collection<?> objects, String startSymbols, String separator, String endSymbols){
 		boolean addSeparator = false;
 		StringBuffer sb = new StringBuffer();
 		//如果开始符号不为null且不空
@@ -140,7 +141,7 @@ public class CollectionUtils {
 	 * @param separator 分隔符
 	 * @return 例如分隔符为", "那么结果为：你好, 我好, 大家好
 	 */
-	public static String toString(List<?> objects, String separator){
+	public static String toString(Collection<?> objects, String separator){
 		return toString(objects, null, separator, null);
 	}
 	
@@ -150,7 +151,7 @@ public class CollectionUtils {
 	 * @param indexs 给定索引数组
 	 * @return 被删除的对象
 	 */
-	public static Object[] removes(List<?> list, int... indexs){
+	public static Object[] removes(Collection<?> list, int... indexs){
 		Object[] objects = null;
 		if(list != null && !list.isEmpty() && indexs != null && indexs.length > 0){
 			objects = new Object[indexs.length];

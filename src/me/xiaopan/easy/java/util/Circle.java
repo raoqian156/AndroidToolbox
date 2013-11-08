@@ -7,6 +7,7 @@ import java.util.List;
  * 这是一个圆圈
  * @param <T>
  */
+@Deprecated
 public class Circle<T> {
 	/**
 	 * 最大容量
