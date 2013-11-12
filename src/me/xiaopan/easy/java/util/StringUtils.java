@@ -502,4 +502,31 @@ public class StringUtils {
 			return false;
 		}
 	}
+	
+	/**
+	 * 检查字符串长度，如果字符串的长度超过maxLength，就截取前maxLength个字符串并在末尾拼上appendString
+	 * @param string
+	 * @param maxLength
+	 * @param appendString
+	 * @return
+	 */
+	public static String checkLength(String string, int maxLength, String appendString){
+		if(string.length()  > maxLength){
+			string = string.substring(0, maxLength);
+			if(appendString != null){
+				string += appendString;
+			}
+		}
+		return string;
+	}
+	
+	/**
+	 * 检查字符串长度，如果字符串的长度超过maxLength，就截取前maxLength个字符串并在末尾拼上…
+	 * @param string
+	 * @param maxLength
+	 * @return
+	 */
+	public static String checkLength(String string, int maxLength){
+		return checkLength(string, maxLength, "…");
+	}
 }
