@@ -36,10 +36,6 @@ import android.view.animation.LayoutAnimationController;
 public interface BaseActivityInterface {
 	String STATE_KEY = "SAVE_KEY";
 	/**
-	 * 最小用时
-	 */
-	int MIN_USE_TIME = 1000;
-	/**
 	 * 对话框 - 消息对话框
 	 */
 	int DIALOG_MESSAGE = -1212343;
@@ -79,33 +75,6 @@ public interface BaseActivityInterface {
 	 */
 	public void hiddenStatusBar();
 	
-	
-	
-	
-	/* ********************************************** 提示视图 ************************************************ */
-	/**
-	 * 显示正在加载提示视图
-	 * @param loadingHintView 加载中提示视图
-	 */
-	public void showLoadingHintView(View loadingHintView);
-	
-	/**
-	 * 关闭正在加载提示视图
-	 * @param loadingHintView 加载中提示视图
-	 */
-	public void closeLoadingHintView(View loadingHintView);
-	
-	/**
-	 * 显示正在加载提示视图
-	 * @param loadingHintViewId 加载中提示视图的ID
-	 */
-	public void showLoadingHintView(int loadingHintViewId);
-	
-	/**
-	 * 关闭正在加载提示视图
-	 * @param loadingHintViewId 加载中提示视图的ID
-	 */
-	public void closeLoadingHintView(int loadingHintViewId);
 	
 	
 	
@@ -168,52 +137,138 @@ public interface BaseActivityInterface {
 	
 	/* ********************************************** Toast ************************************************ */
 	/**
-	 * 吐出一个显示时间较长的提示
-	 * @param resId 显示内容资源ID
+	 * 在延迟delayMillis毫秒后吐出视图view，使其显示较长的时间
+	 * @param view
+	 * @param delayMillis 延迟时间，单位毫秒
 	 */
-	public void toastL(int resId);
+	public void toastL(View view, int delayMillis);
 	
 	/**
-	 * 吐出一个显示时间较短的提示
-	 * @param resId 显示内容资源ID
+	 * 在延迟delayMillis毫秒后吐出视图view，使其显示较短的时间
+	 * @param view
+	 * @param delayMillis 延迟时间，单位毫秒
 	 */
-	public void toastS(int resId);
+	public void toastS(View view, int delayMillis);
 	
 	/**
-	 * 吐出一个显示时间较长的提示
+	 * 立即吐出视图view，使其显示较长的时间
+	 * @param view
+	 */
+	public void toastL(View view);
+	
+	/**
+	 * 立即吐出视图view，使其显示较短的时间
+	 * @param view
+	 */
+	public void toastS(View view);
+	
+	/**
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
+	 * @param content 显示内容
+	 * @param delayMillis 延迟时间，单位毫秒
+	 */
+	public void toastL(final String content, int delayMillis);
+	
+	/**
+	 * 立即吐出一个显示时间较长的提示
 	 * @param content 显示内容
 	 */
 	public void toastL(String content);
 	
 	/**
-	 * 吐出一个显示时间较短的提示
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
+	 * @param content 显示内容
+	 * @param delayMillis 延迟时间，单位毫秒
+	 */
+	public void toastS(final String content, int delayMillis);
+	
+	/**
+	 * 立即吐出一个显示时间较短的提示
 	 * @param content 显示内容
 	 */
 	public void toastS(String content);
 	
 	/**
-	 * 吐出一个显示时间较长的提示
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
+	 * @param resId 显示内容资源ID
+	 * @param delayMillis 延迟时间，单位毫秒
+	 */
+	public void toastL(int resId, int delayMillis);
+	
+	/**
+	 * 立即吐出一个显示时间较长的提示
+	 * @param resId 显示内容资源ID
+	 */
+	public void toastL(int resId);
+	
+	/**
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
+	 * @param resId 显示内容资源ID
+	 * @param delayMillis 延迟时间，单位毫秒
+	 */
+	public void toastS(int resId, int delayMillis);
+	
+	/**
+	 * 立即吐出一个显示时间较短的提示
+	 * @param resId 显示内容资源ID
+	 */
+	public void toastS(int resId);
+	
+	/**
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
+	 * @param formatResId 被格式化的字符串资源的ID
+	 * @param delayMillis 延迟时间，单位毫秒
+	 * @param args 参数数组
+	 */
+	public void toastL(int formatResId, int delayMillis, Object... args);
+	
+	/**
+	 * 立即吐出一个显示时间较长的提示
 	 * @param formatResId 被格式化的字符串资源的ID
 	 * @param args 参数数组
 	 */
 	public void toastL(int formatResId, Object... args);
 	
 	/**
-	 * 吐出一个显示时间较短的提示
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
+	 * @param formatResId 被格式化的字符串资源的ID
+	 * @param delayMillis 延迟时间，单位毫秒
+	 * @param args 参数数组
+	 */
+	public void toastS(int formatResId, int delayMillis, Object... args);
+	
+	/**
+	 * 立即吐出一个显示时间较短的提示
 	 * @param formatResId 被格式化的字符串资源的ID
 	 * @param args 参数数组
 	 */
 	public void toastS(int formatResId, Object... args);
 	
 	/**
-	 * 吐出一个显示时间较长的提示
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
+	 * @param format 被格式化的字符串
+	 * @param delayMillis 延迟时间，单位毫秒
+	 * @param args 参数数组
+	 */
+	public void toastL(String format, int delayMillis, Object... args);
+	
+	/**
+	 * 立即吐出一个显示时间较长的提示
 	 * @param format 被格式化的字符串
 	 * @param args 参数数组
 	 */
 	public void toastL(String format, Object... args);
 	
 	/**
-	 * 吐出一个显示时间较短的提示
+	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
+	 * @param format 被格式化的字符串
+	 * @param delayMillis 延迟时间，单位毫秒
+	 * @param args 参数数组
+	 */
+	public void toastS(String format, int delayMillis, Object... args);
+	
+	/**
+	 * 立即吐出一个显示时间较短的提示
 	 * @param format 被格式化的字符串
 	 * @param args 参数数组
 	 */
@@ -436,6 +491,12 @@ public interface BaseActivityInterface {
 	/* ********************************************** 终止Activity ************************************************ */
 	/**
 	 * 终止当前Activity
+	 * @param delayMillis 延迟多少毫秒后执行
+	 */
+	public void finishActivity(int delayMillis);
+	
+	/**
+	 * 终止当前Activity
 	 */
 	public void finishActivity();
 	
@@ -443,8 +504,30 @@ public interface BaseActivityInterface {
 	 * 终止当前Activity
 	 * @param inAnimation 下一个Activity的进入动画
 	 * @param outAnimation 当前Activity的退出动画
+	 * @param delayMillis 延迟多少毫秒后执行
+	 */
+	public void finishActivity(int inAnimation, int outAnimation, int delayMillis);
+	
+	/**
+	 * 终止当前Activity
+	 * @param inAnimation 下一个Activity的进入动画
+	 * @param outAnimation 当前Activity的退出动画
 	 */
 	public void finishActivity(int inAnimation, int outAnimation);
+	
+	/**
+	 * 终止当前Activity，如果如果当前Activity从创建到现在的时间小于minimumDurationMillis，就再等一会儿再终止当前Activity
+	 * @param minimumDurationMillis
+	 */
+	public void finishActivityByMinimumDuration(int minimumDurationMillis);
+	
+	/**
+	 * 终止当前Activity，如果如果当前Activity从创建到现在的时间小于minimumDurationMillis，就再等一会儿再终止当前Activity
+	 * @param minimumDurationMillis
+	 * @param inAnimation
+	 * @param outAnimation
+	 */
+	public void finishActivityByMinimumDuration(int minimumDurationMillis, final int inAnimation, final int outAnimation);
 	
 	/**
 	 * 终止给定ID的Activity
@@ -468,11 +551,6 @@ public interface BaseActivityInterface {
 	 * 销毁除当前Activity之外的所有Activity
 	 */
 	public void finishOtherActivitys();
-	
-	/**
-	 * 因异常而需要终止Activity
-	 */
-	public void becauseExceptionFinishActivity();
 	
 	/**
 	 * 将当前Activity放到等待终止的Activity列表中
@@ -504,6 +582,18 @@ public interface BaseActivityInterface {
 	 * @param confrimButtonName 确认按钮的名字
 	 */
 	public void showMessageDialog(String message, String confrimButtonName);
+	
+	/**
+	 * 显示消息对话框
+	 * @param message 要显示的消息
+	 */
+	public void showMessageDialog(String message);
+	
+	/**
+	 * 显示消息对话框
+	 * @param message 要显示的消息的ID
+	 */
+	public void showMessageDialog(int messageId);
 	
 	/**
 	 * 显示消息对话框
@@ -771,34 +861,4 @@ public interface BaseActivityInterface {
 	 * @return 已经开启了广播接收器
 	 */
 	public boolean isOpenedBroadcaseReceiver();
-	
-	/**
-	 * 双击提示退出程序监听器
-	 */
-	public interface OnDoubleClickPromptExitListener {
-		/**
-		 * 第一击之后会执行此方法来提示用户
-		 */
-		public void onPrompt();
-	}
-	
-	/**
-	 * 因异常需要终止Activity监听器
-	 */
-	public interface OnExceptionFinishActivityListener {
-		/**
-		 * 当因异常需要终止Activity
-		 */
-		public void onExceptionFinishActivity();
-	}
-	
-	/**
-	 * 网络验证失败监听器
-	 */
-	public interface OnNetworkVerifyFailureListener {
-		/**
-		 * 当验证失败
-		 */
-		public void onVerifyFailure();
-	}
 }
