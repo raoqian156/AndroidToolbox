@@ -154,7 +154,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	public void onReceivedMessage(Message message){
 		
-	};
+	}
 	
 	public void onReceivedBroadcast(Intent intent){
 		
@@ -686,42 +686,22 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	@Override
 	public void finishActivity(final long id){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityManager.getInstance().finishActivity(id);
-			}
-		});
+		ActivityManager.getInstance().finishActivity(id);
 	}
 	
 	@Override
 	public void finishActivitys(final long[] ids){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityManager.getInstance().finishActivitys(ids);
-			}
-		});
+		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	
 	@Override
 	public void finishActivitys(final Set<Long> ids){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityManager.getInstance().finishActivitys(ids);
-			}
-		});
+		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	
 	@Override
 	public void finishOtherActivitys(){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityManager.getInstance().finishOtherActivitys(getActivityId());
-			}
-		});
+		ActivityManager.getInstance().finishOtherActivitys(getActivityId());
 	}
 	
 	@Override
@@ -741,12 +721,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityInter
 	
 	@Override
 	public void finishAllWaitingActivity(){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityManager.getInstance().finishAllWaitingActivity();
-			}
-		});
+		ActivityManager.getInstance().finishAllWaitingActivity();
 	}
 	
 	
