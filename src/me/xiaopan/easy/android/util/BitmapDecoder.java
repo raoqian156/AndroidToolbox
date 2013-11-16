@@ -401,7 +401,7 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Options decodeSizeFromAssest(Context context, String fileName, Rect outPadding, Options options){
+	public static Options decodeSizeFromAssets(Context context, String fileName, Rect outPadding, Options options){
 		InputStream inputStream = null;
 		try {
 			if(options == null){
@@ -432,8 +432,8 @@ public class BitmapDecoder {
 	 * @param fileName
 	 * @return
 	 */
-	public static Options decodeSizeFromAssest(Context context, String fileName){
-		return decodeSizeFromAssest(context, fileName, null, null);
+	public static Options decodeSizeFromAssets(Context context, String fileName){
+		return decodeSizeFromAssets(context, fileName, null, null);
 	}
 	
 	/**
