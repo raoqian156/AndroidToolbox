@@ -61,37 +61,7 @@ public class AssetsUtils {
 	 * @return
 	 */
 	public static final Bitmap getBitmap(Context context, String fileName, Rect outPadding, BitmapFactory.Options options){
-		try {
-			InputStream inputStream = context.getAssets().open(fileName);
-			Bitmap bitmap = BitmapFactory.decodeStream(inputStream, outPadding, options);
-			inputStream.close();
-			return bitmap;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	/**
-	 * 获取位图
-	 * @param context 上下文
-	 * @param fileName 文件名称
-	 * @param outPadding 输出位图的内边距
-	 * @return
-	 */
-	public static final Bitmap getBitmap(Context context, String fileName, Rect outPadding){
-		return getBitmap(context, fileName, outPadding, null);
-	}
-	
-	/**
-	 * 获取位图
-	 * @param context 上下文
-	 * @param fileName 文件名称
-	 * @param options 加载选项
-	 * @return
-	 */
-	public static final Bitmap getBitmap(Context context, String fileName, BitmapFactory.Options options){
-		return getBitmap(context, fileName, null, options);
+		return BitmapLoader.decodeFromAssets(context, fileName, outPadding, options);
 	}
 	
 	/**
@@ -101,6 +71,6 @@ public class AssetsUtils {
 	 * @return
 	 */
 	public static final Bitmap getBitmap(Context context, String fileName){
-		return getBitmap(context, fileName, null, null);
+		return BitmapLoader.decodeFromAssets(context, fileName);
 	}
 }
