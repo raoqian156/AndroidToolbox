@@ -17,14 +17,30 @@ import android.util.TypedValue;
  */
 public class BitmapDecoder {
 	/**
-	 * 单张图片可以占用的最大内存，默认值为当前虚拟机最大可用内存的八分之一
+	 * 单张图片最大像素数
 	 */
-	public static int maxMemory = (int) (Runtime.getRuntime().maxMemory()/8/4);
+	private int maxNumOfPixels;
 	
 	/**
 	 * 最小边长，默认为-1
 	 */
-	public static int minSlideLength = -1;
+	private int minSlideLength;
+	
+	/**
+	 * 创建一个位图解码器，此解码器将根据最大像素数来缩小位图值合适的尺寸
+	 * @param maxNumOfPixels
+	 */
+	public BitmapDecoder(int maxNumOfPixels){
+		this.maxNumOfPixels = maxNumOfPixels;
+		this.minSlideLength = -1;
+	}
+	
+	/**
+	 * 创建一个位图解码器，最大像素数默认为虚拟机可用最大内存的八分之一再除以4，这样可以保证图片不会太大导致内存溢出
+	 */
+	public BitmapDecoder(){
+		this((int) (Runtime.getRuntime().maxMemory()/8/4));
+	}
 	
 	/**
 	 * 从字节数组中解码位图
@@ -34,13 +50,13 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeByteArray(byte[] data, int offset, int length, Options options){
+	public Bitmap decodeByteArray(byte[] data, int offset, int length, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeByteArray(data, offset, length, options);
-		options.inSampleSize = computeSampleSize(options, minSlideLength, maxMemory);
+		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeByteArray(data, offset, length, options);
 	}
@@ -52,7 +68,7 @@ public class BitmapDecoder {
 	 * @param length
 	 * @return
 	 */
-	public static Bitmap decodeByteArray(byte[] data, int offset, int length){
+	public Bitmap decodeByteArray(byte[] data, int offset, int length){
 		return decodeByteArray(data, offset, length, null);
 	}
 	
@@ -62,7 +78,7 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeByteArray(byte[] data, Options options){
+	public Bitmap decodeByteArray(byte[] data, Options options){
 		return decodeByteArray(data, 0, data.length, options);
 	}
 	
@@ -71,7 +87,7 @@ public class BitmapDecoder {
 	 * @param data
 	 * @return
 	 */
-	public static Bitmap decodeByteArray(byte[] data){
+	public Bitmap decodeByteArray(byte[] data){
 		return decodeByteArray(data, 0, data.length);
 	}
 	
@@ -81,13 +97,13 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeFile(String filePath, Options options){
+	public Bitmap decodeFile(String filePath, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filePath, options);
-		options.inSampleSize = computeSampleSize(options, minSlideLength, maxMemory);
+		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(filePath, options);
 	}
@@ -97,7 +113,7 @@ public class BitmapDecoder {
 	 * @param filePath
 	 * @return
 	 */
-	public static Bitmap decodeFile(String filePath){
+	public Bitmap decodeFile(String filePath){
 		return decodeFile(filePath, null);
 	}
 	
@@ -108,13 +124,13 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeFileDescriptor(FileDescriptor fd, Rect outPadding, Options options){
+	public Bitmap decodeFileDescriptor(FileDescriptor fd, Rect outPadding, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFileDescriptor(fd, outPadding, options);
-		options.inSampleSize = computeSampleSize(options, minSlideLength, maxMemory);
+		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFileDescriptor(fd, outPadding, options);
 	}
@@ -124,7 +140,7 @@ public class BitmapDecoder {
 	 * @param fd
 	 * @return
 	 */
-	public static Bitmap decodeFileDescriptor(FileDescriptor fd){
+	public Bitmap decodeFileDescriptor(FileDescriptor fd){
 		return decodeFileDescriptor(fd, null, null);
 	}
 	
@@ -135,13 +151,13 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeResource(Resources resource, int id, Options options){
+	public Bitmap decodeResource(Resources resource, int id, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeResource(resource, id, options);
-		options.inSampleSize = computeSampleSize(options, minSlideLength, maxMemory);
+		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeResource(resource, id, options);
 	}
@@ -152,7 +168,7 @@ public class BitmapDecoder {
 	 * @param id
 	 * @return
 	 */
-	public static Bitmap decodeResource(Resources resource, int id){
+	public Bitmap decodeResource(Resources resource, int id){
 		return decodeResource(resource, id, null);
 	}
 	
@@ -165,13 +181,13 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeResourceStream(Resources resource, TypedValue value, InputStream is, Rect pad, Options options){
+	public Bitmap decodeResourceStream(Resources resource, TypedValue value, InputStream is, Rect pad, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeResourceStream(resource, value, is, pad, options);
-		options.inSampleSize = computeSampleSize(options, minSlideLength, maxMemory);
+		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeResourceStream(resource, value, is, pad, options);
 	}
@@ -183,13 +199,13 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeStream(InputStream inputStream, Rect outPadding, Options options){
+	public Bitmap decodeStream(InputStream inputStream, Rect outPadding, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeStream(inputStream, outPadding, options);
-		options.inSampleSize = computeSampleSize(options, minSlideLength, maxMemory);
+		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeStream(inputStream, outPadding, options);
 	}
@@ -199,7 +215,7 @@ public class BitmapDecoder {
 	 * @param inputStream
 	 * @return
 	 */
-	public static Bitmap decodeStream(InputStream inputStream){
+	public Bitmap decodeStream(InputStream inputStream){
 		return decodeStream(inputStream, null, null);
 	}
 	
@@ -211,7 +227,7 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Bitmap decodeFromAssets(Context context, String fileName, Rect outPadding, Options options){
+	public Bitmap decodeFromAssets(Context context, String fileName, Rect outPadding, Options options){
 		Bitmap bitmap = null;
 		InputStream inputStream = null;
 		try {
@@ -237,10 +253,42 @@ public class BitmapDecoder {
 	 * @param fileName
 	 * @return
 	 */
-	public static Bitmap decodeFromAssets(Context context, String fileName){
+	public Bitmap decodeFromAssets(Context context, String fileName){
 		return decodeFromAssets(context, fileName, null, null);
 	}
 	
+	/**
+	 * 获取最大像素数，一般由图片宽乘以高得出
+	 * @return
+	 */
+	public int getMaxNumOfPixels() {
+		return maxNumOfPixels;
+	}
+
+	/**
+	 * 设置最大像素数，将根据此像素数来缩小图片至合适的大小
+	 * @param maxNumOfPixels 最大像素数，由图片宽乘以高得出
+	 */
+	public void setMaxNumOfPixels(int maxNumOfPixels) {
+		this.maxNumOfPixels = maxNumOfPixels;
+	}
+
+	/**
+	 * 获取图片最小边长
+	 * @return
+	 */
+	public int getMinSlideLength() {
+		return minSlideLength;
+	}
+
+	/**
+	 * 设置图片最小边长，默认为-1
+	 * @param minSlideLength
+	 */
+	public void setMinSlideLength(int minSlideLength) {
+		this.minSlideLength = minSlideLength;
+	}
+
 	/**
 	 * 从字节数组中解码位图的尺寸
 	 * @param data
@@ -437,7 +485,7 @@ public class BitmapDecoder {
 	}
 	
 	/**
-	 * 计算合适的缩放比例，注意在调用此方法之前一定要先通过Options.inJustDecodeBounds属性来获取Bitmap的宽高
+	 * 计算合适的缩小倍数，注意在调用此方法之前一定要先通过Options.inJustDecodeBounds属性来获取图片的宽高
 	 * @param options
 	 * @param minSideLength 用于指定最小宽度或最小高度
 	 * @param maxNumOfPixels 最大尺寸，由最大宽高相乘得出
@@ -474,5 +522,20 @@ public class BitmapDecoder {
 	    } else {
 	        return upperBound;
 	    }
+	}
+	
+	/**
+	 * 私有默认BitmapDecoder实例持有器
+	 */
+	private static class BitmapDecoderHolder{
+		private static final BitmapDecoder INSTANCE = new BitmapDecoder();
+	}
+	
+	/**
+	 * 获取默认的实例，默认实例的最大像素数限制就是虚拟机最大内存的八分之一再除以4
+	 * @return
+	 */
+	public static final BitmapDecoder getInstance(){
+		return BitmapDecoderHolder.INSTANCE;
 	}
 }
