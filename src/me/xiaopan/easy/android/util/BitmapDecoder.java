@@ -13,9 +13,9 @@ import android.graphics.Rect;
 import android.util.TypedValue;
 
 /**
- * 位图加载器
+ * 位图解码器
  */
-public class BitmapLoader {
+public class BitmapDecoder {
 	/**
 	 * 单张图片可以占用的最大内存，默认值为当前虚拟机最大可用内存的八分之一
 	 */
