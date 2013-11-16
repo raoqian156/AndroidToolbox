@@ -15,8 +15,10 @@
  */
 package me.xiaopan.easy.android.util;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -25,6 +27,7 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -247,5 +250,20 @@ public class ViewUtils {
 		view1.getGlobalVisibleRect(childViewGlobalRect);
 		view2.getGlobalVisibleRect(parentViewGlobalRect);
 		return new Rect(childViewGlobalRect.left - parentViewGlobalRect.left, childViewGlobalRect.top - parentViewGlobalRect.top, childViewGlobalRect.right - parentViewGlobalRect.left, childViewGlobalRect.bottom - parentViewGlobalRect.top);
+	}
+	
+	/**
+	 * 删除监听器
+	 * @param viewTreeObserver
+	 * @param onGlobalLayoutListener
+	 */
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public static final void removeOnGlobalLayoutListener(ViewTreeObserver viewTreeObserver, ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener){
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN){
+			viewTreeObserver.removeGlobalOnLayoutListener(onGlobalLayoutListener);
+		}else{
+			viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener);
+		}
 	}
 }

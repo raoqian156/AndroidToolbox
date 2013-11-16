@@ -1,13 +1,37 @@
 package me.xiaopan.easy.android.util;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 /**
  * Toast工具箱
  */
 public class ToastUtils {
-
+	/**
+	 * 吐出指定的视图，使其显示较长的时间
+	 * @param context
+	 * @param view
+	 */
+	public static final void toastL(Context context, View view){
+		Toast toast = new Toast(context);
+		toast.setView(view);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.show();
+	}
+	
+	/**
+	 * 吐出指定的视图，使其显示较短的时间
+	 * @param context
+	 * @param view
+	 */
+	public static final void toastS(Context context, View view){
+		Toast toast = new Toast(context);
+		toast.setView(view);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.show();
+	}
+	
 	/**
 	 * 吐出一个显示时间较长的提示
 	 * @param context 上下文对象

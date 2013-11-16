@@ -19,7 +19,7 @@ import java.util.Set;
 
 import me.xiaopan.easy.android.util.ActivityUtils;
 import me.xiaopan.easy.android.util.NetworkUtils;
-import me.xiaopan.easy.android.util.ViewAnimationUtils;
+import me.xiaopan.easy.android.util.ToastUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -47,7 +47,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Toast;
 
 /**
  * 自定义抽象的Activity基类，提供了很多实用的方法以及功能
@@ -63,30 +62,23 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	private boolean openedBroadcaseReceiver;	//已经打开了广播接收器
 	private boolean enableDoubleClickExitApplication;	//是否开启双击退出程序功能
 	private boolean enableCustomActivitySwitchAnimation;	//是否启用自定义的Activity切换动画
-	private MessageHandler messageHanlder;	//主线程消息处理器
+	private Handler hanlder;	//主线程消息处理器
 	private BroadcastReceiver broadcastReceiver;	//广播接收器
-	private OnDoubleClickPromptExitListener onDoubleClickPromptExitListener;	//双击退出监听器
-	private OnNetworkVerifyFailureListener onNetworkVerifyFailureListener;	//网络验证失败监听器
-	private OnExceptionFinishActivityListener onExceptionFinishActivityListener;
 	
+	@SuppressLint("HandlerLeak")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		createTime = System.currentTimeMillis();	//记录创建时间，用于异常终止时判断是否需要等待一段时间再终止，因为时间过短的话体验不好
 		activityId = ActivityManager.getInstance().putActivity(this);	//将当前Activity放入ActivityManager中，并获取其ID
-		messageHanlder = new MessageHandler(this); 
-		onExceptionFinishActivityListener = new OnExceptionFinishActivityListener() {
+		hanlder = new Handler(){
 			@Override
-			public void onExceptionFinishActivity() {
-				finishActivity();
+			public void handleMessage(Message msg) {
+				if(!isFinishing()){
+					onReceivedMessage(msg);
+				}
 			}
-		};
-		onDoubleClickPromptExitListener = new OnDoubleClickPromptExitListener() {
-			@Override
-			public void onPrompt() {
-				toastS("再按一次退出程序");
-			}
-		};
+		}; 
 	}
 	
 	@Override
@@ -97,14 +89,19 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 			if(lastClickBackButtonTime != 0 && (currentMillisTime - lastClickBackButtonTime) < getDoubleClickSpacingInterval()){
 				finishApplication();
 			}else{
-				if(onDoubleClickPromptExitListener != null){
-					onDoubleClickPromptExitListener.onPrompt();
-				}
+				onDoubleClickPromptExit();
 				lastClickBackButtonTime = currentMillisTime;
 			}
 		}else{
 			finishActivity();
 		}
+	}
+	
+	/**
+	 * 第一击之后会执行此方法来提示用户
+	 */
+	public void onDoubleClickPromptExit(){
+		toastS("再按一次退出程序");
 	}
 	
 	@Override
@@ -159,7 +156,7 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	public void onReceivedMessage(Message message){
 		
-	};
+	}
 	
 	public void onReceivedBroadcast(Intent intent){
 		
@@ -183,54 +180,13 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	
-
-	
-	/* ********************************************** 提示视图 ************************************************ */
-	@Override
-	public void showLoadingHintView(View loadingHintView){
-		if(loadingHintView != null){
-			Message message = getHanlder().obtainMessage();
-			message.what = MessageHandler.SHOW_LOADING_HINT_VIEW;
-			message.obj = loadingHintView;
-			message.sendToTarget();
-		}
-	}
-	
-	@Override
-	public void closeLoadingHintView(View loadingHintView){
-		if(loadingHintView != null){
-			Message message = new Message();
-			message.what = MessageHandler.CLOSE_LOADING_HINT_VIEW;
-			message.obj = loadingHintView;
-			sendMessage(message);
-		}
-	}
-	
-	@Override
-	public void showLoadingHintView(int loadingHintViewId){
-		showLoadingHintView(findViewById(loadingHintViewId));
-	}
-	
-	@Override
-	public void closeLoadingHintView(int loadingHintViewId){
-		closeLoadingHintView(findViewById(loadingHintViewId));
-	}
-	
-	 
-	
 	/* ********************************************** 网络 ************************************************ */
 	@Override
 	public boolean isNetworkAvailable() {
-		if(!NetworkUtils.isConnectedByState(getBaseContext())){
-			if(onNetworkVerifyFailureListener != null){
-				onNetworkVerifyFailureListener.onVerifyFailure();
-			}
-			return false;
-		}else{
-			return true;
-		}
+		return NetworkUtils.isConnectedByState(getBaseContext());
 	}
 
+	
 	/* ********************************************** 消息/广播 ************************************************ */
 	@Override
 	public void sendMessage(){
@@ -298,99 +254,230 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	/* ********************************************** Toast ************************************************ */
 	@Override
-	public void toastL(int resId){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_LONG;
-		message.obj = getString(resId);
-		sendMessage(message);
+	public void toastL(final View view, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), view);
+			}
+		}, delayMillis);
 	}
 	
 	@Override
-	public void toastS(int resId){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_SHORT;
-		message.obj = getString(resId);
-		sendMessage(message);
+	public void toastL(final View view){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), view);
+			}
+		});
 	}
 	
 	@Override
-	public void toastL(String content){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_LONG;
-		message.obj = content;
-		sendMessage(message);
+	public void toastS(final View view, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), view);
+			}
+		}, delayMillis);
 	}
 	
 	@Override
-	public void toastS(String content){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_SHORT;
-		message.obj = content;
-		sendMessage(message);
+	public void toastS(final View view){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), view);
+			}
+		});
 	}
 	
 	@Override
-	public void toastL(int formatResId, Object... args){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_LONG;
-		message.obj = getString(formatResId, args);
-		sendMessage(message);
+	public void toastL(final String content, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), content);
+			}
+		}, delayMillis);
 	}
 	
 	@Override
-	public void toastS(int formatResId, Object... args){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_SHORT;
-		message.obj = getString(formatResId, args);
-		sendMessage(message);
+	public void toastL(final String content){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), content);
+			}
+		});
 	}
 	
 	@Override
-	public void toastL(String format, Object... args){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_LONG;
-		message.obj = String.format(format, args);
-		sendMessage(message);
+	public void toastS(final String content, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), content);
+			}
+		}, delayMillis);
 	}
 	
 	@Override
-	public void toastS(String format, Object... args){
-		Message message = new Message();
-		message.what = MessageHandler.TOAST;
-		message.arg1 = Toast.LENGTH_SHORT;
-		message.obj = String.format(format, args);
-		sendMessage(message);
+	public void toastS(final String content){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), content);
+			}
+		});
 	}
+	
+	@Override
+	public void toastL(final int resId, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), resId);
+			}
+		}, delayMillis);
+	}
+	
+	@Override
+	public void toastL(final int resId){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), resId);
+			}
+		});
+	}
+	
+	@Override
+	public void toastS(final int resId, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), resId);
+			}
+		}, delayMillis);
+	}
+	
+	@Override
+	public void toastS(final int resId){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), resId);
+			}
+		});
+	}
+	
+	@Override
+	public void toastL(final String format, int delayMillis, final Object... args){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), String.format(format, args));
+			}
+		}, delayMillis);
+	}
+	
+	@Override
+	public void toastL(final String format, final Object... args){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), String.format(format, args));
+			}
+		});
+	}
+	
+	@Override
+	public void toastS(final String format, int delayMillis, final Object... args){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), String.format(format, args));
+			}
+		}, delayMillis);
+	}
+	
+	@Override
+	public void toastS(final String format, final Object... args){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), String.format(format, args));
+			}
+		});
+	}
+	
+	@Override
+	public void toastL(final int formatResId, int delayMillis, final Object... args){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), getString(formatResId, args));
+			}
+		}, delayMillis);
+	}
+	
+	@Override
+	public void toastL(final int formatResId, final Object... args){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastL(getBaseContext(), getString(formatResId, args));
+			}
+		});
+	}
+	
+	@Override
+	public void toastS(final int formatResId, int delayMillis, final Object... args){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), getString(formatResId, args));
+			}
+		}, delayMillis);
+	}
+	
+	@Override
+	public void toastS(final int formatResId, final Object... args){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				ToastUtils.toastS(getBaseContext(), getString(formatResId, args));
+			}
+		});
+	}
+	
 	
 	
 	
 	/* ********************************************** 启动Activity ************************************************ */
 	@Override
-	public void startActivity(Class<?> targetActivity, int flag, Bundle bundle, boolean isClose, int inAnimation, int outAnimation){
-		Bundle bundle2 = null;
-		if(bundle != null){
-			bundle2 = bundle;
-			bundle2.putBoolean(MessageHandler.HAVE_BUNDLE, true);
-		}else{
-			bundle2 = new Bundle();
-			bundle2.putBoolean(MessageHandler.HAVE_BUNDLE, false);
-		}
-		bundle2.putInt(MessageHandler.FLAG, flag);
-		bundle2.putBoolean(MessageHandler.IS_CLOSE, isClose);
-		bundle2.putInt(MessageHandler.IN_ANIMATION, inAnimation);
-		bundle2.putInt(MessageHandler.OUT_ANIMATION, outAnimation);
-		Message message = new Message();
-		message.what = MessageHandler.START_ACTIVITY;
-		message.obj = targetActivity;
-		message.setData(bundle2);
-		sendMessage(message);
+	public void startActivity(final Class<?> targetActivity, final int flag, final Bundle bundle, final boolean isClose, final int inAnimation, final int outAnimation){
+		final Activity activity = this;
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				if(isEnableCustomActivitySwitchAnimation()){
+					if(inAnimation > 0 && outAnimation > 0){
+						ActivityUtils.startActivity(activity, targetActivity, flag, bundle, isClose, inAnimation, outAnimation);
+					}else{
+						if(startActivityAnimation != null && startActivityAnimation.length >= 2){
+							ActivityUtils.startActivity(activity, targetActivity, flag, bundle, isClose, startActivityAnimation[0], startActivityAnimation[1]);
+						}else{
+							ActivityUtils.startActivity(activity, targetActivity, flag, bundle, isClose);
+						}
+					}
+				}else{
+					ActivityUtils.startActivity(activity, (Class<?>)targetActivity, flag, bundle, isClose);
+				}
+			}
+		});
 	}
 	
 	@Override
@@ -469,24 +556,26 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	@Override
-	public void startActivityForResult(Class<?> targetActivity, int requestCode, int flag, Bundle bundle, int inAnimation, int outAnimation){
-		Bundle bundle2 = null;
-		if(bundle != null){
-			bundle2 = bundle;
-			bundle2.putBoolean(MessageHandler.HAVE_BUNDLE, true);
-		}else{
-			bundle2 = new Bundle();
-			bundle2.putBoolean(MessageHandler.HAVE_BUNDLE, false);
-		}
-		bundle2.putInt(MessageHandler.REQUEST_CODE, requestCode);
-		bundle2.putInt(MessageHandler.FLAG, flag);
-		bundle2.putInt(MessageHandler.IN_ANIMATION, inAnimation);
-		bundle2.putInt(MessageHandler.OUT_ANIMATION, outAnimation);
-		Message message = new Message();
-		message.what = MessageHandler.START_ACTIVITY_FOR_RESULT;
-		message.obj = targetActivity;
-		message.setData(bundle2);
-		sendMessage(message);
+	public void startActivityForResult(final Class<?> targetActivity, final int requestCode, final int flag, final Bundle bundle, final int inAnimation, final int outAnimation){
+		final Activity activity = this;
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				if(isEnableCustomActivitySwitchAnimation()){
+					if(inAnimation > 0 && outAnimation > 0){
+						ActivityUtils.startActivityForResult(activity, targetActivity, requestCode, flag, bundle, inAnimation, outAnimation);
+					}else{
+						if(startActivityAnimation != null && startActivityAnimation.length >= 2){
+							ActivityUtils.startActivityForResult(activity, targetActivity, requestCode, flag, bundle, startActivityAnimation[0], startActivityAnimation[1]);
+						}else{
+							ActivityUtils.startActivityForResult(activity, targetActivity, requestCode, flag, bundle);
+						}
+					}
+				}else{
+					ActivityUtils.startActivityForResult(activity, targetActivity, requestCode, flag, bundle);
+				}
+			}
+		});
 	}
 	
 	@Override
@@ -528,58 +617,93 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	/* ********************************************** 终止Activity ************************************************ */
 	@Override
+	public void finishActivity(int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+				if(isEnableCustomActivitySwitchAnimation()){
+					if(finishActivityAnimation != null && finishActivityAnimation.length >= 2){
+						overridePendingTransition(finishActivityAnimation[0], finishActivityAnimation[1]);
+					}
+				}
+			}
+		}, delayMillis);
+	}
+	
+	@Override
 	public void finishActivity(){
-		sendMessage(MessageHandler.FINISH_ACTIVITY);
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+				if(isEnableCustomActivitySwitchAnimation() && finishActivityAnimation != null && finishActivityAnimation.length >= 2){
+					overridePendingTransition(finishActivityAnimation[0], finishActivityAnimation[1]);
+				}
+			}
+		});
 	}
 	
 	@Override
-	public void finishActivity(int inAnimation, int outAnimation){
-		Message message = new Message();
-		message.what = MessageHandler.FINISH_ACTIVITY_ANIMATION;
-		message.arg1 = inAnimation;
-		message.arg2 = outAnimation;
-		sendMessage(message);
+	public void finishActivity(final int inAnimation, final int outAnimation, int delayMillis){
+		getHanlder().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+				overridePendingTransition(inAnimation, outAnimation);
+			}
+		}, delayMillis);
 	}
 	
 	@Override
-	public void finishActivity(long id){
+	public void finishActivity(final int inAnimation, final int outAnimation){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+				overridePendingTransition(inAnimation, outAnimation);
+			}
+		});
+	}
+	
+	@Override
+	public void finishActivityByMinimumDuration(int minimumDurationMillis){
+		final int useTime = (int) (System.currentTimeMillis() - createTime);
+		if(useTime < minimumDurationMillis){//如果当前Activity从创建到销毁的时间小于最小用时就等一会儿在终止，否则立即终止
+			finishActivity(minimumDurationMillis - useTime);
+		}else{
+			finishActivity();
+		}
+	}
+	
+	@Override
+	public void finishActivityByMinimumDuration(int minimumDurationMillis, final int inAnimation, final int outAnimation){
+		final int useTime = (int) (System.currentTimeMillis() - createTime);
+		if(useTime < minimumDurationMillis){//如果当前Activity从创建到销毁的时间小于最小用时就等一会儿在终止，否则立即终止
+			finishActivity(inAnimation, outAnimation, minimumDurationMillis - useTime);
+		}else{
+			finishActivity(inAnimation, outAnimation);
+		}
+	}
+	
+	@Override
+	public void finishActivity(final long id){
 		ActivityManager.getInstance().finishActivity(id);
 	}
 	
 	@Override
-	public void finishActivitys(long[] ids){
+	public void finishActivitys(final long[] ids){
 		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	
 	@Override
-	public void finishActivitys(Set<Long> ids){
+	public void finishActivitys(final Set<Long> ids){
 		ActivityManager.getInstance().finishActivitys(ids);
 	}
 	
 	@Override
 	public void finishOtherActivitys(){
 		ActivityManager.getInstance().finishOtherActivitys(getActivityId());
-	}
-	
-	@Override
-	public void becauseExceptionFinishActivity(){
-		final int useTime = (int) (System.currentTimeMillis() - createTime);
-		//如果当前Activity从创建到销毁的时间小于最小用时
-		if(useTime < MIN_USE_TIME){
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						Thread.sleep(MIN_USE_TIME - useTime);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					sendMessage(MessageHandler.BECAUSE_EXCEPTION_FINISH_ACTIVITY);
-				}
-			}).start();
-		}else{
-			sendMessage(MessageHandler.BECAUSE_EXCEPTION_FINISH_ACTIVITY);
-		}
 	}
 	
 	@Override
@@ -606,11 +730,26 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	/* ********************************************** 对话框 ************************************************ */
 	@Override
-	public void showMessageDialog(String message, String confrimButtonName){
-		Bundle bundle = new Bundle();
-		bundle.putString(KEY_DIALOG_MESSAGE, message);
-		bundle.putString(KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
-		sendMessage(MessageHandler.SHOW_MESSAGE_DIALOG, bundle);
+	public void showMessageDialog(final String message, final String confrimButtonName){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				Bundle bundle = new Bundle();
+				bundle.putString(KEY_DIALOG_MESSAGE, message);
+				bundle.putString(KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
+				showDialog(BaseActivityInterface.DIALOG_MESSAGE, bundle); 
+			}
+		});
+	}
+	
+	@Override
+	public void showMessageDialog(String message){
+		showMessageDialog(message, "确定");
+	}
+	
+	@Override
+	public void showMessageDialog(int messageId){
+		showMessageDialog(getString(messageId));
 	}
 	
 	@Override
@@ -620,14 +759,24 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	@Override
 	public void closeMessageDialog(){
-		sendMessage(MessageHandler.CLOSE_MESSAGE_DIALOG);
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); 
+			}
+		});
 	}
 	
 	@Override
-	public void showProgressDialog(String message){
-		Bundle bundle = new Bundle();
-		bundle.putString(KEY_DIALOG_MESSAGE, message);
-		sendMessage(MessageHandler.SHOW_PROGRESS_DIALOG, bundle);
+	public void showProgressDialog(final String message){
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				Bundle bundle = new Bundle();
+				bundle.putString(KEY_DIALOG_MESSAGE, message);
+				showDialog(BaseActivityInterface.DIALOG_PROGRESS, bundle);
+			}
+		});
 	}
 	
 	@Override
@@ -637,7 +786,12 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	@Override
 	public void closeProgressDialog(){
-		sendMessage(MessageHandler.CLOSE_PROGRESS_DIALOG);
+		getHanlder().post(new Runnable() {
+			@Override
+			public void run() {
+				dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); 
+			}
+		});
 	}
 	
 	
@@ -799,7 +953,7 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 
 	@Override
 	public Handler getHanlder() {
-		return messageHanlder;
+		return hanlder;
 	}
 
 	@Override
@@ -893,160 +1047,5 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	 */
 	public void setEnableCustomActivitySwitchAnimation(boolean enableCustomActivitySwitchAnimation) {
 		this.enableCustomActivitySwitchAnimation = enableCustomActivitySwitchAnimation;
-	}
-
-	/**
-	 * 获取双击退出监听器
-	 * @return 双击退出监听器
-	 */
-	public OnDoubleClickPromptExitListener getOnDoubleClickPromptExitListener() {
-		return onDoubleClickPromptExitListener;
-	}
-
-	/**
-	 * 设置双击退出监听器
-	 * @param onDoubleClickPromptExitListener 双击退出监听器
-	 */
-	public void setOnDoubleClickPromptExitListener(OnDoubleClickPromptExitListener onDoubleClickPromptExitListener) {
-		this.onDoubleClickPromptExitListener = onDoubleClickPromptExitListener;
-	}
-
-	/**
-	 * 获取网络验证失败监听器
-	 * @return 网络验证失败监听器
-	 */
-	public OnNetworkVerifyFailureListener getOnNetworkVerifyListener() {
-		return onNetworkVerifyFailureListener;
-	}
-
-	/**
-	 * 设置网络验证失败监听器
-	 * @param onNetworkVerifyFailureListener 网络验证失败监听器
-	 */
-	public void setOnNetworkVerifyFailureListener(OnNetworkVerifyFailureListener onNetworkVerifyFailureListener) {
-		this.onNetworkVerifyFailureListener = onNetworkVerifyFailureListener;
-	}
-
-	public OnExceptionFinishActivityListener getOnExceptionFinishActivityListener() {
-		return onExceptionFinishActivityListener;
-	}
-
-	public void setOnExceptionFinishActivityListener(
-			OnExceptionFinishActivityListener onExceptionFinishActivityListener) {
-		this.onExceptionFinishActivityListener = onExceptionFinishActivityListener;
-	}
-	
-	/**
-	 * 处理器
-	 */
-	@SuppressLint("HandlerLeak")
-	private class MessageHandler extends Handler{
-		public static final int SHOW_LOADING_HINT_VIEW = 40;
-		public static final int CLOSE_LOADING_HINT_VIEW = 41;
-		public static final int SHOW_MESSAGE_DIALOG = 45;
-		public static final int CLOSE_MESSAGE_DIALOG = 46;
-		public static final int SHOW_PROGRESS_DIALOG = 47;
-		public static final int CLOSE_PROGRESS_DIALOG = 48;
-		public static final int TOAST = 300;
-		public static final int BECAUSE_EXCEPTION_FINISH_ACTIVITY = 2001;
-		public static final int FINISH_ACTIVITY = 2002;
-		public static final int FINISH_ACTIVITY_ANIMATION = 2003;
-		public static final int START_ACTIVITY = 2004;
-		public static final int START_ACTIVITY_FOR_RESULT = 2005;
-		public static final String FLAG = "FLAG";
-		public static final String IS_CLOSE = "IS_CLOSE";
-		public static final String IN_ANIMATION = "IN_ANIMATION";
-		public static final String OUT_ANIMATION = "OUT_ANIMATION";
-		public static final String HAVE_BUNDLE = "HAVE_BUNDLE";
-		public static final String REQUEST_CODE = "REQUEST_CODE";
-		public Activity activity;
-		
-		private MessageHandler(Activity activity){
-			this.activity = activity;
-		}
-		
-		@Override
-		public void handleMessage(Message msg) {
-			if(!isFinishing()){
-				switch(msg.what){
-					case SHOW_MESSAGE_DIALOG : 
-						showDialog(BaseActivityInterface.DIALOG_MESSAGE, msg.getData()); 
-						break;
-					case CLOSE_MESSAGE_DIALOG : 
-						dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); 
-						break;
-					case SHOW_PROGRESS_DIALOG : 
-						showDialog(BaseActivityInterface.DIALOG_PROGRESS, msg.getData()); 
-						break;
-					case CLOSE_PROGRESS_DIALOG : 
-						dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); 
-						break;
-					case SHOW_LOADING_HINT_VIEW : 
-						if(msg.obj != null && msg.obj instanceof View){
-							((View) msg.obj).setVisibility(View.VISIBLE);
-						}
-						break;
-					case CLOSE_LOADING_HINT_VIEW : 
-						if(msg.obj != null && msg.obj instanceof View){
-							ViewAnimationUtils.goneViewByAlpha((View) msg.obj);
-						}
-						break;
-					case TOAST : 
-						Toast.makeText(getBaseContext(), (String)msg.obj, msg.arg1).show(); 
-						break;
-					case BECAUSE_EXCEPTION_FINISH_ACTIVITY : 
-						if(onExceptionFinishActivityListener != null){
-							onExceptionFinishActivityListener.onExceptionFinishActivity();
-						}
-						break;
-					case FINISH_ACTIVITY : 
-						finish();
-						if(isEnableCustomActivitySwitchAnimation()){
-							if(finishActivityAnimation != null && finishActivityAnimation.length >= 2){
-								overridePendingTransition(finishActivityAnimation[0], finishActivityAnimation[1]);
-							}
-						}
-						break;
-					case FINISH_ACTIVITY_ANIMATION : 
-						finish();
-						if(isEnableCustomActivitySwitchAnimation()){
-							overridePendingTransition(msg.arg1, msg.arg2);
-						}
-						break;
-					case START_ACTIVITY : 
-						if(isEnableCustomActivitySwitchAnimation()){
-							if(msg.getData().getInt(IN_ANIMATION) > 0 && msg.getData().getInt(OUT_ANIMATION) > 0){
-								ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE), msg.getData().getInt(IN_ANIMATION), msg.getData().getInt(OUT_ANIMATION));
-							}else{
-								if(startActivityAnimation != null && startActivityAnimation.length >= 2){
-									ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE), startActivityAnimation[0], startActivityAnimation[1]);
-								}else{
-									ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE));
-								}
-							}
-						}else{
-							ActivityUtils.startActivity(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getBoolean(MessageHandler.IS_CLOSE));
-						}
-						break;
-					case START_ACTIVITY_FOR_RESULT : 
-						if(isEnableCustomActivitySwitchAnimation()){
-							if(msg.getData().getInt(IN_ANIMATION) > 0 && msg.getData().getInt(OUT_ANIMATION) > 0){
-								ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, msg.getData().getInt(IN_ANIMATION), msg.getData().getInt(OUT_ANIMATION));
-							}else{
-								if(startActivityAnimation != null && startActivityAnimation.length >= 2){
-									ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null, startActivityAnimation[0], startActivityAnimation[1]);
-								}else{
-									ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null);
-								}
-							}
-						}else{
-							ActivityUtils.startActivityForResult(activity, (Class<?>)msg.obj, msg.getData().getInt(MessageHandler.REQUEST_CODE), msg.getData().getInt(MessageHandler.FLAG), msg.getData().getBoolean(MessageHandler.HAVE_BUNDLE)?msg.getData():null);
-						}
-						break;
-					default :  onReceivedMessage(msg); break;
-				}
-			}
-			super.handleMessage(msg);
-		}
 	}
 }

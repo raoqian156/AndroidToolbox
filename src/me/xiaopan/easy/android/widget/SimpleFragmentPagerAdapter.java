@@ -20,22 +20,45 @@ import java.util.List;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 
-public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
-	private List<Fragment> fragmentList;
+public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+	private FragmentManager fragmentManager;
+	private List<Fragment> fragments;
 	
-	public MyFragmentPagerAdapter(FragmentManager fragmentManager,  List<Fragment> fragmentList){
+	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager ,List<Fragment> fragments) {
 		super(fragmentManager);
-		this.fragmentList = fragmentList;
+		this.fragmentManager = fragmentManager;
+		this.fragments = fragments;
 	}
-	
+
 	@Override
 	public Fragment getItem(int arg0) {
-		return fragmentList.get(arg0);
+		return fragments.get(arg0);
 	}
-	
+
 	@Override
 	public int getCount() {
-		return fragmentList.size();
+		return fragments.size();
+	}
+	
+	@Override  
+    public int getItemPosition(Object object) {  
+        return POSITION_NONE;  
+    }  
+	
+	public void setFragments(List<Fragment> fragmentsList){
+		if (fragments != null && fragments.size() > 0) {
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			for (Fragment f : this.fragments) {
+				ft.remove(f);
+			}
+			ft.commit();
+			ft = null;
+			fragmentManager.executePendingTransactions();
+		}
+		
+		this.fragments = fragmentsList;
+		notifyDataSetChanged();
 	}
 }
