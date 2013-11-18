@@ -137,20 +137,6 @@ public interface BaseActivityInterface {
 	
 	/* ********************************************** Toast ************************************************ */
 	/**
-	 * 在延迟delayMillis毫秒后吐出视图view，使其显示较长的时间
-	 * @param view
-	 * @param delayMillis 延迟时间，单位毫秒
-	 */
-	public void toastL(View view, int delayMillis);
-	
-	/**
-	 * 在延迟delayMillis毫秒后吐出视图view，使其显示较短的时间
-	 * @param view
-	 * @param delayMillis 延迟时间，单位毫秒
-	 */
-	public void toastS(View view, int delayMillis);
-	
-	/**
 	 * 立即吐出视图view，使其显示较长的时间
 	 * @param view
 	 */
@@ -163,24 +149,10 @@ public interface BaseActivityInterface {
 	public void toastS(View view);
 	
 	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
-	 * @param content 显示内容
-	 * @param delayMillis 延迟时间，单位毫秒
-	 */
-	public void toastL(final String content, int delayMillis);
-	
-	/**
 	 * 立即吐出一个显示时间较长的提示
 	 * @param content 显示内容
 	 */
 	public void toastL(String content);
-	
-	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
-	 * @param content 显示内容
-	 * @param delayMillis 延迟时间，单位毫秒
-	 */
-	public void toastS(final String content, int delayMillis);
 	
 	/**
 	 * 立即吐出一个显示时间较短的提示
@@ -189,38 +161,16 @@ public interface BaseActivityInterface {
 	public void toastS(String content);
 	
 	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
-	 * @param resId 显示内容资源ID
-	 * @param delayMillis 延迟时间，单位毫秒
-	 */
-	public void toastL(int resId, int delayMillis);
-	
-	/**
 	 * 立即吐出一个显示时间较长的提示
 	 * @param resId 显示内容资源ID
 	 */
 	public void toastL(int resId);
 	
 	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
-	 * @param resId 显示内容资源ID
-	 * @param delayMillis 延迟时间，单位毫秒
-	 */
-	public void toastS(int resId, int delayMillis);
-	
-	/**
 	 * 立即吐出一个显示时间较短的提示
 	 * @param resId 显示内容资源ID
 	 */
 	public void toastS(int resId);
-	
-	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
-	 * @param formatResId 被格式化的字符串资源的ID
-	 * @param delayMillis 延迟时间，单位毫秒
-	 * @param args 参数数组
-	 */
-	public void toastL(int formatResId, int delayMillis, Object... args);
 	
 	/**
 	 * 立即吐出一个显示时间较长的提示
@@ -230,14 +180,6 @@ public interface BaseActivityInterface {
 	public void toastL(int formatResId, Object... args);
 	
 	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
-	 * @param formatResId 被格式化的字符串资源的ID
-	 * @param delayMillis 延迟时间，单位毫秒
-	 * @param args 参数数组
-	 */
-	public void toastS(int formatResId, int delayMillis, Object... args);
-	
-	/**
 	 * 立即吐出一个显示时间较短的提示
 	 * @param formatResId 被格式化的字符串资源的ID
 	 * @param args 参数数组
@@ -245,27 +187,11 @@ public interface BaseActivityInterface {
 	public void toastS(int formatResId, Object... args);
 	
 	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较长的提示
-	 * @param format 被格式化的字符串
-	 * @param delayMillis 延迟时间，单位毫秒
-	 * @param args 参数数组
-	 */
-	public void toastL(String format, int delayMillis, Object... args);
-	
-	/**
 	 * 立即吐出一个显示时间较长的提示
 	 * @param format 被格式化的字符串
 	 * @param args 参数数组
 	 */
 	public void toastL(String format, Object... args);
-	
-	/**
-	 * 在延迟delayMillis毫秒后吐出一个显示时间较短的提示
-	 * @param format 被格式化的字符串
-	 * @param delayMillis 延迟时间，单位毫秒
-	 * @param args 参数数组
-	 */
-	public void toastS(String format, int delayMillis, Object... args);
 	
 	/**
 	 * 立即吐出一个显示时间较短的提示

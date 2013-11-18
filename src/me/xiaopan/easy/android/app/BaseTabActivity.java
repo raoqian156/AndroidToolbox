@@ -254,16 +254,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	/* ********************************************** Toast ************************************************ */
 	@Override
-	public void toastL(final View view, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastL(getBaseContext(), view);
-			}
-		}, delayMillis);
-	}
-	
-	@Override
 	public void toastL(final View view){
 		getHanlder().post(new Runnable() {
 			@Override
@@ -271,16 +261,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 				ToastUtils.toastL(getBaseContext(), view);
 			}
 		});
-	}
-	
-	@Override
-	public void toastS(final View view, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastS(getBaseContext(), view);
-			}
-		}, delayMillis);
 	}
 	
 	@Override
@@ -294,16 +274,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	@Override
-	public void toastL(final String content, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastL(getBaseContext(), content);
-			}
-		}, delayMillis);
-	}
-	
-	@Override
 	public void toastL(final String content){
 		getHanlder().post(new Runnable() {
 			@Override
@@ -311,16 +281,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 				ToastUtils.toastL(getBaseContext(), content);
 			}
 		});
-	}
-	
-	@Override
-	public void toastS(final String content, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastS(getBaseContext(), content);
-			}
-		}, delayMillis);
 	}
 	
 	@Override
@@ -334,16 +294,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	@Override
-	public void toastL(final int resId, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastL(getBaseContext(), resId);
-			}
-		}, delayMillis);
-	}
-	
-	@Override
 	public void toastL(final int resId){
 		getHanlder().post(new Runnable() {
 			@Override
@@ -351,16 +301,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 				ToastUtils.toastL(getBaseContext(), resId);
 			}
 		});
-	}
-	
-	@Override
-	public void toastS(final int resId, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastS(getBaseContext(), resId);
-			}
-		}, delayMillis);
 	}
 	
 	@Override
@@ -374,16 +314,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	@Override
-	public void toastL(final String format, int delayMillis, final Object... args){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastL(getBaseContext(), String.format(format, args));
-			}
-		}, delayMillis);
-	}
-	
-	@Override
 	public void toastL(final String format, final Object... args){
 		getHanlder().post(new Runnable() {
 			@Override
@@ -391,16 +321,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 				ToastUtils.toastL(getBaseContext(), String.format(format, args));
 			}
 		});
-	}
-	
-	@Override
-	public void toastS(final String format, int delayMillis, final Object... args){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastS(getBaseContext(), String.format(format, args));
-			}
-		}, delayMillis);
 	}
 	
 	@Override
@@ -414,16 +334,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	}
 	
 	@Override
-	public void toastL(final int formatResId, int delayMillis, final Object... args){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastL(getBaseContext(), getString(formatResId, args));
-			}
-		}, delayMillis);
-	}
-	
-	@Override
 	public void toastL(final int formatResId, final Object... args){
 		getHanlder().post(new Runnable() {
 			@Override
@@ -431,16 +341,6 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 				ToastUtils.toastL(getBaseContext(), getString(formatResId, args));
 			}
 		});
-	}
-	
-	@Override
-	public void toastS(final int formatResId, int delayMillis, final Object... args){
-		getHanlder().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtils.toastS(getBaseContext(), getString(formatResId, args));
-			}
-		}, delayMillis);
 	}
 	
 	@Override
