@@ -37,106 +37,106 @@ public class AndroidLogger {
 	/**
 	 * 默认的Log tag
 	 */
-	private static String defaultLogTag = "AndroidLogger";
+	private static String logTag = "AndroidLogger";
 	/**
 	 * 是否将Log输出到控制台
 	 */
-	private static boolean enableOutputToConsole = true;
+	private static boolean enable = true;
 	/**
 	 * 是否将Log输出到本地文件
 	 */
-	private static boolean enableOutputToLocalFile = true;
+	private static boolean outputToFile = true;
 	/**
 	 * 存储Log的本地文件
 	 */
 	private static File outputFile;
 	
 	public static final boolean v(String logTag, String logContent){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.v(logTag, logContent);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean v(String logContent){
-		return v(defaultLogTag, logContent);
+		return v(logTag, logContent);
 	}
 	
 	public static final boolean d(String logTag, String logContent){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.d(logTag, logContent);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean d(String logContent){
-		return d(defaultLogTag, logContent);
+		return d(logTag, logContent);
 	}
 	
 	public static final boolean i(String logTag, String logContent){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.i(logTag, logContent);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean i(String logContent){
-		return i(defaultLogTag, logContent);
+		return i(logTag, logContent);
 	}
 	
 	public static final boolean w(String logTag, String logContent){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.w(logTag, logContent);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean w(String logContent){
-		return w(defaultLogTag, logContent);
+		return w(logTag, logContent);
 	}
 	
 	public static final boolean e(String logTag, String logContent){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.e(logTag, logContent);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean e(String logContent){
-		return e(defaultLogTag, logContent);
+		return e(logTag, logContent);
 	}
 	
 	public static final boolean wtf(String logTag, String logContent){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.wtf(logTag, logContent);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean wtf(String logContent){
-		return wtf(defaultLogTag, logContent);
+		return wtf(logTag, logContent);
 	}
 	
 	public static final boolean wtf(String logTag, Throwable th){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.wtf(logTag, th);
 		}
 		return outputToFile(logTag+" "+th.getMessage());
 	}
 	
 	public static final boolean wtf(Throwable th){
-		return wtf(defaultLogTag, th);
+		return wtf(logTag, th);
 	}
 	
 	public static final boolean wtf(String logTag, String logContent, Throwable th){
-		if(enableOutputToConsole){
+		if(enable){
 			Log.wtf(logTag, logContent, th);
 		}
 		return outputToFile(logTag+" "+logContent);
 	}
 	
 	public static final boolean outputToFile(String logContent){
-		if(enableOutputToLocalFile && outputFile != null){
+		if(outputToFile && outputFile != null){
 			if(outputFile.exists()){
 				try {
 					FileUtils.writeStringByLine(outputFile, DateTimeUtils.getCurrentDateTimeByDefultFormat()+"" +logContent, true);
@@ -168,34 +168,66 @@ public class AndroidLogger {
 		}
 	}
 
-	public static String getDefaultLogTag() {
-		return defaultLogTag;
+	/**
+	 * 获取Log Tag
+	 * @return
+	 */
+	public static String getLogTag() {
+		return logTag;
 	}
 
-	public static boolean isEnableOutputToConsole() {
-		return enableOutputToConsole;
+	/**
+	 * 设置Log Tag
+	 * @param logTag
+	 */
+	public static void setLogTag(String logTag) {
+		AndroidLogger.logTag = logTag;
 	}
 
-	public static boolean isEnableOutputToLocalFile() {
-		return enableOutputToLocalFile;
+	/**
+	 * 是否可用
+	 * @return
+	 */
+	public static boolean isEnable() {
+		return enable;
 	}
 
+	/**
+	 * 设置是否可用
+	 * @param enable
+	 */
+	public static void setEnable(boolean enable) {
+		AndroidLogger.enable = enable;
+	}
+
+	/**
+	 * 是否同时输出log到本地文件
+	 * @return
+	 */
+	public static boolean isOutputToFile() {
+		return outputToFile;
+	}
+
+	/**
+	 * 设置是否同时输出log到本地文件
+	 * @param outputToFile
+	 */
+	public static void setOutputToFile(boolean outputToFile) {
+		AndroidLogger.outputToFile = outputToFile;
+	}
+
+	/**
+	 * 获取本地输出文件
+	 * @return
+	 */
 	public static File getOutputFile() {
 		return outputFile;
 	}
 
-	public static void setDefaultLogTag(String defaultLogTag) {
-		AndroidLogger.defaultLogTag = defaultLogTag;
-	}
-
-	public static void setEnableOutputToConsole(boolean enableOutputToConsole) {
-		AndroidLogger.enableOutputToConsole = enableOutputToConsole;
-	}
-
-	public static void setEnableOutputToLocalFile(boolean enableOutputToLocalFile) {
-		AndroidLogger.enableOutputToLocalFile = enableOutputToLocalFile;
-	}
-
+	/**
+	 * 设置本地输出文件
+	 * @param outputFile
+	 */
 	public static void setOutputFile(File outputFile) {
 		AndroidLogger.outputFile = outputFile;
 	}
