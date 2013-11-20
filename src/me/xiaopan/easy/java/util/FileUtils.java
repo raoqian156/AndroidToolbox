@@ -1102,6 +1102,35 @@ public class FileUtils {
 	}
 	
 	/**
+	 * 创建文件，此方法的重要之处在于，如果其父目录不存在会先创建其父目录
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static File createFile(File file) throws IOException{
+		if(!file.exists()){
+			boolean mkadirsSuccess = true;
+			File parentFile = file.getParentFile();
+			if(!parentFile.exists()){
+				mkadirsSuccess = parentFile.mkdirs();
+			}
+			if(mkadirsSuccess){
+				try{
+					file.createNewFile();
+					return file;
+				}catch(IOException exception){
+					exception.printStackTrace();
+					return null;
+				}
+			}else{
+				return null;
+			}
+		}else{
+			return file;
+		}
+	}
+	
+	/**
 	 * 在给定的目录下创建一个给定名称的文件
 	 * @param directory 给定的目录
 	 * @param fileName 给定的文件名
@@ -1189,18 +1218,18 @@ public class FileUtils {
 	/**
 	 * 清空给定的目录下所有的文件
 	 * @param directory 给定的目录
-	 * @throws FileNotFoundException 给定的目录不存在
 	 * @throws IllegalArgumentException 给定的目录不是目录
-	 * @return 删除失败的文件列表
+	 * @return 删除失败的文件列表；null：给定的目录不存在
 	 */
-	public static List<File> clearDirectory(File directory) throws FileNotFoundException, IllegalArgumentException{
-		if(!directory.exists()){
-			throw new FileNotFoundException();
+	public static List<File> clearDirectory(File directory) throws IllegalArgumentException{
+		if(directory.exists()){
+			if(!directory.isDirectory()){
+				throw new  IllegalArgumentException();
+			}
+			return deleteFiles(directory.listFiles());
+		}else{
+			return null;
 		}
-		if(!directory.isDirectory()){
-			throw new  IllegalArgumentException();
-		}
-		return deleteFiles(directory.listFiles());
 	}
 	
 	/**
