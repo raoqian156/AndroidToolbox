@@ -1,79 +1,108 @@
 package me.xiaopan.easy.java.util;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  * 这是一个圆圈
- * @param <T>
+ * @param <E>
  */
-public class CircleList<E> extends LinkedList<E>{
-	private static final long serialVersionUID = 1L;
+public class CircleList<E>{
+	private int maxSize;	// 最大容量
+	private Queue<E> queue;	//队列
+	
 	/**
-	 * 最大容量
+	 * 创建一个圆圈，同时你必须指定它的最大容量
+	 * @param queue 使用指定的队列来实现圆圈
+	 * @param maxSize 最大容量
 	 */
-	private int maxSize;
+	public CircleList(Queue<E> queue, int maxSize){
+		this.queue = queue;
+		setMaxSize(maxSize);
+	}
 	
 	/**
 	 * 创建一个圆圈，同时你必须指定它的最大容量
 	 * @param maxSize 最大容量
 	 */
 	public CircleList(int maxSize){
-		setMaxSize(maxSize);
+		this(new LinkedList<E>(), maxSize);
 	}
 	
+	/**
+	 * 腾出位置
+	 * @param addSize 新添加的个数，如果添加后超出最大容量就从头开始腾地儿
+	 */
 	private void check(int addSize){
-		if((size()+addSize) > maxSize){
-			for(int w =0, size = ((size()+addSize) - maxSize);w < size; w++){
-				poll();
+		if((queue.size()+addSize) > maxSize){
+			for(int w =0, size = ((queue.size()+addSize) - maxSize);w < size; w++){
+				try{
+					queue.poll();
+				}catch(NoSuchElementException e){}
 			}
 		}
 	}
 	
+	/**
+	 * 是否已经满了
+	 * @return
+	 */
 	public boolean isFull(){
-		return size() >= maxSize;
+		return queue.size() >= maxSize;
 	}
 	
-	@Override
-	public void addFirst(E e) {
-		if(e != null){
-			check(1);
-		}
-		super.addFirst(e);
-	}
-
-	@Override
-	public void addLast(E e) {
-		if(e != null){
-			check(1);
-		}
-		super.addLast(e);
-	}
-
-	@Override
+	/**
+	 * 添加一个元素
+	 * @param e
+	 * @return
+	 */
 	public boolean add(E e) {
 		if(e != null){
 			check(1);
+			return queue.add(e);
+		}else{
+			return false;
 		}
-		return super.add(e);
+	}
+	
+	/**
+	 * 弹出一个元素
+	 * @return
+	 */
+	public E poll(){
+		return queue.poll();
+	}
+	
+	/**
+	 * 当前容量
+	 * @return
+	 */
+	public int size(){
+		return queue.size();
+	}
+	
+	/**
+	 * 清空
+	 */
+	public void clear(){
+		queue.clear();
+	}
+	
+	/**
+	 * 获取存储元素的队列
+	 * @return
+	 */
+	public Queue<E> getQueue() {
+		return queue;
 	}
 
-	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		throw new IllegalAccessError("此方法已经被抛弃");
-	}
-
-	@Override
-	public boolean addAll(int index, Collection<? extends E> c) {
-		throw new IllegalAccessError("此方法已经被抛弃");
-	}
-
-	@Override
-	public void add(int index, E element) {
-		if(element != null){
-			check(1);
-		}
-		super.add(index, element);
+	/**
+	 * 设置存储元素的队列
+	 * @param queue
+	 */
+	public void setQueue(Queue<E> queue) {
+		this.queue = queue;
 	}
 
 	/**

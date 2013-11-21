@@ -120,7 +120,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public void openForntCamera(boolean isResume) throws Exception{
-		AndroidLogger.e("openForntCamera");
 		if(Build.VERSION.SDK_INT >= 9 && frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
@@ -161,19 +160,16 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		AndroidLogger.e("surfaceCreated");
 		initCamera();
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		AndroidLogger.e("surfaceChanged");
 		startPreview();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		AndroidLogger.e("surfaceDestroyed");
 		stopPreview();
 		resumeRestore = false;
 	}
