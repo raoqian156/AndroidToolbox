@@ -189,33 +189,6 @@ public class ArrayUtils {
 	
 	
 	/**
-	 * (1.07)、返回数组objects的字符串表示形式
-	 * @param objects 待操作的数组
-	 * @return 字符串表示形式
-	 */
-	public static String arrayToString(Object[] objects) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		for(int w = 0; w < objects.length-1; w++){
-			if (objects[w] == null){
-				sb.append("null");
-			}else{
-				sb.append(objects[w].toString());
-			}
-			sb.append(',');
-		}
-
-		if (objects[objects.length - 1] == null){
-			sb.append("null");
-		}else{
-			sb.append(objects[objects.length - 1].toString());
-		}
-		sb.append("]");
-		return sb.toString();
-	}
-	
-	
-	/**
 	 * (1.08)、在数组objects中搜索元素element
 	 * @param objects 待操作的数组
 	 * @param element 待匹配的元素
@@ -456,13 +429,13 @@ public class ArrayUtils {
 	
 	/**
 	 * 将给定的数组转换成字符串
-	 * @param objects 给定的数组
+	 * @param integers 给定的数组
 	 * @param startSymbols 开始符号
 	 * @param separator 分隔符
 	 * @param endSymbols 结束符号
 	 * @return 例如开始符号为"{"，分隔符为", "，结束符号为"}"，那么结果为：{1, 2, 3}
 	 */
-	public static String toString(int[] objects, String startSymbols, String separator, String endSymbols){
+	public static String toString(int[] integers, String startSymbols, String separator, String endSymbols){
 		boolean addSeparator = false;
 		StringBuffer sb = new StringBuffer();
 		//如果开始符号不为null且不空
@@ -471,7 +444,7 @@ public class ArrayUtils {
 		}
 		
 		//循环所有的对象
-		for(int object : objects){
+		for(int object : integers){
 			//如果需要添加分隔符
 			if(addSeparator){
 				sb.append(separator);
@@ -490,12 +463,21 @@ public class ArrayUtils {
 	
 	/**
 	 * 将给定的数组转换成字符串
-	 * @param objects 给定的数组
+	 * @param integers 给定的数组
 	 * @param separator 分隔符
 	 * @return 例如分隔符为", "那么结果为：1, 2, 3
 	 */
-	public static String toString(int[] objects, String separator){
-		return toString(objects, null, separator, null);
+	public static String toString(int[] integers, String separator){
+		return toString(integers, null, separator, null);
+	}
+	
+	/**
+	 * 将给定的数组转换成字符串，默认分隔符为", "
+	 * @param integers 给定的数组
+	 * @return 例如：1, 2, 3
+	 */
+	public static String toString(int[] integers){
+		return toString(integers, null, ", ", null);
 	}
 	
 	/**
@@ -540,5 +522,14 @@ public class ArrayUtils {
 	 */
 	public static String toString(Object[] objects, String separator){
 		return toString(objects, null, separator, null);
+	}
+	
+	/**
+	 * 将给定的数组转换成字符串，默认分隔符为", "
+	 * @param objects 给定的数组
+	 * @return 例如：1, 2, 3
+	 */
+	public static String toString(Object[] objects){
+		return toString(objects, null, ", ", null);
 	}
 }
