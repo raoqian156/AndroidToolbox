@@ -75,7 +75,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public void openBackCamera(boolean isResume){
-		AndroidLogger.e("openBackCamera");
 		try {
 			if(Build.VERSION.SDK_INT < 9){
 				camera = Camera.open();
@@ -89,7 +88,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
 			//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
 			if(isResume && resumeRestore){
-				AndroidLogger.e("resumeRestore");
 				resumeRestore = false;
 				initCamera();
 				startPreview();
@@ -130,7 +128,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 				//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
 				//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
 				if(isResume && resumeRestore){
-					AndroidLogger.e("resumeRestore");
 					resumeRestore = false;
 					initCamera();
 					startPreview();
