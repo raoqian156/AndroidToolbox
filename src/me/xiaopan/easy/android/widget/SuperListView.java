@@ -19,7 +19,7 @@ import android.widget.Scroller;
  * 这是一个扩展是ListView，支持下拉刷新和滚动到底部自动加载更多
  */
 public class SuperListView extends ListView implements OnScrollListener, GestureDetector.OnGestureListener, BasePulldownRefershListHeader.OnAllowReadyRefreshListener{
-	public static int rollbackDuration = 300;	//回滚持续时间
+	public static int rollbackDuration = 400;	//回滚持续时间
 	private int lastTotalItemCount;	//记录总条目数
 	private int boundariesPosition = -1;	//自动加载的边界位置，当滑动到此位置时将会触发加载更多事件
 	private boolean init;	//表示此时是初始化，用来替代ListView的OnScrollListener
@@ -173,9 +173,10 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 						getHandler().postDelayed(new Runnable() {
 							@Override
 							public void run() {
+								pulldownRefershListHeader.onReadyRefreshToRefresingState();
 								refresh();
 							}
-						}, 500);
+						}, 100);
 						ViewUtils.removeOnGlobalLayoutListener(getViewTreeObserver(), this);
 					}
 				});
