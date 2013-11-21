@@ -1,10 +1,13 @@
 package me.xiaopan.easy.android.widget;
 
+import me.xiaopan.easy.android.util.AndroidLogger;
+import me.xiaopan.easy.android.util.ViewUtils;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -156,11 +159,27 @@ public class SuperListView extends ListView implements OnScrollListener, Gesture
 	 */
 	public boolean refresh(){
 		if(pulldownRefershListHeader != null && onRefreshListener != null && pulldownRefershListHeader.getState() == BasePulldownRefershListHeader.State.NORMAL && isNoAction()){
-			refreshing = true;
-			setSelection(0);
-			pulldownRefershListHeader.setState(BasePulldownRefershListHeader.State.NORMAL_TO_REFRESHING);
-			tryRollbackPulldownRefreshListHeader(pulldownRefershListHeader.getContentView().getHeight(), pulldownRefershListHeader.getContentViewHeight());
-			onRefreshListener.onRefresh();
+			if(getWidth() > 0){
+				refreshing = true;
+				setSelection(0);
+				pulldownRefershListHeader.setState(BasePulldownRefershListHeader.State.NORMAL_TO_REFRESHING);
+				tryRollbackPulldownRefreshListHeader(pulldownRefershListHeader.getContentView().getHeight(), pulldownRefershListHeader.getContentViewHeight());
+				onRefreshListener.onRefresh();
+			}else{
+				AndroidLogger.e("等待刷新");
+				getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						getHandler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								refresh();
+							}
+						}, 500);
+						ViewUtils.removeOnGlobalLayoutListener(getViewTreeObserver(), this);
+					}
+				});
+			}
 			return true;
 		}else{
 			return false;
