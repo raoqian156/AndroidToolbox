@@ -24,6 +24,7 @@ import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Build;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
@@ -41,7 +42,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	private int focusIntervalTime;//两次对焦的间隔时间
 	private long lastFocusTime;//上次对焦的时间
 	private int displayOrientation;	//显示方向
-	private boolean autoFocusing;	//对焦中
+	private boolean debugMode;	//Debug模式，开启后将输出运行日志
+	private String logTag = "CameraManager";
 	
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	@SuppressWarnings("deprecation")
@@ -67,6 +69,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 				}
 			}
 		}
+		if(isDebugMode()){
+			Log.d(logTag, "构造函数初始化");
+		}
 	}
 	
 	/**
@@ -75,6 +80,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public void openBackCamera(boolean isResume){
+		if(isDebugMode()){
+			Log.d(logTag, "openBackCamera()");
+		}
 		try {
 			if(Build.VERSION.SDK_INT < 9){
 				camera = Camera.open();
@@ -88,11 +96,17 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
 			//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
 			if(isResume && resumeRestore){
+				if(isDebugMode()){
+					Log.d(logTag, "resumeRestore恢复");
+				}
 				resumeRestore = false;
 				initCamera();
 				startPreview();
 			}
 		} catch (Exception e) {
+			if(isDebugMode()){
+				Log.d(logTag, "打开后置摄像头异常");
+			}
 			e.printStackTrace();
 			if(camera != null){
 				camera.release();
@@ -118,6 +132,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public void openForntCamera(boolean isResume) throws Exception{
+		if(isDebugMode()){
+			Log.d(logTag, "openBackCamera()");
+		}
 		if(Build.VERSION.SDK_INT >= 9 && frontCameraId != -1){
 			try {
 				camera = Camera.open(frontCameraId);
@@ -128,11 +145,17 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 				//所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
 				//另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
 				if(isResume && resumeRestore){
+					if(isDebugMode()){
+						Log.d(logTag, "resumeRestore恢复");
+					}
 					resumeRestore = false;
 					initCamera();
 					startPreview();
 				}
 			} catch (Exception e) {
+				if(isDebugMode()){
+					Log.d(logTag, "打开前置摄像头异常");
+				}
 				e.printStackTrace();
 				if(camera != null){
 					camera.release();
@@ -157,24 +180,35 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		if(isDebugMode()){
+			Log.d(logTag, "surfaceCreated()");
+		}
 		initCamera();
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		if(isDebugMode()){
+			Log.d(logTag, "surfaceChanged()");
+		}
 		startPreview();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		if(isDebugMode()){
+			Log.d(logTag, "surfaceDestroyed()");
+		}
 		stopPreview();
 		resumeRestore = false;
 	}
 
 	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
+		if(isDebugMode()){
+			Log.d(logTag, "自定对焦"+(success?"成功":"失败"));
+		}
 		lastFocusTime = System.currentTimeMillis();
-		autoFocusing = false;
 		if(cameraCallback != null){
 			cameraCallback.onAutoFocus(success, camera);
 		}
@@ -186,6 +220,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean startPreview(){
 		if(camera != null){
+			if(isDebugMode()){
+				Log.d(logTag, "startPreview()");
+			}
 			camera.startPreview();
 			if(cameraCallback != null){
 				cameraCallback.onStartPreview();
@@ -202,6 +239,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean stopPreview(){
 		if(camera != null){
+			if(isDebugMode()){
+				Log.d(logTag, "stopPreview()");
+			}
 			camera.stopPreview();
 			if(cameraCallback != null){
 				cameraCallback.onStopPreview();
@@ -218,6 +258,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean release(){
 		if (camera != null) {
+			if(isDebugMode()){
+				Log.d(logTag, "release()");
+			}
 			stopPreview();
 			try {
 				camera.setPreviewDisplay(null);
@@ -239,7 +282,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 * @return
 	 */
 	public boolean isCanAutoFocus(){
-		return !autoFocusing && System.currentTimeMillis() - lastFocusTime > focusIntervalTime;
+		return System.currentTimeMillis() - lastFocusTime > focusIntervalTime;
 	}
 	
 	/**
@@ -248,11 +291,19 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean autoFocus(){
 		if(camera != null){
+			if(isDebugMode()){
+				Log.d(logTag, "autoFocus()");
+			}
 			if(isCanAutoFocus()){
-				autoFocusing = true;
+				if(isDebugMode()){
+					Log.d(logTag, "可以自动对焦");
+				}
 				camera.autoFocus(this);
 				return true;
 			}else{
+				if(isDebugMode()){
+					Log.d(logTag, "不可以自动对焦，原因：对焦间隔小于间隔时间");
+				}
 				return false;
 			}
 		}else{
@@ -269,6 +320,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean takePicture(ShutterCallback shutter, PictureCallback raw, PictureCallback jpeg){
 		if(camera != null){
+			if(isDebugMode()){
+				Log.d(logTag, "takePicture()");
+			}
 			camera.takePicture(shutter, raw, jpeg);
 			return true;
 		}else{
@@ -283,6 +337,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public boolean setFlashMode(String newFlashMode){
 		if(camera != null){
+			if(isDebugMode()){
+				Log.d(logTag, "setFlashMode()："+newFlashMode);
+			}
 			Camera.Parameters cameraParameters = camera.getParameters();
 			cameraParameters.setFlashMode(newFlashMode);
 			camera.setParameters(cameraParameters);
@@ -292,6 +349,10 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		}
 	}
 	
+	/**
+	 * 获取屏幕方向
+	 * @return
+	 */
 	public int getDisplayOrientation() {
 		return displayOrientation;
 	}
@@ -323,6 +384,9 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	private boolean initCamera(){
 		if(camera != null){
+			if(isDebugMode()){
+				Log.d(logTag, "initCamera()");
+			}
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
 				if(cameraCallback != null){
@@ -387,12 +451,20 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		this.cameraCallback = cameraCallback;
 	}
 
-	/**
-	 * 是否正在自动对焦
-	 * @return
-	 */
-	public boolean isAutoFocusing() {
-		return autoFocusing;
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
+	}
+
+	public String getLogTag() {
+		return logTag;
+	}
+
+	public void setLogTag(String logTag) {
+		this.logTag = logTag;
 	}
 
 	public interface CameraCallback{
