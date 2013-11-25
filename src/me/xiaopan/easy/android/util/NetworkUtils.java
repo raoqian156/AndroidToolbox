@@ -18,7 +18,7 @@ package me.xiaopan.easy.android.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import me.xiaopan.easy.java.util.ClassUtils;
+import me.xiaopan.easy.java.util.ReflectUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -493,7 +493,7 @@ public class NetworkUtils {
 	public static boolean setMobileNetwork(Context context, boolean eanble){ 
 		boolean result = false;
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		Method method = ClassUtils.getMethod(mConnectivityManager.getClass(), "setMobileDataEnabled", boolean.class);
+		Method method = ReflectUtils.getMethod(mConnectivityManager.getClass(), "setMobileDataEnabled", boolean.class);
 		try {
 			if(method != null){
 				method.invoke(mConnectivityManager, eanble);

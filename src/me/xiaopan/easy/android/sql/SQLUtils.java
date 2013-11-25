@@ -21,7 +21,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.easy.java.util.ClassUtils;
+import me.xiaopan.easy.java.util.ReflectUtils;
 import me.xiaopan.easy.java.util.StringUtils;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -48,7 +48,7 @@ public class SQLUtils {
 			
 			//循环遍历所有字段
 			boolean addSeparator = false;
-			for(Field field : ClassUtils.getFields(clas, true, true, true)){
+			for(Field field : ReflectUtils.getFields(clas, true, true, true)){
 				//处理列注解
 				Column column = field.getAnnotation(Column.class);
 				if(column != null && StringUtils.isNotEmpty(column.value())){
@@ -108,7 +108,7 @@ public class SQLUtils {
 	public static ContentValues getContentValues(Object object) throws NotFoundTableAnnotationException{
 		Class<?> clas = object.getClass();
 		ContentValues contentValues = new ContentValues();
-		for(Field field : ClassUtils.getFields(clas, true, true, true)){
+		for(Field field : ReflectUtils.getFields(clas, true, true, true)){
 			//处理列注解
 			Column column = field.getAnnotation(Column.class);
 			if(column != null && StringUtils.isNotEmpty(column.value())){
@@ -149,7 +149,7 @@ public class SQLUtils {
 			//根据class创建新的实例
 			Object newInstance = clas.newInstance();
 			//遍历所有字段
-			for(Field field : ClassUtils.getFields(clas, true, true, true)){
+			for(Field field : ReflectUtils.getFields(clas, true, true, true)){
 				//如果不是静态的
 				if(!Modifier.isStatic(field.getModifiers())){
 					//获取列注解
@@ -175,7 +175,7 @@ public class SQLUtils {
 						}else if(field.getType() == String.class){
 							field.set(newInstance, cursor.getString(cursor.getColumnIndex(column.value())));
 						}else{
-							field.set(newInstance, ClassUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{cursor.getString(cursor.getColumnIndex(column.value()))}));
+							field.set(newInstance, ReflectUtils.getValueOfMethod(field.getType(), new Class<?>[]{String.class}).invoke(null, new Object[]{cursor.getString(cursor.getColumnIndex(column.value()))}));
 						}
 					}
 				}

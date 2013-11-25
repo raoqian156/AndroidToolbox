@@ -3,13 +3,15 @@
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
- * 类管理工具类，提供一些Java基本的反射功能
+ * 反射工具类，提供一些Java基本的反射功能
  */
-public class ClassUtils {
+public class ReflectUtils {
 	public static final Class<?>[] EMPTY_PARAM_TYPES = new Class<?>[0];
 	public static final Object[] EMPTY_PARAMS = new Object[0];
 	
@@ -343,7 +345,7 @@ public class ClassUtils {
 	public static <T> T getObjectByFieldName(Object object, String fieldName, Class<T> clas){
 		if(object != null && StringUtils.isNotEmpty(fieldName) && clas != null){
 			try {
-				Field field = ClassUtils.getField(object.getClass(), fieldName, true, true);
+				Field field = ReflectUtils.getField(object.getClass(), fieldName, true, true);
 				if(field != null){
 					field.setAccessible(true);
 					return (T) field.get(object);
@@ -359,123 +361,32 @@ public class ClassUtils {
 		}
 	}
 	
-//	/**
-//	 * 获取给定的类中给定名称的字段的GET方法
-//	 * @param clas 给定的类
-//	 * @param fieldName 给定名称
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 给定的类中给定名称的字段的GET方法
-//	 */
-//	public static Method getGetMethodByFieldName(Class<?> clas, String fieldName, Class<?>... methodParameterTypes){
-//		return getMethod(clas, true, true, "get"+StringUtils.firstLetterToUpperCase(fieldName), methodParameterTypes);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定名称的字段的不带参数的GET方法
-//	 * @param clas 给定的类
-//	 * @param fieldName 给定名称
-//	 * @return 给定的类中给定名称的字段的GET方法
-//	 */
-//	public static Method getGetMethodByFieldName(Class<?> clas, String fieldName){
-//		return getGetMethodByFieldName(clas, fieldName, EMPTY_PARAM_TYPES);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定字段的GET方法
-//	 * @param clas 给定的类
-//	 * @param field 给定字段
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 给定的类中给定名称的字段的GET方法
-//	 */
-//	public static Method getGetMethodByField(Class<?> clas, Field field, Class<?>... methodParameterTypes){
-//		return getGetMethodByFieldName(clas, field.getName(), methodParameterTypes);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定字段的不带参数的GET方法
-//	 * @param clas 给定的类
-//	 * @param field 给定字段
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 给定的类中给定名称的字段的GET方法
-//	 */
-//	public static Method getGetMethodByField(Class<?> clas, Field field){
-//		return getGetMethodByFieldName(clas, field.getName());
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定字段的GET或IS方法
-//	 * @param clas 给定的类
-//	 * @param field 字段
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 如果给定字段是boolean型的那么获取其IS方法，否则获取其GET方法
-//	 */
-//	public static Method getGetOrIsMethodByField(Class<?> clas, Field field, Class<?>... methodParameterTypes){
-//		Method method = null;
-//		String fieldName = field.getName();
-//		//如果字段是boolean型的
-//		if(field.getType() == Boolean.TYPE){
-//			//如果以is开头
-//			if(fieldName.startsWith("is")){
-//				method = getMethod(clas, true, true, StringUtils.toUpperCase(fieldName, 2, 3), methodParameterTypes);
-//			}else{
-//				method = getMethod(clas, true, true, "is"+StringUtils.firstLetterToUpperCase(fieldName), methodParameterTypes);
-//			}
-//		}else{
-//			method = getMethod(clas, true, true, "get"+StringUtils.firstLetterToUpperCase(fieldName), methodParameterTypes);
-//		}
-//		return method;
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定字段的不带参数的GET或IS方法
-//	 * @param clas 给定的类
-//	 * @param field 字段
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 如果给定字段是boolean型的那么获取其IS方法，否则获取其GET方法
-//	 */
-//	public static Method getGetOrIsMethodByField(Class<?> clas, Field field){
-//		return getGetOrIsMethodByField(clas, field, EMPTY_PARAM_TYPES);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定名称的字段的SET方法
-//	 * @param clas 给定的类
-//	 * @param fieldName 给定名称
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 给定的类中给定名称的字段的SET方法
-//	 */
-//	public static Method getSetMethodByFieldName(Class<?> clas, String fieldName, Class<?>... methodParameterTypes){
-//		return getMethod(clas, true, true, "set"+StringUtils.firstLetterToUpperCase(fieldName), methodParameterTypes);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定名称的字段的不带参数的SET方法
-//	 * @param clas 给定的类
-//	 * @param fieldName 给定名称
-//	 * @return 给定的类中给定名称的字段的SET方法
-//	 */
-//	public static Method getSetMethodByFieldName(Class<?> clas, String fieldName){
-//		return getSetMethodByFieldName(clas, fieldName, EMPTY_PARAM_TYPES);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定字段的SET方法
-//	 * @param clas 给定的类
-//	 * @param field 给定字段
-//	 * @param methodParameterTypes 方法参数类型
-//	 * @return 给定的类中给定名称的字段的SET方法
-//	 */
-//	public static Method getSetMethodByField(Class<?> clas, Field field, Class<?>... methodParameterTypes){
-//		return getSetMethodByFieldName(clas, field.getName(), methodParameterTypes);
-//	}
-//	
-//	/**
-//	 * 获取给定的类中给定字段的不带参数的SET方法
-//	 * @param clas 给定的类
-//	 * @param field 给定字段
-//	 * @return 给定的类中给定名称的字段的SET方法
-//	 */
-//	public static Method getSetMethodByField(Class<?> clas, Field field){
-//		return getSetMethodByFieldName(clas, field.getName());
-//	}
+	/**
+	 * 判断给定字段是否是type类型的数组
+	 * @param field
+	 * @param type
+	 * @return
+	 */
+	public static final boolean isArrayByType(Field field, Class<?> type){
+		Class<?> fieldType = field.getType();
+		return fieldType.isArray() && type.isAssignableFrom(fieldType.getComponentType());
+	}
+	
+	/**
+	 * 判断给定字段是否是type类型的collectionType集合，例如collectionType=List.class，type=Date.class就是要判断给定字段是否是Date类型的List
+	 * @param field
+	 * @param collectionType
+	 * @param type
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static final boolean isCollectionByType(Field field, Class<? extends Collection> collectionType, Class<?> type){
+		Class<?> fieldType = field.getType();
+		if(collectionType.isAssignableFrom(fieldType)){
+			Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+			return type.isAssignableFrom(first);
+		}else{
+			return false;
+		}
+	}
 }

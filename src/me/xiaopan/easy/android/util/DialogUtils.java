@@ -15,7 +15,7 @@
  */
 package me.xiaopan.easy.android.util;
 
-import me.xiaopan.easy.java.util.ClassUtils;
+import me.xiaopan.easy.java.util.ReflectUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -119,6 +119,6 @@ public class DialogUtils {
 	 * @param close 点击是否关闭
 	 */
 	public static void setDialogClickClose(AlertDialog alertDialog, boolean close){
-		ClassUtils.setField(alertDialog, "mShowing", close, true, true);
+		ReflectUtils.setField(alertDialog, "mShowing", close, true, true);
 	}
 }
