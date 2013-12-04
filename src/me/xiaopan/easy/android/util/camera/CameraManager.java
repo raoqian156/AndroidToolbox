@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.xiaopan.easy.android.util;
+package me.xiaopan.easy.android.util.camera;
 
 import java.io.IOException;
 
 import me.xiaopan.easy.android.util.WindowUtils;
-import me.xiaopan.easy.android.util.camera.CameraUtils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
