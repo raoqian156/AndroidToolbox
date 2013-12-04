@@ -5,10 +5,10 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 /**
- * 这是一个圆圈
+ * 这是一个有界队列，队列的长度是固定的，当队列满了的时候新的元素会将队列头部的元素挤出队列
  * @param <E>
  */
-public class CircleList<E>{
+public class BoundedQueue<E>{
 	private int maxSize;	// 最大容量
 	private Queue<E> queue;	//队列
 	
@@ -17,7 +17,7 @@ public class CircleList<E>{
 	 * @param queue 使用指定的队列来实现圆圈
 	 * @param maxSize 最大容量
 	 */
-	public CircleList(Queue<E> queue, int maxSize){
+	public BoundedQueue(Queue<E> queue, int maxSize){
 		this.queue = queue;
 		setMaxSize(maxSize);
 	}
@@ -26,7 +26,7 @@ public class CircleList<E>{
 	 * 创建一个圆圈，同时你必须指定它的最大容量
 	 * @param maxSize 最大容量
 	 */
-	public CircleList(int maxSize){
+	public BoundedQueue(int maxSize){
 		this(new LinkedList<E>(), maxSize);
 	}
 	
