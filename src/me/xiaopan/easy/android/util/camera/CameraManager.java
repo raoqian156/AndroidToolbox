@@ -297,6 +297,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	/**
 	 * 设置是闪光灯常亮
 	 * @param enable
+	 * @return 不支持或camera尚未初始化
 	 */
 	public boolean setTorckFlash(boolean enable){
 		if(camera != null){
