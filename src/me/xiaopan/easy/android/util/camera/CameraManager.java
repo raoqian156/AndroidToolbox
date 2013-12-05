@@ -295,6 +295,29 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
+	 * 设置是闪光灯常亮
+	 * @param enable
+	 */
+	public boolean setTorckFlash(boolean enable){
+		if(camera != null){
+			if(enable){
+				if(CameraUtils.isSupportFlashMode(getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
+					setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+					return true;
+				}else{
+					logD("不支持闪光灯常亮");
+					return false;
+				}
+			}else{
+				setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+				return true;
+			}	
+		}else{
+			return false;
+		}
+	}
+	
+	/**
 	 * 获取屏幕方向
 	 * @return
 	 */
