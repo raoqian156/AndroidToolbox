@@ -1,15 +1,13 @@
 package me.xiaopan.easy.java.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 秒表
  */
 public class SecondChronograph {
 	private long firstMillis;	//第一次的时间
 	private long lastFirstMillis;	//上一次的时间
-	private List<Count> counts;
+	private Count count;
+	private long newMillis;
 	
 	public SecondChronograph(){
 		firstMillis = System.currentTimeMillis();
@@ -21,22 +19,10 @@ public class SecondChronograph {
 	 * @return
 	 */
 	public Count count(){
-		long newMillis = System.currentTimeMillis();
-		Count count = new Count(newMillis - firstMillis, newMillis - lastFirstMillis);
+		newMillis = System.currentTimeMillis();
+		count = new Count(newMillis - firstMillis, newMillis - lastFirstMillis);
 		lastFirstMillis = newMillis;
-		if(counts == null){
-			counts = new ArrayList<Count>();
-		}
-		counts.add(count);
 		return count;
-	}
-	
-	/**
-	 * 获取所有的计次点
-	 * @return
-	 */
-	public List<Count> getCounts(){
-		return counts;
 	}
 	
 	/**
@@ -45,10 +31,6 @@ public class SecondChronograph {
 	public void reset(){
 		firstMillis = System.currentTimeMillis();
 		lastFirstMillis = firstMillis;
-		if(counts != null){
-			counts.clear();
-			counts = null;
-		}
 	}
 	
 	/**
