@@ -3,7 +3,7 @@
 这是一个Android类库，旨在让Android开发变得更简单
 
 ##Downloads
-**[easy-android-2.9.4.jar](https://github.com/ixiaopan/EasyAndroid/raw/master/downloads/easy-android-2.9.4.jar)**
+**[easy-android-2.9.5.jar](https://github.com/ixiaopan/EasyAndroid/raw/master/downloads/easy-android-2.9.5.jar)**
 
 ##License
 ```java
