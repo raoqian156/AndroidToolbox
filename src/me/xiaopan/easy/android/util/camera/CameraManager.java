@@ -218,31 +218,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
-	 * 释放
-	 */
-	public void release(){
-		if (camera != null) {
-			if(debugMode){
-				Log.d(logTag, "release");
-			}
-			camera.stopPreview();
-			try {
-				camera.setPreviewDisplay(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			camera.setPreviewCallback(null);
-			camera.setErrorCallback(null);
-			camera.setOneShotPreviewCallback(null);
-			camera.setPreviewCallbackWithBuffer(null);
-			camera.setZoomChangeListener(null);
-			camera.release();
-			camera = null;
-			resumeRestore = true;
-		}
-	}
-	
-	/**
 	 * 自动对焦
 	 */
 	public void autoFocus(){
@@ -367,6 +342,31 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(debugMode){
 				Log.d(logTag, "previewSize："+previewSize.width+"x"+previewSize.height+"; pictureSize："+pictureSize.width+"x"+pictureSize.height);
 			}
+		}
+	}
+	
+	/**
+	 * 释放
+	 */
+	public void release(){
+		if (camera != null) {
+			if(debugMode){
+				Log.d(logTag, "release");
+			}
+			stopPreview();
+			try {
+				camera.setPreviewDisplay(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			camera.setPreviewCallback(null);
+			camera.setErrorCallback(null);
+			camera.setOneShotPreviewCallback(null);
+			camera.setPreviewCallbackWithBuffer(null);
+			camera.setZoomChangeListener(null);
+			camera.release();
+			camera = null;
+			resumeRestore = true;
 		}
 	}
 	
