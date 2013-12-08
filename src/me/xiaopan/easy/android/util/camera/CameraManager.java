@@ -264,7 +264,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 * @param enable
 	 * @return 不支持闪光灯常亮或尚未打开Camera
 	 */
-	public boolean setTorckFlash(boolean enable){
+	public boolean setTorchFlash(boolean enable){
 		if(camera != null){
 			if(enable){
 				if(CameraUtils.isSupportFlashMode(getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
