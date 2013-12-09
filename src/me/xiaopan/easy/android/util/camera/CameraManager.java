@@ -92,14 +92,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
-	 * 打开后置摄像头
-	 * @throws CamreaBeingUsedException 
-	 */
-	public void openBackCamera() throws CamreaBeingUsedException{
-		openBackCamera(true);
-	}
-	
-	/**
 	 * 打开前置摄像头
 	 * @param isResume 是否是在onResume()方法中调用此方法的
 	 * @throws NoFoundFrontCamera 没有找到前置摄像头
@@ -122,15 +114,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		}else{
 			throw new NoFoundFrontCamera();
 		}
-	}
-	
-	/**
-	 * 打开后置摄像头
-	 * @throws NoFoundFrontCamera 没有找到前置摄像头
-	 * @throws CamreaBeingUsedException 前置摄像头被占用
-	 */
-	public void openForntCamera() throws Exception, NoFoundFrontCamera, CamreaBeingUsedException{
-		openForntCamera(true);
 	}
 	
 	/**
