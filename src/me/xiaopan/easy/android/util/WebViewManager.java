@@ -24,10 +24,19 @@ import android.webkit.WebViewClient;
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewManager {
 	private WebView webView;
+	private WebSettings webSettings;
 	
 	public WebViewManager(WebView webView){
+		setWebView(webView);
+	}
+
+	public WebView getWebView() {
+		return webView;
+	}
+
+	public void setWebView(WebView webView) {
 		this.webView = webView;
-		WebSettings webSettings = webView.getSettings();
+		webSettings = webView.getSettings();
 		webSettings.setBuiltInZoomControls(true);
 		webSettings.setSupportZoom(true);
 		webSettings.setUseWideViewPort(true);
@@ -40,12 +49,13 @@ public class WebViewManager {
 			}
 		});
 	}
-
-	public WebView getWebView() {
-		return webView;
-	}
-
-	public void setWebView(WebView webView) {
-		this.webView = webView;
+	
+	public boolean goBack(){
+		if(webView.canGoBack()){
+			webView.goBack();
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
