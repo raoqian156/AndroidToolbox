@@ -5,11 +5,11 @@ import android.os.Handler;
 /**
  * 循环定时器
  */
-public class LoopTimer implements Runnable {
-	private int intervalMillis;
-	private boolean running;
-	private Handler handler;
-	private Runnable runnable;
+public class LoopTimer{
+	private int intervalMillis;	//间隔时间
+	private boolean running;	//运行状态
+	private Handler handler;	//消息处理器
+	private ExecuteRunnable executeRunnable;	//执行Runnable
 	
 	/**
 	 * 创建一个循环定时器
@@ -19,8 +19,8 @@ public class LoopTimer implements Runnable {
 	 */
 	public LoopTimer(Handler handler, Runnable runnable, int intervalMillis) {
 		this.handler = handler;
-		this.runnable = runnable;
 		this.intervalMillis = intervalMillis;
+		executeRunnable = new ExecuteRunnable(runnable);
 	}
 	
 	/**
@@ -32,20 +32,13 @@ public class LoopTimer implements Runnable {
 		this(new Handler(), runnable, intervalMillis);
 	}
 	
-	@Override
-	public void run() {
-		if(running && runnable != null){
-			runnable.run();
-		}
-	}
-	
 	/**
 	 * 立即启动
 	 */
 	public void start(){
 		running = true;
-		handler.removeCallbacks(this);
-		handler.post(this);
+		handler.removeCallbacks(executeRunnable);
+		handler.post(executeRunnable);
 	}
 	
 	/**
@@ -53,8 +46,8 @@ public class LoopTimer implements Runnable {
 	 */
 	public void delayStart(){
 		running = true;
-		handler.removeCallbacks(this);
-		handler.postDelayed(this, intervalMillis);
+		handler.removeCallbacks(executeRunnable);
+		handler.postDelayed(executeRunnable, intervalMillis);
 	}
 	
 	/**
@@ -62,7 +55,7 @@ public class LoopTimer implements Runnable {
 	 */
 	public void stop(){
 		running = false;
-		handler.removeCallbacks(this);
+		handler.removeCallbacks(executeRunnable);
 	}
 
 	/**
@@ -102,6 +95,28 @@ public class LoopTimer implements Runnable {
 	 * @param runnable
 	 */
 	public void setRunnable(Runnable runnable) {
-		this.runnable = runnable;
+		executeRunnable.setRunnable(runnable);
+	}
+	
+	/**
+	 * 执行Runnable
+	 */
+	private class ExecuteRunnable implements Runnable{
+		private Runnable runnable;
+		
+		public ExecuteRunnable(Runnable runnable){
+			this.runnable = runnable;
+		}
+		
+		@Override
+		public void run() {
+			if(running && runnable != null){
+				runnable.run();
+			}
+		}
+
+		public void setRunnable(Runnable runnable) {
+			this.runnable = runnable;
+		}
 	}
 }
