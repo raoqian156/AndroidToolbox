@@ -1,9 +1,17 @@
 # ![Logo](https://github.com/ixiaopan/EasyAndroid/raw/master/res/drawable-mdpi/ic_launcher.png) EasyAndroid
 
-这是一个Android类库，旨在让Android开发变得更简单
+这是一个Android基础类库，旨在让Android开发变得更简单
 
-##Downloads
-**[easy-android-2.9.6.jar](https://github.com/ixiaopan/EasyAndroid/raw/master/downloads/easy-android-2.9.6.jar)**
+##Features
+>* 提供了几个基类Activity，实现了一些比较常用的，例如：双击退出、简单的消息对话框、消息机制、获取各种资源、全局退出应用等功能；
+>* 提供了简单的SQL框架，便于自动生成sql代码，快捷执行增、删、改、查操作；
+>* 提供了Camera相关的工具，包括Camera管理类CameraManager、Camera最佳预览以及输出尺寸计算类CameraOptimalSizeCalculator、Camera自动对焦管理器AutoFocusManager等；
+>* 提供了Android开发中常用的工具类，例如：ActivityUtils、AndroidLogger、BitmapDecoder、AnimationUtils、NetworkUtils、IntentUtils、ViewUtils等；
+>* 提供了纯Java开发中常用的工具类，例如：ArrayUtils、FileUtils、AnnotationUtils、ReflectUtils、StringUtils等；
+>* 提供了一些扩展View，例如：SuperListView（可是实现下拉刷新）、ViewPlayer（可以实现图片轮播）、SuperEditText（可以实现带图标的EditText）
+
+##Change log
+**[easy-android-2.9.7.jar](https://github.com/ixiaopan/EasyAndroid/raw/master/downloads/easy-android-2.9.7.jar)**
 
 ##License
 ```java
