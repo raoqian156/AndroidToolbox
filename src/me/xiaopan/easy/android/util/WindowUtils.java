@@ -47,4 +47,13 @@ public class WindowUtils {
 	public static final boolean isLandscape(Context context){
 		return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 	}
+	
+	/**
+	 * 当前是否是竖屏
+	 * @param context
+	 * @return
+	 */
+	public static final boolean isPortrait(Context context){
+		return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+	}
 }
