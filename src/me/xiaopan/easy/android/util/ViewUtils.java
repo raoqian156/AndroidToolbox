@@ -266,4 +266,18 @@ public class ViewUtils {
 			viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener);
 		}
 	}
+
+	/**
+	 * 缩放视图
+	 * @param view
+	 * @param 比例
+	 */
+	public static void zoomView(View view, float scale){
+		ViewGroup.LayoutParams viewGroupParams = view.getLayoutParams();
+		if(viewGroupParams != null){
+			viewGroupParams.width = (int) (view.getWidth() * scale);
+			viewGroupParams.height = (int) (view.getHeight() * scale);
+			view.setLayoutParams(viewGroupParams);
+		}
+	}
 }

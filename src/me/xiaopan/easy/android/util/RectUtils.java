@@ -23,6 +23,18 @@ import android.graphics.Rect;
  */
 public class RectUtils {
 	/**
+	 * 缩放Rect
+	 * @param rect
+	 * @param scale
+	 */
+	public static void zoomRect(Rect rect, float scale){
+		rect.left *= scale;
+		rect.top *= scale;
+		rect.right *= scale;
+		rect.bottom *= scale;
+	}
+	
+	/**
 	 * 映射矩形，将源尺寸中的一个矩形映射到目标尺寸中
 	 * @param sourceSize 源尺寸
 	 * @param rectIntSourceSize 源尺寸中的一个矩形
