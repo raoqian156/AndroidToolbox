@@ -17,6 +17,7 @@ package me.xiaopan.easy.android.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.text.Editable;
@@ -270,14 +271,24 @@ public class ViewUtils {
 	/**
 	 * 缩放视图
 	 * @param view
+	 * @param scale 比例
+	 * @param originalSize 
+	 */
+	public static void zoomView(View view, float scale, Point originalSize){
+		ViewGroup.LayoutParams viewGroupParams = view.getLayoutParams();
+		if(viewGroupParams != null){
+			viewGroupParams.width = (int) (originalSize.x * scale);
+			viewGroupParams.height = (int) (originalSize.y * scale);
+			view.setLayoutParams(viewGroupParams);
+		}
+	}
+
+	/**
+	 * 缩放视图
+	 * @param view
 	 * @param 比例
 	 */
 	public static void zoomView(View view, float scale){
-		ViewGroup.LayoutParams viewGroupParams = view.getLayoutParams();
-		if(viewGroupParams != null){
-			viewGroupParams.width = (int) (view.getWidth() * scale);
-			viewGroupParams.height = (int) (view.getHeight() * scale);
-			view.setLayoutParams(viewGroupParams);
-		}
+		zoomView(view, scale, new Point(view.getWidth(), view.getHeight()));
 	}
 }
