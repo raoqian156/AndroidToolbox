@@ -25,47 +25,53 @@ public class RectUtils {
 	/**
 	 * 缩放Rect
 	 * @param rect
-	 * @param scale
+	 * @param scaleX
+	 * @param scaleY
+	 * @return rect
 	 */
-	public static void zoomRect(Rect rect, float scale){
-		rect.left *= scale;
-		rect.top *= scale;
-		rect.right *= scale;
-		rect.bottom *= scale;
+	public static Rect zoomRect(Rect rect, float scaleX, float scaleY){
+		rect.left *= scaleX;
+		rect.top *= scaleY;
+		rect.right *= scaleX;
+		rect.bottom *= scaleY;
+		return rect;
+	}
+	
+	/**
+	 * 缩放Rect
+	 * @param rect
+	 * @param scale
+	 * @return rect
+	 */
+	public static Rect zoomRect(Rect rect, float scale){
+		return zoomRect(rect, scale);
 	}
 	
 	/**
 	 * 映射矩形，将源尺寸中的一个矩形映射到目标尺寸中
-	 * @param sourceSize 源尺寸
 	 * @param rectIntSourceSize 源尺寸中的一个矩形
+	 * @param sourceSize 源尺寸
 	 * @param targetSize 目标尺寸
-	 * @param isTargetSizeInterchange 是否将targetSize宽高互换
 	 * @return 源尺寸中的矩形映射到目标尺寸中后的矩形
 	 */
-	public static Rect mappingRect(Point sourceSize, Rect rectIntSourceSize, Point targetSize, boolean isTargetSizeInterchange){
-		Rect finalRect = new Rect(rectIntSourceSize);
+	public static Rect mappingRect(Rect rectIntSourceSize, Point sourceSize, Point targetSize){
+		return zoomRect(new Rect(rectIntSourceSize), (float) targetSize.x / sourceSize.x, (float) targetSize.y / sourceSize.y);
+	}
+	
+	/**
+	 * 映射矩形，将源尺寸中的一个矩形映射到目标尺寸中
+	 * @param rectIntSourceSize 源尺寸中的一个矩形
+	 * @param sourceSize 源尺寸
+	 * @param targetSize 目标尺寸
+	 * @param isTargetSizeInterchange 是否将targetSize的宽高互换
+	 * @return 源尺寸中的矩形映射到目标尺寸中后的矩形
+	 */
+	public static Rect mappingRect(Rect rectIntSourceSize, Point sourceSize, Point targetSize, boolean isTargetSizeInterchange){
 		if(isTargetSizeInterchange){
 			targetSize.x = targetSize.x + targetSize.y;
 			targetSize.y = targetSize.x - targetSize.y;
 			targetSize.x = targetSize.x - targetSize.y;
 		}
-		float xScale = (float) targetSize.x / sourceSize.x;
-		float yScale = (float) targetSize.y / sourceSize.y;
-		finalRect.left *= xScale;
-		finalRect.top *= yScale;
-		finalRect.right *= xScale;
-		finalRect.bottom *= yScale;
-		return finalRect;
-	}
-	
-	/**
-	 * 映射矩形，将源尺寸中的一个矩形映射到目标尺寸中
-	 * @param sourceSize 源尺寸
-	 * @param rectIntSourceSize 源尺寸中的一个矩形
-	 * @param targetSize 目标尺寸
-	 * @return 源尺寸中的矩形映射到目标尺寸中后的矩形
-	 */
-	public static Rect mappingRect(Point sourceSize, Rect rectIntSourceSize, Point targetSize){
-		return mappingRect(sourceSize, rectIntSourceSize, targetSize, false);
+		return mappingRect(rectIntSourceSize, sourceSize, targetSize);
 	}
 }

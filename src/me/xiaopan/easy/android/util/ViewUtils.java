@@ -271,16 +271,42 @@ public class ViewUtils {
 	/**
 	 * 缩放视图
 	 * @param view
+	 * @param scaleX
+	 * @param scaleY
+	 * @param originalSize 
+	 */
+	public static void zoomView(View view, float scaleX, float scaleY, Point originalSize){
+		int width = (int) (originalSize.x * scaleX);
+		int height = (int) (originalSize.y * scaleY);
+		ViewGroup.LayoutParams viewGroupParams = view.getLayoutParams();
+		if(viewGroupParams != null){
+			viewGroupParams.width = width;
+			viewGroupParams.height = height;
+		}else{
+			viewGroupParams = new ViewGroup.LayoutParams(width, height);
+		}
+		view.setLayoutParams(viewGroupParams);
+	}
+
+	/**
+	 * 缩放视图
+	 * @param view
+	 * @param scaleX
+	 * @param scaleY
+	 * @param originalSize 
+	 */
+	public static void zoomView(View view, float scaleX, float scaleY){
+		zoomView(view, scaleX, scaleY, new Point(view.getWidth(), view.getHeight()));
+	}
+
+	/**
+	 * 缩放视图
+	 * @param view
 	 * @param scale 比例
 	 * @param originalSize 
 	 */
 	public static void zoomView(View view, float scale, Point originalSize){
-		ViewGroup.LayoutParams viewGroupParams = view.getLayoutParams();
-		if(viewGroupParams != null){
-			viewGroupParams.width = (int) (originalSize.x * scale);
-			viewGroupParams.height = (int) (originalSize.y * scale);
-			view.setLayoutParams(viewGroupParams);
-		}
+		zoomView(view, scale, scale, originalSize);
 	}
 
 	/**
@@ -289,6 +315,6 @@ public class ViewUtils {
 	 * @param 比例
 	 */
 	public static void zoomView(View view, float scale){
-		zoomView(view, scale, new Point(view.getWidth(), view.getHeight()));
+		zoomView(view, scale, scale, new Point(view.getWidth(), view.getHeight()));
 	}
 }
