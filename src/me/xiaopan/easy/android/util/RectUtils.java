@@ -44,7 +44,7 @@ public class RectUtils {
 	 * @return rect
 	 */
 	public static Rect zoomRect(Rect rect, float scale){
-		return zoomRect(rect, scale);
+		return zoomRect(rect, scale, scale);
 	}
 	
 	/**
