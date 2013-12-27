@@ -62,6 +62,7 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	private boolean openedBroadcaseReceiver;	//已经打开了广播接收器
 	private boolean enableDoubleClickExitApplication;	//是否开启双击退出程序功能
 	private boolean enableCustomActivitySwitchAnimation;	//是否启用自定义的Activity切换动画
+	private boolean finished;
 	private Handler hanlder;	//主线程消息处理器
 	private BroadcastReceiver broadcastReceiver;	//广播接收器
 	
@@ -106,6 +107,7 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	@Override
 	protected void onDestroy() {
+		finished = true;
 		ActivityManager.getInstance().removeActivity(getActivityId());
 		closeBroadcastReceiver();
 		super.onDestroy();
@@ -113,15 +115,16 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 
 	@Override
 	protected Dialog onCreateDialog(int id, Bundle args) {
-		Dialog dialog = null;
-		switch(id){
+		if(!isFinished()){
+			Dialog dialog = null;
+			switch(id){
 			case DIALOG_MESSAGE : 
-					AlertDialog messageDialog = new AlertDialog.Builder(this).create();
-					if(args != null){
-						messageDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
-						messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
-					}
-					dialog = messageDialog;
+				AlertDialog messageDialog = new AlertDialog.Builder(this).create();
+				if(args != null){
+					messageDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
+					messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
+				}
+				dialog = messageDialog;
 				break;
 			case DIALOG_PROGRESS : 
 				ProgressDialog progressDialog = new ProgressDialog(this);
@@ -132,8 +135,11 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 				}
 				dialog = progressDialog;
 				break;
+			}
+			return dialog;
+		}else{
+			return null;
 		}
-		return dialog;
 	}
 
 	@Override
@@ -631,15 +637,19 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	/* ********************************************** 对话框 ************************************************ */
 	@Override
 	public void showMessageDialog(final String message, final String confrimButtonName){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				Bundle bundle = new Bundle();
-				bundle.putString(KEY_DIALOG_MESSAGE, message);
-				bundle.putString(KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
-				showDialog(BaseActivityInterface.DIALOG_MESSAGE, bundle); 
-			}
-		});
+		if(!isFinished()){
+			getHanlder().post(new Runnable() {
+				@Override
+				public void run() {
+					if(!isFinished()){
+						Bundle bundle = new Bundle();
+						bundle.putString(KEY_DIALOG_MESSAGE, message);
+						bundle.putString(KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
+						showDialog(BaseActivityInterface.DIALOG_MESSAGE, bundle); 
+					}
+				}
+			});
+		}
 	}
 	
 	@Override
@@ -659,24 +669,36 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	@Override
 	public void closeMessageDialog(){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				dismissDialog(BaseActivityInterface.DIALOG_MESSAGE); 
-			}
-		});
+		if(!isFinished()){
+			getHanlder().post(new Runnable() {
+				@Override
+				public void run() {
+					if(!isFinished()){
+						try{
+							dismissDialog(BaseActivityInterface.DIALOG_MESSAGE);
+						}catch(Throwable throwable){
+							throwable.printStackTrace();
+						} 
+					}
+				}
+			});
+		}
 	}
 	
 	@Override
 	public void showProgressDialog(final String message){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				Bundle bundle = new Bundle();
-				bundle.putString(KEY_DIALOG_MESSAGE, message);
-				showDialog(BaseActivityInterface.DIALOG_PROGRESS, bundle);
-			}
-		});
+		if(!isFinished()){
+			getHanlder().post(new Runnable() {
+				@Override
+				public void run() {
+					if(!isFinished()){
+						Bundle bundle = new Bundle();
+						bundle.putString(KEY_DIALOG_MESSAGE, message);
+						showDialog(BaseActivityInterface.DIALOG_PROGRESS, bundle);
+					}
+				}
+			});
+		}
 	}
 	
 	@Override
@@ -686,12 +708,20 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	
 	@Override
 	public void closeProgressDialog(){
-		getHanlder().post(new Runnable() {
-			@Override
-			public void run() {
-				dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); 
-			}
-		});
+		if(!isFinished()){
+			getHanlder().post(new Runnable() {
+				@Override
+				public void run() {
+					if(!isFinished()){
+						try{
+							dismissDialog(BaseActivityInterface.DIALOG_PROGRESS); 
+						}catch(Throwable throwable){
+							throwable.printStackTrace();
+						}
+					}
+				}
+			});
+		}
 	}
 	
 	
@@ -947,5 +977,9 @@ public abstract class BaseTabActivity extends TabActivity implements BaseActivit
 	 */
 	public void setEnableCustomActivitySwitchAnimation(boolean enableCustomActivitySwitchAnimation) {
 		this.enableCustomActivitySwitchAnimation = enableCustomActivitySwitchAnimation;
+	}
+
+	public boolean isFinished() {
+		return finished;
 	}
 }

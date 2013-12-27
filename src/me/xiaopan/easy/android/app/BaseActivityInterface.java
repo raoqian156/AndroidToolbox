@@ -787,4 +787,10 @@ public interface BaseActivityInterface {
 	 * @return 已经开启了广播接收器
 	 */
 	public boolean isOpenedBroadcaseReceiver();
+	
+	/**
+	 * 是否已经销毁
+	 * @return
+	 */
+	public boolean isFinished();
 }
