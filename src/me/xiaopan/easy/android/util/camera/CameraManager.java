@@ -208,7 +208,11 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(debugMode){
 				Log.d(logTag, "autoFocus");
 			}
-			camera.autoFocus(this);
+			try{
+				camera.autoFocus(this);
+			}catch(Throwable throwable){
+				throwable.printStackTrace();
+			}
 		}
 	}
 	
