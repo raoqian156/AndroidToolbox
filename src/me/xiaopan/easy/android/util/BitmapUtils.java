@@ -148,6 +148,7 @@ public class BitmapUtils {
 		/* 将原图画到画布的上半部分，将倒影画到画布的下半部分，倒影与画布顶部的间距是原图的高度加上原图与倒影之间的间距 */
 		canvas.drawBitmap(bitmap, 0, 0, null);
 		canvas.drawBitmap(reflectionImage, 0, height + reflectionSpacing, null);
+		reflectionImage.recycle();
 		
 		/* 将倒影改成半透明，创建画笔，并设置画笔的渐变从半透明的白色到全透明的白色，然后再倒影上面画半透明效果 */
 		Paint paint = new Paint();
