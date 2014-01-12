@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -62,6 +63,28 @@ public class IOUtils {
 	 * 每次最多读取的长度
 	 */
 	public static final int MAX_OPERATION_LENGTH = 1024;
+	
+	/**
+	 * 关闭流
+	 * @param closeable
+	 */
+	public static void close(Closeable closeable) {
+		if(closeable != null){
+			if(closeable instanceof OutputStream){
+				try {
+					((OutputStream) closeable).flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			try {
+				closeable.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	/**
 	 * 从给定的字节输入流中读取字节

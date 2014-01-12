@@ -1587,4 +1587,22 @@ public class FileUtils {
 			return -result;
 		}
 	}
+	
+	/**
+	 * 获取文件长度，此方法的关键点在于，他也能获取目录的长度
+	 * @param file
+	 * @return
+	 */
+	public static long getFileLength(File file){
+		long length = 0;
+		if(file.isFile()){
+			length += file.length();
+		}else{
+			File[] files = file.listFiles();
+			for(File childFile : files){
+				length += getFileLength(childFile);
+			}
+		}
+		return length;
+	}
 }

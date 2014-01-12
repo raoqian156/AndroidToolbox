@@ -11,7 +11,7 @@
 >* 提供了一些扩展View，例如：SuperListView（可是实现下拉刷新）、ViewPlayer（可以实现图片轮播）、SuperEditText（可以实现带图标的EditText）
 
 ##Change log
-**[easy-android-3.0.0.jar](https://github.com/ixiaopan/EasyAndroid/raw/master/downloads/easy-android-3.0.0.jar)**
+**[easy-android-3.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/downloads/easy-android-3.0.1.jar)**
 
 ##License
 ```java
