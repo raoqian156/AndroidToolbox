@@ -1369,16 +1369,34 @@ public class FileUtils {
 	}
 	
 	/**
-	 * 计算给定的多个文件的长度
+	 * 获取文件长度，此方法的关键点在于，他也能获取目录的长度
+	 * @param file
+	 * @return
+	 */
+	public static long countFileLength(File file){
+		long length = 0;
+		if(file.isFile()){
+			length += file.length();
+		}else{
+			File[] files = file.listFiles();
+			for(File childFile : files){
+				length += countFileLength(childFile);
+			}
+		}
+		return length;
+	}
+	
+	/**
+	 * 计算给定的多个文件的长度，此方法的关键点在于，他也能获取目录的长度
 	 * @param files 给定的多个文件
 	 * @return
 	 */
 	public static long countFileLength(File...files){
-		int size = 0;																	
+		int length = 0;																	
 		for(File file : files){
-			size += file.length();
+			length += countFileLength(file);
 		}
-		return size;
+		return length;
 	}
 	
 	/**
@@ -1586,23 +1604,5 @@ public class FileUtils {
 			}
 			return -result;
 		}
-	}
-	
-	/**
-	 * 获取文件长度，此方法的关键点在于，他也能获取目录的长度
-	 * @param file
-	 * @return
-	 */
-	public static long getFileLength(File file){
-		long length = 0;
-		if(file.isFile()){
-			length += file.length();
-		}else{
-			File[] files = file.listFiles();
-			for(File childFile : files){
-				length += getFileLength(childFile);
-			}
-		}
-		return length;
 	}
 }
