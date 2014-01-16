@@ -780,7 +780,7 @@ public interface BaseActivityInterface {
 	 * 获取消息处理器
 	 * @return 消息处理器
 	 */
-	public Handler getHanlder();
+	public Handler getHandler();
 
 	/**
 	 * 是否已经开启了广播接收器

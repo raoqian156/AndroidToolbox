@@ -24,7 +24,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ExpandableListActivity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -51,7 +50,7 @@ import android.view.animation.LayoutAnimationController;
 /**
  * 自定义抽象的Activity基类，提供了很多实用的方法以及功能
  */
-public abstract class BaseExpandableListActivity extends ExpandableListActivity implements BaseActivityInterface{
+public abstract class EasyActivity extends Activity implements BaseActivityInterface{
 	private static long lastClickBackButtonTime;	//记录上次点击返回按钮的时间，用来配合实现双击返回按钮退出应用程序的功能
 	private int doubleClickSpacingInterval = 2000;	//双击退出程序的间隔时间
 	private int[] startActivityAnimation;	//启动Activity的动画
@@ -62,7 +61,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	private boolean enableDoubleClickExitApplication;	//是否开启双击退出程序功能
 	private boolean enableCustomActivitySwitchAnimation;	//是否启用自定义的Activity切换动画
 	private boolean finished;
-	private Handler hanlder;	//主线程消息处理器
+	private Handler handler;	//主线程消息处理器
 	private BroadcastReceiver broadcastReceiver;	//广播接收器
 	
 	@SuppressLint("HandlerLeak")
@@ -71,7 +70,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 		super.onCreate(savedInstanceState); 
 		createTime = System.currentTimeMillis();	//记录创建时间，用于异常终止时判断是否需要等待一段时间再终止，因为时间过短的话体验不好
 		activityId = ActivityManager.getInstance().putActivity(this);	//将当前Activity放入ActivityManager中，并获取其ID
-		hanlder = new Handler(){
+		handler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
 				if(!isFinishing()){
@@ -200,7 +199,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void sendMessage(Message message){
-		message.setTarget(getHanlder());
+		message.setTarget(getHandler());
 		message.sendToTarget();
 	}
 	
@@ -260,7 +259,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	/* ********************************************** Toast ************************************************ */
 	@Override
 	public void toastL(final View view){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastL(getBaseContext(), view);
@@ -270,7 +269,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastS(final View view){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastS(getBaseContext(), view);
@@ -280,7 +279,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastL(final String content){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastL(getBaseContext(), content);
@@ -290,7 +289,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastS(final String content){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastS(getBaseContext(), content);
@@ -300,7 +299,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastL(final int resId){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastL(getBaseContext(), resId);
@@ -310,7 +309,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastS(final int resId){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastS(getBaseContext(), resId);
@@ -320,7 +319,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastL(final String format, final Object... args){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastL(getBaseContext(), String.format(format, args));
@@ -330,7 +329,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastS(final String format, final Object... args){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastS(getBaseContext(), String.format(format, args));
@@ -340,7 +339,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastL(final int formatResId, final Object... args){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastL(getBaseContext(), getString(formatResId, args));
@@ -350,7 +349,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void toastS(final int formatResId, final Object... args){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				ToastUtils.toastS(getBaseContext(), getString(formatResId, args));
@@ -365,7 +364,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	public void startActivity(final Class<?> targetActivity, final int flag, final Bundle bundle, final boolean isClose, final int inAnimation, final int outAnimation){
 		final Activity activity = this;
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				if(isEnableCustomActivitySwitchAnimation()){
@@ -463,7 +462,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	public void startActivityForResult(final Class<?> targetActivity, final int requestCode, final int flag, final Bundle bundle, final int inAnimation, final int outAnimation){
 		final Activity activity = this;
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				if(isEnableCustomActivitySwitchAnimation()){
@@ -523,7 +522,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	/* ********************************************** 终止Activity ************************************************ */
 	@Override
 	public void finishActivity(int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
+		getHandler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				finish();
@@ -538,7 +537,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void finishActivity(){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				finish();
@@ -551,7 +550,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void finishActivity(final int inAnimation, final int outAnimation, int delayMillis){
-		getHanlder().postDelayed(new Runnable() {
+		getHandler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				finish();
@@ -562,7 +561,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	
 	@Override
 	public void finishActivity(final int inAnimation, final int outAnimation){
-		getHanlder().post(new Runnable() {
+		getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				finish();
@@ -637,7 +636,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	public void showMessageDialog(final String message, final String confrimButtonName){
 		if(!isFinished()){
-			getHanlder().post(new Runnable() {
+			getHandler().post(new Runnable() {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
@@ -670,7 +669,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	public void closeMessageDialog(){
 		if(!isFinished()){
-			getHanlder().post(new Runnable() {
+			getHandler().post(new Runnable() {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
@@ -689,7 +688,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	public void showProgressDialog(final String message){
 		if(!isFinished()){
-			getHanlder().post(new Runnable() {
+			getHandler().post(new Runnable() {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
@@ -711,7 +710,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	public void closeProgressDialog(){
 		if(!isFinished()){
-			getHanlder().post(new Runnable() {
+			getHandler().post(new Runnable() {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
@@ -885,8 +884,8 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	}
 
 	@Override
-	public Handler getHanlder() {
-		return hanlder;
+	public Handler getHandler() {
+		return handler;
 	}
 
 	@Override
