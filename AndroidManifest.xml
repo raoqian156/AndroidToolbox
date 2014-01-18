@@ -4,5 +4,12 @@
     android:versionCode="301" 
     android:versionName="3.0.1" >
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19"/>
-    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="Easy Android"/>
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="Easy Android">
+        <activity android:name="me.xiaopan.easy.android.sample.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
