@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/ixiaopan/EasyAndroid/raw/master/res/drawable-mdpi/ic_launcher.png) EasyAndroid
+# ![Logo](https://github.com/xiaopansky/EasyAndroid/raw/master/res/drawable-mdpi/ic_launcher.png) EasyAndroid
 
 这是一个Android开发框架和基础工具类库，旨在让Android开发变得更简单
 
