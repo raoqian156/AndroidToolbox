@@ -33,13 +33,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 
-/**
- * 自定义抽象的Activity基类，提供了很多实用的方法以及功能
- */
 public abstract class EasyActivity extends RoboActivity{
 	private static final int DIALOG_MESSAGE = -1212343;	//对话框 - 消息对话框
 	private static final int DIALOG_PROGRESS = -1212346;	//对话框 - 进度对话框
@@ -66,21 +62,6 @@ public abstract class EasyActivity extends RoboActivity{
 		}
 	}
 	
-	@Override
-	public void setContentView(int layoutResID) {
-		super.setContentView(layoutResID);
-	}
-
-	@Override
-	public void setContentView(View view) {
-		super.setContentView(view);
-	}
-
-	@Override
-	public void setContentView(View view, LayoutParams params) {
-		super.setContentView(view, params);
-	}
-
 	@Override
 	public void onBackPressed() {
 		if(doubleClickExitAcpplicationDetector != null){
