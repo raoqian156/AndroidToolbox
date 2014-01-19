@@ -354,7 +354,7 @@ public abstract class EasyFragmentActivity extends RoboFragmentActivity{
 	 * @param flag Intent标记，不需要的话就设为-1
 	 * @param bundle 参数集
 	 */
-	public void startForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final int flag, final Bundle bundle){
+	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final int flag, final Bundle bundle){
 		final Activity activity = this;
 		handler.post(new Runnable() {
 			@Override
@@ -370,8 +370,8 @@ public abstract class EasyFragmentActivity extends RoboFragmentActivity{
 	 * @param requestCode 请求码
 	 * @param flag Intent标记，不需要的话就设为-1
 	 */
-	public void startForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final int flag){
-		startForResult(targetActivityClass, requestCode, flag, null);
+	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final int flag){
+		startActivityForResult(targetActivityClass, requestCode, flag, null);
 	}
 
 	/**
@@ -380,8 +380,8 @@ public abstract class EasyFragmentActivity extends RoboFragmentActivity{
 	 * @param requestCode 请求码
 	 * @param bundle 参数集
 	 */
-	public void startForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final Bundle bundle){
-		startForResult(targetActivityClass, requestCode, -1, bundle);
+	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final Bundle bundle){
+		startActivityForResult(targetActivityClass, requestCode, -1, bundle);
 	}
 
 	/**
@@ -389,8 +389,8 @@ public abstract class EasyFragmentActivity extends RoboFragmentActivity{
 	 * @param targetActivityClass 目标Activity的Class
 	 * @param requestCode 请求码
 	 */
-	public void startForResult(final Class<? extends Activity> targetActivityClass, final int requestCode){
-		startForResult(targetActivityClass, requestCode, -1, null);
+	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode){
+		startActivityForResult(targetActivityClass, requestCode, -1, null);
 	}
 	
 	

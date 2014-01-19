@@ -16,36 +16,28 @@
 
 package me.xiaopan.easy.android.sample;
 
-import me.xiaopan.easy.android.R;
-import me.xiaopan.easy.android.activity.EasyFragmentActivity;
-import me.xiaopan.easy.android.inject.InjectContentView;
-import roboguice.inject.InjectView;
+import me.xiaopan.easy.android.fragment.EasyDialogFragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-@InjectContentView(R.layout.activity_main)
-public class MainActivity extends EasyFragmentActivity {
-	@InjectView(R.id.text_main)
-	private TextView text;
+public class TestDialogFragment extends EasyDialogFragment {
 
-	@InjectView(R.id.button_main)
-	private Button button;
-	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		text.setText("这是一个Android开发框架和工具包");
-		
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Button button = new Button(getActivity());
+		button.setText("这是DialogFragemnt测试");
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TestDialogFragment dialogFragment = new TestDialogFragment();
-				dialogFragment.show(getSupportFragmentManager(), "dada");
+				startActivity(MainActivity.class);
+				dismiss();
 			}
 		});
+		return button;
 	}
+	
 }

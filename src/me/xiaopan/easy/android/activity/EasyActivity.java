@@ -312,7 +312,7 @@ public abstract class EasyActivity extends RoboActivity{
 	 * @param flag Intent标记，不需要的话就设为-1
 	 * @param bundle 参数集
 	 */
-	public void startActivityActivity(final Class<? extends Activity> targetActivityClass, final int flag, final Bundle bundle){
+	public void startActivity(final Class<? extends Activity> targetActivityClass, final int flag, final Bundle bundle){
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
@@ -326,8 +326,8 @@ public abstract class EasyActivity extends RoboActivity{
 	 * @param targetActivityClass 目标Activity的Class
 	 * @param flag Intent标记，不需要的话就设为-1
 	 */
-	public void startActivityActivity(final Class<? extends Activity> targetActivityClass, final int flag){
-		startActivityActivity(targetActivityClass, flag, null);
+	public void startActivity(final Class<? extends Activity> targetActivityClass, final int flag){
+		startActivity(targetActivityClass, flag, null);
 	}
 	
 	/**
@@ -335,16 +335,16 @@ public abstract class EasyActivity extends RoboActivity{
 	 * @param targetActivityClass 目标Activity的Class
 	 * @param bundle 参数集
 	 */
-	public void startActivityActivity(final Class<? extends Activity> targetActivityClass, Bundle bundle){
-		startActivityActivity(targetActivityClass, -1, bundle);
+	public void startActivity(final Class<? extends Activity> targetActivityClass, Bundle bundle){
+		startActivity(targetActivityClass, -1, bundle);
 	}
 	
 	/**
 	 * 启动Activity
 	 * @param targetActivityClass 目标Activity的Class
 	 */
-	public void startActivityActivity(final Class<? extends Activity> targetActivityClass){
-		startActivityActivity(targetActivityClass, -1, null);
+	public void startActivity(final Class<? extends Activity> targetActivityClass){
+		startActivity(targetActivityClass, -1, null);
 	}
 
 	/**
