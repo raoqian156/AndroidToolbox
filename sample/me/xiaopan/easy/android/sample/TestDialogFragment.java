@@ -16,7 +16,7 @@
 
 package me.xiaopan.easy.android.sample;
 
-import me.xiaopan.easy.android.fragment.EasyDialogFragment;
+import me.xiaopan.android.easy.fragment.EasyDialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
