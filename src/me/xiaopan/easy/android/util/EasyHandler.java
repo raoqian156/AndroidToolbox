@@ -30,7 +30,7 @@ public class EasyHandler extends Handler {
 		}
 	}
 	
-	public void destroyed(){
+	public void destroy(){
 		destroyed = true;
 	}
 }

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.xiaopan.easy.android.app;
+package me.xiaopan.easy.android.activity;
 
 import java.util.Locale;
 
+import me.xiaopan.easy.android.inject.InjectContentView;
 import me.xiaopan.easy.android.util.ActivityPool;
 import me.xiaopan.easy.android.util.ActivityUtils;
 import me.xiaopan.easy.android.util.DoubleClickDetector;
 import me.xiaopan.easy.android.util.EasyHandler;
 import me.xiaopan.easy.android.util.NetworkUtils;
 import me.xiaopan.easy.android.util.ToastUtils;
-import roboguice.activity.RoboActivity;
+import roboguice.activity.RoboLauncherActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -36,7 +37,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public abstract class EasyActivity extends RoboActivity{
+public abstract class EasyLauncherActivity extends RoboLauncherActivity{
 	private static final int DIALOG_MESSAGE = -1212343;	//对话框 - 消息对话框
 	private static final int DIALOG_PROGRESS = -1212346;	//对话框 - 进度对话框
 	private static final String KEY_DIALOG_MESSAGE = "KEY_DIALOG_MESSAGE";	// 键 - 对话框消息
@@ -121,7 +122,7 @@ public abstract class EasyActivity extends RoboActivity{
 	@Override
 	protected void onDestroy() {
 		haveDestroy = true;
-		handler.destroyed();
+		handler.destroy();
 		activityPool.removeSelf();
 		super.onDestroy();
 	}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.easy.android.app;
+package me.xiaopan.easy.android.inject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
