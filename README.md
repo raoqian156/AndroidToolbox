@@ -15,21 +15,14 @@
 **[android-easy-4.0.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.0.jar)**
 
 ##Depend
->* **[robo-guice-2.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/robo-guice-2.0.1.jar)**
-Required. 用于实现注入功能
-
->* **[guice-3.0-no_aop.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/guice-3.0-no_aop.jar)**
-Required. robo-guice-2.0.1.jar所依赖的类库
-
->* **[javax.inject-1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/javax.inject-1.jar)**
-Required. guice-3.0-no_aop.jar所依赖的类库
-
->* **[android-support-v4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/android-support-v4.jar)**
-可选的。如果你要使用EasyFragmentActivity、EasyFragment就必须要此类库
+>* **[robo-guice-2.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/robo-guice-2.0.1.jar)** Required. 用于实现注入功能
+>* **[guice-3.0-no_aop.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/guice-3.0-no_aop.jar)** Required. robo-guice-2.0.1.jar所依赖的类库
+>* **[javax.inject-1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/javax.inject-1.jar)** Required. guice-3.0-no_aop.jar所依赖的类库
+>* **[android-support-v4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/android-support-v4.jar)** 可选的。如果你要使用EasyFragmentActivity、EasyFragment就必须要引入此类库
 >* **[android-support-v7-appcompat.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/android-support-v7-appcompat.jar)**
-可选的。如果你要使用EasyActionBarActivity就必须要此类库，住的注意的是使用此类库的时候android-support-v4.jar一定要使用sdk\extras\android\support\v7\appcompat\libs目录下的，因为这个目录下的包含有android-support-v7-appcompat.jar需要的类
->* **[gson-2.2.2.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/gson-2.2.2.jar)**
->* **[pinyin4j-2.5.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/pinyin4j-2.5.0.jar)**
+可选的。如果你要使用EasyActionBarActivity就必须要引入此类库，值的注意的是使用此类库的时候一定要使用sdk\extras\android\support\v7\appcompat\libs目录下的android-support-v4.jar（因为这个目录下的android-support-v4.jar包含有android-support-v7-appcompat.jar需要的类）
+>* **[gson-2.2.2.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/gson-2.2.2.jar)** 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要引入此类库
+>* **[pinyin4j-2.5.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/pinyin4j-2.5.0.jar)** 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要引入此类库
 
 ##License
 ```java
