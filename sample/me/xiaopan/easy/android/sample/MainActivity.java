@@ -18,7 +18,7 @@ package me.xiaopan.easy.android.sample;
 
 import me.xiaopan.android.easy.activity.EasyFragmentActivity;
 import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.easy.android.R;
+import me.xiaopan.android.easy.R;
 import roboguice.inject.InjectView;
 import android.os.Bundle;
 import android.view.View;
