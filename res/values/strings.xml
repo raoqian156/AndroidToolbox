@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_open">打开DialogFragment</string>
+    <string name="button_openNew">打开新的Activity</string>
 </resources>

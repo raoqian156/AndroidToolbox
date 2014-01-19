@@ -15,7 +15,7 @@
 **[android-easy-4.0.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.0.jar)**
 
 ##Depend
->* **[robo-guice-2.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/robo-guice-2.0.1.jar)** Required. 用于实现注入功能
+>* **[robo-guice-2.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/robo-guice-2.0.1.jar)** Required. 用于实现注入功能，值得注意的是此类库是本人编译roboguice项目源码后得到的，其中包含有RoboActionBarActivity。从网上找到的robo-guice-2.0.0.jar并不包含RoboActionBarActivity，所以请尽量使用此类库
 >* **[guice-3.0-no_aop.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/guice-3.0-no_aop.jar)** Required. robo-guice-2.0.1.jar所依赖的类库
 >* **[javax.inject-1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/javax.inject-1.jar)** Required. guice-3.0-no_aop.jar所依赖的类库
 >* **[android-support-v4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/android-support-v4.jar)** 可选的。如果你要使用EasyFragmentActivity、EasyFragment就必须要引入此类库

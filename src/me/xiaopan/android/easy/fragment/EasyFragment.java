@@ -16,6 +16,7 @@
 
 package me.xiaopan.android.easy.fragment;
 
+import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
@@ -25,7 +26,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 public class EasyFragment extends RoboFragment {
 	private EasyHandler handler;
@@ -37,6 +40,16 @@ public class EasyFragment extends RoboFragment {
 				onHandleMessage(msg);
 			}
 		};
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class); 
+		if(injectContentView != null){
+			return inflater.inflate(injectContentView.value(), null);
+		}else{
+			return null;
+		}
 	}
 	
 	/**

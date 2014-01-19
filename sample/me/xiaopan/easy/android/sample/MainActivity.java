@@ -39,7 +39,6 @@ public class MainActivity extends EasyFragmentActivity {
 		super.onCreate(savedInstanceState);
 		text.setText("这是一个Android开发框架和工具包");
 		
-		
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
