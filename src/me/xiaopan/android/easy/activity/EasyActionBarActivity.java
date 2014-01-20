@@ -313,10 +313,11 @@ public abstract class EasyActionBarActivity extends RoboActionBarActivity{
 	 * @param bundle 参数集
 	 */
 	public void startActivity(final Class<? extends Activity> targetActivityClass, final int flag, final Bundle bundle){
+		final Activity activity = this;
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				ActivityUtils.start(getBaseContext(), targetActivityClass, flag, bundle);
+				ActivityUtils.start(activity, targetActivityClass, flag, bundle);
 			}
 		});
 	}
