@@ -15,6 +15,7 @@
 ###4.0.1 **[android-easy-4.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.1.jar)**
 >* 修复ActivityUtils.startForResult()方法的Intent FlagBUG
 >* SinpleFragmentPagerAdapter增加重载构造函数
+>* startActivity()系列方法不再放到Handler中执行
 
 ###4.0.0
 

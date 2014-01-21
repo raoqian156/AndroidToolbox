@@ -313,13 +313,7 @@ public abstract class EasyAccountAuthenticatorActivity extends RoboAccountAuthen
 	 * @param bundle 参数集
 	 */
 	public void startActivity(final Class<? extends Activity> targetActivityClass, final int flag, final Bundle bundle){
-		final Activity activity = this;
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityUtils.start(activity, targetActivityClass, flag, bundle);
-			}
-		});
+		ActivityUtils.start(this, targetActivityClass, flag, bundle);
 	}
 	
 	/**
@@ -356,13 +350,7 @@ public abstract class EasyAccountAuthenticatorActivity extends RoboAccountAuthen
 	 * @param bundle 参数集
 	 */
 	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final int flag, final Bundle bundle){
-		final Activity activity = this;
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				ActivityUtils.startForResult(activity, targetActivityClass, requestCode, flag, bundle);
-			}
-		});
+		ActivityUtils.startForResult(this, targetActivityClass, requestCode, flag, bundle);
 	}
 
 	/**
