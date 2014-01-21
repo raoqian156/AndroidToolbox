@@ -66,7 +66,7 @@ public class ActivityUtils {
 	 */
 	public static void startForResult(Activity activity, Class<? extends Activity> targetActivityClass, int requestCode, int flag, Bundle bundle){
 		Intent intent = new Intent(activity, targetActivityClass);
-		if(flag != -5){
+		if(flag > 0){
 			intent.setFlags(flag);
 		}
 		if(bundle != null){

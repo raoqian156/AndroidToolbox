@@ -3,7 +3,7 @@
 这是一个Android开发框架和基础工具类库，旨在让Android开发变得更简单
 
 ##Features
->* 提供了一系列的Easy*Activity和Easy*Fragment，并且都继承于Robo*系列，所以你依然可以使用各种注入；
+>* 提供了一系列的EasyActivity和EasyFragment，并且都继承于Robo系列，所以你依然可以使用各种注入；
 >* Easy系列的Activity增加了注入ContentView的功能，你只需在Activity上加上InjectContentView注解并指定布局ID即可；
 >* Easy系列的类另外提供了一些扩展功能，比如：toast，startActiivty，showDialog等等；
 >* 提供了简单的SQL框架，便于自动生成sql代码，快捷执行增、删、改、查操作；
@@ -12,7 +12,10 @@
 >* 提供了纯Java开发中常用的工具类，例如：ArrayUtils、FileUtils、AnnotationUtils、ReflectUtils、StringUtils等；
 
 ##Change log
-**[android-easy-4.0.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.0.jar)**
+###4.0.1 **[android-easy-4.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.1.jar)**
+>* 修复ActivityUtils.startForResult()方法的Intent FlagBUG
+
+###4.0.0
 
 ##Depend
 >* **[robo-guice-2.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/robo-guice-2.0.1.jar)** Required. 用于实现注入功能，值得注意的是此类库是本人编译roboguice项目源码后得到的，其中包含有RoboActionBarActivity。从网上找到的robo-guice-2.0.0.jar并不包含RoboActionBarActivity，所以请尽量使用此类库
