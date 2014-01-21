@@ -17,14 +17,16 @@ public class ActivityUtils {
 	 * @param bundle 参数集
 	 */
 	public static void start(Context context, Class<? extends Activity> targetActivityClass, int flag, Bundle bundle){
-		Intent intent = new Intent(context, targetActivityClass);
-		if(flag > 0){
-			intent.setFlags(flag);
+		if(context != null && targetActivityClass != null){
+			Intent intent = new Intent(context, targetActivityClass);
+			if(flag > 0){
+				intent.setFlags(flag);
+			}
+			if(bundle != null){
+				intent.putExtras(bundle);
+			}
+			context.startActivity(intent);
 		}
-		if(bundle != null){
-			intent.putExtras(bundle);
-		}
-		context.startActivity(intent);
 	}
 
 	/**
@@ -65,14 +67,16 @@ public class ActivityUtils {
 	 * @param bundle 参数集
 	 */
 	public static void startForResult(Activity activity, Class<? extends Activity> targetActivityClass, int requestCode, int flag, Bundle bundle){
-		Intent intent = new Intent(activity, targetActivityClass);
-		if(flag > 0){
-			intent.setFlags(flag);
+		if(activity != null && targetActivityClass != null){
+			Intent intent = new Intent(activity, targetActivityClass);
+			if(flag > 0){
+				intent.setFlags(flag);
+			}
+			if(bundle != null){
+				intent.putExtras(bundle);
+			}
+			activity.startActivityForResult(intent, requestCode);
 		}
-		if(bundle != null){
-			intent.putExtras(bundle);
-		}
-		activity.startActivityForResult(intent, requestCode);
 	}
 
 	/**

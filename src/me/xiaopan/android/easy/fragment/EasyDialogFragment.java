@@ -17,12 +17,12 @@
 package me.xiaopan.android.easy.fragment;
 
 import me.xiaopan.android.easy.inject.InjectContentView;
+import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
 import roboguice.fragment.RoboDialogFragment;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -223,19 +223,7 @@ public class EasyDialogFragment extends RoboDialogFragment {
 	 * @param bundle 参数集
 	 */
 	public void startActivity(final Class<? extends Activity> targetActivityClass, final int flag, final Bundle bundle){
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				Intent intent = new Intent(getActivity(), targetActivityClass);
-				if(flag > 0){
-					intent.setFlags(flag);
-				}
-				if(bundle != null){
-					intent.putExtras(bundle);
-				}
-				startActivity(intent);
-			}
-		});
+		ActivityUtils.start(getActivity(), targetActivityClass, flag, bundle);
 	}
 	
 	/**
@@ -272,19 +260,7 @@ public class EasyDialogFragment extends RoboDialogFragment {
 	 * @param bundle 参数集
 	 */
 	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode, final int flag, final Bundle bundle){
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				Intent intent = new Intent(getActivity(), targetActivityClass);
-				if(flag != -5){
-					intent.setFlags(flag);
-				}
-				if(bundle != null){
-					intent.putExtras(bundle);
-				}
-				startActivityForResult(intent, requestCode);
-			}
-		});
+		ActivityUtils.startForResult(getActivity(), targetActivityClass, requestCode, flag, bundle);
 	}
 
 	/**
