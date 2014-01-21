@@ -15,6 +15,7 @@
  */
 package me.xiaopan.android.easy.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
@@ -26,10 +27,19 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 	private FragmentManager fragmentManager;
 	private List<Fragment> fragments;
 	
-	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager ,List<Fragment> fragments) {
+	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager, List<Fragment> fragments) {
 		super(fragmentManager);
 		this.fragmentManager = fragmentManager;
 		this.fragments = fragments;
+	}
+	
+	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager, Fragment... fragments) {
+		super(fragmentManager);
+		this.fragmentManager = fragmentManager;
+		this.fragments = new ArrayList<Fragment>(fragments.length);
+		for(Fragment fragment : fragments){
+			this.fragments.add(fragment);
+		}
 	}
 
 	@Override
@@ -45,8 +55,12 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override  
     public int getItemPosition(Object object) {  
         return POSITION_NONE;  
-    }  
+    }
 	
+	public List<Fragment> getFragments() {
+		return fragments;
+	}
+
 	public void setFragments(List<Fragment> fragmentsList){
 		if (fragments != null && fragments.size() > 0) {
 			FragmentTransaction ft = fragmentManager.beginTransaction();
