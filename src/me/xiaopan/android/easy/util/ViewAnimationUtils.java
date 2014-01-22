@@ -347,11 +347,11 @@ public class ViewAnimationUtils {
 	 * @param toXDelta X轴结束坐标
 	 * @param fromYDelta Y轴开始坐标
 	 * @param toYDelta Y轴结束坐标
-	 * @param durationMillis 持续时间
 	 * @param cycles 重复
+	 * @param durationMillis 持续时间
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
-	public static void translate(final View view, float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, long durationMillis, float cycles, final boolean isBanClick){
+	public static void translate(final View view, float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, float cycles, long durationMillis, final boolean isBanClick){
 		TranslateAnimation translateAnimation = new TranslateAnimation(fromXDelta, toXDelta, fromYDelta, toYDelta);
 		translateAnimation.setDuration(durationMillis);
 		if(cycles > 0.0){
@@ -387,11 +387,11 @@ public class ViewAnimationUtils {
 	 * @param toXDelta X轴结束坐标
 	 * @param fromYDelta Y轴开始坐标
 	 * @param toYDelta Y轴结束坐标
-	 * @param durationMillis 持续时间
 	 * @param cycles 重复
+	 * @param durationMillis 持续时间
 	 */
-	public static void translate(final View view, float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, long durationMillis, float cycles){
-		translate(view, fromXDelta, toXDelta, fromYDelta, toYDelta, durationMillis, cycles, false);
+	public static void translate(final View view, float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, float cycles, long durationMillis){
+		translate(view, fromXDelta, toXDelta, fromYDelta, toYDelta, cycles, durationMillis, false);
 	}
 
 	/**
@@ -399,12 +399,12 @@ public class ViewAnimationUtils {
 	 * @param view 要摇动的视图
 	 * @param fromXDelta X轴开始坐标
 	 * @param toXDelta X轴结束坐标
-	 * @param durationMillis 持续时间
 	 * @param cycles 重复次数
+	 * @param durationMillis 持续时间
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
-	public static void shake(View view, float fromXDelta, float toXDelta, long durationMillis, float cycles, final boolean isBanClick){
-		translate(view, fromXDelta, toXDelta, 0.0f, 0.0f, durationMillis, cycles, isBanClick);
+	public static void shake(View view, float fromXDelta, float toXDelta, float cycles, long durationMillis, final boolean isBanClick){
+		translate(view, fromXDelta, toXDelta, 0.0f, 0.0f, cycles, durationMillis, isBanClick);
 	}
 
 	/**
@@ -412,27 +412,87 @@ public class ViewAnimationUtils {
 	 * @param view 要摇动的视图
 	 * @param fromXDelta X轴开始坐标
 	 * @param toXDelta X轴结束坐标
-	 * @param durationMillis 持续时间
 	 * @param cycles 重复次数
+	 * @param durationMillis 持续时间
 	 */
-	public static void shake(View view, float fromXDelta, float toXDelta, long durationMillis, float cycles){
-		translate(view, fromXDelta, toXDelta, 0.0f, 0.0f, durationMillis, cycles, false);
+	public static void shake(View view, float fromXDelta, float toXDelta, float cycles, long durationMillis){
+		translate(view, fromXDelta, toXDelta, 0.0f, 0.0f, cycles, durationMillis, false);
 	}
 
 	/**
-	 * 视图摇晃，默认摇晃幅度为10，持续时间1000毫秒秒，重复7次
+	 * 视图摇晃，默认摇晃幅度为10，重复7次
+	 * @param view
+	 * @param cycles 重复次数
+	 * @param durationMillis 持续时间
+	 * @param isBanClick 在执行动画的过程中是否禁止点击
+	 */
+	public static void shake(View view, float cycles, long durationMillis, final boolean isBanClick){
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, cycles, durationMillis, isBanClick);
+	}
+
+	/**
+	 * 视图摇晃，默认摇晃幅度为10，持续700毫秒
+	 * @param view
+	 * @param cycles 重复次数
+	 * @param durationMillis 持续时间
+	 * @param isBanClick 在执行动画的过程中是否禁止点击
+	 */
+	public static void shake(View view, float cycles, final boolean isBanClick){
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, cycles, 700, isBanClick);
+	}
+
+	/**
+	 * 视图摇晃，默认摇晃幅度为10
+	 * @param view
+	 * @param cycles 重复次数
+	 * @param durationMillis 持续时间
+	 */
+	public static void shake(View view, float cycles, long durationMillis){
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, cycles, durationMillis, false);
+	}
+
+	/**
+	 * 视图摇晃，默认摇晃幅度为10，重复7次
+	 * @param view
+	 * @param durationMillis 持续时间
+	 * @param isBanClick 在执行动画的过程中是否禁止点击
+	 */
+	public static void shake(View view, long durationMillis, final boolean isBanClick){
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, 7, durationMillis, isBanClick);
+	}
+
+	/**
+	 * 视图摇晃，默认摇晃幅度为10，持续700毫秒
+	 * @param view 要摇动的视图
+	 * @param cycles 重复次数
+	 */
+	public static void shake(View view, float cycles){
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, cycles, 700, false);
+	}
+
+	/**
+	 * 视图摇晃，默认摇晃幅度为10，重复7次
+	 * @param view
+	 * @param durationMillis 持续时间
+	 */
+	public static void shake(View view, long durationMillis){
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, 7, durationMillis, false);
+	}
+
+	/**
+	 * 视图摇晃，默认摇晃幅度为10，重复7次，持续700毫秒
 	 * @param view
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
 	public static void shake(View view, final boolean isBanClick){
-		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, 1000, 7, isBanClick);
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, 7, 700, isBanClick);
 	}
 
 	/**
-	 * 视图摇晃，默认摇晃幅度为10，持续时间1000秒，重复7次
+	 * 视图摇晃，默认摇晃幅度为10，重复7次，持续700毫秒
 	 * @param view
 	 */
 	public static void shake(View view){
-		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, 1000, 7, false);
+		translate(view, 0.0f, 10.0f, 0.0f, 0.0f, 7, 700, false);
 	}
 }
