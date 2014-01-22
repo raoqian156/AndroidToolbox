@@ -3,6 +3,9 @@ package me.xiaopan.android.easy.util;
 import java.io.File;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 public class FileUtils {
 	/**
@@ -115,5 +118,22 @@ public class FileUtils {
 	 */
 	public static File getFileFromDynamicCacheDir(Context context, String fileName){
 		return new File(getDynamicCacheDir(context).getPath() + File.separator + fileName);
+	}
+	
+	/**
+	 * 根据Uri获取路径
+	 * @param context
+	 * @param uri
+	 * @return
+	 */
+	public static String getPathByUri(Context context, Uri uri){
+		String filePath = null;
+		Cursor cursor = context.getContentResolver().query(uri, new String[]{ MediaStore.Images.Media.DATA }, null, null, null);
+        if (cursor != null){
+             cursor.moveToFirst();
+             filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+             cursor.close();
+        }
+        return filePath;
 	}
 }
