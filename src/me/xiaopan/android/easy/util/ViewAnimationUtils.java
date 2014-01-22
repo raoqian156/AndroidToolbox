@@ -25,37 +25,39 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void invisibleViewByAlpha(final View view, long durationMillis, final boolean isBanClick, final AnimationListener animationListener){
-		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
-		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(isBanClick){
-					view.setClickable(false);
+		if(view.getVisibility() != View.INVISIBLE){
+			view.setVisibility(View.INVISIBLE);
+			AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
+			hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+					if(isBanClick){
+						view.setClickable(false);
+					}
+					if(animationListener != null){
+						animationListener.onAnimationStart(animation);
+					}
 				}
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+					if(animationListener != null){
+						animationListener.onAnimationRepeat(animation);
+					}
 				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					if(isBanClick){
+						view.setClickable(true);
+					}
+					if(animationListener != null){
+						animationListener.onAnimationEnd(animation);
+					}
 				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				if(isBanClick){
-					view.setClickable(true);
-				}
-				view.setVisibility(View.INVISIBLE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(hiddenAlphaAnimation);
+			});
+			view.startAnimation(hiddenAlphaAnimation);
+		}
 	}
 	
 	/**
@@ -131,37 +133,39 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void goneViewByAlpha(final View view, long durationMillis, final boolean isBanClick, final AnimationListener animationListener){
-		AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
-		hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(isBanClick){
-					view.setClickable(false);
+		if(view.getVisibility() != View.GONE){
+			view.setVisibility(View.GONE);
+			AlphaAnimation hiddenAlphaAnimation = AnimationUtils.getHiddenAlphaAnimation(durationMillis);
+			hiddenAlphaAnimation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+					if(isBanClick){
+						view.setClickable(false);
+					}
+					if(animationListener != null){
+						animationListener.onAnimationStart(animation);
+					}
 				}
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+					if(animationListener != null){
+						animationListener.onAnimationRepeat(animation);
+					}
 				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					if(isBanClick){
+						view.setClickable(true);
+					}
+					if(animationListener != null){
+						animationListener.onAnimationEnd(animation);
+					}
 				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				if(isBanClick){
-					view.setClickable(true);
-				}
-				view.setVisibility(View.GONE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(hiddenAlphaAnimation);
+			});
+			view.startAnimation(hiddenAlphaAnimation);
+		}
 	}
 
 	/**
@@ -237,37 +241,39 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void visibleViewByAlpha(final View view, long durationMillis, final boolean isBanClick, final AnimationListener animationListener){
-		AlphaAnimation showAlphaAnimation = AnimationUtils.getShowAlphaAnimation(durationMillis);
-		showAlphaAnimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				if(isBanClick){
-					view.setClickable(false);
+		if(view.getVisibility() != View.VISIBLE){
+			view.setVisibility(View.VISIBLE);
+			AlphaAnimation showAlphaAnimation = AnimationUtils.getShowAlphaAnimation(durationMillis);
+			showAlphaAnimation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+					if(isBanClick){
+						view.setClickable(false);
+					}
+					if(animationListener != null){
+						animationListener.onAnimationStart(animation);
+					}
 				}
-				if(animationListener != null){
-					animationListener.onAnimationStart(animation);
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+					if(animationListener != null){
+						animationListener.onAnimationRepeat(animation);
+					}
 				}
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				if(animationListener != null){
-					animationListener.onAnimationRepeat(animation);
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					if(isBanClick){
+						view.setClickable(true);
+					}
+					if(animationListener != null){
+						animationListener.onAnimationEnd(animation);
+					}
 				}
-			}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				if(isBanClick){
-					view.setClickable(true);
-				}
-				view.setVisibility(View.VISIBLE);
-				if(animationListener != null){
-					animationListener.onAnimationEnd(animation);
-				}
-			}
-		});
-		view.startAnimation(showAlphaAnimation);
+			});
+			view.startAnimation(showAlphaAnimation);
+		}
 	}
 
 	/**

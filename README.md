@@ -16,6 +16,7 @@
 >* 优化AnimationUtils默认动画持续时间，由1000毫秒减少到500毫秒
 >* ViewAnimationUtils所有方法增加重载函数，增加控制在动画执行期间禁止点击的参数
 >* 修复setEnableDoubleClickExitAcpplication()方法命名错误
+>* 优化ViewAnimationUtils透明度渐变系列方法的处理逻辑，使连续多次调用也可正常运行
 
 ###4.0.1
 >* 修复ActivityUtils.startForResult()方法的Intent FlagBUG
