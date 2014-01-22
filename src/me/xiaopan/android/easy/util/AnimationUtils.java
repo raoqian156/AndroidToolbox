@@ -28,7 +28,7 @@ public class AnimationUtils {
 	/**
 	 * 默认动画持续时间
 	 */
-	public static final long DEFAULT_ANIMATION_DURATION = 1000;
+	public static final long DEFAULT_ANIMATION_DURATION = 500;
 	
 	/**
 	 * 获取一个旋转动画
@@ -209,6 +209,12 @@ public class AnimationUtils {
 		return getAlphaAnimation(0.0f, 1.0f, DEFAULT_ANIMATION_DURATION, null);
 	}
 	
+	/**
+	 * 获取一个缩小动画
+	 * @param durationMillis
+	 * @param animationListener
+	 * @return
+	 */
 	public static ScaleAnimation getLessenScaleAnimation(long durationMillis, AnimationListener animationListener){
 		ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f, ScaleAnimation.RELATIVE_TO_SELF, ScaleAnimation.RELATIVE_TO_SELF);
 		scaleAnimation.setDuration(durationMillis);
@@ -216,14 +222,30 @@ public class AnimationUtils {
 		return scaleAnimation;
 	}
 	
+	/**
+	 * 获取一个缩小动画
+	 * @param durationMillis
+	 * @return
+	 */
 	public static ScaleAnimation getLessenScaleAnimation(long durationMillis){
 		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION);
 	}
 	
+	/**
+	 * 获取一个缩小动画
+	 * @param animationListener
+	 * @return
+	 */
 	public static ScaleAnimation getLessenScaleAnimation(AnimationListener animationListener){
 		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION, null);
 	}
 	
+	/**
+	 * 获取一个放大动画
+	 * @param durationMillis
+	 * @param animationListener
+	 * @return
+	 */
 	public static ScaleAnimation getAmplificationAnimation(long durationMillis, AnimationListener animationListener){
 		ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, ScaleAnimation.RELATIVE_TO_SELF, ScaleAnimation.RELATIVE_TO_SELF);
 		scaleAnimation.setDuration(durationMillis);
@@ -231,10 +253,20 @@ public class AnimationUtils {
 		return scaleAnimation;
 	}
 	
+	/**
+	 * 获取一个放大动画
+	 * @param durationMillis
+	 * @return
+	 */
 	public static ScaleAnimation getAmplificationAnimation(long durationMillis){
 		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION);
 	}
 	
+	/**
+	 * 获取一个放大动画
+	 * @param animationListener
+	 * @return
+	 */
 	public static ScaleAnimation getAmplificationAnimation(AnimationListener animationListener){
 		return getLessenScaleAnimation(DEFAULT_ANIMATION_DURATION, null);
 	}

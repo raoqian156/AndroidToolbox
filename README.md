@@ -12,7 +12,11 @@
 >* 提供了纯Java开发中常用的工具类，例如：ArrayUtils、FileUtils、AnnotationUtils、ReflectUtils、StringUtils等；
 
 ##Change log
-###4.0.1 **[android-easy-4.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.1.jar)**
+###4.0.2 **[android-easy-4.0.2.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.2.jar)**
+>* 优化AnimationUtils默认动画持续时间，由1000毫秒减少到500毫秒
+>* ViewAnimationUtils所有方法增加重载函数，增加控制在动画执行期间禁止点击的参数
+
+###4.0.1
 >* 修复ActivityUtils.startForResult()方法的Intent FlagBUG
 >* SinpleFragmentPagerAdapter增加重载构造函数
 >* startActivity()系列方法不再放到Handler中执行
