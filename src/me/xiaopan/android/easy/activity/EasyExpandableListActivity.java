@@ -513,7 +513,7 @@ public abstract class EasyExpandableListActivity extends RoboExpandableListActiv
 	 * 设置是否激活双击退出程序功能
 	 * @param isEnableDoubleClickExitAcpplication
 	 */
-	public void setEanbleDoubleClickExitAcpplication(boolean isEnableDoubleClickExitAcpplication){
+	public void setEnableDoubleClickExitAcpplication(boolean isEnableDoubleClickExitAcpplication){
 		if(isEnableDoubleClickExitAcpplication){
 			if(doubleClickExitAcpplicationDetector == null){
 				doubleClickExitAcpplicationDetector = new DoubleClickDetector(new DoubleClickDetector.OnSingleClickListener() {
@@ -539,7 +539,7 @@ public abstract class EasyExpandableListActivity extends RoboExpandableListActiv
 	 * 是否激活双击退出程序功能
 	 * @return
 	 */
-	public boolean isEanbleDoubleClickExitAcpplication(){
+	public boolean isEnableDoubleClickExitAcpplication(){
 		return doubleClickExitAcpplicationDetector != null;
 	}
 	
