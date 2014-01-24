@@ -1164,12 +1164,19 @@ public class FileUtils {
 	 * @return 删除是否成功
 	 */
 	public static boolean delete(File file){
+		if(file == null || !file.exists()){
+			return true;
+		}
+
 		boolean result;
 		if(file.isFile()){
 			result = file.delete();
 		}else{
-			for(File tempFile : file.listFiles()){
-				delete(tempFile);
+			File[] files = file.listFiles();
+			if(files != null){
+				for(File tempFile : files){
+					delete(tempFile);
+				}
 			}
 			result = file.delete();
 		}
@@ -1191,6 +1198,10 @@ public class FileUtils {
 	 * @return 删除失败的文件列表
 	 */
 	public static List<File> deleteFiles(File... files){
+		if(files == null){
+			return null;
+		}
+		
 		List<File> fileList = new LinkedList<File>();
 		for(File file : files){
 			if(!delete(file)){
@@ -1206,6 +1217,10 @@ public class FileUtils {
 	 * @return 删除失败的文件列表
 	 */
 	public static List<File> deleteFiles(Collection<File> collection){
+		if(collection == null){
+			return null;
+		}
+		
 		List<File> fileList = new LinkedList<File>();
 		for(File file : collection){
 			if(!delete(file)){
@@ -1221,15 +1236,11 @@ public class FileUtils {
 	 * @throws IllegalArgumentException 给定的目录不是目录
 	 * @return 删除失败的文件列表；null：给定的目录不存在
 	 */
-	public static List<File> clearDirectory(File directory) throws IllegalArgumentException{
-		if(directory.exists()){
-			if(!directory.isDirectory()){
-				throw new  IllegalArgumentException();
-			}
-			return deleteFiles(directory.listFiles());
-		}else{
+	public static List<File> clearDirectory(File directory){
+		if(directory == null || !directory.exists() || !directory.isDirectory()){
 			return null;
 		}
+		return deleteFiles(directory.listFiles());
 	}
 	
 	/**
@@ -1250,8 +1261,10 @@ public class FileUtils {
 	 * @return 当且仅当成功删除文件或目录时，返回 true；否则返回 false 如果此路径名表示一个目录，则该目录必须为空才能删除。
 	 */
 	public static boolean delete(File dir, String fileName){
-		File file = new File(dir.getPath() + File.separator + fileName);
-		return file.delete();
+		if(dir == null || !dir.exists()){
+			return true;
+		}
+		return delete(new File(dir.getPath() + File.separator + fileName));
 	}
 	
 	/**
