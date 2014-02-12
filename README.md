@@ -12,11 +12,14 @@
 >* 提供了纯Java开发中常用的工具类，例如：ArrayUtils、FileUtils、AnnotationUtils、ReflectUtils、StringUtils等；
 
 ##Downloads
-**[android-easy-4.0.2.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.2.jar)**
+**[android-easy-4.0.3.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.3.jar)**
 
-**[android-easy-4.0.2-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.2-with-src.jar)**
+**[android-easy-4.0.3-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.3-with-src.jar)**
 
 ##Change log
+###4.0.3
+>* 在Widget包下增加ViewPager切换动画DepthPageTransformer和ZoomOutPageTransformer
+
 ###4.0.2
 >* 优化AnimationUtils默认动画持续时间，由1000毫秒减少到500毫秒
 >* ViewAnimationUtils所有方法增加重载函数，增加控制在动画执行期间禁止点击的参数
