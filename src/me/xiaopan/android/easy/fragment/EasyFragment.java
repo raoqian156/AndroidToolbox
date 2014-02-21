@@ -16,24 +16,31 @@
 
 package me.xiaopan.android.easy.fragment;
 
+import java.lang.reflect.Field;
+
+import me.xiaopan.android.easy.inject.DisableInject;
 import me.xiaopan.android.easy.inject.InjectContentView;
+import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
-import roboguice.fragment.RoboFragment;
+import me.xiaopan.java.easy.util.ReflectUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class EasyFragment extends RoboFragment {
+public class EasyFragment extends Fragment {
 	private EasyHandler handler;
+	private boolean isEnableInject;
 	
-	public EasyFragment() {
+	public EasyFragment(){
+		isEnableInject = getClass().getAnnotation(DisableInject.class) == null;
 		handler = new EasyHandler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -41,17 +48,42 @@ public class EasyFragment extends RoboFragment {
 			}
 		};
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class); 
-		if(injectContentView != null){
-			return inflater.inflate(injectContentView.value(), null);
+		if(isEnableInject){
+			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class); 
+			if(injectContentView != null){
+				return inflater.inflate(injectContentView.value(), null);
+			}else{
+				return null;
+			}
 		}else{
 			return null;
 		}
 	}
-	
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		if(isEnableInject && view != null){
+			//注入成员变量
+			for(Field field : ReflectUtils.getFields(getClass(), true, true, true)){
+				InjectView injectView = field.getAnnotation(InjectView.class);
+				if(injectView != null){
+					field.setAccessible(true);
+					try {
+						field.set(this, view.findViewById(injectView.value()));
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	 * 当需要处理消息
 	 * @param message
@@ -208,6 +240,14 @@ public class EasyFragment extends RoboFragment {
 	 */
 	public Handler getHandler() {
 		return handler;
+	}
+
+	/**
+	 * 是否激活了注入功能
+	 * @return
+	 */
+	public boolean isEnableInject() {
+		return isEnableInject;
 	}
 
 	@Override

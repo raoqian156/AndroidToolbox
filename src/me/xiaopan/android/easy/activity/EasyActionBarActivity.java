@@ -15,16 +15,19 @@
  */
 package me.xiaopan.android.easy.activity;
 
+import java.lang.reflect.Field;
 import java.util.Locale;
 
+import me.xiaopan.android.easy.inject.DisableInject;
 import me.xiaopan.android.easy.inject.InjectContentView;
+import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.android.easy.util.ActivityPool;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.DoubleClickDetector;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
-import roboguice.activity.RoboActionBarActivity;
+import me.xiaopan.java.easy.util.ReflectUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,16 +36,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public abstract class EasyActionBarActivity extends RoboActionBarActivity{
+public abstract class EasyActionBarActivity extends ActionBarActivity{
 	private static final int DIALOG_MESSAGE = -1212343;	//对话框 - 消息对话框
 	private static final int DIALOG_PROGRESS = -1212346;	//对话框 - 进度对话框
 	private static final String KEY_DIALOG_MESSAGE = "KEY_DIALOG_MESSAGE";	// 键 - 对话框消息
 	private static final String KEY_DIALOG_CONFRIM_BUTTON_NAME = "KEY_DIALOG_CONFRIM_BUTTON_NAME";	//键 - 对话框确认按钮的名字
 	private boolean haveDestroy;
+	private boolean isEnableInject;
 	private ActivityPool activityPool;
 	private EasyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
@@ -51,18 +56,44 @@ public abstract class EasyActionBarActivity extends RoboActionBarActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
+		isEnableInject = getClass().getAnnotation(DisableInject.class) == null;
 		handler = new EasyHandler(){
 			@Override
 			public void handleMessage(Message msg) {
 				onHandleMessage(msg);
 			}
 		};
-		InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
-		if(injectContentView != null && injectContentView.value() > 0){
-			setContentView(injectContentView.value());
+		
+		//注入内容视图
+		if(isEnableInject){
+			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
+			if(injectContentView != null && injectContentView.value() > 0){
+				setContentView(injectContentView.value());
+			}
 		}
 	}
 	
+	@Override
+	public void onSupportContentChanged() {
+		super.onContentChanged();
+		//注入View成员变量
+		if(isEnableInject){
+			for(Field field : ReflectUtils.getFields(getClass(), true, true, true)){
+				InjectView injectView = field.getAnnotation(InjectView.class);
+				if(injectView != null){
+					field.setAccessible(true);
+					try {
+						field.set(this, findViewById(injectView.value()));
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		if(doubleClickExitAcpplicationDetector != null){
@@ -557,5 +588,13 @@ public abstract class EasyActionBarActivity extends RoboActionBarActivity{
 	 */
 	public ActivityPool getActivityPool() {
 		return activityPool;
+	}
+
+	/**
+	 * 是否激活了注入功能
+	 * @return
+	 */
+	public boolean isEnableInject() {
+		return isEnableInject;
 	}
 }

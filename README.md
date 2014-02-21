@@ -3,20 +3,31 @@
 这是一个Android开发框架和基础工具类库，旨在让Android开发变得更简单
 
 ##Features
->* 提供了一系列的EasyActivity和EasyFragment，并且都继承于Robo系列，所以你依然可以使用各种注入；
->* Easy系列的Activity增加了注入ContentView的功能，你只需在Activity上加上InjectContentView注解并指定布局ID即可；
+>* 提供了一系列的EasyActivity和EasyFragment，继承后可以使用注入功能；
 >* Easy系列的类另外提供了一些扩展功能，比如：toast，startActiivty，showDialog等等；
 >* 提供了简单的SQL框架，便于自动生成sql代码，快捷执行增、删、改、查操作；
 >* 提供了Camera相关的工具，包括Camera管理类CameraManager、Camera最佳预览以及输出尺寸计算类CameraOptimalSizeCalculator、Camera自动对焦管理器AutoFocusManager等；
 >* 提供了Android开发中常用的工具类，例如：ActivityUtils、AndroidLogger、BitmapDecoder、AnimationUtils、NetworkUtils、IntentUtils、ViewUtils等；
 >* 提供了纯Java开发中常用的工具类，例如：ArrayUtils、FileUtils、AnnotationUtils、ReflectUtils、StringUtils等；
 
-##Downloads
-**[android-easy-4.0.3.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.3.jar)**
+##Usage Guide
+###使用注入功能
+###注入ContentView
+你只需继承Easy系列的Activity，然后在Class上加上InjectContentView注解，并在注解中指定布局ID即可
 
-**[android-easy-4.0.3-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.3-with-src.jar)**
+###注入View
+
+
+##Downloads
+**[android-easy-4.0.4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.4.jar)**
+
+**[android-easy-4.0.4-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.4-with-src.jar)**
 
 ##Change log
+###4.0.4
+>* 去除RoboGuide库，改用自己实现注入功能，原因是RoboGuice有点庞大，导致Activity启动时间过长。
+>* 去除RoboGuice后目前只实现了InjectContentView和InjectView。InjectExtra等其它注入功能会后续加上。
+
 ###4.0.3
 >* 在Widget包下增加ViewPager切换动画DepthPageTransformer和ZoomOutPageTransformer
 
@@ -34,9 +45,6 @@
 ###4.0.0
 
 ##Depend
->* **[robo-guice-2.0.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/robo-guice-2.0.1.jar)** Required. 用于实现注入功能，值得注意的是此类库是本人编译roboguice项目源码后得到的，其中包含有RoboActionBarActivity。从网上找到的robo-guice-2.0.0.jar并不包含RoboActionBarActivity，所以请尽量使用此类库
->* **[guice-3.0-no_aop.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/guice-3.0-no_aop.jar)** Required. robo-guice-2.0.1.jar所依赖的类库
->* **[javax.inject-1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/javax.inject-1.jar)** Required. guice-3.0-no_aop.jar所依赖的类库
 >* **[android-support-v4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/android-support-v4.jar)** 可选的。如果你要使用EasyFragmentActivity、EasyFragment就必须要引入此类库
 >* **[android-support-v7-appcompat.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/android-support-v7-appcompat.jar)**
 可选的。如果你要使用EasyActionBarActivity就必须要引入此类库，值的注意的是使用此类库的时候一定要使用sdk\extras\android\support\v7\appcompat\libs目录下的android-support-v4.jar（因为这个目录下的android-support-v4.jar包含有android-support-v7-appcompat.jar需要的类）
