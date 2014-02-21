@@ -23,12 +23,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注入View
+ * 注入父类的成员
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InjectView {
-	public int value();
-	public boolean injectParentView() default false;
+public @interface InjectParentMember {
 }

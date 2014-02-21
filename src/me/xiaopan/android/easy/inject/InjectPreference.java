@@ -23,12 +23,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注入View
+ * 注入Preference
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InjectView {
+public @interface InjectPreference {
 	public int value();
-	public boolean injectParentView() default false;
 }

@@ -48,7 +48,7 @@ public class SQLUtils {
 			
 			//循环遍历所有字段
 			boolean addSeparator = false;
-			for(Field field : ReflectUtils.getFields(clas, true, true, true)){
+			for(Field field : ReflectUtils.getFields(clas, true, true, true, true)){
 				//处理列注解
 				Column column = field.getAnnotation(Column.class);
 				if(column != null && StringUtils.isNotEmpty(column.value())){
@@ -108,7 +108,7 @@ public class SQLUtils {
 	public static ContentValues getContentValues(Object object) throws NotFoundTableAnnotationException{
 		Class<?> clas = object.getClass();
 		ContentValues contentValues = new ContentValues();
-		for(Field field : ReflectUtils.getFields(clas, true, true, true)){
+		for(Field field : ReflectUtils.getFields(clas, true, true, true, true)){
 			//处理列注解
 			Column column = field.getAnnotation(Column.class);
 			if(column != null && StringUtils.isNotEmpty(column.value())){
@@ -149,7 +149,7 @@ public class SQLUtils {
 			//根据class创建新的实例
 			Object newInstance = clas.newInstance();
 			//遍历所有字段
-			for(Field field : ReflectUtils.getFields(clas, true, true, true)){
+			for(Field field : ReflectUtils.getFields(clas, true, true, true, true)){
 				//如果不是静态的
 				if(!Modifier.isStatic(field.getModifiers())){
 					//获取列注解

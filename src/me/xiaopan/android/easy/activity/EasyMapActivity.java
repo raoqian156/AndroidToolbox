@@ -15,19 +15,16 @@
  */
 package me.xiaopan.android.easy.activity;
 
-import java.lang.reflect.Field;
 import java.util.Locale;
 
 import me.xiaopan.android.easy.inject.DisableInject;
-import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectView;
+import me.xiaopan.android.easy.inject.InjectUtils;
 import me.xiaopan.android.easy.util.ActivityPool;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.DoubleClickDetector;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
-import me.xiaopan.java.easy.util.ReflectUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -67,10 +64,7 @@ public abstract class EasyMapActivity extends MapActivity{
 		
 		//注入内容视图
 		if(isEnableInject){
-			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
-			if(injectContentView != null && injectContentView.value() > 0){
-				setContentView(injectContentView.value());
-			}
+			InjectUtils.injectContentView(this);
 		}
 	}
 	
@@ -79,19 +73,7 @@ public abstract class EasyMapActivity extends MapActivity{
 		super.onContentChanged();
 		//注入View成员变量
 		if(isEnableInject){
-			for(Field field : ReflectUtils.getFields(getClass(), true, true, true)){
-				InjectView injectView = field.getAnnotation(InjectView.class);
-				if(injectView != null){
-					field.setAccessible(true);
-					try {
-						field.set(this, findViewById(injectView.value()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+			InjectUtils.injectViewMembers(this);
 		}
 	}
 

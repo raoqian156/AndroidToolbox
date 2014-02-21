@@ -56,16 +56,27 @@ public class ReflectUtils {
 	 * 获取给定类的所有字段
 	 * @param sourceClass 给定的类
 	 * @param isGetDeclaredField 是否需要获取Declared字段
-	 * @param isFromSuperClassGet 是否需要把其父类中的字段也取出
+	 * @param isGetParentField 是否需要把其父类中的字段也取出
+	 * @param isGetAllParentField 是否需要把所有父类中的字段全取出
 	 * @param isDESCGet 在最终获取的列表里，父类的字段是否需要排在子类的前面。只有需要把其父类中的字段也取出时此参数才有效
 	 * @return 给定类的所有字段
 	 */
-	public static List<Field> getFields(Class<?> sourceClass, boolean isGetDeclaredField, boolean isFromSuperClassGet, boolean isDESCGet){
+	public static List<Field> getFields(Class<?> sourceClass, boolean isGetDeclaredField, boolean isGetParentField, boolean isGetAllParentField, boolean isDESCGet){
 		List<Field> fieldList = new ArrayList<Field>();
 		//如果需要从父类中获取
-		if(isFromSuperClassGet){
+		if(isGetParentField){
 			//获取当前类的所有父类
-			List<Class<?>> classList = getSuperClasss(sourceClass, true);
+			List<Class<?>> classList = null;
+			if(isGetAllParentField){
+				classList = getSuperClasss(sourceClass, true);
+			}else{
+				classList = new ArrayList<Class<?>>(2);
+				classList.add(sourceClass);
+				Class<?> superClass = sourceClass.getSuperclass();
+				if(superClass != null){
+					classList.add(superClass);
+				}
+			}
 			
 			//如果是降序获取
 			if(isDESCGet){
@@ -95,7 +106,7 @@ public class ReflectUtils {
 	 * @return 给定类的所有字段
 	 */
 	public static List<Field> getFields(Class<?> sourceClass){
-		return getFields(sourceClass, true, true, true);
+		return getFields(sourceClass, true, true, true, true);
 	}
 
 	/**

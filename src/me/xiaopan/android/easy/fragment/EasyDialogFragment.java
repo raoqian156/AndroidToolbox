@@ -16,16 +16,12 @@
 
 package me.xiaopan.android.easy.fragment;
 
-import java.lang.reflect.Field;
-
 import me.xiaopan.android.easy.inject.DisableInject;
-import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectView;
+import me.xiaopan.android.easy.inject.InjectUtils;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
-import me.xiaopan.java.easy.util.ReflectUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,36 +47,14 @@ public class EasyDialogFragment extends DialogFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if(isEnableInject){
-			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class); 
-			if(injectContentView != null){
-				return inflater.inflate(injectContentView.value(), null);
-			}else{
-				return null;
-			}
-		}else{
-			return null;
-		}
+		return isEnableInject?InjectUtils.injectContentView(this, inflater):null;
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		if(isEnableInject && view != null){
-			//注入成员变量
-			for(Field field : ReflectUtils.getFields(getClass(), true, true, true)){
-				InjectView injectView = field.getAnnotation(InjectView.class);
-				if(injectView != null){
-					field.setAccessible(true);
-					try {
-						field.set(this, view.findViewById(injectView.value()));
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+		if(isEnableInject){
+			InjectUtils.injectViewMembers(this);
 		}
 	}
 
