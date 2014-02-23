@@ -41,14 +41,25 @@ public class MainActivity extends EasyFragmentActivity{
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Bundle bundle = new Bundle();
+				bundle.putBoolean(InjectActivity.PARAM_BOOLEAN, true);
+				bundle.putByte(InjectActivity.PARAM_BYTE, (byte) 110);
+				bundle.putChar(InjectActivity.PARAM_CHAR, 'R');
+				bundle.putCharSequence(InjectActivity.PARAM_CHAR_SEQUENCE, "CharSequence");
+				bundle.putDouble(InjectActivity.PARAM_DOUBLE, 12.09d);
+				bundle.putFloat(InjectActivity.PARAM_FLOAT, 12.0943f);
+				bundle.putInt(InjectActivity.PARAM_INT, 123);
+				bundle.putLong(InjectActivity.PARAM_LONG, 123456789);
+				bundle.putShort(InjectActivity.PARAM_SHORT, (short) 2);
+				bundle.putString(InjectActivity.PARAM_STRING, "String");
 				switch(position){
 					case 0 : 
 						Second.SECOND_CHRONOGRAPH.count(); 
-						startActivity(InjectActivity.class); 
+						startActivity(InjectActivity.class, bundle); 
 						break;
 					case 1 : 
 						Second.SECOND_CHRONOGRAPH.count(); 
-						startActivity(NormalActivity.class); 
+						startActivity(NormalActivity.class, bundle); 
 						break;
 					case 2 : 
 						Second.SECOND_CHRONOGRAPH.count(); 

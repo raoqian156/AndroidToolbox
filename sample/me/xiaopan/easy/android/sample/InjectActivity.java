@@ -19,55 +19,71 @@ package me.xiaopan.easy.android.sample;
 import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.activity.EasyActivity;
 import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectParentMember;
+import me.xiaopan.android.easy.inject.InjectExtra;
 import me.xiaopan.android.easy.inject.InjectView;
+import android.os.Bundle;
 import android.widget.TextView;
 
 @InjectContentView(R.layout.activity_main)
-@InjectParentMember
 public class InjectActivity extends EasyActivity {
-	@InjectView(R.id.text_main)
-	private TextView text;
+	public static final String PARAM_BYTE = "PARAM_BYTE";
+	public static final String PARAM_SHORT = "PARAM_SHORT";
+	public static final String PARAM_INT = "PARAM_INT";
+	public static final String PARAM_LONG = "PARAM_LONG";
+	public static final String PARAM_CHAR = "PARAM_CHAR";
+	public static final String PARAM_FLOAT = "PARAM_FLOAT";
+	public static final String PARAM_DOUBLE = "PARAM_DOUBLE";
+	public static final String PARAM_BOOLEAN = "PARAM_BOOLEAN";
+	public static final String PARAM_STRING = "PARAM_STRING";
+	public static final String PARAM_CHAR_SEQUENCE = "PARAM_CHAR_SEQUENCE";
+	
+	@InjectView(R.id.text_main1) private TextView textView1;
+	@InjectView(R.id.text_main2) private TextView textView2;
+	@InjectView(R.id.text_main3) private TextView textView3;
+	@InjectView(R.id.text_main4) private TextView textView4;
+	@InjectView(R.id.text_main5) private TextView textView5;
+	@InjectView(R.id.text_main6) private TextView textView6;
+	@InjectView(R.id.text_main7) private TextView textView7;
+	@InjectView(R.id.text_main8) private TextView textView8;
+	@InjectView(R.id.text_main9) private TextView textView9;
+	@InjectView(R.id.text_main10) private TextView textView10;
 
-//	@InjectExtra("number")
-//	private byte nunber;
-//	
-//	@InjectExtra("number")
-//	private short nunber1;
-//	
-//	@InjectExtra("number")
-//	private int nunber2;
-//	
-//	@InjectExtra("number")
-//	private long nunber3;
-//	
-//	@InjectExtra("number")
-//	private char nunber4;
-//	
-//	@InjectExtra("number")
-//	private float nunber5;
-//	
-//	@InjectExtra("number")
-//	private double nunber6;
-//	
-//	@InjectExtra("number")
-//	private boolean nunber7;
-//	
-//	@InjectExtra("number")
-//	private String nunber8;
-//	
-//	@InjectExtra("number")
-//	private CharSequence nunber9;
-//	
+	@InjectExtra(PARAM_BYTE) private byte byteField;
+	@InjectExtra(PARAM_SHORT) private short shortField;
+	@InjectExtra(PARAM_INT) private int intField;
+	@InjectExtra(PARAM_LONG) private long longField;
+	@InjectExtra(PARAM_CHAR) private char charField;
+	@InjectExtra(PARAM_FLOAT) private float floatField;
+	@InjectExtra(PARAM_DOUBLE) private double doubleField;
+	@InjectExtra(PARAM_BOOLEAN) private boolean booleanField;
+	@InjectExtra(PARAM_STRING) private String stringField;
+	@InjectExtra(PARAM_CHAR_SEQUENCE) private CharSequence charSequenceField;
+
 //	@InjectExtra("number")
 //	private Serializable nunber10;
 //	
 //	@InjectExtra("number")
 //	private Parcelable nunber11;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		textView2.setText("byteField="+byteField+"; " +
+				"shortField="+shortField+"; " +
+				"intField="+intField+"; " +
+				"longField="+longField+"; " +
+				"charField="+charField+"; " +
+				"floatField="+floatField+"; " +
+				"doubleField="+doubleField+"; " +
+				"booleanField="+booleanField+"; " +
+				"stringField="+stringField+"; " +
+				"charSequenceField="+charSequenceField);
+	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		text.setText("启动耗时："+Second.SECOND_CHRONOGRAPH.count().getIntervalMillis()+"毫秒");
+		long useMillis = Second.SECOND_CHRONOGRAPH.count().getIntervalMillis();
+		textView1.setText("启动耗时："+useMillis+"毫秒");
 	}
 }
