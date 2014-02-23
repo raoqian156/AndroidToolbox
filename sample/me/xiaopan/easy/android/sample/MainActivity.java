@@ -16,75 +16,45 @@
 
 package me.xiaopan.easy.android.sample;
 
-import java.io.Serializable;
-
-import me.xiaopan.android.easy.R;
-import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectExtra;
-import me.xiaopan.android.easy.inject.InjectParentMember;
+import me.xiaopan.android.easy.activity.EasyFragmentActivity;
 import me.xiaopan.android.easy.inject.InjectView;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-@InjectContentView(R.layout.activity_main)
-@InjectParentMember
-public class MainActivity extends Activity2 {
-	@InjectView(R.id.text_main)
-	private TextView text;
-
-	@InjectView(R.id.button_main)
-	private Button button;
-	
-	@InjectExtra("number")
-	private byte nunber;
-	
-	@InjectExtra("number")
-	private short nunber1;
-	
-	@InjectExtra("number")
-	private int nunber2;
-	
-	@InjectExtra("number")
-	private long nunber3;
-	
-	@InjectExtra("number")
-	private char nunber4;
-	
-	@InjectExtra("number")
-	private float nunber5;
-	
-	@InjectExtra("number")
-	private double nunber6;
-	
-	@InjectExtra("number")
-	private boolean nunber7;
-	
-	@InjectExtra("number")
-	private String nunber8;
-	
-	@InjectExtra("number")
-	private CharSequence nunber9;
-	
-	@InjectExtra("number")
-	private Serializable nunber10;
-	
-	@InjectExtra("number")
-	private Parcelable nunber11;
+public class MainActivity extends EasyFragmentActivity{
+	@InjectView(android.R.id.list)
+	private ListView listView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		text.setText("这是一个Android开发框架和工具包");
+		ListView listView = new ListView(getBaseContext());
+		listView.setId(android.R.id.list);
+		setContentView(listView);
 		
-		button.setOnClickListener(new OnClickListener() {
+		String[] items = new String[]{"注入功能测试", "非注入功能测试", "FragmentDialog测试"};
+		listView.setAdapter(new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1, items));
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onClick(View v) {
-				TestDialogFragment dialogFragment = new TestDialogFragment();
-				dialogFragment.show(getSupportFragmentManager(), "dada");
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				switch(position){
+					case 0 : 
+						Second.SECOND_CHRONOGRAPH.count(); 
+						startActivity(InjectActivity.class); 
+						break;
+					case 1 : 
+						Second.SECOND_CHRONOGRAPH.count(); 
+						startActivity(NormalActivity.class); 
+						break;
+					case 2 : 
+						Second.SECOND_CHRONOGRAPH.count(); 
+						new TestDialogFragment().show(getSupportFragmentManager(), ""); 
+						break;
+				}
 			}
 		});
 	}

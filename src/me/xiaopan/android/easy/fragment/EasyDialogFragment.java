@@ -46,6 +46,14 @@ public class EasyDialogFragment extends DialogFragment {
 	}
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if(isEnableInject){
+			InjectUtils.injectMembers(this);
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return isEnableInject?InjectUtils.injectContentView(this, inflater):null;
 	}

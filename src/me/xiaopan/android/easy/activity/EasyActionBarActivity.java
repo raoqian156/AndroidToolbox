@@ -61,18 +61,17 @@ public abstract class EasyActionBarActivity extends ActionBarActivity{
 			}
 		};
 		
-		//注入内容视图
 		if(isEnableInject){
-			InjectUtils.injectContentView(this);
+			InjectUtils.injectMembers(this);	//注入其它成员变量
+			InjectUtils.injectContentView(this);	//注入内容视图
 		}
 	}
 	
 	@Override
 	public void onSupportContentChanged() {
 		super.onContentChanged();
-		//注入View成员变量
 		if(isEnableInject){
-			InjectUtils.injectViewMembers(this);
+			InjectUtils.injectViewMembers(this);	//注入View成员变量
 		}
 	}
 

@@ -17,26 +17,26 @@
 package me.xiaopan.easy.android.sample;
 
 import me.xiaopan.android.easy.R;
-import me.xiaopan.android.easy.fragment.EasyDialogFragment;
-import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectView;
+import me.xiaopan.android.easy.activity.EasyActivity;
+import me.xiaopan.android.easy.inject.DisableInject;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
-@InjectContentView(R.layout.fragment_dialog_test)
-public class TestDialogFragment extends EasyDialogFragment {
-	@InjectView(R.id.text_dialog)
-	private TextView textView;
+@DisableInject
+public class NormalActivity extends EasyActivity {
+	private TextView text;
 	
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		text = (TextView) findViewById(R.id.text_main);
 	}
 
 	@Override
-	public void onResume() {
+	protected void onResume() {
 		super.onResume();
-		textView.setText("启动耗时："+Second.SECOND_CHRONOGRAPH.count().getIntervalMillis()+"毫秒");
+		text.setText("启动耗时："+Second.SECOND_CHRONOGRAPH.count().getIntervalMillis()+"毫秒");
 	}
 }

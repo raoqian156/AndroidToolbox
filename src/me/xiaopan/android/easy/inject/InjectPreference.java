@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import android.content.Context;
+
 /**
  * 注入Preference
  */
@@ -29,5 +31,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectPreference {
-	public int value();
+	public String value();
+	public String sharedPreferencesName() default "";
+	public int mode() default Context.MODE_PRIVATE;
+	public boolean booleanDefaultValue() default false;
+	public float floatDefaultValue() default 0;
+	public int intDefaultValue() default 0;
+	public long longDefaultValue() default 0;
+	public String stringDefaultValue() default "";
 }
