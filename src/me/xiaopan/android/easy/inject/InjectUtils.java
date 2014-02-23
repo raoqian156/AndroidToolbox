@@ -278,24 +278,19 @@ public class InjectUtils {
 			field.setAccessible(true);
 			try {
 				if(boolean.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, resources.getBoolean(injectResource.value()));
-					}
+					field.set(object, resources.getBoolean(injectResource.value()));
 				}else if(String.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, resources.getStringArray(injectResource.value()));
-					}else{
-						field.set(object, resources.getString(injectResource.value()));
-					}
+					field.set(object, resources.getString(injectResource.value()));
 				}else if(int.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, resources.getIntArray(injectResource.value()));
-					}else{
-						field.set(object, resources.getInteger(injectResource.value()));
-					}
+					field.set(object, resources.getInteger(injectResource.value()));
 				}else if(Drawable.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, resources.getDrawable(injectResource.value()));
+					field.set(object, resources.getDrawable(injectResource.value()));
+				}else if(fieldType.isArray()){
+					Class<?> componentClass = fieldType.getComponentType();
+					if(String.class.isAssignableFrom(componentClass)){
+						field.set(object, resources.getStringArray(injectResource.value()));
+					}else if(int.class.isAssignableFrom(componentClass)){
+						field.set(object, resources.getIntArray(injectResource.value()));
 					}
 				}
 //				resources.getAnimation(id)
@@ -354,28 +349,18 @@ public class InjectUtils {
 			field.setAccessible(true);
 			try {
 				if(boolean.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, sharedPreferences.getBoolean(injectPreference.value(), injectPreference.booleanDefaultValue()));
-					}
+					field.set(object, sharedPreferences.getBoolean(injectPreference.value(), injectPreference.booleanDefaultValue()));
 				}else if(float.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, sharedPreferences.getFloat(injectPreference.value(), injectPreference.floatDefaultValue()));
-					}
+					field.set(object, sharedPreferences.getFloat(injectPreference.value(), injectPreference.floatDefaultValue()));
 				}else if(int.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, sharedPreferences.getInt(injectPreference.value(), injectPreference.intDefaultValue()));
-					}
+					field.set(object, sharedPreferences.getInt(injectPreference.value(), injectPreference.intDefaultValue()));
 				}else if(long.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, sharedPreferences.getLong(injectPreference.value(), injectPreference.longDefaultValue()));
-					}
+					field.set(object, sharedPreferences.getLong(injectPreference.value(), injectPreference.longDefaultValue()));
 				}else if(String.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, sharedPreferences.getString(injectPreference.value(), injectPreference.stringDefaultValue()));
-					}
+					field.set(object, sharedPreferences.getString(injectPreference.value(), injectPreference.stringDefaultValue()));
 				}else{
 					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-						if(Set.class.isAssignableFrom(fieldType) && !fieldType.isArray()){
+						if(Set.class.isAssignableFrom(fieldType)){
 							Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 							if(String.class.isAssignableFrom(first)){
 								field.set(object, sharedPreferences.getStringSet(injectPreference.value(), null));

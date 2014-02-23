@@ -16,6 +16,7 @@
 
 package me.xiaopan.easy.android.sample;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,8 +24,42 @@ import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.activity.EasyActivity;
 import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.InjectExtra;
+import me.xiaopan.android.easy.inject.InjectService;
 import me.xiaopan.android.easy.inject.InjectView;
+import me.xiaopan.java.easy.util.ReflectUtils;
+import android.accounts.AccountManager;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.DownloadManager;
+import android.app.KeyguardManager;
+import android.app.NotificationManager;
+import android.app.SearchManager;
+import android.app.UiModeManager;
+import android.app.WallpaperManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ClipboardManager;
+import android.hardware.SensorManager;
+import android.hardware.input.InputManager;
+import android.hardware.usb.UsbManager;
+import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.MediaRouter;
+import android.net.ConnectivityManager;
+import android.net.nsd.NsdManager;
+import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
+import android.nfc.NfcManager;
 import android.os.Bundle;
+import android.os.DropBoxManager;
+import android.os.PowerManager;
+import android.os.Vibrator;
+import android.os.storage.StorageManager;
+import android.telephony.TelephonyManager;
+import android.view.LayoutInflater;
+import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
+import android.view.inputmethod.InputMethodManager;
+import android.view.textservice.TextServicesManager;
 import android.widget.TextView;
 
 @InjectContentView(R.layout.activity_main)
@@ -84,12 +119,45 @@ public class InjectActivity extends EasyActivity {
 	@InjectExtra(PARAM_CHAR_SEQUENCE) private CharSequence charSequenceField;
 	@InjectExtra(PARAM_CHAR_SEQUENCE_ARRAY) private CharSequence[] charSequenceFields;
 
-//	@InjectExtra("number")
-//	private Serializable nunber10;
-//	
-//	@InjectExtra("number")
-//	private Parcelable nunber11;
-
+	@InjectService private AccessibilityManager accessibilityManager;
+	@InjectService private AccountManager accountManager;
+	@InjectService private ActivityManager activityManager;
+	@InjectService private AlarmManager alarmManager;
+	@InjectService private AudioManager audioManager;
+	@InjectService private ConnectivityManager connectivityManager;
+	@InjectService private DevicePolicyManager devicePolicyManager;
+	@InjectService private DropBoxManager dropBoxManager;
+	@InjectService private InputMethodManager inputMethodManager;
+	@InjectService private KeyguardManager keyguardManager;
+	@InjectService private LayoutInflater layoutInflater;
+	@InjectService private LocationManager locationManager;
+	@InjectService private NotificationManager notificationManager;
+	@InjectService private PowerManager powerManager;
+	@InjectService private SearchManager searchManager;
+	@InjectService private SensorManager sensorManager;
+	@InjectService private TelephonyManager telephonyManager;
+	@InjectService private UiModeManager uiModeManager;
+	@InjectService private Vibrator vibrator;
+	@InjectService private WallpaperManager wallpaperManager;
+	@InjectService private WifiManager wifiManager;
+	@InjectService private WindowManager windowManager;
+	@InjectService private DownloadManager downloadManager;
+	@InjectService private StorageManager storageManager;
+	@InjectService private NfcManager nfcManager;
+	@InjectService private ClipboardManager clipboardManager;
+	@InjectService private UsbManager usbManager;
+	@InjectService private TextServicesManager textServicesManager;
+	@InjectService private WifiP2pManager wifiP2pManager;
+	@InjectService private InputManager inputManager;
+	@InjectService private MediaRouter mediaRouter;
+	@InjectService private NsdManager nsdManager;
+//	@InjectService private DisplayManager displayManager;
+//	@InjectService private BluetoothManager bluetoothManager;
+//	@InjectService private AppOpsManager appOpsManager;
+//	@InjectService private CaptioningManager captioningManager;
+//	@InjectService private ConsumerIrManager consumerIrManager;
+//	@InjectService private PrintManager printManager;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,6 +184,22 @@ public class InjectActivity extends EasyActivity {
 			"stringFieldList="+stringFieldList.toString()+"; " +
 			"charSequenceFields="+Arrays.toString(charSequenceFields)
 		);
+		
+		boolean success = true; 
+		try {
+			for(Field field : ReflectUtils.getFields(getClass(), true, false, false, false)){
+				if(field.getAnnotation(InjectService.class) != null){
+					field.setAccessible(true);
+					if(field.get(this) == null){
+						success = false;
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		textView3.setText("系统服务注入"+(success?"成功":"失败"));
 	}
 	
 	@Override

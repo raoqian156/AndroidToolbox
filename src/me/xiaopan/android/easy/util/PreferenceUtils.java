@@ -19,96 +19,26 @@ import com.google.gson.reflect.TypeToken;
  */
 public class PreferenceUtils {
 	/**
-	 * 保存一个int型的值到默认的Preference中
+	 * 保存一个boolean型的值到指定的Preference中
 	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
 	 * @param key
 	 * @param value
 	 */
-	public static final void putInt(Context context, String key, int value){
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(key, value).commit();
+	public static final void putBoolean(Context context, String sharedPreferencesName, int mode, String key, boolean value){
+		context.getSharedPreferences(sharedPreferencesName, mode).edit().putBoolean(key, value).commit();
 	}
 	
 	/**
-	 * 从默认的Preference中取出一个int型的值
+	 * 保存一个boolean型的值到指定的Preference中
 	 * @param context
-	 * @param key
-	 * @param defaultVaule
-	 * @return
-	 */
-	public static final int getInt(Context context, String key, int defaultValue){
-		return PreferenceManager.getDefaultSharedPreferences(context).getInt(key, defaultValue);
-	}
-	
-	/**
-	 * 从默认的Preference中取出一个int型的值，默认值为0
-	 * @param context
-	 * @param key
-	 * @return
-	 */
-	public static final int getInt(Context context, String key){
-		return getInt(context, key, 0);
-	}
-	
-	/**
-	 * 保存一个float型的值到默认的Preference中
-	 * @param context
+	 * @param sharedPreferencesName
 	 * @param key
 	 * @param value
 	 */
-	public static final void putFloat(Context context, String key, float value){
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putFloat(key, value).commit();
-	}
-	
-	/**
-	 * 从默认的Preference中取出一个float型的值
-	 * @param context
-	 * @param key
-	 * @param defaultVaule
-	 * @return
-	 */
-	public static final float getFloat(Context context, String key, float defaultValue){
-		return PreferenceManager.getDefaultSharedPreferences(context).getFloat(key, defaultValue);
-	}
-	
-	/**
-	 * 从默认的Preference中取出一个float型的值，默认值为0.0f
-	 * @param context
-	 * @param key
-	 * @return
-	 */
-	public static final float getFloat(Context context, String key){
-		return getFloat(context, key, 0.0f);
-	}
-	
-	/**
-	 * 保存一个long型的值到默认的Preference中
-	 * @param context
-	 * @param key
-	 * @param value
-	 */
-	public static final void putLong(Context context, String key, long value){
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(key, value).commit();
-	}
-	
-	/**
-	 * 从默认的Preference中取出一个long型的值
-	 * @param context
-	 * @param key
-	 * @param defaultVaule
-	 * @return
-	 */
-	public static final long getLong(Context context, String key, long defaultValue){
-		return PreferenceManager.getDefaultSharedPreferences(context).getLong(key, defaultValue);
-	}
-	
-	/**
-	 * 从默认的Preference中取出一个long型的值，默认值为0.0l
-	 * @param context
-	 * @param key
-	 * @return
-	 */
-	public static final long getLong(Context context, String key){
-		return getLong(context, key, 0l);
+	public static final void putBoolean(Context context, String sharedPreferencesName, String key, boolean value){
+		context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).edit().putBoolean(key, value).commit();
 	}
 	
 	/**
@@ -119,6 +49,42 @@ public class PreferenceUtils {
 	 */
 	public static final void putBoolean(Context context, String key, boolean value){
 		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, value).commit();
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个boolean型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final boolean getBoolean(Context context, String sharedPreferencesName, int mode, String key, boolean defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, mode).getBoolean(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个boolean型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final boolean getBoolean(Context context, String sharedPreferencesName, String key, boolean defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getBoolean(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个boolean型的值，默认值为false
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @return
+	 */
+	public static final boolean getBoolean(Context context, String sharedPreferencesName, String key){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getBoolean(key, false);
 	}
 	
 	/**
@@ -139,11 +105,304 @@ public class PreferenceUtils {
 	 * @return
 	 */
 	public static final boolean getBoolean(Context context, String key){
-		return getBoolean(context, key, false);
+		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
 	}
 	
 	/**
-	 * 保存一个字符串到默认的Preference中
+	 * 保存一个float型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param value
+	 */
+	public static final void putFloat(Context context, String sharedPreferencesName, int mode, String key, float value){
+		context.getSharedPreferences(sharedPreferencesName, mode).edit().putFloat(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个float型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param value
+	 */
+	public static final void putFloat(Context context, String sharedPreferencesName, String key, float value){
+		context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).edit().putFloat(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个float型的值到默认的Preference中
+	 * @param context
+	 * @param key
+	 * @param value
+	 */
+	public static final void putFloat(Context context, String key, float value){
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putFloat(key, value).commit();
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个float型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final float getFloat(Context context, String sharedPreferencesName, int mode, String key, float defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, mode).getFloat(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个float型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final float getFloat(Context context, String sharedPreferencesName, String key, float defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getFloat(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个int型的值，默认值为0
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @return
+	 */
+	public static final float getFloat(Context context, String sharedPreferencesName, String key){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getFloat(key, 0);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个int型的值
+	 * @param context
+	 * @param key
+	 * @param defaultVaule
+	 * @return
+	 */
+	public static final float getFloat(Context context, String key, float defaultValue){
+		return PreferenceManager.getDefaultSharedPreferences(context).getFloat(key, defaultValue);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个int型的值，默认值为0
+	 * @param context
+	 * @param key
+	 * @return
+	 */
+	public static final float getFloat(Context context, String key){
+		return PreferenceManager.getDefaultSharedPreferences(context).getFloat(key, 0);
+	}
+	
+	/**
+	 * 保存一个int型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param value
+	 */
+	public static final void putInt(Context context, String sharedPreferencesName, int mode, String key, int value){
+		context.getSharedPreferences(sharedPreferencesName, mode).edit().putInt(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个int型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param value
+	 */
+	public static final void putInt(Context context, String sharedPreferencesName, String key, int value){
+		context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).edit().putInt(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个int型的值到默认的Preference中
+	 * @param context
+	 * @param key
+	 * @param value
+	 */
+	public static final void putInt(Context context, String key, int value){
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(key, value).commit();
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个int型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final int getInt(Context context, String sharedPreferencesName, int mode, String key, int defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, mode).getInt(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个int型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final int getInt(Context context, String sharedPreferencesName, String key, int defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getInt(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个int型的值，默认值为0
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @return
+	 */
+	public static final int getInt(Context context, String sharedPreferencesName, String key){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getInt(key, 0);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个int型的值
+	 * @param context
+	 * @param key
+	 * @param defaultVaule
+	 * @return
+	 */
+	public static final int getInt(Context context, String key, int defaultValue){
+		return PreferenceManager.getDefaultSharedPreferences(context).getInt(key, defaultValue);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个int型的值，默认值为0
+	 * @param context
+	 * @param key
+	 * @return
+	 */
+	public static final int getInt(Context context, String key){
+		return PreferenceManager.getDefaultSharedPreferences(context).getInt(key, 0);
+	}
+	
+	/**
+	 * 保存一个long型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param value
+	 */
+	public static final void putLong(Context context, String sharedPreferencesName, int mode, String key, long value){
+		context.getSharedPreferences(sharedPreferencesName, mode).edit().putLong(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个long型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param value
+	 */
+	public static final void putLong(Context context, String sharedPreferencesName, String key, long value){
+		context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).edit().putLong(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个long型的值到默认的Preference中
+	 * @param context
+	 * @param key
+	 * @param value
+	 */
+	public static final void putLong(Context context, String key, long value){
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(key, value).commit();
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个long型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final long getLong(Context context, String sharedPreferencesName, int mode, String key, long defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, mode).getLong(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个long型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final long getLong(Context context, String sharedPreferencesName, String key, long defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getLong(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个long型的值，默认值为0
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @return
+	 */
+	public static final long getLong(Context context, String sharedPreferencesName, String key){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getLong(key, 0);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个long型的值
+	 * @param context
+	 * @param key
+	 * @param defaultVaule
+	 * @return
+	 */
+	public static final long getLong(Context context, String key, long defaultValue){
+		return PreferenceManager.getDefaultSharedPreferences(context).getLong(key, defaultValue);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个long型的值，默认值为0
+	 * @param context
+	 * @param key
+	 * @return
+	 */
+	public static final long getLong(Context context, String key){
+		return PreferenceManager.getDefaultSharedPreferences(context).getLong(key, 0);
+	}
+	
+	/**
+	 * 保存一个String型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param value
+	 */
+	public static final void putString(Context context, String sharedPreferencesName, int mode, String key, String value){
+		context.getSharedPreferences(sharedPreferencesName, mode).edit().putString(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个String型的值到指定的Preference中
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param value
+	 */
+	public static final void putString(Context context, String sharedPreferencesName, String key, String value){
+		context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).edit().putString(key, value).commit();
+	}
+	
+	/**
+	 * 保存一个String型的值到默认的Preference中
 	 * @param context
 	 * @param key
 	 * @param value
@@ -153,25 +412,51 @@ public class PreferenceUtils {
 	}
 	
 	/**
-	 * 从默认的Preference中取出一个字符串
+	 * 从指定的Preference中取出一个String型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final String getString(Context context, String sharedPreferencesName, int mode, String key, String defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, mode).getString(key, defaultValue);
+	}
+	
+	/**
+	 * 从指定的Preference中取出一个String型的值
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	public static final String getString(Context context, String sharedPreferencesName, String key, String defaultValue){
+		return context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE).getString(key, defaultValue);
+	}
+	
+	/**
+	 * 从默认的Preference中取出一个String型的值
 	 * @param context
 	 * @param key
 	 * @param defaultVaule
 	 * @return
 	 */
-	public static final String getString(Context context, String key, String defaultVaule){
-		return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultVaule);
+	public static final String getString(Context context, String key, String defaultValue){
+		return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
 	}
 	
 	/**
-	 * 从默认的Preference中取出一个字符串，默认值为null
+	 * 从默认的Preference中取出一个String型的值，默认值为0
 	 * @param context
 	 * @param key
 	 * @return
 	 */
 	public static final String getString(Context context, String key){
-		return getString(context, key, null);
+		return PreferenceManager.getDefaultSharedPreferences(context).getString(key, null);
 	}
+	
 	
 	/**
 	 * 保存一个Set<String>
