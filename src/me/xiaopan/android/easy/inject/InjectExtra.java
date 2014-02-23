@@ -22,4 +22,6 @@ public @interface InjectExtra {
 	public float floatDefaultValue() default 0;
 	public double doubleDefaultValue() default 0;
 	public boolean booleanDefaultValue() default false;
+	public String stringDefaultValue() default "";
+	public String charSequenceDefaultValue() default "";
 }

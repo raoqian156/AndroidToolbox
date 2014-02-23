@@ -182,74 +182,53 @@ public class InjectUtils {
 			field.setAccessible(true);
 			try {
 				if(byte.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getByteArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getByte(injectExtra.value(), injectExtra.byteDefaultValue()));
-					}
+					field.set(object, extra.getByte(injectExtra.value(), injectExtra.byteDefaultValue()));
 				}else if(short.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getShortArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getShort(injectExtra.value(), injectExtra.shortDefaultValue()));
-					}
+					field.set(object, extra.getShort(injectExtra.value(), injectExtra.shortDefaultValue()));
 				}else if(int.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getIntArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getInt(injectExtra.value(), injectExtra.intDefaultValue()));
-					}
+					field.set(object, extra.getInt(injectExtra.value(), injectExtra.intDefaultValue()));
 				}else if(long.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getLongArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getLong(injectExtra.value(), injectExtra.longDefaultValue()));
-					}
+					field.set(object, extra.getLong(injectExtra.value(), injectExtra.longDefaultValue()));
 				}else if(float.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getFloatArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getFloat(injectExtra.value(), injectExtra.floatDefaultValue()));
-					}
+					field.set(object, extra.getFloat(injectExtra.value(), injectExtra.floatDefaultValue()));
 				}else if(double.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getDoubleArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getDouble(injectExtra.value(), injectExtra.doubleDefaultValue()));
-					}
+					field.set(object, extra.getDouble(injectExtra.value(), injectExtra.doubleDefaultValue()));
 				}else if(char.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getCharArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getChar(injectExtra.value(), injectExtra.charDefaultValue()));
-					}
+					field.set(object, extra.getChar(injectExtra.value(), injectExtra.charDefaultValue()));
 				}else if(boolean.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getBooleanArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getBoolean(injectExtra.value(), injectExtra.booleanDefaultValue()));
-					}
+					field.set(object, extra.getBoolean(injectExtra.value(), injectExtra.booleanDefaultValue()));
 				}else if(String.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getStringArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getString(injectExtra.value()));
-					}
+					field.set(object, extra.getString(injectExtra.value(), injectExtra.stringDefaultValue()));
 				}else if(CharSequence.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getCharSequenceArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getCharSequence(injectExtra.value()));
-					}
+					field.set(object, extra.getCharSequence(injectExtra.value(), injectExtra.charSequenceDefaultValue()));
 				}else if(Parcelable.class.isAssignableFrom(fieldType)){
-					if(fieldType.isArray()){
-						field.set(object, extra.getParcelableArray(injectExtra.value()));
-					}else{
-						field.set(object, extra.getParcelable(injectExtra.value()));
-					}
+					field.set(object, extra.getParcelable(injectExtra.value()));
 				}else if(Serializable.class.isAssignableFrom(fieldType)){
-					if(!fieldType.isArray()){
-						field.set(object, extra.getSerializable(injectExtra.value()));
+					field.set(object, extra.getSerializable(injectExtra.value()));
+				}else if(fieldType.isArray()){
+					Class<?> componentClass = fieldType.getComponentType(); 
+					if(byte.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getByteArray(injectExtra.value()));
+					}else if(short.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getShortArray(injectExtra.value()));
+					}else if(int.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getIntArray(injectExtra.value()));
+					}else if(long.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getLongArray(injectExtra.value()));
+					}else if(float.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getFloatArray(injectExtra.value()));
+					}else if(double.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getDoubleArray(injectExtra.value()));
+					}else if(char.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getCharArray(injectExtra.value()));
+					}else if(boolean.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getBooleanArray(injectExtra.value()));
+					}else if(String.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getStringArray(injectExtra.value()));
+					}else if(CharSequence.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getCharSequenceArray(injectExtra.value()));
+					}else if(Parcelable.class.isAssignableFrom(componentClass)){
+						field.set(object, extra.getParcelableArray(injectExtra.value()));
 					}
 				}else if(ArrayList.class.isAssignableFrom(fieldType)){
 					Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];

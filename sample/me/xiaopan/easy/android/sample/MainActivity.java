@@ -16,6 +16,8 @@
 
 package me.xiaopan.easy.android.sample;
 
+import java.util.ArrayList;
+
 import me.xiaopan.android.easy.activity.EasyFragmentActivity;
 import me.xiaopan.android.easy.inject.InjectView;
 import android.os.Bundle;
@@ -43,15 +45,30 @@ public class MainActivity extends EasyFragmentActivity{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Bundle bundle = new Bundle();
 				bundle.putBoolean(InjectActivity.PARAM_BOOLEAN, true);
+				bundle.putBooleanArray(InjectActivity.PARAM_BOOLEAN_ARRAY, new boolean[]{true, false, true});
 				bundle.putByte(InjectActivity.PARAM_BYTE, (byte) 110);
+				bundle.putByteArray(InjectActivity.PARAM_BYTE_ARRAY, new byte[]{111, 112, 113});
 				bundle.putChar(InjectActivity.PARAM_CHAR, 'R');
+				bundle.putCharArray(InjectActivity.PARAM_CHAR_ARRAY, new char[]{'c', 'h', 'a', 'r'});
 				bundle.putCharSequence(InjectActivity.PARAM_CHAR_SEQUENCE, "CharSequence");
-				bundle.putDouble(InjectActivity.PARAM_DOUBLE, 12.09d);
-				bundle.putFloat(InjectActivity.PARAM_FLOAT, 12.0943f);
-				bundle.putInt(InjectActivity.PARAM_INT, 123);
-				bundle.putLong(InjectActivity.PARAM_LONG, 123456789);
+				bundle.putCharSequenceArray(InjectActivity.PARAM_CHAR_SEQUENCE_ARRAY, new CharSequence[]{"Char", " ", "Sequence"});
+				bundle.putDouble(InjectActivity.PARAM_DOUBLE, 12.00d);
+				bundle.putDoubleArray(InjectActivity.PARAM_DOUBLE_ARRAY, new double[]{12.01d, 12.02d, 12.03d});
+				bundle.putFloat(InjectActivity.PARAM_FLOAT, 13.00f);
+				bundle.putFloatArray(InjectActivity.PARAM_FLOAT_ARRAY, new float[]{13.01f, 13.02f, 13.03f});
+				bundle.putInt(InjectActivity.PARAM_INT, 120);
+				bundle.putIntArray(InjectActivity.PARAM_INT_ARRAY, new int[]{121, 122, 123,});
+				bundle.putLong(InjectActivity.PARAM_LONG, 12345);
+				bundle.putLongArray(InjectActivity.PARAM_LONG_ARRAY, new long[]{12346, 12347, 12348});
 				bundle.putShort(InjectActivity.PARAM_SHORT, (short) 2);
+				bundle.putShortArray(InjectActivity.PARAM_SHORT_ARRAY, new short[]{3, 4, 5});
 				bundle.putString(InjectActivity.PARAM_STRING, "String");
+				bundle.putStringArray(InjectActivity.PARAM_STRING_ARRAY, new String[]{"String1", "String2", "String3"});
+				ArrayList<String> stringList = new ArrayList<String>();
+				stringList.add("ArrayList String 1");
+				stringList.add("ArrayList String 2");
+				stringList.add("ArrayList String 3");
+				bundle.putStringArrayList(InjectActivity.PARAM_STRING_ARRAY_LIST, stringList);
 				switch(position){
 					case 0 : 
 						Second.SECOND_CHRONOGRAPH.count(); 
