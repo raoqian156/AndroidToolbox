@@ -177,8 +177,8 @@ public class InjectUtils {
 		InjectExtra injectExtra = field.getAnnotation(InjectExtra.class);
 		if(injectExtra != null && StringUtils.isNotEmpty(injectExtra.value()) && extra != null){
 			Class<?> fieldType = field.getType();
+			field.setAccessible(true);
 			try {
-				field.setAccessible(true);
 				if(ArrayList.class.isAssignableFrom(fieldType)){
 					Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 					if(int.class.isAssignableFrom(first)){
@@ -449,8 +449,8 @@ public class InjectUtils {
 		InjectService injectService = field.getAnnotation(InjectService.class);
 		if(injectService != null){
 			Class<?> fieldType = field.getType();
+			field.setAccessible(true);
 			try {
-				field.setAccessible(true);
 				if(AccessibilityManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.ACCESSIBILITY_SERVICE));
 				}else if(AccountManager.class.isAssignableFrom(fieldType)){
