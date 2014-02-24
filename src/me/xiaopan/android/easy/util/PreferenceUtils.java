@@ -839,7 +839,7 @@ public class PreferenceUtils {
 	 * @param preferences
 	 * @param keys
 	 */
-	public static final void remove(SharedPreferences preferences, String... keys){
+	public static final void remove(SharedPreferences preferences, String[] keys){
 		Editor editor = preferences.edit();
 		for(String key : keys){
 			editor.remove(key);
@@ -849,12 +849,21 @@ public class PreferenceUtils {
 	
 	/**
 	 * 删除
+	 * @param preferences
+	 * @param key
+	 */
+	public static final void remove(SharedPreferences preferences, String key){
+		preferences.edit().remove(key).commit();
+	}
+	
+	/**
+	 * 删除
 	 * @param context
 	 * @param sharedPreferencesName
 	 * @param mode
 	 * @param keys
 	 */
-	public static final void remove(Context context, String sharedPreferencesName, int mode, String... keys){
+	public static final void remove(Context context, String sharedPreferencesName, int mode, String[] keys){
 		remove(context.getSharedPreferences(sharedPreferencesName, mode), keys);
 	}
 	
@@ -862,10 +871,31 @@ public class PreferenceUtils {
 	 * 删除
 	 * @param context
 	 * @param sharedPreferencesName
+	 * @param mode
+	 * @param key
+	 */
+	public static final void remove(Context context, String sharedPreferencesName, int mode, String key){
+		remove(context.getSharedPreferences(sharedPreferencesName, mode), key);
+	}
+	
+	/**
+	 * 删除
+	 * @param context
+	 * @param sharedPreferencesName
 	 * @param keys
 	 */
-	public static final void remove(Context context, String sharedPreferencesName, String... keys){
+	public static final void remove(Context context, String sharedPreferencesName, String[] keys){
 		remove(context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE), keys);
+	}
+	
+	/**
+	 * 删除
+	 * @param context
+	 * @param sharedPreferencesName
+	 * @param key
+	 */
+	public static final void remove(Context context, String sharedPreferencesName, String key){
+		remove(context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE), key);
 	}
 	
 	/**
@@ -873,7 +903,16 @@ public class PreferenceUtils {
 	 * @param context
 	 * @param keys
 	 */
-	public static final void remove(Context context, String... keys){
+	public static final void remove(Context context, String[] keys){
 		remove(PreferenceManager.getDefaultSharedPreferences(context), keys);
+	}
+	
+	/**
+	 * 删除
+	 * @param context
+	 * @param key
+	 */
+	public static final void remove(Context context, String key){
+		remove(PreferenceManager.getDefaultSharedPreferences(context), key);
 	}
 }
