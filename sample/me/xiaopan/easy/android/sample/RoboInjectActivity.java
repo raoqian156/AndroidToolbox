@@ -22,15 +22,13 @@ import java.util.Arrays;
 import java.util.Set;
 
 import me.xiaopan.android.easy.R;
-import me.xiaopan.android.easy.activity.EasyActivity;
-import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectExtra;
-import me.xiaopan.android.easy.inject.InjectPreference;
-import me.xiaopan.android.easy.inject.InjectResource;
-import me.xiaopan.android.easy.inject.InjectService;
-import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.java.easy.util.ReflectUtils;
 import me.xiaopan.java.easy.util.SecondChronograph;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectExtra;
+import roboguice.inject.InjectPreference;
+import roboguice.inject.InjectResource;
+import roboguice.inject.InjectView;
 import android.accounts.AccountManager;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -38,8 +36,6 @@ import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.app.UiModeManager;
-import android.app.WallpaperManager;
-import android.app.admin.DevicePolicyManager;
 import android.graphics.drawable.Drawable;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
@@ -53,12 +49,12 @@ import android.os.Vibrator;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-@InjectContentView(R.layout.activity_main)
-public class InjectActivity extends EasyActivity {
+import com.google.inject.Inject;
+
+public class RoboInjectActivity extends RoboActivity {
 	@InjectView(R.id.text_main1) private TextView textView1;
 	@InjectView(R.id.text_main2) private TextView textView2;
 	@InjectView(R.id.text_main3) private TextView textView3;
@@ -87,28 +83,28 @@ public class InjectActivity extends EasyActivity {
 	@InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE) private CharSequence charSequenceField;
 	@InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE_ARRAY) private CharSequence[] charSequenceFields;
 
-	@InjectService private AccessibilityManager accessibilityManager;
-	@InjectService private AccountManager accountManager;
-	@InjectService private ActivityManager activityManager;
-	@InjectService private AlarmManager alarmManager;
-	@InjectService private AudioManager audioManager;
-	@InjectService private ConnectivityManager connectivityManager;
-	@InjectService private DevicePolicyManager devicePolicyManager;
-	@InjectService private DropBoxManager dropBoxManager;
-	@InjectService private InputMethodManager inputMethodManager;
-	@InjectService private KeyguardManager keyguardManager;
-	@InjectService private LayoutInflater layoutInflater;
-	@InjectService private LocationManager locationManager;
-	@InjectService private NotificationManager notificationManager;
-	@InjectService private PowerManager powerManager;
-	@InjectService private SearchManager searchManager;
-	@InjectService private SensorManager sensorManager;
-	@InjectService private TelephonyManager telephonyManager;
-	@InjectService private UiModeManager uiModeManager;
-	@InjectService private Vibrator vibrator;
-	@InjectService private WallpaperManager wallpaperManager;
-	@InjectService private WifiManager wifiManager;
-	@InjectService private WindowManager windowManager;
+//	@Inject private AccessibilityManager accessibilityManager;
+	@Inject private AccountManager accountManager;
+	@Inject private ActivityManager activityManager;
+	@Inject private AlarmManager alarmManager;
+	@Inject private AudioManager audioManager;
+	@Inject private ConnectivityManager connectivityManager;
+//	@Inject private DevicePolicyManager devicePolicyManager;
+	@Inject private DropBoxManager dropBoxManager;
+	@Inject private InputMethodManager inputMethodManager;
+	@Inject private KeyguardManager keyguardManager;
+	@Inject private LayoutInflater layoutInflater;
+	@Inject private LocationManager locationManager;
+	@Inject private NotificationManager notificationManager;
+	@Inject private PowerManager powerManager;
+	@Inject private SearchManager searchManager;
+	@Inject private SensorManager sensorManager;
+	@Inject private TelephonyManager telephonyManager;
+	@Inject private UiModeManager uiModeManager;
+	@Inject private Vibrator vibrator;
+//	@Inject private WallpaperManager wallpaperManager;
+	@Inject private WifiManager wifiManager;
+	@Inject private WindowManager windowManager;
 	
 	@InjectPreference(MainActivity.KEY_BOOLEAN) private boolean booleanPreference;
 	@InjectPreference(MainActivity.KEY_FLOAT) private float floatPreference;
@@ -126,6 +122,7 @@ public class InjectActivity extends EasyActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 		
 		SecondChronograph secondChronograph = new SecondChronograph();
 		
@@ -157,7 +154,7 @@ public class InjectActivity extends EasyActivity {
 		boolean success = true; 
 		try {
 			for(Field field : ReflectUtils.getFields(getClass(), true, false, false, false)){
-				if(field.getAnnotation(InjectService.class) != null){
+				if(field.getAnnotation(Inject.class) != null){
 					field.setAccessible(true);
 					if(field.get(this) == null){
 						success = false;
