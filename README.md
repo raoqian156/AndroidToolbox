@@ -19,11 +19,14 @@
 
 
 ##Downloads
-**[android-easy-4.0.4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.4.jar)**
+**[android-easy-4.1.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.0.jar)**
 
-**[android-easy-4.0.4-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.0.4-with-src.jar)**
+**[android-easy-4.1.0-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.0-with-src.jar)**
 
 ##Change log
+###4.1.0
+>* 完善注入功能，支持注入Extra参数，SharedPreference、各种Manager、Resource
+
 ###4.0.4
 >* 去除RoboGuide库，改用自己实现注入功能，原因是RoboGuice有点庞大，导致Activity启动时间过长。
 >* 去除RoboGuice后目前只实现了InjectContentView和InjectView。InjectExtra等其它注入功能会后续加上。
