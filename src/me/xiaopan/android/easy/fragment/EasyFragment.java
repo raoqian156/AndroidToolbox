@@ -17,6 +17,7 @@
 package me.xiaopan.android.easy.fragment;
 
 import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.InjectUtils;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.EasyHandler;
@@ -55,7 +56,12 @@ public class EasyFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return isEnableInject?InjectUtils.injectContentView(this, inflater):null;
+		if(isEnableInject){
+			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class); 
+			return injectContentView != null?inflater.inflate(injectContentView.value(), null):null;
+		}else{
+			return null;
+		}
 	}
 
 	@Override

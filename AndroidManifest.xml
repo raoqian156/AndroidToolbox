@@ -14,6 +14,5 @@
         </activity>
         <activity android:name="me.xiaopan.easy.android.sample.InjectActivity"/>
         <activity android:name="me.xiaopan.easy.android.sample.NormalActivity"/>
-        <activity android:name="me.xiaopan.easy.android.sample.RoboInjectActivity"/>
     </application>
 </manifest>

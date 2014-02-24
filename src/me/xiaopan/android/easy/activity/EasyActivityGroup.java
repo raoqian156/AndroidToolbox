@@ -18,6 +18,7 @@ package me.xiaopan.android.easy.activity;
 import java.util.Locale;
 
 import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.InjectUtils;
 import me.xiaopan.android.easy.util.ActivityPool;
 import me.xiaopan.android.easy.util.ActivityUtils;
@@ -49,6 +50,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	private ActivityPool activityPool;
 	private EasyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
+	private boolean isInjectContentView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +65,15 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 		};
 		
 		if(isEnableInject){
-			InjectUtils.injectMembers(this);	//注入其它成员变量
-			InjectUtils.injectContentView(this);	//注入内容视图
+			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
+			if(injectContentView != null && injectContentView.value() > 0){
+				isInjectContentView = true;
+				setContentView(injectContentView.value());
+			}else{
+				InjectUtils.injectMembers(this);
+			}
+		}else{
+			InjectUtils.injectMembers(this);
 		}
 	}
 	
@@ -72,7 +81,8 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	public void onContentChanged() {
 		super.onContentChanged();
 		if(isEnableInject){
-			InjectUtils.injectViewMembers(this);	//注入View成员变量
+			InjectUtils.injectViewMembers(this, isInjectContentView);	//注入View成员变量
+			isInjectContentView = false;
 		}
 	}
 

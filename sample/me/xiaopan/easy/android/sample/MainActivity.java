@@ -69,7 +69,7 @@ public class MainActivity extends EasyFragmentActivity{
 		listView.setId(android.R.id.list);
 		setContentView(listView);
 		
-		String[] items = new String[]{"注入功能测试", "Robo注入功能测试", "非注入功能测试", "FragmentDialog测试"};
+		String[] items = new String[]{"注入功能测试", "非注入功能测试", "FragmentDialog测试"};
 		listView.setAdapter(new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1, items));
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -107,13 +107,9 @@ public class MainActivity extends EasyFragmentActivity{
 						break;
 					case 1 : 
 						Second.SECOND_CHRONOGRAPH.count(); 
-						startActivity(RoboInjectActivity.class, bundle); 
-						break;
-					case 2 : 
-						Second.SECOND_CHRONOGRAPH.count(); 
 						startActivity(NormalActivity.class, bundle); 
 						break;
-					case 3 : 
+					case 2 : 
 						Second.SECOND_CHRONOGRAPH.count(); 
 						new TestDialogFragment().show(getSupportFragmentManager(), ""); 
 						break;

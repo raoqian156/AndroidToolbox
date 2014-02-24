@@ -7,7 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注入系统服务，支持注入以下类型的服务
+ * 注入系统常用类，支持以下类型
+ * <br> SharedPreferences
  * <br> AccessibilityManager
  * <br> AccountManager
  * <br> ActivityManager
@@ -50,5 +51,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InjectService {
+public @interface Inject {
+	/**
+	 * 当要注入SharedPreferences时，此参数值就是SharedPreferences的name
+	 * @return
+	 */
+	public String sharedPreferencesName() default "";
 }

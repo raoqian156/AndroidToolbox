@@ -14,6 +14,9 @@ import java.lang.annotation.Target;
  * <br>Integer
  * <br>Integer[]
  * <br>Drawable
+ * <br>ColorStateList
+ * <br>Animation
+ * <br>Movie
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
