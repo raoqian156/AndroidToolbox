@@ -19,47 +19,41 @@ package me.xiaopan.easy.android.sample;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.activity.EasyActivity;
 import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.InjectExtra;
+import me.xiaopan.android.easy.inject.InjectPreference;
+import me.xiaopan.android.easy.inject.InjectResource;
 import me.xiaopan.android.easy.inject.InjectService;
 import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.java.easy.util.ReflectUtils;
 import android.accounts.AccountManager;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
-import android.app.DownloadManager;
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.app.UiModeManager;
 import android.app.WallpaperManager;
 import android.app.admin.DevicePolicyManager;
-import android.content.ClipboardManager;
+import android.graphics.drawable.Drawable;
 import android.hardware.SensorManager;
-import android.hardware.input.InputManager;
-import android.hardware.usb.UsbManager;
 import android.location.LocationManager;
 import android.media.AudioManager;
-import android.media.MediaRouter;
 import android.net.ConnectivityManager;
-import android.net.nsd.NsdManager;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pManager;
-import android.nfc.NfcManager;
 import android.os.Bundle;
 import android.os.DropBoxManager;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.os.storage.StorageManager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textservice.TextServicesManager;
 import android.widget.TextView;
 
 @InjectContentView(R.layout.activity_main)
@@ -91,11 +85,6 @@ public class InjectActivity extends EasyActivity {
 	@InjectView(R.id.text_main3) private TextView textView3;
 	@InjectView(R.id.text_main4) private TextView textView4;
 	@InjectView(R.id.text_main5) private TextView textView5;
-	@InjectView(R.id.text_main6) private TextView textView6;
-	@InjectView(R.id.text_main7) private TextView textView7;
-	@InjectView(R.id.text_main8) private TextView textView8;
-	@InjectView(R.id.text_main9) private TextView textView9;
-	@InjectView(R.id.text_main10) private TextView textView10;
 
 	@InjectExtra(PARAM_BYTE) private byte byteField;
 	@InjectExtra(PARAM_BYTE_ARRAY) private byte[] byteFields;
@@ -141,49 +130,47 @@ public class InjectActivity extends EasyActivity {
 	@InjectService private WallpaperManager wallpaperManager;
 	@InjectService private WifiManager wifiManager;
 	@InjectService private WindowManager windowManager;
-	@InjectService private DownloadManager downloadManager;
-	@InjectService private StorageManager storageManager;
-	@InjectService private NfcManager nfcManager;
-	@InjectService private ClipboardManager clipboardManager;
-	@InjectService private UsbManager usbManager;
-	@InjectService private TextServicesManager textServicesManager;
-	@InjectService private WifiP2pManager wifiP2pManager;
-	@InjectService private InputManager inputManager;
-	@InjectService private MediaRouter mediaRouter;
-	@InjectService private NsdManager nsdManager;
-//	@InjectService private DisplayManager displayManager;
-//	@InjectService private BluetoothManager bluetoothManager;
-//	@InjectService private AppOpsManager appOpsManager;
-//	@InjectService private CaptioningManager captioningManager;
-//	@InjectService private ConsumerIrManager consumerIrManager;
-//	@InjectService private PrintManager printManager;
+	
+	@InjectPreference(MainActivity.KEY_BOOLEAN) private boolean booleanPreference;
+	@InjectPreference(MainActivity.KEY_FLOAT) private float floatPreference;
+	@InjectPreference(MainActivity.KEY_INT) private int intPreference;
+	@InjectPreference(MainActivity.KEY_LONG) private long longPreference;
+	@InjectPreference(MainActivity.KEY_STRING) private String stringPreference;
+	@InjectPreference(MainActivity.KEY_STRING_SET) private Set<String> stringSetPreference;
+	
+	@InjectResource(R.integer.integer1) private int integer1;
+	@InjectResource(R.string.string1) private String string1;
+	@InjectResource(R.array.integer_array1) private int[] integers1;
+	@InjectResource(R.array.string_array1) private String[] strings1;
+	@InjectResource(R.drawable.ic_launcher) private Drawable launcherDrawable;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		textView2.setText(
-			"byteField="+byteField+"; " +
-			"shortField="+shortField+"; " +
-			"intField="+intField+"; " +
-			"longField="+longField+"; " +
-			"charField="+charField+"; " +
-			"floatField="+floatField+"; " +
-			"doubleField="+doubleField+"; " +
-			"booleanField="+booleanField+"; " +
-			"stringField="+stringField+"; " +
-			"charSequenceField="+charSequenceField+
-			"byteFields="+Arrays.toString(byteFields)+"; " +
-			"shortFields="+Arrays.toString(shortFields)+"; " +
-			"intFields="+Arrays.toString(intFields)+"; " +
-			"longFields="+Arrays.toString(longFields)+"; " +
-			"charFields="+Arrays.toString(charFields)+"; " +
-			"floatFields="+Arrays.toString(floatFields)+"; " +
-			"doubleFields="+Arrays.toString(doubleFields)+"; " +
-			"booleanFields="+Arrays.toString(booleanFields)+"; " +
-			"stringFields="+Arrays.toString(stringFields)+"; " +
-			"stringFieldList="+stringFieldList.toString()+"; " +
-			"charSequenceFields="+Arrays.toString(charSequenceFields)
-		);
+		StringBuffer extraStringBuffer = new StringBuffer("Extra注入结果：");
+		extraStringBuffer.append("\n").append("byteField").append("=").append(byteField);
+		extraStringBuffer.append("\n").append("byteField").append("=").append(byteField);
+		extraStringBuffer.append("\n").append("shortField").append("=").append(shortField);
+		extraStringBuffer.append("\n").append("intField").append("=").append(intField);
+		extraStringBuffer.append("\n").append("longField").append("=").append(longField);
+		extraStringBuffer.append("\n").append("charField").append("=").append(charField);
+		extraStringBuffer.append("\n").append("floatField").append("=").append(floatField);
+		extraStringBuffer.append("\n").append("doubleField").append("=").append(doubleField);
+		extraStringBuffer.append("\n").append("booleanField").append("=").append(booleanField);
+		extraStringBuffer.append("\n").append("stringField").append("=").append(stringField);
+		extraStringBuffer.append("\n").append("charSequenceField").append("=").append(charSequenceField);
+		extraStringBuffer.append("\n").append("byteFields").append("=").append(Arrays.toString(byteFields));
+		extraStringBuffer.append("\n").append("shortFields").append("=").append(Arrays.toString(shortFields));
+		extraStringBuffer.append("\n").append("intFields").append("=").append(Arrays.toString(intFields));
+		extraStringBuffer.append("\n").append("longFields").append("=").append(Arrays.toString(longFields));
+		extraStringBuffer.append("\n").append("charFields").append("=").append(Arrays.toString(charFields));
+		extraStringBuffer.append("\n").append("floatFields").append("=").append(Arrays.toString(floatFields));
+		extraStringBuffer.append("\n").append("doubleFields").append("=").append(Arrays.toString(doubleFields));
+		extraStringBuffer.append("\n").append("booleanFields").append("=").append(Arrays.toString(booleanFields));
+		extraStringBuffer.append("\n").append("stringFields").append("=").append(Arrays.toString(stringFields));
+		extraStringBuffer.append("\n").append("stringFieldList").append("=").append(stringFieldList.toString());
+		extraStringBuffer.append("\n").append("charSequenceFields").append("=").append(Arrays.toString(charSequenceFields));
+		textView2.setText(extraStringBuffer.toString());
 		
 		boolean success = true; 
 		try {
@@ -200,6 +187,24 @@ public class InjectActivity extends EasyActivity {
 			e.printStackTrace();
 		}
 		textView3.setText("系统服务注入"+(success?"成功":"失败"));
+		
+		StringBuffer preferenceStringBuffer = new StringBuffer("Preference注入结果：");
+		preferenceStringBuffer.append("\n").append("booleanPreference").append("=").append(booleanPreference);
+		preferenceStringBuffer.append("\n").append("floatPreference").append("=").append(floatPreference);
+		preferenceStringBuffer.append("\n").append("intPreference").append("=").append(intPreference);
+		preferenceStringBuffer.append("\n").append("longPreference").append("=").append(longPreference);
+		preferenceStringBuffer.append("\n").append("stringPreference").append("=").append(stringPreference);
+		preferenceStringBuffer.append("\n").append("stringSetPreference").append("=").append(stringSetPreference);
+		textView4.setText(preferenceStringBuffer.toString());
+		
+		StringBuffer resourceStringBuffer = new StringBuffer("Resource注入结果：");
+		resourceStringBuffer.append("\n").append("integer1").append("=").append(integer1);
+		resourceStringBuffer.append("\n").append("string1").append("=").append(string1);
+		resourceStringBuffer.append("\n").append("integers1").append("=").append(Arrays.toString(integers1));
+		resourceStringBuffer.append("\n").append("strings1").append("=").append(Arrays.toString(strings1));
+		textView5.setText(resourceStringBuffer);
+		textView5.setCompoundDrawablePadding(16);
+		textView5.setCompoundDrawablesWithIntrinsicBounds(launcherDrawable, null, null, null);
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package me.xiaopan.android.easy.inject;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Set;
@@ -27,7 +28,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.hardware.ConsumerIrManager;
 import android.hardware.SensorManager;
@@ -95,15 +95,17 @@ public class InjectUtils {
 	public static void injectViewMembers(Activity activity){
 		SecondChronograph secondChronograph = new SecondChronograph();
 		for(Field field : ReflectUtils.getFields(activity.getClass(), true, activity.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
-			InjectView injectView = field.getAnnotation(InjectView.class);
-			if(injectView != null){
-				field.setAccessible(true);
-				try {
-					field.set(activity, activity.findViewById(injectView.value()));
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
+			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
+				InjectView injectView = field.getAnnotation(InjectView.class);
+				if(injectView != null){
+					field.setAccessible(true);
+					try {
+						field.set(activity, activity.findViewById(injectView.value()));
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -116,15 +118,17 @@ public class InjectUtils {
 	 */
 	public static void injectViewMembers(Fragment fragment){
 		for(Field field : ReflectUtils.getFields(fragment.getClass(), true, fragment.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
-			InjectView injectView = field.getAnnotation(InjectView.class);
-			if(injectView != null){
-				field.setAccessible(true);
-				try {
-					field.set(fragment, fragment.getView().findViewById(injectView.value()));
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
+			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
+				InjectView injectView = field.getAnnotation(InjectView.class);
+				if(injectView != null){
+					field.setAccessible(true);
+					try {
+						field.set(fragment, fragment.getView().findViewById(injectView.value()));
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -137,10 +141,12 @@ public class InjectUtils {
 	public static void injectMembers(Activity activity){
 		SecondChronograph secondChronograph = new SecondChronograph();
 		for(Field field : ReflectUtils.getFields(activity.getClass(), true, activity.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
-			if(!injectExtra(field, activity, activity.getIntent().getExtras())){
-				if(!injectResource(field, activity, activity.getBaseContext())){
-					if(!injectService(field, activity, activity.getBaseContext())){
-						if(!injectPreference(field, activity, activity.getBaseContext())){
+			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
+				if(!injectExtra(field, activity, activity.getIntent().getExtras())){
+					if(!injectResource(field, activity, activity.getBaseContext())){
+						if(!injectService(field, activity, activity.getBaseContext())){
+							if(!injectPreference(field, activity, activity.getBaseContext())){
+							}
 						}
 					}
 				}
@@ -156,10 +162,12 @@ public class InjectUtils {
 	public static void injectMembers(Fragment fragment){
 		SecondChronograph secondChronograph = new SecondChronograph();
 		for(Field field : ReflectUtils.getFields(fragment.getClass(), true, fragment.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
-			if(!injectExtra(field, fragment, fragment.getArguments())){
-				if(!injectResource(field, fragment, fragment.getActivity().getBaseContext())){
-					if(!injectService(field, fragment, fragment.getActivity().getBaseContext())){
-						if(!injectPreference(field, fragment, fragment.getActivity().getBaseContext())){
+			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
+				if(!injectExtra(field, fragment, fragment.getArguments())){
+					if(!injectResource(field, fragment, fragment.getActivity().getBaseContext())){
+						if(!injectService(field, fragment, fragment.getActivity().getBaseContext())){
+							if(!injectPreference(field, fragment, fragment.getActivity().getBaseContext())){
+							}
 						}
 					}
 				}
@@ -197,9 +205,9 @@ public class InjectUtils {
 					field.set(object, extra.getChar(injectExtra.value(), injectExtra.charDefaultValue()));
 				}else if(boolean.class.isAssignableFrom(fieldType)){
 					field.set(object, extra.getBoolean(injectExtra.value(), injectExtra.booleanDefaultValue()));
-				}else if(String.class.isAssignableFrom(fieldType)){
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && String.class.isAssignableFrom(fieldType)){
 					field.set(object, extra.getString(injectExtra.value(), injectExtra.stringDefaultValue()));
-				}else if(CharSequence.class.isAssignableFrom(fieldType)){
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && CharSequence.class.isAssignableFrom(fieldType)){
 					field.set(object, extra.getCharSequence(injectExtra.value(), injectExtra.charSequenceDefaultValue()));
 				}else if(Parcelable.class.isAssignableFrom(fieldType)){
 					field.set(object, extra.getParcelable(injectExtra.value()));
@@ -245,13 +253,9 @@ public class InjectUtils {
 					if(!fieldType.isArray()){
 						field.set(object, extra.getBundle(injectExtra.value()));
 					}
-				}else{
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-						if(IBinder.class.isAssignableFrom(fieldType)){
-							if(!fieldType.isArray()){
-								field.set(object, extra.getBinder(injectExtra.value()));
-							}
-						}
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && IBinder.class.isAssignableFrom(fieldType)){
+					if(!fieldType.isArray()){
+						field.set(object, extra.getBinder(injectExtra.value()));
 					}
 				}
 			} catch (Exception e) {
@@ -315,11 +319,7 @@ public class InjectUtils {
 //				resources.getValue(name, outValue, resolveRefs)
 //				resources.getValueForDensity(id, density, outValue, resolveRefs)
 //				resources.getXml(id)
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (NotFoundException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return true;
@@ -358,14 +358,10 @@ public class InjectUtils {
 					field.set(object, sharedPreferences.getLong(injectPreference.value(), injectPreference.longDefaultValue()));
 				}else if(String.class.isAssignableFrom(fieldType)){
 					field.set(object, sharedPreferences.getString(injectPreference.value(), injectPreference.stringDefaultValue()));
-				}else{
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-						if(Set.class.isAssignableFrom(fieldType)){
-							Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-							if(String.class.isAssignableFrom(first)){
-								field.set(object, sharedPreferences.getStringSet(injectPreference.value(), null));
-							}
-						}
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && Set.class.isAssignableFrom(fieldType)){
+					Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+					if(String.class.isAssignableFrom(first)){
+						field.set(object, sharedPreferences.getStringSet(injectPreference.value(), null));
 					}
 				}
 			} catch (Exception e) {
@@ -380,44 +376,44 @@ public class InjectUtils {
 	/**
 	 * 注入服务
 	 * <br>支持注入以下服务
-	 * <br>AccessibilityManager
-	 * <br>AccountManager
-	 * <br>	ActivityManager
-	 * <br>	AlarmManager
-	 * <br>	AudioManager
-	 * <br>	ConnectivityManager
-	 * <br>	DevicePolicyManager
-	 * <br>	DropBoxManager
-	 * <br>	InputMethodManager
-	 * <br>	KeyguardManager
-	 * <br>	LayoutInflater
-	 * <br>	LocationManager
-	 * <br>	NotificationManager
-	 * <br>	PowerManager
-	 * <br>	SearchManager
-	 * <br>	SensorManager
-	 * <br>	TelephonyManager
-	 * <br>	UiModeManager
-	 * <br>	Vibrator
-	 * <br>	WallpaperManager
-	 * <br>	WifiManager
-	 * <br>	WindowManager
-	 * <br>	DownloadManager
-	 * <br>	StorageManager
-	 * <br>	NfcManager
-	 * <br>	ClipboardManager
-	 * <br>	UsbManager
-	 * <br>	TextServicesManager
-	 * <br>	WifiP2pManager
-	 * <br>	InputManager
-	 * <br>	MediaRouter
-	 * <br>	NsdManager
-	 * <br>	DisplayManager
-	 * <br>	BluetoothManager
-	 * <br>	AppOpsManager
-	 * <br>	CaptioningManager
-	 * <br>	ConsumerIrManager
-	 * <br>	PrintManager
+	 * <br> AccessibilityManager
+	 * <br> AccountManager
+	 * <br> ActivityManager
+	 * <br> AlarmManager
+	 * <br> AppOpsManager
+	 * <br> AudioManager
+	 * <br> BluetoothManager
+	 * <br> CaptioningManager
+	 * <br> ConnectivityManager
+	 * <br> ConsumerIrManager
+	 * <br> DevicePolicyManager
+	 * <br> DisplayManager
+	 * <br> DropBoxManager
+	 * <br> InputManager
+	 * <br> InputMethodManager
+	 * <br> KeyguardManager
+	 * <br> LayoutInflater
+	 * <br> LocationManager
+	 * <br> MediaRouter
+	 * <br> NotificationManager
+	 * <br> NsdManager
+	 * <br> PowerManager
+	 * <br> PrintManager
+	 * <br> SearchManager
+	 * <br> SensorManager
+	 * <br> TelephonyManager
+	 * <br> UiModeManager
+	 * <br> Vibrator
+	 * <br> WallpaperManager
+	 * <br> WifiManager
+	 * <br> WindowManager
+	 * <br> DownloadManager
+	 * <br> StorageManager
+	 * <br> NfcManager
+	 * <br> ClipboardManager
+	 * <br> UsbManager
+	 * <br> TextServicesManager
+	 * <br> WifiP2pManager
 	 * @return
 	 */
 	@SuppressLint("NewApi")
@@ -435,14 +431,30 @@ public class InjectUtils {
 					field.set(object, context.getSystemService(Context.ACTIVITY_SERVICE));
 				}else if(AlarmManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.ALARM_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && AppOpsManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.APP_OPS_SERVICE));
 				}else if(AudioManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.AUDIO_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && BluetoothManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.BLUETOOTH_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && CaptioningManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.CAPTIONING_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && ClipboardManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.CLIPBOARD_SERVICE));
 				}else if(ConnectivityManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.CONNECTIVITY_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && ConsumerIrManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.CONSUMER_IR_SERVICE));
 				}else if(DevicePolicyManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.DEVICE_POLICY_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && DownloadManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.DOWNLOAD_SERVICE));
 				}else if(DropBoxManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.DROPBOX_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && DisplayManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.DISPLAY_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && InputManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.INPUT_SERVICE));
 				}else if(InputMethodManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.INPUT_METHOD_SERVICE));
 				}else if(KeyguardManager.class.isAssignableFrom(fieldType)){
@@ -451,94 +463,42 @@ public class InjectUtils {
 					field.set(object, context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 				}else if(LocationManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.LOCATION_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1 && NfcManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.NFC_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && MediaRouter.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.MEDIA_ROUTER_SERVICE));
 				}else if(NotificationManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.NOTIFICATION_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && NsdManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.NSD_SERVICE));
 				}else if(PowerManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.POWER_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && PrintManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.PRINT_SERVICE));
 				}else if(SearchManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.SEARCH_SERVICE));
 				}else if(SensorManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.SENSOR_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && StorageManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.STORAGE_SERVICE));
 				}else if(TelephonyManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.TELEPHONY_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && TextServicesManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE));
 				}else if(UiModeManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.UI_MODE_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && UsbManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.USB_SERVICE));
 				}else if(Vibrator.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.VIBRATOR_SERVICE));
 				}else if(WallpaperManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.WALLPAPER_SERVICE));
 				}else if(WifiManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.WIFI_SERVICE));
+				}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && WifiP2pManager.class.isAssignableFrom(fieldType)){
+					field.set(object, context.getSystemService(Context.WIFI_P2P_SERVICE));
 				}else if(WindowManager.class.isAssignableFrom(fieldType)){
 					field.set(object, context.getSystemService(Context.WINDOW_SERVICE));
-				}else{
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
-						if(DownloadManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.DOWNLOAD_SERVICE));
-						}else if(StorageManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.STORAGE_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1){
-						if(NfcManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.NFC_SERVICE));
-						}
-					}
-
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-						if(ClipboardManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.CLIPBOARD_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1){
-						if(UsbManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.USB_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
-						if(TextServicesManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE));
-						}else if(WifiP2pManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.WIFI_P2P_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
-						if(InputManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.INPUT_SERVICE));
-						}else if(MediaRouter.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.MEDIA_ROUTER_SERVICE));
-						}else if(NsdManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.NSD_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-						if(DisplayManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.DISPLAY_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-						if(BluetoothManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.BLUETOOTH_SERVICE));
-						}
-					}
-					
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-						if(AppOpsManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.APP_OPS_SERVICE));
-						}else if(CaptioningManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.CAPTIONING_SERVICE));
-						}else if(ConsumerIrManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.CONSUMER_IR_SERVICE));
-						}else if(PrintManager.class.isAssignableFrom(fieldType)){
-							field.set(object, context.getSystemService(Context.PRINT_SERVICE));
-						}
-					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

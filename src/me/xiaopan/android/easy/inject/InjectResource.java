@@ -7,7 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注入资源
+ * 注入资源，支持以下类型的资源：
+ * <br>boolean
+ * <br>String
+ * <br>String[]
+ * <br>Integer
+ * <br>Integer[]
+ * <br>Drawable
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

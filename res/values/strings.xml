@@ -2,4 +2,16 @@
 <resources>
     <string name="button_open">打开DialogFragment</string>
     <string name="button_openNew">打开新的Activity</string>
+    <item name="integer1" type="integer">121</item>
+    <integer-array name="integer_array1">
+        <item>123</item>
+        <item>124</item>
+        <item>125</item>
+    </integer-array>
+    <string name="string1">String 121</string>
+    <string-array name="string_array1">
+        <item>String 123</item>
+        <item>String 124</item>
+        <item>String 125</item>
+    </string-array>
 </resources>

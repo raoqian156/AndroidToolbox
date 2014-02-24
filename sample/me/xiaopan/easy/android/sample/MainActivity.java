@@ -17,9 +17,12 @@
 package me.xiaopan.easy.android.sample;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import me.xiaopan.android.easy.activity.EasyFragmentActivity;
 import me.xiaopan.android.easy.inject.InjectView;
+import me.xiaopan.android.easy.util.PreferenceUtils;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +31,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends EasyFragmentActivity{
+	public static final String KEY_BOOLEAN = "KEY_BOOLEAN";
+	public static final String KEY_FLOAT = "KEY_FLOAT";
+	public static final String KEY_INT = "KEY_INT";
+	public static final String KEY_LONG = "KEY_LONG";
+	public static final String KEY_STRING = "KEY_STRING";
+	public static final String KEY_STRING_SET = "KEY_STRING_SET";
+	
 	@InjectView(android.R.id.list)
 	private ListView listView;
 	
@@ -85,5 +95,17 @@ public class MainActivity extends EasyFragmentActivity{
 				}
 			}
 		});
+		
+		PreferenceUtils.putBoolean(getBaseContext(), KEY_BOOLEAN, true);
+		PreferenceUtils.putFloat(getBaseContext(), KEY_FLOAT, 10000f);
+		PreferenceUtils.putInt(getBaseContext(), KEY_INT, 2000);
+		PreferenceUtils.putLong(getBaseContext(), KEY_LONG, 50000);
+		PreferenceUtils.putString(getBaseContext(), KEY_STRING, "Preference String");
+		Set<String> stringSet = new HashSet<String>();
+		stringSet.add("String Set 1");
+		stringSet.add("String Set 2");
+		stringSet.add("String Set 3");
+		stringSet.add("String Set 4");
+		PreferenceUtils.putStringSet(getBaseContext(), KEY_STRING_SET, stringSet);
 	}
 }

@@ -31,30 +31,5 @@
 	        android:layout_height="wrap_content" 
 	        android:padding="16dp"
 	        android:id="@+id/text_main5" />
-	    <TextView 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content" 
-	        android:padding="16dp"
-	        android:id="@+id/text_main6" />
-	    <TextView 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content" 
-	        android:padding="16dp"
-	        android:id="@+id/text_main7" />
-	    <TextView 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content" 
-	        android:padding="16dp"
-	        android:id="@+id/text_main8" />
-	    <TextView 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content" 
-	        android:padding="16dp"
-	        android:id="@+id/text_main9" />
-	    <TextView 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content" 
-	        android:padding="16dp"
-	        android:id="@+id/text_main10" />
 	</LinearLayout>
 </ScrollView>
