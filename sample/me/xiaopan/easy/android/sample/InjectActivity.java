@@ -30,6 +30,7 @@ import me.xiaopan.android.easy.inject.InjectResource;
 import me.xiaopan.android.easy.inject.InjectService;
 import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.java.easy.util.ReflectUtils;
+import me.xiaopan.java.easy.util.SecondChronograph;
 import android.accounts.AccountManager;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -147,6 +148,9 @@ public class InjectActivity extends EasyActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		SecondChronograph secondChronograph = new SecondChronograph();
+		
 		StringBuffer extraStringBuffer = new StringBuffer("Extra注入结果：");
 		extraStringBuffer.append("\n").append("byteField").append("=").append(byteField);
 		extraStringBuffer.append("\n").append("byteField").append("=").append(byteField);
@@ -205,6 +209,8 @@ public class InjectActivity extends EasyActivity {
 		textView5.setText(resourceStringBuffer);
 		textView5.setCompoundDrawablePadding(16);
 		textView5.setCompoundDrawablesWithIntrinsicBounds(launcherDrawable, null, null, null);
+		
+		System.out.println("初始化数据耗时："+secondChronograph.count().getIntervalMillis()+"毫秒");
 	}
 	
 	@Override

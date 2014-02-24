@@ -27,6 +27,7 @@ import me.xiaopan.android.easy.inject.DisableInject;
 import me.xiaopan.android.easy.sql.NotNull;
 import me.xiaopan.android.easy.util.PreferenceUtils;
 import me.xiaopan.java.easy.util.ReflectUtils;
+import me.xiaopan.java.easy.util.SecondChronograph;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -127,6 +128,8 @@ public class NormalActivity extends EasyActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		SecondChronograph secondChronograph = new SecondChronograph();
+		
 		textView1 = (TextView) findViewById(R.id.text_main1);
 		textView2 = (TextView) findViewById(R.id.text_main2);
 		textView3 = (TextView) findViewById(R.id.text_main3);
@@ -249,6 +252,8 @@ public class NormalActivity extends EasyActivity {
 		textView5.setText(resourceStringBuffer);
 		textView5.setCompoundDrawablePadding(16);
 		textView5.setCompoundDrawablesWithIntrinsicBounds(launcherDrawable, null, null, null);
+		
+		System.out.println("初始化数据耗时："+secondChronograph.count().getIntervalMillis()+"毫秒");
 	}
 
 	@Override

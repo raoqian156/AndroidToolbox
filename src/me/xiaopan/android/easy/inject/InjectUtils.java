@@ -117,6 +117,7 @@ public class InjectUtils {
 	 * @param fragment
 	 */
 	public static void injectViewMembers(Fragment fragment){
+		SecondChronograph secondChronograph = new SecondChronograph();
 		for(Field field : ReflectUtils.getFields(fragment.getClass(), true, fragment.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
 			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
 				InjectView injectView = field.getAnnotation(InjectView.class);
@@ -132,6 +133,7 @@ public class InjectUtils {
 				}
 			}
 		}
+		System.out.println("注入View耗时："+secondChronograph.count().getIntervalMillis()+"毫秒");
 	}
 	
 	/**
