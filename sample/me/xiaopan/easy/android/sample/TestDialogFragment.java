@@ -37,6 +37,6 @@ public class TestDialogFragment extends EasyDialogFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		textView.setText("启动耗时："+Second.SECOND_CHRONOGRAPH.count().getIntervalMillis()+"毫秒");
+		textView.setText("启动耗时："+Second.SECOND_CHRONOGRAPH.lap().getIntervalMillis()+"毫秒");
 	}
 }

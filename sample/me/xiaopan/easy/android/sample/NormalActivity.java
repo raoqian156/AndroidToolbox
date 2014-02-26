@@ -19,7 +19,7 @@ package me.xiaopan.easy.android.sample;
 import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.activity.EasyActivity;
 import me.xiaopan.android.easy.inject.DisableInject;
-import me.xiaopan.java.easy.util.SecondChronograph;
+import me.xiaopan.java.easy.util.Stopwatch;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -96,7 +96,7 @@ public class NormalActivity extends EasyActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		SecondChronograph secondChronograph = new SecondChronograph();
+		Stopwatch secondChronograph = new Stopwatch();
 		
 		textView1 = (TextView) findViewById(R.id.text_main1);
 		textView2 = (TextView) findViewById(R.id.text_main2);
@@ -221,13 +221,13 @@ public class NormalActivity extends EasyActivity {
 //		textView5.setCompoundDrawablePadding(16);
 //		textView5.setCompoundDrawablesWithIntrinsicBounds(launcherDrawable, null, null, null);
 		
-		System.out.println("初始化数据耗时："+secondChronograph.count().getIntervalMillis()+"毫秒");
+		System.out.println("初始化数据耗时："+secondChronograph.lap().getIntervalMillis()+"毫秒");
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		long useMillis = Second.SECOND_CHRONOGRAPH.count().getIntervalMillis();
+		long useMillis = Second.SECOND_CHRONOGRAPH.lap().getIntervalMillis();
 		textView1.setText("启动耗时："+useMillis+"毫秒");
 	}
 }

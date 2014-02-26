@@ -19,11 +19,14 @@
 
 
 ##Downloads
-**[android-easy-4.1.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.0.jar)**
+**[android-easy-4.1.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.1.jar)**
 
-**[android-easy-4.1.0-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.0-with-src.jar)**
+**[android-easy-4.1.1-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.1-with-src.jar)**
 
 ##Change log
+###4.1.1
+>* 重命名秒表类由SecondChronograph改为Stopwatch，并重命名计次方法由count改为lap
+
 ###4.1.0
 >* 完善注入功能，支持注入Extra参数，SharedPreference、各种Manager、Resource
 

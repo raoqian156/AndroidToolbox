@@ -102,15 +102,15 @@ public class MainActivity extends EasyFragmentActivity{
 				bundle.putStringArrayList(MainActivity.PARAM_STRING_ARRAY_LIST, stringList);
 				switch(position){
 					case 0 : 
-						Second.SECOND_CHRONOGRAPH.count(); 
+						Second.SECOND_CHRONOGRAPH.lap(); 
 						startActivity(InjectActivity.class, bundle); 
 						break;
 					case 1 : 
-						Second.SECOND_CHRONOGRAPH.count(); 
+						Second.SECOND_CHRONOGRAPH.lap(); 
 						startActivity(NormalActivity.class, bundle); 
 						break;
 					case 2 : 
-						Second.SECOND_CHRONOGRAPH.count(); 
+						Second.SECOND_CHRONOGRAPH.lap(); 
 						new TestDialogFragment().show(getSupportFragmentManager(), ""); 
 						break;
 				}

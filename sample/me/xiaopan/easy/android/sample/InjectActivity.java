@@ -165,7 +165,7 @@ public class InjectActivity extends EasyActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		long useMillis = Second.SECOND_CHRONOGRAPH.count().getIntervalMillis();
+		long useMillis = Second.SECOND_CHRONOGRAPH.lap().getIntervalMillis();
 		textView1.setText("启动耗时："+useMillis+"毫秒");
 	}
 }

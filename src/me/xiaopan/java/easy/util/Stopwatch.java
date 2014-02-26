@@ -3,24 +3,24 @@ package me.xiaopan.java.easy.util;
 /**
  * 秒表
  */
-public class SecondChronograph {
+public class Stopwatch {
 	private long firstMillis;	//第一次的时间
 	private long lastFirstMillis;	//上一次的时间
-	private Count count;
+	private Lap count;
 	private long newMillis;
 	
-	public SecondChronograph(){
+	public Stopwatch(){
 		firstMillis = System.currentTimeMillis();
 		lastFirstMillis = firstMillis;
 	}
 	
 	/**
-	 * 计次，返回上一次计次到当前的间隔时间
+	 * 计次，返回上一次计次到当前的间隔时间和总用时
 	 * @return
 	 */
-	public Count count(){
+	public Lap lap(){
 		newMillis = System.currentTimeMillis();
-		count = new Count(newMillis - firstMillis, newMillis - lastFirstMillis);
+		count = new Lap(newMillis - firstMillis, newMillis - lastFirstMillis);
 		lastFirstMillis = newMillis;
 		return count;
 	}
@@ -36,11 +36,11 @@ public class SecondChronograph {
 	/**
 	 * 计次
 	 */
-	public class Count{
+	public class Lap{
 		private long intervalMillis;
 		private long useMillis;
 		
-		public Count(long useMillis, long intervalMillis){
+		public Lap(long useMillis, long intervalMillis){
 			this.useMillis = useMillis;
 			this.intervalMillis = intervalMillis;
 		}
