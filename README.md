@@ -1,6 +1,6 @@
 # ![Logo](https://github.com/xiaopansky/EasyAndroid/raw/master/res/drawable-mdpi/ic_launcher.png) EasyAndroid
 
-这是一个Android开发框架和基础工具类库，旨在让Android开发变得更简单
+这是一个Android开发框架和基础工具类库，旨在让Android开发变得更简单，最低兼容Android2.2
 
 ##Features
 >* 提供了一系列的EasyActivity和EasyFragment，继承后可以使用注入功能；
@@ -60,7 +60,7 @@
 ##License
 ```java
 /*
- * Copyright 2013 Peng fei Pan
+ * Copyright (C) 2013 Peng fei Pan <sky@xiaopan.me>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
