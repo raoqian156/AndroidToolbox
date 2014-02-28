@@ -21,6 +21,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Set;
 
+import me.xiaopan.android.easy.util.PreferenceUtils;
 import me.xiaopan.java.easy.util.ReflectUtils;
 import me.xiaopan.java.easy.util.StringUtils;
 import android.accounts.AccountManager;
@@ -65,6 +66,7 @@ import android.os.storage.StorageManager;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
@@ -87,13 +89,9 @@ public class InjectUtils {
 		for(Field field : ReflectUtils.getFields(activity.getClass(), true, activity.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
 			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
 				if(field.isAnnotationPresent(InjectView.class)){
-					InjectView injectView = field.getAnnotation(InjectView.class);
-					field.setAccessible(true);
-					try {
-						field.set(activity, activity.findViewById(injectView.value()));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					injectView(field, activity);
+				}else if(field.isAnnotationPresent(InjectFragment.class) && Fragment.class.isAssignableFrom(field.getType()) && activity instanceof FragmentActivity){
+					injectFragment(field, (FragmentActivity) activity);
 				}else if(isInjectContentView){
 					if(field.isAnnotationPresent(InjectExtra.class)){
 						injectExtra(field, activity, activity.getIntent().getExtras());
@@ -116,58 +114,59 @@ public class InjectUtils {
 	public static void injectViewMembers(Fragment fragment){
 		for(Field field : ReflectUtils.getFields(fragment.getClass(), true, fragment.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
 			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
-				InjectView injectView = field.getAnnotation(InjectView.class);
-				if(injectView != null){
-					field.setAccessible(true);
-					try {
-						field.set(fragment, fragment.getView().findViewById(injectView.value()));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				if(field.isAnnotationPresent(InjectView.class)){
+					injectView(field, fragment);
 				}
 			}
 		}
 	}
 	
-//	/**
-//	 * 注入其他成员，例如Resource、Extra等
-//	 * @param activity
-//	 */
-//	public static void injectMembers(Activity activity){
-//		for(Field field : ReflectUtils.getFields(activity.getClass(), true, activity.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
-//			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
-//				if(field.isAnnotationPresent(InjectExtra.class)){
-//					injectExtra(field, activity, activity.getIntent().getExtras());
-//				}else if(field.isAnnotationPresent(InjectResource.class)){
-//					injectResource(field, activity, activity.getBaseContext());
-//				}else if(field.isAnnotationPresent(Inject.class)){
-//					inject(field, activity, activity.getBaseContext());
-//				}else if(field.isAnnotationPresent(InjectPreference.class)){
-//					injectPreference(field, activity, activity.getBaseContext());
-//				}
-//			}
-//		}
-//	}
-//	
-//	/**
-//	 * 注入其他成员，例如Resource、Extra等
-//	 * @param fragment
-//	 */
-//	public static void injectMembers(Fragment fragment){
-//		for(Field field : ReflectUtils.getFields(fragment.getClass(), true, fragment.getClass().getAnnotation(InjectParentMember.class) != null, false, true)){
-//			if(!(Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))){
-//				if(field.isAnnotationPresent(InjectExtra.class)){
-//					injectExtra(field, fragment, fragment.getArguments());
-//				}else if(field.isAnnotationPresent(InjectResource.class)){
-//					injectResource(field, fragment, fragment.getActivity().getBaseContext());
-//				}else if(field.isAnnotationPresent(Inject.class)){
-//					inject(field, fragment, fragment.getActivity().getBaseContext());
-//				}else if(field.isAnnotationPresent(InjectPreference.class)){
-//					injectPreference(field, fragment, fragment.getActivity().getBaseContext());
-//				}
-//			}
-//		}
-//	}
+	/**
+	 * 注入Fragment
+	 * @param field
+	 * @param fragmentActivity
+	 */
+	private static void injectFragment(Field field, FragmentActivity fragmentActivity){
+		InjectFragment injectFragment = field.getAnnotation(InjectFragment.class);
+		field.setAccessible(true);
+		try {
+			if(injectFragment.value() > 0){
+				field.set(fragmentActivity, fragmentActivity.getSupportFragmentManager().findFragmentById(injectFragment.value()));
+			}else if(StringUtils.isNotEmpty(injectFragment.tag())){
+				field.set(fragmentActivity, fragmentActivity.getSupportFragmentManager().findFragmentByTag(injectFragment.tag()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 注入View
+	 * @param field
+	 * @param activity
+	 */
+	private static void injectView(Field field, Activity activity){
+		field.setAccessible(true);
+		try {
+			field.set(activity, activity.findViewById(field.getAnnotation(InjectView.class).value()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 注入View
+	 * @param field
+	 * @param fragment
+	 */
+	private static void injectView(Field field, Fragment fragment){
+		field.setAccessible(true);
+		try {
+			field.set(fragment, fragment.getView().findViewById(field.getAnnotation(InjectView.class).value()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * 注入其他成员，例如Resource、Extra等
@@ -276,7 +275,6 @@ public class InjectUtils {
 	 * @param context
 	 * @return
 	 */
-	@SuppressLint("NewApi")
 	private static void injectPreference(Field field, Object object, Context context){
 		InjectPreference injectPreference = field.getAnnotation(InjectPreference.class);
 		SharedPreferences sharedPreferences = null;
@@ -298,10 +296,10 @@ public class InjectUtils {
 				field.set(object, sharedPreferences.getLong(injectPreference.value(), injectPreference.longDefaultValue()));
 			}else if(String.class.isAssignableFrom(fieldType)){
 				field.set(object, sharedPreferences.getString(injectPreference.value(), injectPreference.stringDefaultValue()));
-			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && Set.class.isAssignableFrom(fieldType)){
+			}else if(Set.class.isAssignableFrom(fieldType)){
 				Class<?> first = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 				if(String.class.isAssignableFrom(first)){
-					field.set(object, sharedPreferences.getStringSet(injectPreference.value(), null));
+					field.set(object, PreferenceUtils.getStringSet(sharedPreferences, injectPreference.value(), null));
 				}
 			}
 		} catch (Exception e) {

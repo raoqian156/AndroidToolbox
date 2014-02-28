@@ -29,5 +29,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectFragment {
-	public String value();
+	/**
+	 * fragmentId
+	 * @return
+	 */
+	public int value() default -1;
+	
+	/**
+	 * fragment Tag
+	 * @return
+	 */
+	public String tag() default "";
 }

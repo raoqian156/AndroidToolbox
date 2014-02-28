@@ -29,6 +29,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectView {
+	/**
+	 * View ID
+	 * @return
+	 */
 	public int value();
-	public boolean injectParentView() default false;
 }

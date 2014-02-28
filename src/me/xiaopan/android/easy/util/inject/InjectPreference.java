@@ -31,12 +31,51 @@ import android.content.Context;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectPreference {
+	/**
+	 * 参数名称
+	 * @return
+	 */
 	public String value();
+	
+	/**
+	 * SharedPreferences名称
+	 * @return
+	 */
 	public String sharedPreferencesName() default "";
+	
+	/**
+	 * ShardPreferences的模式
+	 * @return
+	 */
 	public int mode() default Context.MODE_PRIVATE;
+	
+	/**
+	 * boolean类型参数的默认值
+	 * @return
+	 */
 	public boolean booleanDefaultValue() default false;
+	
+	/**
+	 * float类型参数的默认值
+	 * @return
+	 */
 	public float floatDefaultValue() default 0;
+	
+	/**
+	 * int类型参数的默认值
+	 * @return
+	 */
 	public int intDefaultValue() default 0;
+	
+	/**
+	 * long类型参数的默认值
+	 * @return
+	 */
 	public long longDefaultValue() default 0;
+	
+	/**
+	 * String类型参数的默认值
+	 * @return
+	 */
 	public String stringDefaultValue() default "";
 }

@@ -29,15 +29,69 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectExtra {
+	/**
+	 * 参数名称
+	 * @return
+	 */
 	public String value();
+	
+	/**
+	 * bytebyte类型参数的默认值
+	 * @return
+	 */
 	public byte byteDefaultValue() default 0;
+	
+	/**
+	 * short类型参数的默认值
+	 * @return
+	 */
 	public short shortDefaultValue() default 0;
+	
+	/**
+	 * int类型参数的默认值
+	 * @return
+	 */
 	public int intDefaultValue() default 0;
+	
+	/**
+	 * long类型参数的默认值
+	 * @return
+	 */
 	public long longDefaultValue() default 0;
+	
+	/**
+	 * char类型参数的默认值
+	 * @return
+	 */
 	public char charDefaultValue() default 0;
+	
+	/**
+	 * float类型参数的默认值
+	 * @return
+	 */
 	public float floatDefaultValue() default 0;
+	
+	/**
+	 * double类型参数的默认值
+	 * @return
+	 */
 	public double doubleDefaultValue() default 0;
+	
+	/**
+	 * boolean类型参数的默认值
+	 * @return
+	 */
 	public boolean booleanDefaultValue() default false;
+	
+	/**
+	 * String类型参数的默认值
+	 * @return
+	 */
 	public String stringDefaultValue() default "";
+	
+	/**
+	 * CharSequence类型参数的默认值
+	 * @return
+	 */
 	public String charSequenceDefaultValue() default "";
 }

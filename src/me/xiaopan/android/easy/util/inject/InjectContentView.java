@@ -31,5 +31,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectContentView {
+	/**
+	 * 布局ID
+	 * @return
+	 */
 	public int value();
 }

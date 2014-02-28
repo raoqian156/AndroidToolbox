@@ -38,5 +38,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface InjectResource {
+	/**
+	 * 资源ID
+	 * @return
+	 */
 	public int value();
 }

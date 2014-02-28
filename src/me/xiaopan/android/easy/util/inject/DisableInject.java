@@ -23,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 关闭注入功能
+ * 禁用注入功能
  */
 @Target(ElementType.TYPE)
  @Retention(RetentionPolicy.RUNTIME)
