@@ -73,6 +73,168 @@ Loader：
 >* InjectView：注入View。只支持以下两种类型：
     1. Activity
     2. Fragment
+    
+####示例
+```java
+@InjectContentView(R.layout.activity_main)
+public class MainActivity extends EasyFragmentActivity{
+    public static final String PARAM_BYTE = "PARAM_BYTE";
+	public static final String PARAM_BYTE_ARRAY = "PARAM_BYTE_ARRAY";
+	public static final String PARAM_SHORT = "PARAM_SHORT";
+	public static final String PARAM_SHORT_ARRAY = "PARAM_SHORT_ARRAY";
+	public static final String PARAM_INT = "PARAM_INT";
+	public static final String PARAM_INT_ARRAY = "PARAM_INT_ARRAY";
+	public static final String PARAM_LONG = "PARAM_LONG";
+	public static final String PARAM_LONG_ARRAY = "PARAM_LONG_ARRAY";
+	public static final String PARAM_CHAR = "PARAM_CHAR";
+	public static final String PARAM_CHAR_ARRAY = "PARAM_CHAR_ARRAY";
+	public static final String PARAM_FLOAT = "PARAM_FLOAT";
+	public static final String PARAM_FLOAT_ARRAY = "PARAM_FLOAT_ARRAY";
+	public static final String PARAM_DOUBLE = "PARAM_DOUBLE";
+	public static final String PARAM_DOUBLE_ARRAY = "PARAM_DOUBLE_ARRAY";
+	public static final String PARAM_BOOLEAN = "PARAM_BOOLEAN";
+	public static final String PARAM_BOOLEAN_ARRAY = "PARAM_BOOLEAN_ARRAY";
+	public static final String PARAM_STRING = "PARAM_STRING";
+	public static final String PARAM_STRING_ARRAY = "PARAM_STRING_ARRAY";
+	public static final String PARAM_STRING_ARRAY_LIST = "PARAM_STRING_ARRAY_LIST";
+	public static final String PARAM_CHAR_SEQUENCE = "PARAM_CHAR_SEQUENCE";
+	public static final String PARAM_CHAR_SEQUENCE_ARRAY = "PARAM_CHAR_SEQUENCE_ARRAY";
+	public static final String KEY_BOOLEAN = "KEY_BOOLEAN";
+	public static final String KEY_FLOAT = "KEY_FLOAT";
+	public static final String KEY_INT = "KEY_INT";
+	public static final String KEY_LONG = "KEY_LONG";
+	public static final String KEY_STRING = "KEY_STRING";
+	public static final String KEY_STRING_SET = "KEY_STRING_SET";
+
+    @InjectView(R.id.text_main1) private TextView textView1;
+    @InjectView(R.id.text_main2) private TextView textView2;
+    @InjectView(R.id.text_main3) private TextView textView3;
+    @InjectView(R.id.text_main4) private TextView textView4;
+    @InjectView(R.id.text_main5) private TextView textView5;
+    
+    @InjectExtra(MainActivity.PARAM_BYTE) private byte byteField;
+    @InjectExtra(MainActivity.PARAM_BYTE_ARRAY) private byte[] byteFields;
+    @InjectExtra(MainActivity.PARAM_SHORT) private short shortField;
+    @InjectExtra(MainActivity.PARAM_SHORT_ARRAY) private short[] shortFields;
+    @InjectExtra(MainActivity.PARAM_INT) private int intField;
+    @InjectExtra(MainActivity.PARAM_INT_ARRAY) private int[] intFields;
+    @InjectExtra(MainActivity.PARAM_LONG) private long longField;
+    @InjectExtra(MainActivity.PARAM_LONG_ARRAY) private long[] longFields;
+    @InjectExtra(MainActivity.PARAM_CHAR) private char charField;
+    @InjectExtra(MainActivity.PARAM_CHAR_ARRAY) private char[] charFields;
+    @InjectExtra(MainActivity.PARAM_FLOAT) private float floatField;
+    @InjectExtra(MainActivity.PARAM_FLOAT_ARRAY) private float[] floatFields;
+    @InjectExtra(MainActivity.PARAM_DOUBLE) private double doubleField;
+    @InjectExtra(MainActivity.PARAM_DOUBLE_ARRAY) private double[] doubleFields;
+    @InjectExtra(MainActivity.PARAM_BOOLEAN) private boolean booleanField;
+    @InjectExtra(MainActivity.PARAM_BOOLEAN_ARRAY) private boolean[] booleanFields;
+    @InjectExtra(MainActivity.PARAM_STRING) private String stringField;
+    @InjectExtra(MainActivity.PARAM_STRING_ARRAY) private String[] stringFields;
+    @InjectExtra(MainActivity.PARAM_STRING_ARRAY_LIST) private ArrayList<String> stringFieldList;
+    @InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE) private CharSequence charSequenceField;
+    @InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE_ARRAY) private CharSequence[] charSequenceFields;
+    
+    @Inject private AccessibilityManager accessibilityManager;
+    @Inject private AccountManager accountManager;
+    @Inject private ActivityManager activityManager;
+    @Inject private AlarmManager alarmManager;
+    @Inject private AudioManager audioManager;
+    @Inject private ConnectivityManager connectivityManager;
+    @Inject private DevicePolicyManager devicePolicyManager;
+    @Inject private DropBoxManager dropBoxManager;
+    @Inject private InputMethodManager inputMethodManager;
+    @Inject private KeyguardManager keyguardManager;
+    @Inject private LayoutInflater layoutInflater;
+    @Inject private LocationManager locationManager;
+    @Inject private NotificationManager notificationManager;
+    @Inject private PowerManager powerManager;
+    @Inject private SearchManager searchManager;
+    @Inject private SensorManager sensorManager;
+    @Inject private TelephonyManager telephonyManager;
+    @Inject private UiModeManager uiModeManager;
+    @Inject private Vibrator vibrator;
+    @Inject private WallpaperManager wallpaperManager;
+    @Inject private WifiManager wifiManager;
+    @Inject private WindowManager windowManager;
+    
+    @InjectPreference(MainActivity.KEY_BOOLEAN) private boolean booleanPreference;
+    @InjectPreference(MainActivity.KEY_FLOAT) private float floatPreference;
+    @InjectPreference(MainActivity.KEY_INT) private int intPreference;
+    @InjectPreference(MainActivity.KEY_LONG) private long longPreference;
+    @InjectPreference(MainActivity.KEY_STRING) private String stringPreference;
+    @InjectPreference(MainActivity.KEY_STRING_SET) private Set<String> stringSetPreference;
+    
+    @InjectResource(R.integer.integer1) private int integer1;
+    @InjectResource(R.string.string1) private String string1;
+    @InjectResource(R.array.integer_array1) private int[] integers1;
+    @InjectResource(R.array.string_array1) private String[] strings1;
+    @InjectResource(R.drawable.ic_launcher) private Drawable launcherDrawable;
+    
+    @Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		StringBuffer extraStringBuffer = new StringBuffer("Extra注入结果：");
+		extraStringBuffer.append("\n").append("byteField").append("=").append(byteField);
+		extraStringBuffer.append("\n").append("byteField").append("=").append(byteField);
+		extraStringBuffer.append("\n").append("shortField").append("=").append(shortField);
+		extraStringBuffer.append("\n").append("intField").append("=").append(intField);
+		extraStringBuffer.append("\n").append("longField").append("=").append(longField);
+		extraStringBuffer.append("\n").append("charField").append("=").append(charField);
+		extraStringBuffer.append("\n").append("floatField").append("=").append(floatField);
+		extraStringBuffer.append("\n").append("doubleField").append("=").append(doubleField);
+		extraStringBuffer.append("\n").append("booleanField").append("=").append(booleanField);
+		extraStringBuffer.append("\n").append("stringField").append("=").append(stringField);
+		extraStringBuffer.append("\n").append("charSequenceField").append("=").append(charSequenceField);
+		extraStringBuffer.append("\n").append("byteFields").append("=").append(Arrays.toString(byteFields));
+		extraStringBuffer.append("\n").append("shortFields").append("=").append(Arrays.toString(shortFields));
+		extraStringBuffer.append("\n").append("intFields").append("=").append(Arrays.toString(intFields));
+		extraStringBuffer.append("\n").append("longFields").append("=").append(Arrays.toString(longFields));
+		extraStringBuffer.append("\n").append("charFields").append("=").append(Arrays.toString(charFields));
+		extraStringBuffer.append("\n").append("floatFields").append("=").append(Arrays.toString(floatFields));
+		extraStringBuffer.append("\n").append("doubleFields").append("=").append(Arrays.toString(doubleFields));
+		extraStringBuffer.append("\n").append("booleanFields").append("=").append(Arrays.toString(booleanFields));
+		extraStringBuffer.append("\n").append("stringFields").append("=").append(Arrays.toString(stringFields));
+		extraStringBuffer.append("\n").append("stringFieldList").append("=").append(stringFieldList.toString());
+		extraStringBuffer.append("\n").append("charSequenceFields").append("=").append(Arrays.toString(charSequenceFields));
+		textView2.setText(extraStringBuffer.toString());
+		
+		boolean success = true; 
+		try {
+			for(Field field : ReflectUtils.getFields(getClass(), true, false, false, false)){
+				if(field.isAnnotationPresent(Inject.class)){
+					field.setAccessible(true);
+					if(field.get(this) == null){
+						success = false;
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		textView3.setText("系统服务注入"+(success?"成功":"失败"));
+		
+		StringBuffer preferenceStringBuffer = new StringBuffer("Preference注入结果：");
+		preferenceStringBuffer.append("\n").append("booleanPreference").append("=").append(booleanPreference);
+		preferenceStringBuffer.append("\n").append("floatPreference").append("=").append(floatPreference);
+		preferenceStringBuffer.append("\n").append("intPreference").append("=").append(intPreference);
+		preferenceStringBuffer.append("\n").append("longPreference").append("=").append(longPreference);
+		preferenceStringBuffer.append("\n").append("stringPreference").append("=").append(stringPreference);
+		preferenceStringBuffer.append("\n").append("stringSetPreference").append("=").append(stringSetPreference);
+		textView4.setText(preferenceStringBuffer.toString());
+		
+		StringBuffer resourceStringBuffer = new StringBuffer("Resource注入结果：");
+		resourceStringBuffer.append("\n").append("integer1").append("=").append(integer1);
+		resourceStringBuffer.append("\n").append("string1").append("=").append(string1);
+		resourceStringBuffer.append("\n").append("integers1").append("=").append(Arrays.toString(integers1));
+		resourceStringBuffer.append("\n").append("strings1").append("=").append(Arrays.toString(strings1));
+		textView5.setText(resourceStringBuffer);
+		textView5.setCompoundDrawablePadding(16);
+		textView5.setCompoundDrawablesWithIntrinsicBounds(launcherDrawable, null, null, null);
+	}
+```
+
 
 ##Downloads
 **[android-easy-4.1.4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.4.jar)**
