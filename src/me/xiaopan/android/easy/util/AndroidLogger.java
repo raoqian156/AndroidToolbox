@@ -19,8 +19,8 @@ package me.xiaopan.android.easy.util;
 import java.io.File;
 import java.io.IOException;
 
+import me.xiaopan.java.easy.io.FileUtils;
 import me.xiaopan.java.easy.util.DateTimeUtils;
-import me.xiaopan.java.easy.util.FileUtils;
 import android.util.Log;
 
 /**

@@ -17,8 +17,8 @@
 package me.xiaopan.easy.android.sample;
 
 import me.xiaopan.android.easy.R;
-import me.xiaopan.android.easy.activity.EasyActivity;
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.app.EasyActivity;
+import me.xiaopan.android.easy.util.inject.DisableInject;
 import me.xiaopan.java.easy.util.Stopwatch;
 import android.annotation.SuppressLint;
 import android.os.Bundle;

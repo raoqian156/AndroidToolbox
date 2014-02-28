@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import me.xiaopan.java.easy.io.IOUtils;
+
 /**
  * <h2>字符串工具类，提供一些字符串相关的便捷方法</h2>
  */

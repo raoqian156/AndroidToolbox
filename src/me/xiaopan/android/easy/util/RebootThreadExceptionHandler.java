@@ -20,7 +20,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import me.xiaopan.android.easy.receiver.StartApplicationBrocastReceiver;
+import me.xiaopan.android.easy.content.StartAppReceiver;
 import me.xiaopan.java.easy.util.StringUtils;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -76,7 +76,7 @@ public class RebootThreadExceptionHandler implements UncaughtExceptionHandler{
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Calendar calendar = new GregorianCalendar();
 		calendar.add(Calendar.SECOND, 1);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), PendingIntent.getBroadcast(context, 0, new Intent(context, StartApplicationBrocastReceiver.class), 0));
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), PendingIntent.getBroadcast(context, 0, new Intent(context, StartAppReceiver.class), 0));
 		
 		Process.killProcess(Process.myPid());	//结束程序
 	}

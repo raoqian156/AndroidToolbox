@@ -17,9 +17,9 @@
 package me.xiaopan.easy.android.sample;
 
 import me.xiaopan.android.easy.R;
-import me.xiaopan.android.easy.fragment.EasyDialogFragment;
-import me.xiaopan.android.easy.inject.InjectContentView;
-import me.xiaopan.android.easy.inject.InjectView;
+import me.xiaopan.android.easy.app.EasyDialogFragment;
+import me.xiaopan.android.easy.util.inject.InjectContentView;
+import me.xiaopan.android.easy.util.inject.InjectView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;

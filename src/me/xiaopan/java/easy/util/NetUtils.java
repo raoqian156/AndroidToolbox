@@ -26,6 +26,8 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import me.xiaopan.java.easy.io.IOUtils;
+
 /**
  * <h2>网络方面相关的工具类，提供网络有关的便捷方法</h2>
  * 

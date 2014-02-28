@@ -28,6 +28,9 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import me.xiaopan.java.easy.io.FileUtils;
+import me.xiaopan.java.easy.io.IOUtils;
+
 /**
  * ZIP文件工具类
  */
