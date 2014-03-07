@@ -1,32 +1,14 @@
-/*
- * Copyright (C) 2013 Peng fei Pan <sky@xiaopan.me>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package me.xiaopan.android.easy.util.inject;
 
-import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import me.xiaopan.android.easy.util.PreferenceUtils;
-import me.xiaopan.java.easy.util.Stopwatch;
-//import me.xiaopan.java.easy.util.ReflectUtils;
 import me.xiaopan.java.easy.util.StringUtils;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
@@ -81,92 +63,42 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextServicesManager;
 
-/**
- * 注入工具箱
- */
-public class InjectUtils {
-	private static final Holder HOLDER = new Holder();
+public class Injector {
+	private List<Field> injectFields;
+	private InjectInterpolator findViewListener;
+	private FragmentInjectInterpolator fragmentInjectInterpolator;
+	
+	public Injector(Activity activity){
+		this.injectFields = getFields(activity.getClass());
+		this.findViewListener = new ActivityViewInjectInterpolator(activity);
+		if(activity instanceof FragmentActivity){
+			this.fragmentInjectInterpolator = new FragmentInjectInterpolator((FragmentActivity) activity);
+		}
+	}
+	
+	public Injector(Fragment fragment){
+		this.injectFields = getFields(fragment.getClass());
+		this.findViewListener = new FragmentViewInjectInterpolator(fragment);
+	}
 	
 	/**
 	 * 注入View字段
-	 * @param activity
+	 * @param isInjectOtherMembers 是否注入其它成员
 	 */
-	public static void injectViewMembers(Activity activity, boolean isInjectContentView){
-		for(Field field : getFields(activity.getClass())){
-			if(field.isAnnotationPresent(InjectView.class)){
-				injectView(field, activity);
-			}else if(field.isAnnotationPresent(InjectFragment.class) && Fragment.class.isAssignableFrom(field.getType()) && activity instanceof FragmentActivity){
-				injectFragment(field, (FragmentActivity) activity);
-			}else if(isInjectContentView){
-				if(field.isAnnotationPresent(InjectExtra.class)){
-					injectExtra(field, activity, activity.getIntent().getExtras());
-				}else if(field.isAnnotationPresent(InjectResource.class)){
-					injectResource(field, activity, activity.getBaseContext());
-				}else if(field.isAnnotationPresent(Inject.class)){
-					inject(field, activity, activity.getBaseContext());
-				}else if(field.isAnnotationPresent(InjectPreference.class)){
-					injectPreference(field, activity, activity.getBaseContext());
+	public void injectViewMembers(){
+		if(injectFields.size() > 0){
+			Iterator<Field> fieldIterator = injectFields.iterator();
+			Field field = null;
+			while(fieldIterator.hasNext()){
+				field = fieldIterator.next();
+				if(field.isAnnotationPresent(InjectView.class)){
+					findViewListener.onInject(field);
+					fieldIterator.remove();
+				}else if(fragmentInjectInterpolator != null && field.isAnnotationPresent(InjectFragment.class) && Fragment.class.isAssignableFrom(field.getType())){
+					fragmentInjectInterpolator.onInject(field);
+					fieldIterator.remove();
 				}
 			}
-		}
-	}
-	
-	/**
-	 * 注入View字段
-	 * @param fragment
-	 */
-	public static void injectViewMembers(Fragment fragment){
-		for(Field field : getFields(fragment.getClass())){
-			if(field.isAnnotationPresent(InjectView.class)){
-				injectView(field, fragment);
-			}
-		}
-	}
-	
-	/**
-	 * 注入Fragment
-	 * @param field
-	 * @param fragmentActivity
-	 */
-	private static void injectFragment(Field field, FragmentActivity fragmentActivity){
-		InjectFragment injectFragment = field.getAnnotation(InjectFragment.class);
-		field.setAccessible(true);
-		try {
-			if(injectFragment.value() > 0){
-				field.set(fragmentActivity, fragmentActivity.getSupportFragmentManager().findFragmentById(injectFragment.value()));
-			}else if(StringUtils.isNotEmpty(injectFragment.tag())){
-				field.set(fragmentActivity, fragmentActivity.getSupportFragmentManager().findFragmentByTag(injectFragment.tag()));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * 注入View
-	 * @param field
-	 * @param activity
-	 */
-	private static void injectView(Field field, Activity activity){
-		field.setAccessible(true);
-		try {
-			field.set(activity, activity.findViewById(field.getAnnotation(InjectView.class).value()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * 注入View
-	 * @param field
-	 * @param fragment
-	 */
-	private static void injectView(Field field, Fragment fragment){
-		field.setAccessible(true);
-		try {
-			field.set(fragment, fragment.getView().findViewById(field.getAnnotation(InjectView.class).value()));
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -176,7 +108,7 @@ public class InjectUtils {
 	 * @param context
 	 * @param bundle
 	 */
-	public static void injectMembers(Object object, Context context, Bundle bundle){
+	public void injectMembers(Object object, Context context, Bundle bundle){
 		for(Field field : getFields(object.getClass())){
 			if(bundle != null && field.isAnnotationPresent(InjectExtra.class)){
 				injectExtra(field, object, bundle);
@@ -451,35 +383,26 @@ public class InjectUtils {
 	 * @return
 	 */
 	public static List<Field> getFields(Class<?> classs){
-		if(HOLDER.classReference != null && classs == HOLDER.classReference.get() && HOLDER.fieldsReference != null && HOLDER.fieldsReference.get() != null){
-			System.out.println("重复利用");
-			return HOLDER.fieldsReference.get();
-		}else{
-			Stopwatch stopwatch = new Stopwatch();
-			List<Field> fields = new ArrayList<Field>();
-			int modifiers;
-			while(true){
-				if(classs != null){
-					for(Field field : classs.getDeclaredFields()){
-						modifiers = field.getModifiers();
-						if(!Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)){
-							fields.add(field);
-						}
+		List<Field> fields = new LinkedList<Field>();
+		int modifiers;
+		while(true){
+			if(classs != null){
+				for(Field field : classs.getDeclaredFields()){
+					modifiers = field.getModifiers();
+					if(!Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)){
+						fields.add(field);
 					}
-					
-					if(classs.isAnnotationPresent(InjectParentMember.class)){
-						classs = classs.getSuperclass();
-					}else{
-						break;
-					}
+				}
+				
+				if(classs.isAnnotationPresent(InjectParentMember.class)){
+					classs = classs.getSuperclass();
 				}else{
 					break;
 				}
+			}else{
+				break;
 			}
-			System.out.println("反射获取字段耗时："+stopwatch.lap().getIntervalMillis()+"毫秒");
-			HOLDER.classReference = new SoftReference<Class<?>>(classs);
-			HOLDER.fieldsReference = new SoftReference<List<Field>>(fields);
-			return fields;
 		}
+		return fields;
 	}
 }
