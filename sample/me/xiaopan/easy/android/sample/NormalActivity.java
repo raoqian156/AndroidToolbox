@@ -23,9 +23,9 @@ import java.util.Set;
 
 import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.app.EasyActivity;
+import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.Inject;
 import me.xiaopan.android.easy.util.PreferenceUtils;
-import me.xiaopan.android.easy.util.inject.DisableInject;
-import me.xiaopan.android.easy.util.inject.Inject;
 import me.xiaopan.java.easy.util.ReflectUtils;
 import me.xiaopan.java.easy.util.Stopwatch;
 import android.accounts.AccountManager;

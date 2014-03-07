@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.easy.util.inject;
+package me.xiaopan.android.easy.inject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -23,24 +23,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注入资源，支持以下类型的资源：
- * <br>boolean
- * <br>String
- * <br>String[]
- * <br>Integer
- * <br>Integer[]
- * <br>Drawable
- * <br>ColorStateList
- * <br>Animation
- * <br>Movie
+ * 注入父类的成员
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InjectResource {
-	/**
-	 * 资源ID
-	 * @return
-	 */
-	public int value();
+public @interface InjectParentMember {
 }

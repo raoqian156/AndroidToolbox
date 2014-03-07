@@ -16,8 +16,8 @@
 
 package me.xiaopan.android.easy.content;
 
-import me.xiaopan.android.easy.util.inject.DisableInject;
-import me.xiaopan.android.easy.util.inject.InjectUtils;
+import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.Injector;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
@@ -29,7 +29,7 @@ public abstract class EasyAsyncTaskLoader<T> extends AsyncTaskLoader<T> {
     public EasyAsyncTaskLoader(Context context) {
         super(context);
         if(getClass().getAnnotation(DisableInject.class) == null){
-        	InjectUtils.injectMembers(this, context, null);
+        	new Injector(this, context).injectOtherMembers();
         }
     }
 }

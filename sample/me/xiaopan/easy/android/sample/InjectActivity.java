@@ -23,12 +23,12 @@ import java.util.Set;
 
 import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.app.EasyActivity;
-import me.xiaopan.android.easy.util.inject.Inject;
-import me.xiaopan.android.easy.util.inject.InjectContentView;
-import me.xiaopan.android.easy.util.inject.InjectExtra;
-import me.xiaopan.android.easy.util.inject.InjectPreference;
-import me.xiaopan.android.easy.util.inject.InjectResource;
-import me.xiaopan.android.easy.util.inject.InjectView;
+import me.xiaopan.android.easy.inject.Inject;
+import me.xiaopan.android.easy.inject.InjectContentView;
+import me.xiaopan.android.easy.inject.InjectExtra;
+import me.xiaopan.android.easy.inject.InjectPreference;
+import me.xiaopan.android.easy.inject.InjectResource;
+import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.java.easy.util.ReflectUtils;
 import me.xiaopan.java.easy.util.Stopwatch;
 import android.accounts.AccountManager;

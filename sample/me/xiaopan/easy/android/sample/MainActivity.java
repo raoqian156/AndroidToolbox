@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import me.xiaopan.android.easy.app.EasyFragmentActivity;
+import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.android.easy.util.PreferenceUtils;
-import me.xiaopan.android.easy.util.inject.InjectView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;

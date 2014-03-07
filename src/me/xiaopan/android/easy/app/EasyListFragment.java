@@ -16,13 +16,13 @@
 
 package me.xiaopan.android.easy.app;
 
+import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.InjectContentView;
+import me.xiaopan.android.easy.inject.Injector;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
-import me.xiaopan.android.easy.util.inject.DisableInject;
-import me.xiaopan.android.easy.util.inject.InjectContentView;
-import me.xiaopan.android.easy.util.inject.InjectUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,11 +36,13 @@ import android.view.ViewGroup;
  * 提供注入功能的ListFragment
  */
 public class EasyListFragment extends ListFragment {
+	private Injector injector;
 	private EasyHandler handler;
-	private boolean isEnableInject;
 	
 	public EasyListFragment(){
-		isEnableInject = getClass().getAnnotation(DisableInject.class) == null;
+		if(getClass().getAnnotation(DisableInject.class) == null){
+			injector = new Injector(this);
+		}
 		handler = new EasyHandler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -52,14 +54,14 @@ public class EasyListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(isEnableInject){
-			InjectUtils.injectMembers(this, getActivity().getBaseContext(), getArguments());
+		if(injector != null){
+			injector.injectOtherMembers();
 		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if(isEnableInject){
+		if(injector != null){
 			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class); 
 			return injectContentView != null?inflater.inflate(injectContentView.value(), null):null;
 		}else{
@@ -70,8 +72,8 @@ public class EasyListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		if(isEnableInject){
-			InjectUtils.injectViewMembers(this);
+		if(injector != null){
+			injector.injectViewAndFragmentMembers();
 		}
 	}
 
@@ -231,14 +233,6 @@ public class EasyListFragment extends ListFragment {
 	 */
 	public Handler getHandler() {
 		return handler;
-	}
-
-	/**
-	 * 是否激活了注入功能
-	 * @return
-	 */
-	public boolean isEnableInject() {
-		return isEnableInject;
 	}
 
 	@Override

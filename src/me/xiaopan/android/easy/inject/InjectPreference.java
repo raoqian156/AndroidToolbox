@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.easy.util.inject;
+package me.xiaopan.android.easy.inject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -22,16 +22,60 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import android.content.Context;
+
 /**
- * 注入View
+ * 注入Preference
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InjectView {
+public @interface InjectPreference {
 	/**
-	 * View ID
+	 * 参数名称
 	 * @return
 	 */
-	public int value();
+	public String value();
+	
+	/**
+	 * SharedPreferences名称
+	 * @return
+	 */
+	public String sharedPreferencesName() default "";
+	
+	/**
+	 * ShardPreferences的模式
+	 * @return
+	 */
+	public int mode() default Context.MODE_PRIVATE;
+	
+	/**
+	 * boolean类型参数的默认值
+	 * @return
+	 */
+	public boolean booleanDefaultValue() default false;
+	
+	/**
+	 * float类型参数的默认值
+	 * @return
+	 */
+	public float floatDefaultValue() default 0;
+	
+	/**
+	 * int类型参数的默认值
+	 * @return
+	 */
+	public int intDefaultValue() default 0;
+	
+	/**
+	 * long类型参数的默认值
+	 * @return
+	 */
+	public long longDefaultValue() default 0;
+	
+	/**
+	 * String类型参数的默认值
+	 * @return
+	 */
+	public String stringDefaultValue() default "";
 }

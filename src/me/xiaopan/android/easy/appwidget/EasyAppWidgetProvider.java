@@ -16,8 +16,8 @@
 
 package me.xiaopan.android.easy.appwidget;
 
-import me.xiaopan.android.easy.util.inject.DisableInject;
-import me.xiaopan.android.easy.util.inject.InjectUtils;
+import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.Injector;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -26,11 +26,11 @@ import android.content.Context;
  * 提供注入功能的提供注入功能的AppWidgetProvider
  */
 public abstract class EasyAppWidgetProvider extends AppWidgetProvider {
-
+	
 	@Override
 	public final void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		if(getClass().getAnnotation(DisableInject.class) == null){
-			InjectUtils.injectMembers(this, context, null);
+			new Injector(this, context).injectOtherMembers();
 		}
 		onHandleUpdate(context, appWidgetManager, appWidgetIds);
 	}

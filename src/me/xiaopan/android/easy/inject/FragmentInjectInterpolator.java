@@ -1,4 +1,4 @@
-package me.xiaopan.android.easy.util.inject;
+package me.xiaopan.android.easy.inject;
 
 import java.lang.reflect.Field;
 

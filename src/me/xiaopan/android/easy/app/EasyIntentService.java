@@ -16,24 +16,23 @@
 
 package me.xiaopan.android.easy.app;
 
-import me.xiaopan.android.easy.util.inject.DisableInject;
-import me.xiaopan.android.easy.util.inject.InjectUtils;
+import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.Injector;
 import android.app.IntentService;
 
 /**
  * 提供注入功能的IntentService
  */
 public abstract class EasyIntentService extends IntentService{
-
+	private Injector injector;
+	
     public EasyIntentService(String name) {
         super(name);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
         if(getClass().getAnnotation(DisableInject.class) == null){
-			InjectUtils.injectMembers(this, getBaseContext(), null);
+        	injector = new Injector(this, getBaseContext());
+        }
+        if(injector != null){
+        	injector.injectOtherMembers();
 		}
     }
 }

@@ -18,15 +18,15 @@ package me.xiaopan.android.easy.app;
 
 import java.util.Locale;
 
+import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.InjectContentView;
+import me.xiaopan.android.easy.inject.Injector;
 import me.xiaopan.android.easy.util.ActivityPool;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.DoubleClickDetector;
 import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
-import me.xiaopan.android.easy.util.inject.DisableInject;
-import me.xiaopan.android.easy.util.inject.InjectContentView;
-import me.xiaopan.android.easy.util.inject.InjectUtils;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
@@ -45,22 +45,19 @@ import android.view.WindowManager;
  */
 @SuppressWarnings("deprecation")
 public abstract class EasyActivityGroup extends ActivityGroup{
-	private static final int DIALOG_MESSAGE = -1212343;	//对话框 - 消息对话框
-	private static final int DIALOG_PROGRESS = -1212346;	//对话框 - 进度对话框
-	private static final String KEY_DIALOG_MESSAGE = "KEY_DIALOG_MESSAGE";	// 键 - 对话框消息
-	private static final String KEY_DIALOG_CONFRIM_BUTTON_NAME = "KEY_DIALOG_CONFRIM_BUTTON_NAME";	//键 - 对话框确认按钮的名字
 	private boolean haveDestroy;
-	private boolean isEnableInject;
+	private Injector injector;
 	private ActivityPool activityPool;
 	private EasyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
-	private boolean isInjectContentView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		isEnableInject = getClass().getAnnotation(DisableInject.class) == null;
+		if(getClass().getAnnotation(DisableInject.class) == null){
+			injector = new Injector(this);
+		}
 		handler = new EasyHandler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -68,25 +65,20 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 			}
 		};
 		
-		if(isEnableInject){
+		if(injector != null){
 			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
 			if(injectContentView != null && injectContentView.value() > 0){
-				isInjectContentView = true;
 				setContentView(injectContentView.value());
-			}else{
-				InjectUtils.injectMembers(this, getBaseContext(), getIntent().getExtras());
 			}
-		}else{
-			InjectUtils.injectMembers(this, getBaseContext(), getIntent().getExtras());
+			injector.injectOtherMembers();
 		}
 	}
 	
 	@Override
 	public void onContentChanged() {
 		super.onContentChanged();
-		if(isEnableInject){
-			InjectUtils.injectViewMembers(this, isInjectContentView);	//注入View成员变量
-			isInjectContentView = false;
+		if(injector != null){
+			injector.injectViewAndFragmentMembers();
 		}
 	}
 
@@ -104,20 +96,20 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 		if(!haveDestroy){
 			Dialog dialog = null;
 			switch(id){
-				case DIALOG_MESSAGE : 
+				case Constant.DIALOG_MESSAGE : 
 					AlertDialog messageDialog = new AlertDialog.Builder(this).create();
 					if(args != null){
-						messageDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
-						messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
+						messageDialog.setMessage(args.getString(Constant.KEY_DIALOG_MESSAGE));
+						messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(Constant.KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
 					}
 					dialog = messageDialog;
 					break;
-				case DIALOG_PROGRESS : 
+				case Constant.DIALOG_PROGRESS : 
 					ProgressDialog progressDialog = new ProgressDialog(this);
 					progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 					progressDialog.setCancelable(false);
 					if(args != null){
-						progressDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
+						progressDialog.setMessage(args.getString(Constant.KEY_DIALOG_MESSAGE));
 					}
 					dialog = progressDialog;
 					break;
@@ -131,16 +123,16 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		switch(id){
-			case DIALOG_MESSAGE : 
+			case Constant.DIALOG_MESSAGE : 
 				if(args != null){
 					AlertDialog messageDialog = (AlertDialog) dialog;
-					messageDialog.setMessage(args.getString(KEY_DIALOG_MESSAGE));
-					messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
+					messageDialog.setMessage(args.getString(Constant.KEY_DIALOG_MESSAGE));
+					messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, args.getString(Constant.KEY_DIALOG_CONFRIM_BUTTON_NAME), new android.content.DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialog, int which) {} });
 				}
 				break;
-			case DIALOG_PROGRESS : 
+			case Constant.DIALOG_PROGRESS : 
 				if(args != null){
-					((ProgressDialog) dialog).setMessage(args.getString(KEY_DIALOG_MESSAGE));
+					((ProgressDialog) dialog).setMessage(args.getString(Constant.KEY_DIALOG_MESSAGE));
 				}
 				break;
 		}
@@ -422,9 +414,9 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
-					bundle.putString(KEY_DIALOG_MESSAGE, message);
-					bundle.putString(KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
-					showDialog(DIALOG_MESSAGE, bundle); 
+					bundle.putString(Constant.KEY_DIALOG_MESSAGE, message);
+					bundle.putString(Constant.KEY_DIALOG_CONFRIM_BUTTON_NAME, confrimButtonName);
+					showDialog(Constant.DIALOG_MESSAGE, bundle); 
 				}
 			});
 		}
@@ -464,7 +456,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 				@Override
 				public void run() {
 					try{
-						dismissDialog(DIALOG_MESSAGE);
+						dismissDialog(Constant.DIALOG_MESSAGE);
 					}catch(Throwable throwable){
 						throwable.printStackTrace();
 					} 
@@ -483,8 +475,8 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
-					bundle.putString(KEY_DIALOG_MESSAGE, message);
-					showDialog(DIALOG_PROGRESS, bundle);
+					bundle.putString(Constant.KEY_DIALOG_MESSAGE, message);
+					showDialog(Constant.DIALOG_PROGRESS, bundle);
 				}
 			});
 		}
@@ -507,7 +499,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 				@Override
 				public void run() {
 					try{
-						dismissDialog(DIALOG_PROGRESS); 
+						dismissDialog(Constant.DIALOG_PROGRESS); 
 					}catch(Throwable throwable){
 						throwable.printStackTrace();
 					}
@@ -580,13 +572,5 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	 */
 	public ActivityPool getActivityPool() {
 		return activityPool;
-	}
-
-	/**
-	 * 是否激活了注入功能
-	 * @return
-	 */
-	public boolean isEnableInject() {
-		return isEnableInject;
 	}
 }

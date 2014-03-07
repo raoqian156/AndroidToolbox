@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.easy.util.inject;
+package me.xiaopan.android.easy.inject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -23,21 +23,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注入Fragment
+ * 注入View
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InjectFragment {
+public @interface InjectView {
 	/**
-	 * fragmentId
+	 * View ID
 	 * @return
 	 */
-	public int value() default -1;
-	
-	/**
-	 * fragment Tag
-	 * @return
-	 */
-	public String tag() default "";
+	public int value();
 }

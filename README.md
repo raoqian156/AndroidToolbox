@@ -237,11 +237,14 @@ public class MainActivity extends EasyFragmentActivity{
 
 
 ##Downloads
-**[android-easy-4.1.4.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.4.jar)**
+**[android-easy-4.1.5.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.5.jar)**
 
-**[android-easy-4.1.4-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.3-with-src.jar)**
+**[android-easy-4.1.5-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.5-with-src.jar)**
 
 ##Change log
+###4.1.5
+>* 优化注入功能效率，结果是比非注入还要快，所以强烈推荐更新
+
 ###4.1.4
 >* 增加InjectFragment支持
 
