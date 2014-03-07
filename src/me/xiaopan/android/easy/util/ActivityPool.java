@@ -16,18 +16,17 @@
 
 package me.xiaopan.android.easy.util;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 
 public class ActivityPool {
-	@SuppressLint("UseSparseArrays")
-	private static Map<Integer, Activity> activityMap = new HashMap<Integer, Activity>();
-	private static Set<Integer> waitFinishActivityIds = new HashSet<Integer>();
+	private static Map<Integer, Activity> activityMap = new ConcurrentHashMap<Integer, Activity>();
+	private static Set<Integer> waitFinishActivityIds = Collections.synchronizedSet(new HashSet<Integer>());
 	private Activity activity;
 	
 	public ActivityPool(Activity activity) {

@@ -2,9 +2,8 @@ package me.xiaopan.android.easy.util.inject;
 
 import java.lang.reflect.Field;
 
-import android.support.v4.app.FragmentActivity;
-
 import me.xiaopan.java.easy.util.StringUtils;
+import android.support.v4.app.FragmentActivity;
 
 public class FragmentInjectInterpolator implements InjectInterpolator{
 	private FragmentActivity fragmentActivity;

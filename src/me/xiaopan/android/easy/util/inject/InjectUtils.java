@@ -26,7 +26,6 @@ import java.util.Set;
 
 import me.xiaopan.android.easy.util.PreferenceUtils;
 import me.xiaopan.java.easy.util.Stopwatch;
-//import me.xiaopan.java.easy.util.ReflectUtils;
 import me.xiaopan.java.easy.util.StringUtils;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
@@ -80,6 +79,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextServicesManager;
+//import me.xiaopan.java.easy.util.ReflectUtils;
 
 /**
  * 注入工具箱
