@@ -244,6 +244,7 @@ public class MainActivity extends EasyFragmentActivity{
 ##Change log
 ###4.1.5
 >* 优化注入功能效率，结果是比非注入还要快，所以强烈推荐更新
+>* 更新了SQL框架，新的框架功能更加强大
 
 ###4.1.4
 >* 增加InjectFragment支持
