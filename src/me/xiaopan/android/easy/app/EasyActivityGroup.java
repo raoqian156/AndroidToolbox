@@ -45,7 +45,8 @@ import android.view.WindowManager;
  */
 @SuppressWarnings("deprecation")
 public abstract class EasyActivityGroup extends ActivityGroup{
-	private boolean haveDestroy;
+	private boolean isHaveDestroy;
+	private boolean isInjectContentView;
 	private Injector injector;
 	private ActivityPool activityPool;
 	private EasyHandler handler;
@@ -55,9 +56,6 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		if(getClass().getAnnotation(DisableInject.class) == null){
-			injector = new Injector(this);
-		}
 		handler = new EasyHandler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -65,12 +63,16 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 			}
 		};
 		
-		if(injector != null){
+		if(getClass().getAnnotation(DisableInject.class) == null){
+			injector = new Injector(this);
 			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
 			if(injectContentView != null && injectContentView.value() > 0){
+				isInjectContentView = true;
 				setContentView(injectContentView.value());
 			}
-			injector.injectOtherMembers();
+			if(!isInjectContentView){
+				injector.injectOtherMembers();
+			}
 		}
 	}
 	
@@ -78,7 +80,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	public void onContentChanged() {
 		super.onContentChanged();
 		if(injector != null){
-			injector.injectViewAndFragmentMembers();
+			injector.injectViewAndFragmentMembers(isInjectContentView);
 		}
 	}
 
@@ -93,7 +95,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 
 	@Override
 	protected Dialog onCreateDialog(int id, Bundle args) {
-		if(!haveDestroy){
+		if(!isHaveDestroy){
 			Dialog dialog = null;
 			switch(id){
 				case Constant.DIALOG_MESSAGE : 
@@ -140,7 +142,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	
 	@Override
 	protected void onDestroy() {
-		haveDestroy = true;
+		isHaveDestroy = true;
 		handler.destroy();
 		activityPool.removeSelf();
 		super.onDestroy();
@@ -409,7 +411,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	 * @param confrimButtonName 确定按钮的名字
 	 */
 	public void showMessageDialog(final String message, final String confrimButtonName){
-		if(!haveDestroy){
+		if(!isHaveDestroy){
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -451,7 +453,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	 * 关闭消息对话框
 	 */
 	public void closeMessageDialog(){
-		if(!haveDestroy){
+		if(!isHaveDestroy){
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -470,7 +472,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	 * @param message 消息
 	 */
 	public void showProgressDialog(final String message){
-		if(!haveDestroy){
+		if(!isHaveDestroy){
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -494,7 +496,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	 * 关闭进度对话框
 	 */
 	public void closeProgressDialog(){
-		if(!haveDestroy){
+		if(!isHaveDestroy){
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -563,7 +565,7 @@ public abstract class EasyActivityGroup extends ActivityGroup{
 	 * @return
 	 */
 	public boolean isHaveDestroy() {
-		return haveDestroy;
+		return isHaveDestroy;
 	}
 
 	/**

@@ -40,9 +40,6 @@ public class EasyDialogFragment extends DialogFragment {
 	private EasyHandler handler;
 	
 	public EasyDialogFragment(){
-		if(getClass().getAnnotation(DisableInject.class) == null){
-			injector = new Injector(this);
-		}
 		handler = new EasyHandler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -54,7 +51,8 @@ public class EasyDialogFragment extends DialogFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(injector != null){
+		if(getClass().getAnnotation(DisableInject.class) == null){
+			injector = new Injector(this);
 			injector.injectOtherMembers();
 		}
 	}

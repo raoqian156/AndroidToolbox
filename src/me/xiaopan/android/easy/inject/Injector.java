@@ -55,8 +55,9 @@ public class Injector {
 	
 	/**
 	 * 注入View和Fragment字段
+	 * @param isInjectOtherMembers 是否同时注入其他成员
 	 */
-	public void injectViewAndFragmentMembers(){
+	public void injectViewAndFragmentMembers(boolean isInjectOtherMembers){
 		if(injectFields.size() > 0){
 			Iterator<Field> fieldIterator = injectFields.iterator();
 			Field field = null;
@@ -72,9 +73,38 @@ public class Injector {
 						fragmentInjectInterpolator.onInject(field);
 					}
 					fieldIterator.remove();
+				}else if(isInjectOtherMembers){
+					if(field.isAnnotationPresent(InjectExtra.class)){
+						if(extraInjectInterpolator != null){
+							extraInjectInterpolator.onInject(field);
+						}
+						fieldIterator.remove();
+					}else if(field.isAnnotationPresent(InjectResource.class)){
+						if(resourceInjectInterpolator != null){
+							resourceInjectInterpolator.onInject(field);
+						}
+						fieldIterator.remove();
+					}else if(field.isAnnotationPresent(Inject.class)){
+						if(simpleInjectInterpolator != null){
+							simpleInjectInterpolator.onInject(field);
+						}
+						fieldIterator.remove();
+					}else if(field.isAnnotationPresent(InjectPreference.class)){
+						if(sharedPreferencesInjectInterpolator != null){
+							sharedPreferencesInjectInterpolator.onInject(field);
+						}
+						fieldIterator.remove();
+					}
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 注入View和Fragment字段
+	 */
+	public void injectViewAndFragmentMembers(){
+		injectViewAndFragmentMembers(false);
 	}
 	
 	/**
