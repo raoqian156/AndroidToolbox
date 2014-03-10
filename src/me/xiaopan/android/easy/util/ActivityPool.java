@@ -17,15 +17,19 @@
 package me.xiaopan.android.easy.util;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 public class ActivityPool {
-	private static Map<Integer, Activity> activityMap = new ConcurrentHashMap<Integer, Activity>();
+	@SuppressLint("UseSparseArrays")
+	private static Map<Integer, Activity> activityMap = Collections.synchronizedMap(new HashMap<Integer, Activity>());
 	private static Set<Integer> waitFinishActivityIds = Collections.synchronizedSet(new HashSet<Integer>());
 	private Activity activity;
 	
@@ -59,32 +63,44 @@ public class ActivityPool {
 		}
 	}
 	
-	public void finish(int... ids){
-		for(int id : ids){
-			finish(id);
-		}
-	}
-	
 	public void finish(Set<Integer> ids){
-		for(int id : ids){
-			finish(id);
+		Iterator<Entry<Integer, Activity>> iterator = activityMap.entrySet().iterator();
+		Entry<Integer, Activity> entry = null;
+		while(iterator.hasNext()){
+			entry = iterator.next();
+			if(ids.contains(entry.getKey())){
+				ids.remove(entry.getKey());
+				if(waitFinishActivityIds != ids){
+					waitFinishActivityIds.remove(entry.getKey());
+				}
+				entry.getValue().finish();
+				iterator.remove();
+			}
 		}
 	}
 	
 	public void finishOther(int activityId){
-		Set<Integer> ids = activityMap.keySet();
-		for(Integer id : ids){
-			if(id != activityId){
-				finish(id);
+		Iterator<Entry<Integer, Activity>> iterator = activityMap.entrySet().iterator();
+		Entry<Integer, Activity> entry = null;
+		while(iterator.hasNext()){
+			entry = iterator.next();
+			if(entry.getKey() != activityId){
+				waitFinishActivityIds.remove(entry.getKey());
+				entry.getValue().finish();
+				iterator.remove();
 			}
 		}
 	}
 	
 	public void finishAll(){
-		Set<Integer> ids = activityMap.keySet();
-		for(Integer id : ids){
-			finish(id);
+		waitFinishActivityIds.clear();
+		Iterator<Entry<Integer, Activity>> iterator = activityMap.entrySet().iterator();
+		Entry<Integer, Activity> entry = null;
+		while(iterator.hasNext()){
+			entry = iterator.next();
+			entry.getValue().finish();
 		}
+		activityMap.clear();
 	}
 	
 	public void clearWaitingCircle(){
