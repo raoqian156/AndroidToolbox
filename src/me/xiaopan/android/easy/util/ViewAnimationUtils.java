@@ -27,10 +27,10 @@ import android.view.animation.TranslateAnimation;
  * 视图动画工具箱，提供简单的控制视图的动画的工具方法
  */
 public class ViewAnimationUtils {
-	/**
-	 * 默认动画持续时间
-	 */
-	public static final long DEFAULT_ANIMATION_DURATION = 300;
+//	/**
+//	 * 默认动画持续时间
+//	 */
+//	public static final long DEFAULT_ANIMATION_DURATION = 300;
 
 	/* ************************************************************* 视图透明度渐变动画 ******************************************************************** */
 	/**
@@ -112,7 +112,7 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void invisibleViewByAlpha(final View view, boolean isBanClick, final AnimationListener animationListener){
-		invisibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, animationListener);
+		invisibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, animationListener);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void invisibleViewByAlpha(final View view, final AnimationListener animationListener){
-		invisibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, false, animationListener);
+		invisibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, false, animationListener);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class ViewAnimationUtils {
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
 	public static void invisibleViewByAlpha(final View view, boolean isBanClick){
-		invisibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, null);
+		invisibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, null);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class ViewAnimationUtils {
 	 * @param view 被处理的视图
 	 */
 	public static void invisibleViewByAlpha(final View view){
-		invisibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, false, null);
+		invisibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, false, null);
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void goneViewByAlpha(final View view, final boolean isBanClick, final AnimationListener animationListener){
-		goneViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, animationListener);
+		goneViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, animationListener);
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void goneViewByAlpha(final View view, final AnimationListener animationListener){
-		goneViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, false, animationListener);
+		goneViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, false, animationListener);
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class ViewAnimationUtils {
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
 	public static void goneViewByAlpha(final View view, final boolean isBanClick){
-		goneViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, null);
+		goneViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, null);
 	}
 
 	/**
@@ -246,7 +246,7 @@ public class ViewAnimationUtils {
 	 * @param view 被处理的视图
 	 */
 	public static void goneViewByAlpha(final View view){
-		goneViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, false, null);
+		goneViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, false, null);
 	}
 
 	/**
@@ -328,7 +328,7 @@ public class ViewAnimationUtils {
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
 	public static void visibleViewByAlpha(final View view, final boolean isBanClick, final AnimationListener animationListener){
-		visibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, animationListener);
+		visibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, animationListener);
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class ViewAnimationUtils {
 	 * @param animationListener 动画监听器
 	 */
 	public static void visibleViewByAlpha(final View view, final AnimationListener animationListener){
-		visibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, false, animationListener);
+		visibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, false, animationListener);
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class ViewAnimationUtils {
 	 * @param isBanClick 在执行动画的过程中是否禁止点击
 	 */
 	public static void visibleViewByAlpha(final View view, final boolean isBanClick){
-		visibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, null);
+		visibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, isBanClick, null);
 	}
 
 	/**
@@ -354,7 +354,7 @@ public class ViewAnimationUtils {
 	 * @param view 被处理的视图
 	 */
 	public static void visibleViewByAlpha(final View view){
-		visibleViewByAlpha(view, ViewAnimationUtils.DEFAULT_ANIMATION_DURATION, false, null);
+		visibleViewByAlpha(view, AnimationUtils.DEFAULT_ANIMATION_DURATION, false, null);
 	}
 	
 	

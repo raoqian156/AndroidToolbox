@@ -29,7 +29,7 @@ public class AnimationUtils {
 	/**
 	 * 默认动画持续时间
 	 */
-	public static final long DEFAULT_ANIMATION_DURATION = 500;
+	public static final long DEFAULT_ANIMATION_DURATION = 400;
 	
 	/**
 	 * 获取一个旋转动画
