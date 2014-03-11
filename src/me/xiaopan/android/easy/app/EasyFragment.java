@@ -71,7 +71,7 @@ public class EasyFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if(injector != null){
-			injector.injectViewAndFragmentMembers();
+			injector.injectViewMembers();
 		}
 	}
 

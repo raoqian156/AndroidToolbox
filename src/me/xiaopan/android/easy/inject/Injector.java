@@ -2,6 +2,7 @@ package me.xiaopan.android.easy.inject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +16,8 @@ import android.support.v4.app.FragmentActivity;
  * 注入器
  */
 public class Injector {
-	private List<Field> injectFields;
+	private List<Field> viewFields;
+	private List<Field> otherFields;
 	private ViewInjectInterpolator viewInjectInterpolator;
 	private FragmentInjectInterpolator fragmentInjectInterpolator;
 	private ExtraInjectInterpolator extraInjectInterpolator;
@@ -24,7 +26,9 @@ public class Injector {
 	private SharedPreferencesInjectInterpolator sharedPreferencesInjectInterpolator;
 	
 	public Injector(Activity activity){
-		this.injectFields = getFields(activity.getClass());
+		List<List<Field>> fieldsList = getFields(activity.getClass());
+		this.viewFields = fieldsList.get(0);
+		this.otherFields = fieldsList.get(1);
 		this.viewInjectInterpolator = new ViewInjectInterpolator(activity);
 		this.extraInjectInterpolator = new ExtraInjectInterpolator(activity, activity.getIntent().getExtras());
 		Context context = activity.getBaseContext();
@@ -37,7 +41,9 @@ public class Injector {
 	}
 	
 	public Injector(Fragment fragment){
-		this.injectFields = getFields(fragment.getClass());
+		List<List<Field>> fieldsList = getFields(fragment.getClass());
+		this.viewFields = fieldsList.get(0);
+		this.otherFields = fieldsList.get(1);
 		this.viewInjectInterpolator = new ViewInjectInterpolator(fragment);
 		this.extraInjectInterpolator = new ExtraInjectInterpolator(fragment, fragment.getArguments());
 		Context context = fragment.getActivity().getBaseContext();
@@ -47,7 +53,9 @@ public class Injector {
 	}
 	
 	public Injector(Object object, Context context){
-		this.injectFields = getFields(object.getClass());
+		List<List<Field>> fieldsList = getFields(object.getClass());
+		this.viewFields = fieldsList.get(0);
+		this.otherFields = fieldsList.get(1);
 		this.resourceInjectInterpolator = new ResourceInjectInterpolator(object, context);
 		this.simpleInjectInterpolator = new SimpleInjectInterpolator(object, context);
 		this.sharedPreferencesInjectInterpolator = new SharedPreferencesInjectInterpolator(object, context);
@@ -55,11 +63,10 @@ public class Injector {
 	
 	/**
 	 * 注入View和Fragment字段
-	 * @param isInjectOtherMembers 是否同时注入其他成员
 	 */
-	public void injectViewAndFragmentMembers(boolean isInjectOtherMembers){
-		if(injectFields.size() > 0){
-			Iterator<Field> fieldIterator = injectFields.iterator();
+	public void injectViewMembers(){
+		if(viewFields.size() > 0){
+			Iterator<Field> fieldIterator = viewFields.iterator();
 			Field field = null;
 			while(fieldIterator.hasNext()){
 				field = fieldIterator.next();
@@ -67,44 +74,13 @@ public class Injector {
 					if(viewInjectInterpolator != null){
 						viewInjectInterpolator.onInject(field);
 					}
-					fieldIterator.remove();
 				}else if(field.isAnnotationPresent(InjectFragment.class) && Fragment.class.isAssignableFrom(field.getType())){
 					if(fragmentInjectInterpolator != null){
 						fragmentInjectInterpolator.onInject(field);
 					}
-					fieldIterator.remove();
-				}else if(isInjectOtherMembers){
-					if(field.isAnnotationPresent(InjectExtra.class)){
-						if(extraInjectInterpolator != null){
-							extraInjectInterpolator.onInject(field);
-						}
-						fieldIterator.remove();
-					}else if(field.isAnnotationPresent(InjectResource.class)){
-						if(resourceInjectInterpolator != null){
-							resourceInjectInterpolator.onInject(field);
-						}
-						fieldIterator.remove();
-					}else if(field.isAnnotationPresent(Inject.class)){
-						if(simpleInjectInterpolator != null){
-							simpleInjectInterpolator.onInject(field);
-						}
-						fieldIterator.remove();
-					}else if(field.isAnnotationPresent(InjectPreference.class)){
-						if(sharedPreferencesInjectInterpolator != null){
-							sharedPreferencesInjectInterpolator.onInject(field);
-						}
-						fieldIterator.remove();
-					}
 				}
 			}
 		}
-	}
-	
-	/**
-	 * 注入View和Fragment字段
-	 */
-	public void injectViewAndFragmentMembers(){
-		injectViewAndFragmentMembers(false);
 	}
 	
 	/**
@@ -114,8 +90,8 @@ public class Injector {
 	 * @param bundle
 	 */
 	public void injectOtherMembers(){
-		if(injectFields.size() > 0){
-			Iterator<Field> fieldIterator = injectFields.iterator();
+		if(otherFields.size() > 0){
+			Iterator<Field> fieldIterator = otherFields.iterator();
 			Field field = null;
 			while(fieldIterator.hasNext()){
 				field = fieldIterator.next();
@@ -123,22 +99,18 @@ public class Injector {
 					if(extraInjectInterpolator != null){
 						extraInjectInterpolator.onInject(field);
 					}
-					fieldIterator.remove();
 				}else if(field.isAnnotationPresent(InjectResource.class)){
 					if(resourceInjectInterpolator != null){
 						resourceInjectInterpolator.onInject(field);
 					}
-					fieldIterator.remove();
 				}else if(field.isAnnotationPresent(Inject.class)){
 					if(simpleInjectInterpolator != null){
 						simpleInjectInterpolator.onInject(field);
 					}
-					fieldIterator.remove();
 				}else if(field.isAnnotationPresent(InjectPreference.class)){
 					if(sharedPreferencesInjectInterpolator != null){
 						sharedPreferencesInjectInterpolator.onInject(field);
 					}
-					fieldIterator.remove();
 				}
 			}
 		}
@@ -149,15 +121,20 @@ public class Injector {
 	 * @param classs
 	 * @return
 	 */
-	public static List<Field> getFields(Class<?> classs){
-		List<Field> fields = new LinkedList<Field>();
+	public static List<List<Field>> getFields(Class<?> classs){
+		List<Field> viewFields = new LinkedList<Field>();
+		List<Field> otherMemberfFelds = new LinkedList<Field>();
 		int modifiers;
 		while(true){
 			if(classs != null){
 				for(Field field : classs.getDeclaredFields()){
 					modifiers = field.getModifiers();
 					if(!Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)){
-						fields.add(field);
+						if(field.isAnnotationPresent(InjectView.class) || field.isAnnotationPresent(InjectFragment.class)){
+							viewFields.add(field);
+						}else{
+							otherMemberfFelds.add(field);
+						}
 					}
 				}
 				
@@ -170,6 +147,10 @@ public class Injector {
 				break;
 			}
 		}
-		return fields;
+		
+		List<List<Field>> lists = new ArrayList<List<Field>>(2);
+		lists.add(viewFields);
+		lists.add(otherMemberfFelds);
+		return lists;
 	}
 }

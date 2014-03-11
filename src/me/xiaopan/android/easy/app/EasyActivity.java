@@ -44,7 +44,6 @@ import android.view.WindowManager;
  */
 public abstract class EasyActivity extends Activity{
 	private boolean isHaveDestroy;
-	private boolean isInjectContentView;
 	private Injector injector;
 	private ActivityPool activityPool;
 	private EasyHandler handler;
@@ -65,12 +64,9 @@ public abstract class EasyActivity extends Activity{
 			injector = new Injector(this);
 			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
 			if(injectContentView != null && injectContentView.value() > 0){
-				isInjectContentView = true;
 				setContentView(injectContentView.value());
 			}
-			if(!isInjectContentView){
-				injector.injectOtherMembers();
-			}
+			injector.injectOtherMembers();
 		}
 	}
 	
@@ -78,7 +74,7 @@ public abstract class EasyActivity extends Activity{
 	public void onContentChanged() {
 		super.onContentChanged();
 		if(injector != null){
-			injector.injectViewAndFragmentMembers(isInjectContentView);
+			injector.injectViewMembers();
 		}
 	}
 

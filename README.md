@@ -237,11 +237,14 @@ public class MainActivity extends EasyFragmentActivity{
 
 
 ##Downloads
-**[android-easy-4.1.5.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.5.jar)**
+**[android-easy-4.1.6.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.6.jar)**
 
-**[android-easy-4.1.5-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.5-with-src.jar)**
+**[android-easy-4.1.6-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.6-with-src.jar)**
 
 ##Change log
+###4.1.5
+>* 修复Fragment注入BUG（当Fragment第二次执行onCrateVie()的时候无法注入View字段）
+
 ###4.1.5
 >* 优化注入功能效率，结果是比非注入还要快，所以强烈推荐更新
 >* 更新了SQL框架，新的框架功能更加强大

@@ -71,7 +71,7 @@ public class EasyDialogFragment extends DialogFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if(injector != null){
-			injector.injectViewAndFragmentMembers();
+			injector.injectViewMembers();
 		}
 	}
 
