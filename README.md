@@ -48,7 +48,7 @@ Loader：
 >* EasyLoader
 
 ####可使用的注解有以下几种：
->* DisableInject：禁用注入功能。因为注解功能默认是开启的，如果你不想使用注入怕拖慢启动速度的话就可是使用此注解来禁用注入功能；
+>* DisableInjector：禁用注入功能。因为注解功能默认是开启的，如果你不想使用注入的话就可是使用此注解来禁用注入功能；
 >* Inject：注入系统服务（通过getService()的各种Manager）或者ShardPreferences时；在注入ShardPreferences时你可以通过sharedPreferencesName参数指定名称，不指定时将注入默认的ShardPreferences；
 >* InjectContentView：注入内容视图。只支持以下两种类型：
     1. Activity
@@ -237,12 +237,15 @@ public class MainActivity extends EasyFragmentActivity{
 
 
 ##Downloads
-**[android-easy-4.1.6.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.6.jar)**
+**[android-easy-4.1.7.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.7.jar)**
 
-**[android-easy-4.1.6-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.6-with-src.jar)**
+**[android-easy-4.1.7-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.7-with-src.jar)**
 
 ##Change log
-###4.1.5
+###4.1.7
+>* 增加NoTitle和FullScreen注解
+
+###4.1.6
 >* 修复Fragment注入BUG（当Fragment第二次执行onCrateVie()的时候无法注入View字段）
 
 ###4.1.5

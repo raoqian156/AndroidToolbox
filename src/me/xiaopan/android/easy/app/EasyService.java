@@ -16,7 +16,7 @@
 
 package me.xiaopan.android.easy.app;
 
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.Injector;
 import android.app.Service;
 
@@ -28,7 +28,7 @@ public abstract class EasyService extends Service{
 	
     public EasyService() {
         super();
-    	if(getClass().getAnnotation(DisableInject.class) == null){
+    	if(getClass().getAnnotation(DisableInjector.class) == null){
         	injector = new Injector(this, getBaseContext());
         }
         if(injector != null){

@@ -18,7 +18,7 @@ package me.xiaopan.android.easy.app;
 
 import java.util.Locale;
 
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.Injector;
 import me.xiaopan.android.easy.util.ActivityPool;
@@ -62,7 +62,15 @@ public abstract class EasyTabActivity extends TabActivity{
 			}
 		};
 		
-		if(getClass().getAnnotation(DisableInject.class) == null){
+		if(getClass().isAnnotationPresent(FullScreen.class)){
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+		
+		if(getClass().isAnnotationPresent(NoTitle.class)){
+			getWindow().addFlags(Window.FEATURE_NO_TITLE);
+		}
+		
+		if(!getClass().isAnnotationPresent(DisableInjector.class)){
 			injector = new Injector(this);
 			InjectContentView injectContentView = getClass().getAnnotation(InjectContentView.class);
 			if(injectContentView != null && injectContentView.value() > 0){

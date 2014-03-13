@@ -23,7 +23,7 @@ import java.util.Set;
 
 import me.xiaopan.android.easy.R;
 import me.xiaopan.android.easy.app.EasyActivity;
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.Inject;
 import me.xiaopan.android.easy.util.PreferenceUtils;
 import me.xiaopan.java.easy.util.ReflectUtils;
@@ -56,7 +56,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-@DisableInject
+@DisableInjector
 public class NormalActivity extends EasyActivity {
 	private TextView textView1;
 	private TextView textView2;

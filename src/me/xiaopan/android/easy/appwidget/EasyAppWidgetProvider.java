@@ -16,7 +16,7 @@
 
 package me.xiaopan.android.easy.appwidget;
 
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.Injector;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -29,7 +29,7 @@ public abstract class EasyAppWidgetProvider extends AppWidgetProvider {
 	
 	@Override
 	public final void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		if(getClass().getAnnotation(DisableInject.class) == null){
+		if(getClass().getAnnotation(DisableInjector.class) == null){
 			new Injector(this, context).injectOtherMembers();
 		}
 		onHandleUpdate(context, appWidgetManager, appWidgetIds);

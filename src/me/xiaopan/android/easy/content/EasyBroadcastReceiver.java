@@ -16,7 +16,7 @@
 
 package me.xiaopan.android.easy.content;
 
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.Injector;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +29,7 @@ public abstract class EasyBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public final void onReceive(Context context, Intent intent) {
-    	if(getClass().getAnnotation(DisableInject.class) == null){
+    	if(getClass().getAnnotation(DisableInjector.class) == null){
     		new Injector(this, context).injectOtherMembers();
     	}
         handleReceive(context, intent);

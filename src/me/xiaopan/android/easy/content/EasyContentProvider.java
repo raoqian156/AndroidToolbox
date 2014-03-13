@@ -16,7 +16,7 @@
 
 package me.xiaopan.android.easy.content;
 
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.Injector;
 import android.content.ContentProvider;
 
@@ -28,7 +28,7 @@ public abstract class EasyContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-    	if(getClass().getAnnotation(DisableInject.class) == null){
+    	if(getClass().getAnnotation(DisableInjector.class) == null){
     		new Injector(this, getContext()).injectOtherMembers();
     	}
         return true;

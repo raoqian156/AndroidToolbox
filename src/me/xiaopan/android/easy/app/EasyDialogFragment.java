@@ -16,7 +16,7 @@
 
 package me.xiaopan.android.easy.app;
 
-import me.xiaopan.android.easy.inject.DisableInject;
+import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.Injector;
 import me.xiaopan.android.easy.util.ActivityUtils;
@@ -51,7 +51,7 @@ public class EasyDialogFragment extends DialogFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(getClass().getAnnotation(DisableInject.class) == null){
+		if(getClass().getAnnotation(DisableInjector.class) == null){
 			injector = new Injector(this);
 			injector.injectOtherMembers();
 		}
