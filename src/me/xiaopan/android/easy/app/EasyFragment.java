@@ -51,7 +51,7 @@ public class EasyFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(getClass().getAnnotation(DisableInjector.class) == null){
+		if(!getClass().isAnnotationPresent(DisableInjector.class)){
 			injector = new Injector(this);
 			injector.injectOtherMembers();
 		}

@@ -28,7 +28,7 @@ public abstract class EasyService extends Service{
 	
     public EasyService() {
         super();
-    	if(getClass().getAnnotation(DisableInjector.class) == null){
+    	if(!getClass().isAnnotationPresent(DisableInjector.class)){
         	injector = new Injector(this, getBaseContext());
         }
         if(injector != null){

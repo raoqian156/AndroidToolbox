@@ -28,7 +28,7 @@ public abstract class EasyIntentService extends IntentService{
 	
     public EasyIntentService(String name) {
         super(name);
-        if(getClass().getAnnotation(DisableInjector.class) == null){
+        if(!getClass().isAnnotationPresent(DisableInjector.class)){
         	injector = new Injector(this, getBaseContext());
         }
         if(injector != null){

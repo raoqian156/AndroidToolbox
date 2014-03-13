@@ -28,7 +28,7 @@ public abstract class EasyLoader<T> extends Loader<T> {
 
     public EasyLoader(Context context) {
         super(context);
-        if(getClass().getAnnotation(DisableInjector.class) == null){
+        if(!getClass().isAnnotationPresent(DisableInjector.class)){
         	new Injector(this, context).injectOtherMembers();
         }
     }

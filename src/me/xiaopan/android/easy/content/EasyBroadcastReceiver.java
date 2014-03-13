@@ -29,7 +29,7 @@ public abstract class EasyBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public final void onReceive(Context context, Intent intent) {
-    	if(getClass().getAnnotation(DisableInjector.class) == null){
+    	if(!getClass().isAnnotationPresent(DisableInjector.class)){
     		new Injector(this, context).injectOtherMembers();
     	}
         handleReceive(context, intent);

@@ -28,7 +28,7 @@ public abstract class EasyContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-    	if(getClass().getAnnotation(DisableInjector.class) == null){
+    	if(!getClass().isAnnotationPresent(DisableInjector.class)){
     		new Injector(this, getContext()).injectOtherMembers();
     	}
         return true;

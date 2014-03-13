@@ -29,7 +29,7 @@ public abstract class EasyAppWidgetProvider extends AppWidgetProvider {
 	
 	@Override
 	public final void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		if(getClass().getAnnotation(DisableInjector.class) == null){
+		if(!getClass().isAnnotationPresent(DisableInjector.class)){
 			new Injector(this, context).injectOtherMembers();
 		}
 		onHandleUpdate(context, appWidgetManager, appWidgetIds);
