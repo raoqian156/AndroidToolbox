@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -22,25 +23,33 @@ public class ResourceInjectInterpolator implements InjectInterpolator {
 	public void onInject(Field field) {
 		InjectResource injectResource = field.getAnnotation(InjectResource.class);
 		Class<?> fieldType = field.getType();
-		field.setAccessible(true);
 		try {
 			if(String.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getString(injectResource.value()));
 			}else if(String[].class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getStringArray(injectResource.value()));
 			}else if(Drawable.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getDrawable(injectResource.value()));
 			}else if(int.class.isAssignableFrom(fieldType) || Integer.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getInteger(injectResource.value()));
 			}else if(int[].class.isAssignableFrom(fieldType) || Integer[].class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getIntArray(injectResource.value()));
 			}else if(boolean.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getBoolean(injectResource.value()));
 			}else if(ColorStateList.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getColorStateList(injectResource.value()));
 			}else if(Animation.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, AnimationUtils.loadAnimation(context, injectResource.value()));
 			}else if(Movie.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getResources().getMovie(injectResource.value()));
 			}
 //			resources.getAnimation(id)
@@ -65,6 +74,7 @@ public class ResourceInjectInterpolator implements InjectInterpolator {
 //			resources.getValueForDensity(id, density, outValue, resolveRefs)
 //			resources.getXml(id)
 		} catch (Exception e) {
+			Log.w(getClass().getSimpleName(), "注入"+object.getClass().getSimpleName()+"."+field.getName()+"出错");
 			e.printStackTrace();
 		}
 	}

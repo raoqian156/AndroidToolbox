@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import me.xiaopan.java.easy.util.StringUtils;
 import android.os.Bundle;
+import android.util.Log;
 
 public class ExtraInjectInterpolator implements InjectInterpolator {
 	private Object object;
@@ -19,10 +20,14 @@ public class ExtraInjectInterpolator implements InjectInterpolator {
 		if(bundle != null){
 			InjectExtra injectExtra = field.getAnnotation(InjectExtra.class);
 			if(StringUtils.isNotEmpty(injectExtra.value())){
-				field.setAccessible(true);
 				try {
-					field.set(object, bundle.get(injectExtra.value()));
+					Object valueObject = bundle.get(injectExtra.value());
+					if(valueObject != null){
+						field.setAccessible(true);
+						field.set(object, valueObject);
+					}
 				} catch (Exception e) {
+					Log.w(getClass().getSimpleName(), "注入"+object.getClass().getSimpleName()+"."+field.getName()+"出错");
 					e.printStackTrace();
 				}
 			}

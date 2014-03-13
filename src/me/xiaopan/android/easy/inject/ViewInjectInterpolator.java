@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
 public class ViewInjectInterpolator implements InjectInterpolator{
@@ -21,10 +22,14 @@ public class ViewInjectInterpolator implements InjectInterpolator{
 	}
 
 	public void onInject(Field field){
-		field.setAccessible(true);
 		try {
-			field.set(object, onFindViewInterpolator.onFindViewByeId(field.getAnnotation(InjectView.class).value()));
+			View view = onFindViewInterpolator.onFindViewByeId(field.getAnnotation(InjectView.class).value());
+			if(view != null){
+				field.setAccessible(true);
+				field.set(object, view);
+			}
 		} catch (Exception e) {
+			Log.w(getClass().getSimpleName(), "注入"+object.getClass().getSimpleName()+"."+field.getName()+"出错");
 			e.printStackTrace();
 		}
 	}

@@ -40,6 +40,7 @@ import android.os.storage.StorageManager;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
@@ -103,93 +104,132 @@ public class SimpleInjectInterpolator implements InjectInterpolator {
 	@SuppressLint("NewApi")
 	public void onInject(Field field) {
 		Class<?> fieldType = field.getType();
-		field.setAccessible(true);
 		try {
 			if(SharedPreferences.class.isAssignableFrom(fieldType)){
 				Inject inject = field.getAnnotation(Inject.class);
 				if(StringUtils.isNotEmpty(inject.sharedPreferencesName())){
+					field.setAccessible(true);
 					field.set(object, context.getSharedPreferences(inject.sharedPreferencesName(), Context.MODE_PRIVATE));
 				}else{
+					field.setAccessible(true);
 					field.set(object, PreferenceManager.getDefaultSharedPreferences(context));
 				}
 			}else if(AccessibilityManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.ACCESSIBILITY_SERVICE));
 			}else if(AccountManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.ACCOUNT_SERVICE));
 			}else if(ActivityManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.ACTIVITY_SERVICE));
 			}else if(AlarmManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.ALARM_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && AppOpsManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.APP_OPS_SERVICE));
 			}else if(AudioManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.AUDIO_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && BluetoothManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.BLUETOOTH_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && CaptioningManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.CAPTIONING_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && ClipboardManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.CLIPBOARD_SERVICE));
 			}else if(ConnectivityManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.CONNECTIVITY_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && ConsumerIrManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.CONSUMER_IR_SERVICE));
 			}else if(DevicePolicyManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.DEVICE_POLICY_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && DownloadManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.DOWNLOAD_SERVICE));
 			}else if(DropBoxManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.DROPBOX_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && DisplayManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.DISPLAY_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && InputManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.INPUT_SERVICE));
 			}else if(InputMethodManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.INPUT_METHOD_SERVICE));
 			}else if(KeyguardManager.class.isAssignableFrom(fieldType)){
 				field.set(object, context.getSystemService(Context.KEYGUARD_SERVICE));
 			}else if(LayoutInflater.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 			}else if(LocationManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.LOCATION_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1 && NfcManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.NFC_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && MediaRouter.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.MEDIA_ROUTER_SERVICE));
 			}else if(NotificationManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.NOTIFICATION_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && NsdManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.NSD_SERVICE));
 			}else if(PowerManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.POWER_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && PrintManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.PRINT_SERVICE));
 			}else if(SearchManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.SEARCH_SERVICE));
 			}else if(SensorManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.SENSOR_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && StorageManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.STORAGE_SERVICE));
 			}else if(TelephonyManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.TELEPHONY_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && TextServicesManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE));
 			}else if(UiModeManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.UI_MODE_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && UsbManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.USB_SERVICE));
 			}else if(Vibrator.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.VIBRATOR_SERVICE));
 			}else if(WallpaperManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.WALLPAPER_SERVICE));
 			}else if(WifiManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.WIFI_SERVICE));
 			}else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && WifiP2pManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.WIFI_P2P_SERVICE));
 			}else if(WindowManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.WINDOW_SERVICE));
 			}
 		} catch (Exception e) {
+			Log.w(getClass().getSimpleName(), "注入"+object.getClass().getSimpleName()+"."+field.getName()+"出错");
 			e.printStackTrace();
 		}
 	}
