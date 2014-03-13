@@ -243,7 +243,7 @@ public class MainActivity extends EasyFragmentActivity{
 
 ##Change log
 ###4.1.7
->* 增加NoTitle和FullScreen注解
+>* 在Easy系列的Activity中增加NoTitle和FullScreen注解替换removeTitleBar()和hiddenStatusBar()方法来实现去掉标题栏和隐藏状态栏功能
 
 ###4.1.6
 >* 修复Fragment注入BUG（当Fragment第二次执行onCrateVie()的时候无法注入View字段）

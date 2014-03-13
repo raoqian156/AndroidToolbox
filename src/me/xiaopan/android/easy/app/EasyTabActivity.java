@@ -167,21 +167,7 @@ public abstract class EasyTabActivity extends TabActivity{
 		activityPool.finishAll();
 	}
 	
-	/**
-	 * 去掉标题栏，此方法必须在setContentView()之前调用
-	 */
-	public void removeTitleBar(){
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-	}
-	
-	/**
-	 * 隐藏状态栏
-	 */
-	public void hiddenStatusBar(){
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	
-	}
-	
-	
+
 	/* ********************************************** 网络 ************************************************ */
 	/**
 	 * 网络是否可用
