@@ -237,11 +237,14 @@ public class MainActivity extends EasyFragmentActivity{
 
 
 ##Downloads
-**[android-easy-4.1.7.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.7.jar)**
+**[android-easy-4.1.8.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.8.jar)**
 
-**[android-easy-4.1.7-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.7-with-src.jar)**
+**[android-easy-4.1.8-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.8-with-src.jar)**
 
 ##Change log
+###4.1.8
+>* CameraManager改为始终设置Type
+
 ###4.1.7
 >* 在Easy系列的Activity中增加NoTitle和FullScreen注解替换removeTitleBar()和hiddenStatusBar()方法来实现去掉标题栏和隐藏状态栏功能
 

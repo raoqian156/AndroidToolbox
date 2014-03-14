@@ -51,10 +51,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 		this.activity = activity;
 		this.surfaceHolder = surfaceHolder;
 		this.cameraCallback = cameraCallback;
-		
-		if(Build.VERSION.SDK_INT < 11){
-			this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		}
+		this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		this.surfaceHolder.addCallback(this);
 		
 		//获取前置和后置摄像头的ID
