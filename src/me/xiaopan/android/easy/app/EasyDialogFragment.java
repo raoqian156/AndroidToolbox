@@ -20,7 +20,6 @@ import me.xiaopan.android.easy.inject.DisableInjector;
 import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.Injector;
 import me.xiaopan.android.easy.util.ActivityUtils;
-import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
 import android.app.Activity;
@@ -35,17 +34,12 @@ import android.view.ViewGroup;
 /**
  * 提供注入功能的DialogFragment
  */
-public class EasyDialogFragment extends DialogFragment {
+public class EasyDialogFragment extends DialogFragment implements OnHandleMessageListener{
 	private Injector injector;
 	private EasyHandler handler;
 	
 	public EasyDialogFragment(){
-		handler = new EasyHandler(){
-			@Override
-			public void handleMessage(Message msg) {
-				onHandleMessage(msg);
-			}
-		};
+		handler = new EasyHandler(this);
 	}
 	
 	@Override
@@ -79,7 +73,7 @@ public class EasyDialogFragment extends DialogFragment {
 	 * 当需要处理消息
 	 * @param message
 	 */
-	protected void onHandleMessage(Message message){
+	public void onHandleMessage(Message message){
 		
 	}
 
@@ -313,5 +307,25 @@ public class EasyDialogFragment extends DialogFragment {
 	 */
 	public void startActivityForResult(final Class<? extends Activity> targetActivityClass, final int requestCode){
 		startActivityForResult(targetActivityClass, requestCode, -1, null);
+	}
+	
+	private static class EasyHandler extends Handler {
+		private OnHandleMessageListener onHandleMessageListener;
+		private boolean destroyed;
+		
+		public EasyHandler(OnHandleMessageListener onHandleMessageListener){
+			this.onHandleMessageListener = onHandleMessageListener;
+		}
+		
+		public void destroy(){
+			destroyed = true;
+		}
+		
+		@Override
+		public void handleMessage(Message msg) {
+			if(!destroyed){
+				onHandleMessageListener.onHandleMessage(msg);
+			}
+		}
 	}
 }

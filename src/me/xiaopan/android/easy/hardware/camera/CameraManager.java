@@ -39,19 +39,21 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	private int displayOrientation;	//显示方向
 	private boolean resumeRestore;//是否需要在Activity Resume的时候恢复
 	private boolean debugMode;	//Debug模式，开启后将输出运行日志
-	private String logTag = "CameraManager";
+	private String logTag = CameraManager.class.getSimpleName();
 	private Camera camera;	//Camera
 	private Activity activity;	
 	private SurfaceHolder surfaceHolder;
 	private CameraCallback cameraCallback;
 	
-	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public CameraManager(Activity activity, SurfaceHolder surfaceHolder, CameraCallback cameraCallback){
 		this.activity = activity;
 		this.surfaceHolder = surfaceHolder;
 		this.cameraCallback = cameraCallback;
-		this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+			this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		}
 		this.surfaceHolder.addCallback(this);
 		
 		//获取前置和后置摄像头的ID

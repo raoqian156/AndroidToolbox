@@ -24,7 +24,6 @@ import me.xiaopan.android.easy.inject.Injector;
 import me.xiaopan.android.easy.util.ActivityPool;
 import me.xiaopan.android.easy.util.ActivityUtils;
 import me.xiaopan.android.easy.util.DoubleClickDetector;
-import me.xiaopan.android.easy.util.EasyHandler;
 import me.xiaopan.android.easy.util.NetworkUtils;
 import me.xiaopan.android.easy.util.ToastUtils;
 import android.app.Activity;
@@ -44,7 +43,7 @@ import android.view.WindowManager;
  * 提供注入功能的TabActivity
  */
 @SuppressWarnings("deprecation")
-public abstract class EasyTabActivity extends TabActivity{
+public abstract class EasyTabActivity extends TabActivity implements OnHandleMessageListener{
 	private boolean isHaveDestroy;
 	private Injector injector;
 	private ActivityPool activityPool;
@@ -55,12 +54,7 @@ public abstract class EasyTabActivity extends TabActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		handler = new EasyHandler(){
-			@Override
-			public void handleMessage(Message msg) {
-				onHandleMessage(msg);
-			}
-		};
+		handler = new EasyHandler(this);
 		
 		if(getClass().isAnnotationPresent(FullScreen.class)){
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -156,7 +150,7 @@ public abstract class EasyTabActivity extends TabActivity{
 	 * 当需要处理消息
 	 * @param message
 	 */
-	protected void onHandleMessage(Message message){
+	public void onHandleMessage(Message message){
 		
 	}
 	
@@ -167,7 +161,7 @@ public abstract class EasyTabActivity extends TabActivity{
 		activityPool.finishAll();
 	}
 	
-
+	
 	/* ********************************************** 网络 ************************************************ */
 	/**
 	 * 网络是否可用
@@ -564,5 +558,25 @@ public abstract class EasyTabActivity extends TabActivity{
 	 */
 	public ActivityPool getActivityPool() {
 		return activityPool;
+	}
+	
+	private static class EasyHandler extends Handler {
+		private OnHandleMessageListener onHandleMessageListener;
+		private boolean destroyed;
+		
+		public EasyHandler(OnHandleMessageListener onHandleMessageListener){
+			this.onHandleMessageListener = onHandleMessageListener;
+		}
+		
+		public void destroy(){
+			destroyed = true;
+		}
+		
+		@Override
+		public void handleMessage(Message msg) {
+			if(!destroyed){
+				onHandleMessageListener.onHandleMessage(msg);
+			}
+		}
 	}
 }

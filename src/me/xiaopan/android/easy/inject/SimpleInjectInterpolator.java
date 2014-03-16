@@ -166,6 +166,7 @@ public class SimpleInjectInterpolator implements InjectInterpolator {
 				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.INPUT_METHOD_SERVICE));
 			}else if(KeyguardManager.class.isAssignableFrom(fieldType)){
+				field.setAccessible(true);
 				field.set(object, context.getSystemService(Context.KEYGUARD_SERVICE));
 			}else if(LayoutInflater.class.isAssignableFrom(fieldType)){
 				field.setAccessible(true);
