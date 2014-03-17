@@ -41,7 +41,7 @@ public class BestPreviewSizeCalculator {
 	private boolean proportionPriority = true;	//如果为true，最佳比例集合中会先在寻找宽高完全相同的一组，如果找不到就取最接近目标宽高的一组；如果为false，会首先在所有比例集合中寻找宽高完全相同的一组，如果找不到就在最佳比例集合中取最接近目标宽高的一组
 	private Point screenResolutionPoint;	//屏幕分辨率
 	private List<Size> supportPreviewSizes;	//支持的预览分辨率集合
-	private int minPreviewPixels = 480 * 320;	//最小预览分辨率
+	private int minPreviewSizePixels = 480 * 320;	//最小预览分辨率
 	
 	public BestPreviewSizeCalculator(Point screenResolutionPoint, List<Size> supportPreviewSizes) {
 		this.screenResolutionPoint = screenResolutionPoint;
@@ -76,20 +76,20 @@ public class BestPreviewSizeCalculator {
 		}
 		
 		//去掉小的
-		removeSmall(supportPreviewSizes, minPreviewPixels);
+		removeSmall(supportPreviewSizes, minPreviewSizePixels);
+		
 		if(supportPreviewSizes == null || supportPreviewSizes.size() == 0){
 			return null;
 		}
 		
 		//从大到小排序
-		Size maxSize = null;
 		Collections.sort(supportPreviewSizes, new Comparator<Size>() {
 			@Override
 			public int compare(Size lhs, Size rhs) {
 				return -(lhs.width - rhs.width);
 			}
 		});
-		maxSize = supportPreviewSizes.get(0);
+		Size maxSize = supportPreviewSizes.get(0);
 		
 		try{
 			//计算最佳比例
@@ -139,6 +139,30 @@ public class BestPreviewSizeCalculator {
 	}
 	
 	/**
+	 * 设置是否比例优先
+	 * @param proportionPriority 如果为true，最佳比例集合中会先在寻找宽高完全相同的一组，如果找不到就取最接近目标宽高的一组；如果为false，会首先在所有比例集合中寻找宽高完全相同的一组，如果找不到就在最佳比例集合中取最接近目标宽高的一组
+	 */
+	public void setProportionPriority(boolean proportionPriority) {
+		this.proportionPriority = proportionPriority;
+	}
+
+	/**
+	 * 设置屏幕分辨率
+	 * @param screenResolutionPoint
+	 */
+	public void setScreenResolutionPoint(Point screenResolutionPoint) {
+		this.screenResolutionPoint = screenResolutionPoint;
+	}
+
+	/**
+	 * 设置最小预览分辨率像素数
+	 * @param minPreviewSizePixels
+	 */
+	public void setMinPreviewSizePixels(int minPreviewSizePixels) {
+		this.minPreviewSizePixels = minPreviewSizePixels;
+	}
+	
+	/**
 	 * 查找宽度最接近的
 	 * @param cameraSizes
 	 * @param surfaceViewWidth
@@ -157,7 +181,7 @@ public class BestPreviewSizeCalculator {
 	/**
 	 * 给实体按最接近最佳比例排序
 	 */
-	private static final void sortByProportionForEntry(final float optimalProportion, List<Entry<Float, List<Size>>>... cameraSizeEntrysList){
+	public static final void sortByProportionForEntry(final float optimalProportion, List<Entry<Float, List<Size>>>... cameraSizeEntrysList){
 		Comparator<Entry<Float, List<Size>>> comparator = new Comparator<Entry<Float, List<Size>>>() {
 			@Override
 			public int compare(Entry<Float, List<Size>> lhs, Entry<Float, List<Size>> rhs) {
@@ -178,15 +202,15 @@ public class BestPreviewSizeCalculator {
 	 * @param cameraSizes
 	 * @return
 	 */
-	private Map<Float, List<Size>> groupingByProportion(List<CameraSize> cameraSizes){
+	public static final Map<Float, List<Size>> groupingByProportion(List<CameraSize> cameraSizes){
 		Map<Float, List<Size>> previewSizeMap = new HashMap<Float, List<Size>>();
 		for(CameraSize cameraSize : cameraSizes){
-			if(previewSizeMap.containsKey(cameraSize.proportion)){
-				previewSizeMap.get(cameraSize.proportion).add(cameraSize.size);
+			if(previewSizeMap.containsKey(cameraSize.getProportion())){
+				previewSizeMap.get(cameraSize.getProportion()).add(cameraSize.getSize());
 			}else{
 				List<Size> tempCameraSizes = new ArrayList<Size>();
-				tempCameraSizes.add(cameraSize.size);
-				previewSizeMap.put(cameraSize.proportion, tempCameraSizes);
+				tempCameraSizes.add(cameraSize.getSize());
+				previewSizeMap.put(cameraSize.getProportion(), tempCameraSizes);
 			}
 		}
 		return previewSizeMap;
@@ -223,48 +247,117 @@ public class BestPreviewSizeCalculator {
 		}
 	}
 	
-	private class CameraSize{
-		private Size size;
-		private float proportion;
+
+	
+	/**
+	 * 视图按宽度最接近的原则查找出最佳的尺寸
+	 * @param previewSizes
+	 * @param pictureSizes
+	 * @param surfaceViewWidth
+	 * @return
+	 */
+	public static final Size[] tryLookingWidthProximal(List<Size> previewSizes, List<Size> pictureSizes, int surfaceViewWidth){
+		Size[] optimalSizes = new Size[2];
+		optimalSizes[0] = lookingWidthProximal(previewSizes, surfaceViewWidth);
+		optimalSizes[1] = lookingWidthProximal(pictureSizes, surfaceViewWidth);
+		return optimalSizes;
+	}
+	
+	/**
+	 * 视图按相同的原则查找出最佳的尺寸
+	 * @param previewSizes
+	 * @param pictureSizes
+	 * @param surfaceViewWidth
+	 * @return
+	 */
+	public static final Size[] tryLookingSame(List<Size> previewSizes, List<Size> pictureSizes, int surfaceViewWidth){
+		List<Size> sames = lookingSame(previewSizes, pictureSizes, surfaceViewWidth);	//查找出所有相同的
+		if(sames != null){	//如果存在相同的
+			Size[] optimalSizes = new Size[2];
+			Size optimalSize = null;
+			if(sames.size() > 1){	//如果相同的还不止一个，就查找出最接近的
+				optimalSize = lookingWidthProximal(sames, surfaceViewWidth);
+			}else{
+				optimalSize = sames.get(0);
+			}
+			optimalSizes[0] = optimalSize;
+			optimalSizes[1] = optimalSize;
+			return optimalSizes;
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 查找相同的
+	 * @param cameraSizes1
+	 * @param cameraSizes2
+	 * @return 
+	 */
+	public static final List<Size> lookingSame(List<Size> cameraSizes1, List<Size> cameraSizes2, int surfaceViewWidth){
+		List<Size> sames = null;
+		for(Size size : cameraSizes1){
+			if(exist(size, cameraSizes2)){
+				if(sames == null){
+					sames = new ArrayList<Size>();
+				}
+				sames.add(size);
+			}
+		}
+		return sames;
+	}
+	
+	/**
+	 * 删除孤独的
+	 * @param previewCameraSizes
+	 * @param pictureCameraSizes
+	 */
+	public static final void removalOfDifferent(List<CameraSize> previewCameraSizes, List<CameraSize> pictureCameraSizes){
+		CameraSize tempCameraSize;
+		Iterator<CameraSize> iterator = previewCameraSizes.iterator();
+		while(iterator.hasNext()){
+			tempCameraSize = iterator.next();
+			if(!exist(tempCameraSize, pictureCameraSizes)){
+				iterator.remove();
+			}
+		}
 		
-		public CameraSize(Size size){
-			this.size = size;
-			proportion = Float.valueOf(new DecimalFormat("0.00").format((float) size.width / (float) size.height));
-		}
-
-		@Override
-		public String toString() {
-			return "尺寸："+size.width+"x"+size.height+"; 比例："+proportion;
+		iterator = pictureCameraSizes.iterator();
+		while(iterator.hasNext()){
+			tempCameraSize = iterator.next();
+			if(!exist(tempCameraSize, previewCameraSizes)){
+				iterator.remove();
+			}
 		}
 	}
 
 	/**
-	 * @return 如果为true，最佳比例集合中会先在寻找宽高完全相同的一组，如果找不到就取最接近目标宽高的一组；如果为false，会首先在所有比例集合中寻找宽高完全相同的一组，如果找不到就在最佳比例集合中取最接近目标宽高的一组
+	 * 判断指定的尺寸在指定的尺寸列表中是否存在
+	 * @param cameraSize
+	 * @param cameraSizes
+	 * @return
 	 */
-	public boolean isProportionPriority() {
-		return proportionPriority;
+	public static final boolean exist(CameraSize cameraSize, List<CameraSize> cameraSizes){
+		for(CameraSize currentCameraSize : cameraSizes){
+			if(currentCameraSize.getProportion() == cameraSize.getProportion()){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
-	 * @param proportionPriority 如果为true，最佳比例集合中会先在寻找宽高完全相同的一组，如果找不到就取最接近目标宽高的一组；如果为false，会首先在所有比例集合中寻找宽高完全相同的一组，如果找不到就在最佳比例集合中取最接近目标宽高的一组
+	 * 判断指定的尺寸在指定的尺寸列表中是否存在
+	 * @param cameraSize
+	 * @param cameraSizes
+	 * @return
 	 */
-	public void setProportionPriority(boolean proportionPriority) {
-		this.proportionPriority = proportionPriority;
-	}
-
-	public Point getScreenResolutionPoint() {
-		return screenResolutionPoint;
-	}
-
-	public void setScreenResolutionPoint(Point screenResolutionPoint) {
-		this.screenResolutionPoint = screenResolutionPoint;
-	}
-
-	public int getMinPreviewPixels() {
-		return minPreviewPixels;
-	}
-
-	public void setMinPreviewPixels(int minPreviewPixels) {
-		this.minPreviewPixels = minPreviewPixels;
+	public static final boolean exist(Size cameraSize, List<Size> cameraSizes){
+		for(Size currentCameraSize : cameraSizes){
+			if(currentCameraSize.width == cameraSize.width && currentCameraSize.height == cameraSize.height){
+				return true;
+			}
+		}
+		return false;
 	}
 }
