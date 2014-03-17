@@ -237,14 +237,15 @@ public class MainActivity extends EasyFragmentActivity{
 
 
 ##Downloads
-**[android-easy-4.1.8.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.8.jar)**
+**[android-easy-4.1.9.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.9.jar)**
 
-**[android-easy-4.1.8-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.8-with-src.jar)**
+**[android-easy-4.1.9-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.9-with-src.jar)**
 
 ##Change log
 ###4.1.9
 >* 修改Easy系列Activity中Handler的实现方式避免内存泄露
 >* 修复注入KeyguardManager时的BUG
+>* 增加最佳预览分辨率计算器类BestPreviewSizeCalculator.java
 
 ###4.1.8
 >* CameraManager改为始终设置Type
