@@ -49,7 +49,7 @@ Loader：
 
 ####可使用的注解有以下几种：
 >* DisableInjector：禁用注入功能。因为注解功能默认是开启的，如果你不想使用注入的话就可是使用此注解来禁用注入功能；
->* Inject：注入系统服务（通过getService()的各种Manager）或者ShardPreferences时；在注入ShardPreferences时你可以通过sharedPreferencesName参数指定名称，不指定时将注入默认的ShardPreferences；
+>* Inject：注入系统服务（通过getService()的各种Manager）或者ShardPreferences；在注入ShardPreferences时你可以通过sharedPreferencesName参数指定名称，不指定时将注入默认的ShardPreferences；
 >* InjectContentView：注入内容视图。只支持以下两种类型：
     1. Activity
     2. Fragment
@@ -57,7 +57,7 @@ Loader：
     1. Activity：Bundle来自getIntent().getExtras()
     2. Fragment：Bundle来自getArguments()
     3. BroadcastReceiver：Bundle来自onReceive()方法中intent参数的getExtras()
->* InjectFragment：注入Fragment。注意：此注解只有用在FragmentActivity中Fragment类型的字段上才有效；
+>* InjectFragment：注入Fragment。只支持FragmentActivity中Fragment类型的字段；
 >* InjectParentMember：注入父类的成员变量。默认是不注入父类的成员变量的；
 >* InjectPreference：注入SharedPreferences中的参数。SharedPreferencees的名称可通过sharedPreferencesName参数指定，不指定时将从默认的SharedPreferencees中获取参数；
 >* InjectResource：注入资源。支持以下资源类型：
