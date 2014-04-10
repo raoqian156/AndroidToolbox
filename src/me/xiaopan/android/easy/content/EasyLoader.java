@@ -29,7 +29,7 @@ public abstract class EasyLoader<T> extends Loader<T> {
     public EasyLoader(Context context) {
         super(context);
         if(!getClass().isAnnotationPresent(DisableInjector.class)){
-        	new Injector(this, context).injectOtherMembers();
+        	new Injector(this, context, null).injectOtherMembers();
         }
     }
 }

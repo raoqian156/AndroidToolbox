@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -26,39 +27,36 @@ public class Injector {
 	private SharedPreferencesInjectInterpolator sharedPreferencesInjectInterpolator;
 	
 	public Injector(Activity activity){
-		List<List<Field>> fieldsList = getFields(activity.getClass());
-		this.viewFields = fieldsList.get(0);
-		this.otherFields = fieldsList.get(1);
-		this.viewInjectInterpolator = new ViewInjectInterpolator(activity);
-		this.extraInjectInterpolator = new ExtraInjectInterpolator(activity, activity.getIntent().getExtras());
-		Context context = activity.getBaseContext();
-		this.resourceInjectInterpolator = new ResourceInjectInterpolator(activity, context);
-		this.simpleInjectInterpolator = new SimpleInjectInterpolator(activity, context);
-		this.sharedPreferencesInjectInterpolator = new SharedPreferencesInjectInterpolator(activity, context);
-		if(activity instanceof FragmentActivity){
-			this.fragmentInjectInterpolator = new FragmentInjectInterpolator((FragmentActivity) activity);
-		}
+		this(activity, activity.getBaseContext(), activity.getIntent().getExtras());
 	}
 	
 	public Injector(Fragment fragment){
-		List<List<Field>> fieldsList = getFields(fragment.getClass());
-		this.viewFields = fieldsList.get(0);
-		this.otherFields = fieldsList.get(1);
-		this.viewInjectInterpolator = new ViewInjectInterpolator(fragment);
-		this.extraInjectInterpolator = new ExtraInjectInterpolator(fragment, fragment.getArguments());
-		Context context = fragment.getActivity().getBaseContext();
-		this.resourceInjectInterpolator = new ResourceInjectInterpolator(fragment, context);
-		this.simpleInjectInterpolator = new SimpleInjectInterpolator(fragment, context);
-		this.sharedPreferencesInjectInterpolator = new SharedPreferencesInjectInterpolator(fragment, context);
+		this(fragment, fragment.getActivity()!=null?fragment.getActivity().getBaseContext():null, fragment.getArguments());
 	}
 	
-	public Injector(Object object, Context context){
+	public Injector(Object object, Context context, Bundle bundle){
 		List<List<Field>> fieldsList = getFields(object.getClass());
 		this.viewFields = fieldsList.get(0);
 		this.otherFields = fieldsList.get(1);
-		this.resourceInjectInterpolator = new ResourceInjectInterpolator(object, context);
-		this.simpleInjectInterpolator = new SimpleInjectInterpolator(object, context);
-		this.sharedPreferencesInjectInterpolator = new SharedPreferencesInjectInterpolator(object, context);
+		
+		if(Activity.class.isAssignableFrom(object.getClass())){
+			this.viewInjectInterpolator = new ViewInjectInterpolator((Activity) object);
+			if(FragmentActivity.class.isAssignableFrom(object.getClass())){
+				this.fragmentInjectInterpolator = new FragmentInjectInterpolator((FragmentActivity) object);
+			}
+		}else if(Fragment.class.isAssignableFrom(object.getClass())){
+			this.viewInjectInterpolator = new ViewInjectInterpolator((Fragment) object);
+		}
+		
+		if(context != null){
+			this.simpleInjectInterpolator = new SimpleInjectInterpolator(object, context);
+			this.resourceInjectInterpolator = new ResourceInjectInterpolator(object, context);
+			this.sharedPreferencesInjectInterpolator = new SharedPreferencesInjectInterpolator(object, context);
+		}
+		
+		if(bundle != null){
+			this.extraInjectInterpolator = new ExtraInjectInterpolator(object, bundle);
+		}
 	}
 	
 	/**
@@ -70,14 +68,13 @@ public class Injector {
 			Field field = null;
 			while(fieldIterator.hasNext()){
 				field = fieldIterator.next();
-				if(field.isAnnotationPresent(InjectView.class)){
-					if(viewInjectInterpolator != null){
-						viewInjectInterpolator.onInject(field);
-					}
-				}else if(field.isAnnotationPresent(InjectFragment.class) && Fragment.class.isAssignableFrom(field.getType())){
-					if(fragmentInjectInterpolator != null){
-						fragmentInjectInterpolator.onInject(field);
-					}
+				if(viewInjectInterpolator != null && field.isAnnotationPresent(InjectView.class)){
+					viewInjectInterpolator.onInject(field);
+					continue;
+				}
+				if(fragmentInjectInterpolator != null && field.isAnnotationPresent(InjectFragment.class) && Fragment.class.isAssignableFrom(field.getType())){
+					fragmentInjectInterpolator.onInject(field);
+					continue;
 				}
 			}
 		}
@@ -95,22 +92,21 @@ public class Injector {
 			Field field = null;
 			while(fieldIterator.hasNext()){
 				field = fieldIterator.next();
-				if(field.isAnnotationPresent(InjectExtra.class)){
-					if(extraInjectInterpolator != null){
-						extraInjectInterpolator.onInject(field);
-					}
-				}else if(field.isAnnotationPresent(InjectResource.class)){
-					if(resourceInjectInterpolator != null){
-						resourceInjectInterpolator.onInject(field);
-					}
-				}else if(field.isAnnotationPresent(Inject.class)){
-					if(simpleInjectInterpolator != null){
-						simpleInjectInterpolator.onInject(field);
-					}
-				}else if(field.isAnnotationPresent(InjectPreference.class)){
-					if(sharedPreferencesInjectInterpolator != null){
-						sharedPreferencesInjectInterpolator.onInject(field);
-					}
+				if(extraInjectInterpolator != null && field.isAnnotationPresent(InjectExtra.class)){
+					extraInjectInterpolator.onInject(field);
+					continue;
+				}
+				if(resourceInjectInterpolator != null && field.isAnnotationPresent(InjectResource.class)){
+					resourceInjectInterpolator.onInject(field);
+					continue;
+				}
+				if(simpleInjectInterpolator != null && field.isAnnotationPresent(Inject.class)){
+					simpleInjectInterpolator.onInject(field);
+					continue;
+				}
+				if(sharedPreferencesInjectInterpolator != null && field.isAnnotationPresent(InjectPreference.class)){
+					sharedPreferencesInjectInterpolator.onInject(field);
+					continue;
 				}
 			}
 		}

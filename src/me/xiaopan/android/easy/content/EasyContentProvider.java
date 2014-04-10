@@ -29,7 +29,7 @@ public abstract class EasyContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
     	if(!getClass().isAnnotationPresent(DisableInjector.class)){
-    		new Injector(this, getContext()).injectOtherMembers();
+    		new Injector(this, getContext(), null).injectOtherMembers();
     	}
         return true;
     }

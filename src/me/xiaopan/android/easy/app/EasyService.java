@@ -29,7 +29,7 @@ public abstract class EasyService extends Service{
     public EasyService() {
         super();
     	if(!getClass().isAnnotationPresent(DisableInjector.class)){
-        	injector = new Injector(this, getBaseContext());
+        	injector = new Injector(this, getBaseContext(), null);
         }
         if(injector != null){
         	injector.injectOtherMembers();
