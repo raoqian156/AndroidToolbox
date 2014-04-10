@@ -26,7 +26,9 @@ import me.xiaopan.android.easy.app.EasyActivity;
 import me.xiaopan.android.easy.inject.Inject;
 import me.xiaopan.android.easy.inject.InjectContentView;
 import me.xiaopan.android.easy.inject.InjectExtra;
+import me.xiaopan.android.easy.inject.InjectExtraJson;
 import me.xiaopan.android.easy.inject.InjectPreference;
+import me.xiaopan.android.easy.inject.InjectPreferenceJson;
 import me.xiaopan.android.easy.inject.InjectResource;
 import me.xiaopan.android.easy.inject.InjectView;
 import me.xiaopan.java.easy.util.ReflectUtils;
@@ -86,6 +88,7 @@ public class InjectActivity extends EasyActivity {
 	@InjectExtra(MainActivity.PARAM_STRING_ARRAY_LIST) private ArrayList<String> stringFieldList;
 	@InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE) private CharSequence charSequenceField;
 	@InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE_ARRAY) private CharSequence[] charSequenceFields;
+	@InjectExtraJson(MainActivity.PARAM_STRING_JSON) private MyBean bean;
 
 	@Inject private AccessibilityManager accessibilityManager;
 	@Inject private AccountManager accountManager;
@@ -116,6 +119,7 @@ public class InjectActivity extends EasyActivity {
 	@InjectPreference(MainActivity.KEY_LONG) private long longPreference;
 	@InjectPreference(MainActivity.KEY_STRING) private String stringPreference;
 	@InjectPreference(MainActivity.KEY_STRING_SET) private Set<String> stringSetPreference;
+	@InjectPreferenceJson(MainActivity.KEY_JSON) private MyBean bean2;
 	
 	@InjectResource(R.integer.integer1) private int integer1;
 	@InjectResource(R.string.string1) private String string1;
@@ -152,6 +156,7 @@ public class InjectActivity extends EasyActivity {
 		extraStringBuffer.append("\n").append("stringFields").append("=").append(Arrays.toString(stringFields));
 		extraStringBuffer.append("\n").append("stringFieldList").append("=").append(stringFieldList.toString());
 		extraStringBuffer.append("\n").append("charSequenceFields").append("=").append(Arrays.toString(charSequenceFields));
+		extraStringBuffer.append("\n\n").append(bean.getName()).append(" ").append(bean.getSex()).append(" ").append(bean.getEmail());
 		textView2.setText(extraStringBuffer.toString());
 		
 		boolean success = true; 
@@ -177,6 +182,7 @@ public class InjectActivity extends EasyActivity {
 		preferenceStringBuffer.append("\n").append("longPreference").append("=").append(longPreference);
 		preferenceStringBuffer.append("\n").append("stringPreference").append("=").append(stringPreference);
 		preferenceStringBuffer.append("\n").append("stringSetPreference").append("=").append(stringSetPreference);
+		preferenceStringBuffer.append("\n\n").append(bean2.getName()).append(" ").append(bean2.getSex()).append(" ").append(bean2.getEmail());
 		textView4.setText(preferenceStringBuffer.toString());
 		
 		StringBuffer resourceStringBuffer = new StringBuffer("Resource注入结果：");

@@ -6,10 +6,10 @@ import me.xiaopan.java.easy.util.StringUtils;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-public class FragmentInjectInterpolator implements InjectInterpolator{
+public class InjectFragmentInterpolator implements InjectInterpolator{
 	private FragmentActivity fragmentActivity;
 	
-	public FragmentInjectInterpolator(FragmentActivity fragmentActivity) {
+	public InjectFragmentInterpolator(FragmentActivity fragmentActivity) {
 		super();
 		this.fragmentActivity = fragmentActivity;
 	}

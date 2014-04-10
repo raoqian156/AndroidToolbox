@@ -7,16 +7,16 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
-public class ViewInjectInterpolator implements InjectInterpolator{
+public class InjectViewInterpolator implements InjectInterpolator{
 	private Object object;
 	private OnFindViewInterpolator onFindViewInterpolator;
 	
-	public ViewInjectInterpolator(Activity activity) {
+	public InjectViewInterpolator(Activity activity) {
 		this.object = activity;
 		this.onFindViewInterpolator = new ActivityFindInjectInterpolator(activity);
 	}
 	
-	public ViewInjectInterpolator(Fragment fragment) {
+	public InjectViewInterpolator(Fragment fragment) {
 		this.object = fragment;
 		this.onFindViewInterpolator = new FragmentFindViewInterpolator(fragment);
 	}

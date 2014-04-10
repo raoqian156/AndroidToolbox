@@ -56,6 +56,8 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 @DisableInjector
 public class NormalActivity extends EasyActivity {
 	private TextView textView1;
@@ -85,6 +87,7 @@ public class NormalActivity extends EasyActivity {
 	private ArrayList<String> stringFieldList;
 	private CharSequence charSequenceField;
 	private CharSequence[] charSequenceFields;
+	private MyBean bean;
 	
 	@Inject private AccessibilityManager accessibilityManager;
 	@Inject private AccountManager accountManager;
@@ -115,6 +118,7 @@ public class NormalActivity extends EasyActivity {
 	private long longPreference;
 	private String stringPreference;
 	private Set<String> stringSetPreference;
+	private MyBean bean2;
 	
 	private int integer1;
 	private String string1;
@@ -136,27 +140,29 @@ public class NormalActivity extends EasyActivity {
 		textView4 = (TextView) findViewById(R.id.text_main4);
 		textView5 = (TextView) findViewById(R.id.text_main5);
 		
-		byteField = getIntent().getExtras().getByte(MainActivity.PARAM_BYTE);
-		byteFields = getIntent().getExtras().getByteArray(MainActivity.PARAM_BYTE_ARRAY);
-		shortField = getIntent().getExtras().getShort(MainActivity.PARAM_SHORT);
-		shortFields = getIntent().getExtras().getShortArray(MainActivity.PARAM_SHORT_ARRAY);
-		intField = getIntent().getExtras().getInt(MainActivity.PARAM_INT);
-		intFields= getIntent().getExtras().getIntArray(MainActivity.PARAM_INT_ARRAY);
-		longField = getIntent().getExtras().getLong(MainActivity.PARAM_LONG);
-		longFields = getIntent().getExtras().getLongArray(MainActivity.PARAM_LONG_ARRAY);
-		charField = getIntent().getExtras().getChar(MainActivity.PARAM_CHAR);
-		charFields = getIntent().getExtras().getCharArray(MainActivity.PARAM_CHAR_ARRAY);
-		floatField = getIntent().getExtras().getFloat(MainActivity.PARAM_FLOAT);
-		floatFields = getIntent().getExtras().getFloatArray(MainActivity.PARAM_FLOAT_ARRAY);
-		doubleField = getIntent().getExtras().getDouble(MainActivity.PARAM_DOUBLE);
-		doubleFields = getIntent().getExtras().getDoubleArray(MainActivity.PARAM_DOUBLE_ARRAY);
-		booleanField = getIntent().getExtras().getBoolean(MainActivity.PARAM_BOOLEAN);
-		booleanFields = getIntent().getExtras().getBooleanArray(MainActivity.PARAM_BOOLEAN_ARRAY);
-		stringField = getIntent().getExtras().getString(MainActivity.PARAM_STRING);
-		stringFields = getIntent().getExtras().getStringArray(MainActivity.PARAM_STRING_ARRAY);
-		stringFieldList = getIntent().getExtras().getStringArrayList(MainActivity.PARAM_STRING_ARRAY_LIST);
-		charSequenceField = getIntent().getExtras().getCharSequence(MainActivity.PARAM_CHAR_SEQUENCE);
-		charSequenceFields = getIntent().getExtras().getCharSequenceArray(MainActivity.PARAM_CHAR_SEQUENCE_ARRAY);
+		byteField = getIntent().getByteExtra(MainActivity.PARAM_BYTE, (byte)0);
+		byteFields = getIntent().getByteArrayExtra(MainActivity.PARAM_BYTE_ARRAY);
+		shortField = getIntent().getShortExtra(MainActivity.PARAM_SHORT, (short)0);
+		shortFields = getIntent().getShortArrayExtra(MainActivity.PARAM_SHORT_ARRAY);
+		intField = getIntent().getIntExtra(MainActivity.PARAM_INT, 0);
+		intFields= getIntent().getIntArrayExtra(MainActivity.PARAM_INT_ARRAY);
+		longField = getIntent().getLongExtra(MainActivity.PARAM_LONG, 0);
+		longFields = getIntent().getLongArrayExtra(MainActivity.PARAM_LONG_ARRAY);
+		charField = getIntent().getCharExtra(MainActivity.PARAM_CHAR, '0');
+		charFields = getIntent().getCharArrayExtra(MainActivity.PARAM_CHAR_ARRAY);
+		floatField = getIntent().getFloatExtra(MainActivity.PARAM_FLOAT, 0);
+		floatFields = getIntent().getFloatArrayExtra(MainActivity.PARAM_FLOAT_ARRAY);
+		doubleField = getIntent().getDoubleExtra(MainActivity.PARAM_DOUBLE, 0);
+		doubleFields = getIntent().getDoubleArrayExtra(MainActivity.PARAM_DOUBLE_ARRAY);
+		booleanField = getIntent().getBooleanExtra(MainActivity.PARAM_BOOLEAN, false);
+		booleanFields = getIntent().getBooleanArrayExtra(MainActivity.PARAM_BOOLEAN_ARRAY);
+		stringField = getIntent().getStringExtra(MainActivity.PARAM_STRING);
+		stringFields = getIntent().getStringArrayExtra(MainActivity.PARAM_STRING_ARRAY);
+		stringFieldList = getIntent().getStringArrayListExtra(MainActivity.PARAM_STRING_ARRAY_LIST);
+		charSequenceField = getIntent().getCharSequenceExtra(MainActivity.PARAM_CHAR_SEQUENCE);
+		charSequenceFields = getIntent().getCharSequenceArrayExtra(MainActivity.PARAM_CHAR_SEQUENCE_ARRAY);
+		
+		bean = new Gson().fromJson(getIntent().getStringExtra(MainActivity.PARAM_STRING_JSON), MyBean.class);
 		
 		accessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
 		accountManager = (AccountManager) getSystemService(Context.ACCOUNT_SERVICE);
@@ -187,6 +193,7 @@ public class NormalActivity extends EasyActivity {
 		longPreference = PreferenceUtils.getLong(getBaseContext(), MainActivity.KEY_LONG);
 		stringPreference = PreferenceUtils.getString(getBaseContext(), MainActivity.KEY_STRING);
 		stringSetPreference = PreferenceUtils.getStringSet(getBaseContext(), MainActivity.KEY_STRING_SET);
+		bean2 = PreferenceUtils.getObject(getBaseContext(), MainActivity.KEY_JSON, MyBean.class);
 		
 		integer1 = getResources().getInteger(R.integer.integer1);
 		string1 = getResources().getString(R.string.string1);
@@ -217,6 +224,7 @@ public class NormalActivity extends EasyActivity {
 		extraStringBuffer.append("\n").append("stringFields").append("=").append(Arrays.toString(stringFields));
 		extraStringBuffer.append("\n").append("stringFieldList").append("=").append(stringFieldList.toString());
 		extraStringBuffer.append("\n").append("charSequenceFields").append("=").append(Arrays.toString(charSequenceFields));
+		extraStringBuffer.append("\n\n").append(bean.getName()).append(" ").append(bean.getSex()).append(" ").append(bean.getEmail());
 		textView2.setText(extraStringBuffer.toString());
 		
 		boolean success = true; 
@@ -242,6 +250,7 @@ public class NormalActivity extends EasyActivity {
 		preferenceStringBuffer.append("\n").append("longPreference").append("=").append(longPreference);
 		preferenceStringBuffer.append("\n").append("stringPreference").append("=").append(stringPreference);
 		preferenceStringBuffer.append("\n").append("stringSetPreference").append("=").append(stringSetPreference);
+		preferenceStringBuffer.append("\n\n").append(bean2.getName()).append(" ").append(bean2.getSex()).append(" ").append(bean2.getEmail());
 		textView4.setText(preferenceStringBuffer.toString());
 		
 		StringBuffer resourceStringBuffer = new StringBuffer("Resource初始化结果：");

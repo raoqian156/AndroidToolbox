@@ -10,11 +10,11 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-public class ResourceInjectInterpolator implements InjectInterpolator {
+public class InjectResourceInterpolator implements InjectInterpolator {
 	private Object object;
 	private Context context;
 
-	public ResourceInjectInterpolator(Object object, Context context) {
+	public InjectResourceInterpolator(Object object, Context context) {
 		this.object = object;
 		this.context = context;
 	}

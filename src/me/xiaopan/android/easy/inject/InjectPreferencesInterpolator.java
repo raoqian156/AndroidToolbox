@@ -6,7 +6,6 @@ import java.util.Set;
 
 import me.xiaopan.android.easy.util.PreferenceUtils;
 import me.xiaopan.java.easy.util.StringUtils;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -15,17 +14,16 @@ import android.util.Log;
 /**
  * 注入SharedPreferences中的参数
  */
-public class SharedPreferencesInjectInterpolator implements InjectInterpolator {
+public class InjectPreferencesInterpolator implements InjectInterpolator {
 	private Object object;
 	private Context context;
 	
-	public SharedPreferencesInjectInterpolator(Object object, Context context) {
+	public InjectPreferencesInterpolator(Object object, Context context) {
 		this.object = object;
 		this.context = context;
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	public void onInject(Field field) {
 		InjectPreference injectPreference = field.getAnnotation(InjectPreference.class);
 		SharedPreferences sharedPreferences = null;

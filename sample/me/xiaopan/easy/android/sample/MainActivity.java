@@ -30,6 +30,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 public class MainActivity extends EasyFragmentActivity{
 	public static final String PARAM_BYTE = "PARAM_BYTE";
 	public static final String PARAM_BYTE_ARRAY = "PARAM_BYTE_ARRAY";
@@ -52,12 +54,14 @@ public class MainActivity extends EasyFragmentActivity{
 	public static final String PARAM_STRING_ARRAY_LIST = "PARAM_STRING_ARRAY_LIST";
 	public static final String PARAM_CHAR_SEQUENCE = "PARAM_CHAR_SEQUENCE";
 	public static final String PARAM_CHAR_SEQUENCE_ARRAY = "PARAM_CHAR_SEQUENCE_ARRAY";
+	public static final String PARAM_STRING_JSON = "PARAM_STRING_JSON";
 	public static final String KEY_BOOLEAN = "KEY_BOOLEAN";
 	public static final String KEY_FLOAT = "KEY_FLOAT";
 	public static final String KEY_INT = "KEY_INT";
 	public static final String KEY_LONG = "KEY_LONG";
 	public static final String KEY_STRING = "KEY_STRING";
 	public static final String KEY_STRING_SET = "KEY_STRING_SET";
+	public static final String KEY_JSON = "KEY_JSON";
 	
 	@InjectView(android.R.id.list)
 	private ListView listView;
@@ -95,6 +99,11 @@ public class MainActivity extends EasyFragmentActivity{
 				bundle.putShortArray(MainActivity.PARAM_SHORT_ARRAY, new short[]{3, 4, 5});
 				bundle.putString(MainActivity.PARAM_STRING, "String");
 				bundle.putStringArray(MainActivity.PARAM_STRING_ARRAY, new String[]{"String1", "String2", "String3"});
+				MyBean bean = new MyBean();
+				bean.setEmail("sky@xiaopan.me");
+				bean.setName("小潘");
+				bean.setSex("男");
+				bundle.putString(PARAM_STRING_JSON, new Gson().toJson(bean));
 				ArrayList<String> stringList = new ArrayList<String>();
 				stringList.add("ArrayList String 1");
 				stringList.add("ArrayList String 2");
@@ -128,5 +137,10 @@ public class MainActivity extends EasyFragmentActivity{
 		stringSet.add("String Set 3");
 		stringSet.add("String Set 4");
 		PreferenceUtils.putStringSet(getBaseContext(), KEY_STRING_SET, stringSet);
+		MyBean bean2 = new MyBean();
+		bean2.setEmail("sky@xiaopan.me2");
+		bean2.setName("小潘2");
+		bean2.setSex("男2");
+		PreferenceUtils.putObject(getBaseContext(), KEY_JSON, bean2);
 	}
 }

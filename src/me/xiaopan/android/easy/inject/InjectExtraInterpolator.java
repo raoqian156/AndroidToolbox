@@ -6,11 +6,11 @@ import me.xiaopan.java.easy.util.StringUtils;
 import android.os.Bundle;
 import android.util.Log;
 
-public class ExtraInjectInterpolator implements InjectInterpolator {
+public class InjectExtraInterpolator implements InjectInterpolator {
 	private Object object;
 	private Bundle bundle;
 	
-	public ExtraInjectInterpolator(Object object, Bundle bundle) {
+	public InjectExtraInterpolator(Object object, Bundle bundle) {
 		this.object = object;
 		this.bundle = bundle;
 	}

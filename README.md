@@ -57,9 +57,11 @@ Loader：
     1. Activity：Bundle来自getIntent().getExtras()
     2. Fragment：Bundle来自getArguments()
     3. BroadcastReceiver：Bundle来自onReceive()方法中intent参数的getExtras()
+>* InjectExtraJson：将Bundle中的字符串通过Gson转换成对象
 >* InjectFragment：注入Fragment。只支持FragmentActivity中Fragment类型的字段；
 >* InjectParentMember：注入父类的成员变量。默认是不注入父类的成员变量的；
 >* InjectPreference：注入SharedPreferences中的参数。SharedPreferencees的名称可通过sharedPreferencesName参数指定，不指定时将从默认的SharedPreferencees中获取参数；
+>* InjectPreferenceJson：将SharedPreferences中的字符串通过Gson转换成对象
 >* InjectResource：注入资源。支持以下资源类型：
     1. boolean
     2. String
@@ -99,12 +101,14 @@ public class MainActivity extends EasyFragmentActivity{
 	public static final String PARAM_STRING_ARRAY_LIST = "PARAM_STRING_ARRAY_LIST";
 	public static final String PARAM_CHAR_SEQUENCE = "PARAM_CHAR_SEQUENCE";
 	public static final String PARAM_CHAR_SEQUENCE_ARRAY = "PARAM_CHAR_SEQUENCE_ARRAY";
+	public static final String PARAM_STRING_JSON = "PARAM_STRING_JSON";
 	public static final String KEY_BOOLEAN = "KEY_BOOLEAN";
 	public static final String KEY_FLOAT = "KEY_FLOAT";
 	public static final String KEY_INT = "KEY_INT";
 	public static final String KEY_LONG = "KEY_LONG";
 	public static final String KEY_STRING = "KEY_STRING";
 	public static final String KEY_STRING_SET = "KEY_STRING_SET";
+	public static final String KEY_JSON = "KEY_JSON";
 
     @InjectView(R.id.text_main1) private TextView textView1;
     @InjectView(R.id.text_main2) private TextView textView2;
@@ -133,6 +137,7 @@ public class MainActivity extends EasyFragmentActivity{
     @InjectExtra(MainActivity.PARAM_STRING_ARRAY_LIST) private ArrayList<String> stringFieldList;
     @InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE) private CharSequence charSequenceField;
     @InjectExtra(MainActivity.PARAM_CHAR_SEQUENCE_ARRAY) private CharSequence[] charSequenceFields;
+	@InjectExtraJson(MainActivity.PARAM_STRING_JSON) private MyBean bean;
     
     @Inject private AccessibilityManager accessibilityManager;
     @Inject private AccountManager accountManager;
@@ -163,6 +168,7 @@ public class MainActivity extends EasyFragmentActivity{
     @InjectPreference(MainActivity.KEY_LONG) private long longPreference;
     @InjectPreference(MainActivity.KEY_STRING) private String stringPreference;
     @InjectPreference(MainActivity.KEY_STRING_SET) private Set<String> stringSetPreference;
+	@InjectPreferenceJson(MainActivity.KEY_JSON) private MyBean bean2;
     
     @InjectResource(R.integer.integer1) private int integer1;
     @InjectResource(R.string.string1) private String string1;
@@ -197,6 +203,7 @@ public class MainActivity extends EasyFragmentActivity{
 		extraStringBuffer.append("\n").append("stringFields").append("=").append(Arrays.toString(stringFields));
 		extraStringBuffer.append("\n").append("stringFieldList").append("=").append(stringFieldList.toString());
 		extraStringBuffer.append("\n").append("charSequenceFields").append("=").append(Arrays.toString(charSequenceFields));
+		extraStringBuffer.append("\n\n").append(bean.getName()).append(" ").append(bean.getSex()).append(" ").append(bean.getEmail());
 		textView2.setText(extraStringBuffer.toString());
 		
 		boolean success = true; 
@@ -222,6 +229,7 @@ public class MainActivity extends EasyFragmentActivity{
 		preferenceStringBuffer.append("\n").append("longPreference").append("=").append(longPreference);
 		preferenceStringBuffer.append("\n").append("stringPreference").append("=").append(stringPreference);
 		preferenceStringBuffer.append("\n").append("stringSetPreference").append("=").append(stringSetPreference);
+		preferenceStringBuffer.append("\n\n").append(bean2.getName()).append(" ").append(bean2.getSex()).append(" ").append(bean2.getEmail());
 		textView4.setText(preferenceStringBuffer.toString());
 		
 		StringBuffer resourceStringBuffer = new StringBuffer("Resource注入结果：");
@@ -237,11 +245,15 @@ public class MainActivity extends EasyFragmentActivity{
 
 
 ##Downloads
-**[android-easy-4.1.9.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.9.jar)**
+**[android-easy-4.2.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.0.jar)**
 
-**[android-easy-4.1.9-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.1.9-with-src.jar)**
+**[android-easy-4.2.0-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.0-with-src.jar)**
 
 ##Change log
+###4.2.0
+>* 增加InjectExtraJson和@InjectPreferenceJson注解，用于支持将Bundle或SharedPreference中的字符串转换成对象
+>* 优化注入部分处理逻辑
+
 ###4.1.9
 >* 修改Easy系列Activity中Handler的实现方式避免内存泄露
 >* 修复注入KeyguardManager时的BUG

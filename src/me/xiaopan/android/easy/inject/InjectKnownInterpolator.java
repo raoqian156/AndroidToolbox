@@ -91,11 +91,11 @@ import android.view.textservice.TextServicesManager;
  * <br> TextServicesManager
  * <br> WifiP2pManager
  */
-public class SimpleInjectInterpolator implements InjectInterpolator {
+public class InjectKnownInterpolator implements InjectInterpolator {
 	private Object object;
 	private Context context;
 
-	public SimpleInjectInterpolator(Object object, Context context) {
+	public InjectKnownInterpolator(Object object, Context context) {
 		this.object = object;
 		this.context = context;
 	}
