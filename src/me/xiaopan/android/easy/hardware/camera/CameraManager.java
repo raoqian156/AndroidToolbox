@@ -22,9 +22,6 @@ import me.xiaopan.android.easy.util.WindowUtils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.ShutterCallback;
 import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -32,156 +29,144 @@ import android.view.SurfaceHolder;
 /**
  * 相机管理器
  */
-public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCallback{
-	private int frontCameraId = -1;	//前置摄像头的ID
-	private int backCameraId = -1;	//后置摄像头的ID
-	private int currentCameraId = -1;	//当前摄像头的ID
+public class CameraManager{
+	private static final String LOG_TAG = CameraManager.class.getSimpleName();
+    private int frontCameraId = -1;	//前置摄像头的ID
+    private int backCameraId = -1;	//后置摄像头的ID
 	private int displayOrientation;	//显示方向
-	private boolean resumeRestore;//是否需要在Activity Resume的时候恢复
 	private boolean debugMode;	//Debug模式，开启后将输出运行日志
-	private String logTag = CameraManager.class.getSimpleName();
+    private boolean isBackCamera;
+    private boolean running;
 	private Camera camera;	//Camera
-	private Activity activity;	
+	private Activity activity;
 	private SurfaceHolder surfaceHolder;
 	private CameraCallback cameraCallback;
-	
+    private LoopFocusManager loopFocusManager;
+
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public CameraManager(Activity activity, SurfaceHolder surfaceHolder, CameraCallback cameraCallback){
 		this.activity = activity;
 		this.surfaceHolder = surfaceHolder;
 		this.cameraCallback = cameraCallback;
+		this.loopFocusManager = new LoopFocusManager();
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 			this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		}
-		this.surfaceHolder.addCallback(this);
-		
-		//获取前置和后置摄像头的ID
-		if(Build.VERSION.SDK_INT >= 9){
-			int cameraIds = Camera.getNumberOfCameras();
-			CameraInfo cameraInfo = new CameraInfo();
-			for(int cameraId = 0; cameraId < cameraIds; cameraId++){
-				Camera.getCameraInfo(cameraId, cameraInfo);
-				if(cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT){
-					frontCameraId = cameraId;
-				}else if(cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK){
-					backCameraId = cameraId;
-				}
-			}
-		}
+
+        //获取前置和后置摄像头的ID
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
+            int cameraIds = Camera.getNumberOfCameras();
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            for(int cameraId = 0; cameraId < cameraIds; cameraId++){
+                Camera.getCameraInfo(cameraId, cameraInfo);
+                if(cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
+                    frontCameraId = cameraId;
+                }else if(cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK){
+                    backCameraId = cameraId;
+                }
+            }
+        }
 	}
-	
+
 	/**
 	 * 打开后置摄像头
-	 * @param isResume 是否是在onResume()方法中调用此方法的
-	 * @throws CamreaBeingUsedException 相机被占用
+	 * @throws CameraBeingUsedException 摄像头被占用
+     * @throws java.io.IOException if the method fails (for example, if the surface is unavailable or unsuitable).
 	 */
-	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public void openBackCamera(boolean isResume) throws CamreaBeingUsedException{
+	public void openBackCamera() throws CameraBeingUsedException, IOException {
 		if(debugMode){
-			Log.d(logTag, "openBackCamera");
+			Log.d(LOG_TAG, "openBackCamera");
 		}
 		release();
 		try {
-			camera = Build.VERSION.SDK_INT >= 9 && backCameraId != -1?Camera.open(backCameraId):Camera.open();
+			camera = Camera.open();
+            isBackCamera = true;
+            loopFocusManager.setCamera(camera);
+            initCamera();
+            startPreview();
 		} catch (RuntimeException e) {
-			throw new CamreaBeingUsedException();
+            e.printStackTrace();
+			throw new CameraBeingUsedException();
 		}
-		currentCameraId = backCameraId;
-		tryRestore(isResume);
-	}
-	
-	/**
-	 * 打开前置摄像头
-	 * @param isResume 是否是在onResume()方法中调用此方法的
-	 * @throws NoFoundFrontCamera 没有找到前置摄像头
-	 * @throws CamreaBeingUsedException 前置摄像头被占用
-	 */
-	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public void openForntCamera(boolean isResume) throws Exception, NoFoundFrontCamera, CamreaBeingUsedException{
-		if(debugMode){
-			Log.d(logTag, "openBackCamera");
-		}
-		release();
-		if(Build.VERSION.SDK_INT >= 9 && frontCameraId != -1){
-			try {
-				camera = Camera.open(frontCameraId);
-			} catch (RuntimeException e) {
-				throw new CamreaBeingUsedException();
-			}
-			currentCameraId = frontCameraId;
-			tryRestore(isResume);
-		}else{
-			throw new NoFoundFrontCamera();
-		}
-	}
-	
-	/**
-	 * 初始化Camera的方法是在surfaceCreated()方法里调用的，开启预览是在surfaceChanged()方法中调用的，
-	 *	<br>当屏幕是竖屏的时候按下电源键系统会锁屏，并且Activity会进入onPause()中并释放相机，
-	 *	<br>然而再解锁回到应用的时候只会调用onResume()方法，而不会调用surfaceCreated()和surfaceChanged()方法，所以Camera不会被初始化，也不会开启预览，显示这样是不行的。
-	 *	<br>所以我们要在Activity暂停释放Camera的时候做一个标记，当再次在onResume()中执行本方法打开摄像头的时候要初始化Camera并开启预览
-	 *	<br>另外当SurfaceView被销毁的时候要标记为不需要恢复，因为只要SurfaceView被销毁那么接下来必然会执行surfaceCreated()和surfaceChanged()方法
-	 * @param isResume
-	 */
-	private void tryRestore(boolean isResume){
-		if(isResume && resumeRestore){
-			if(debugMode){
-				Log.d(logTag, "resumeRestore");
-			}
-			resumeRestore = false;
-			initCamera();
-			startPreview();
-		}
-	}
-	
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		if(debugMode){
-			Log.d(logTag, "surfaceCreated");
-		}
-		initCamera();
 	}
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		if(debugMode){
-			Log.d(logTag, "surfaceChanged");
-		}
-		startPreview();
-	}
+    /**
+     * 打开前置摄像头
+     * @return false：没有前置摄像头，已自动打开后置摄像头
+     * @throws CameraBeingUsedException 摄像头被占用
+     * @throws java.io.IOException if the method fails (for example, if the surface is unavailable or unsuitable).
+     */
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    public boolean openFrontCamera() throws CameraBeingUsedException, IOException {
+        if(debugMode){
+            Log.d(LOG_TAG, "openFrontCamera");
+        }
+        release();
+        boolean result = false;
+        try {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && frontCameraId != -1){
+                camera = Camera.open(frontCameraId);
+                isBackCamera = false;
+                result = true;
+            }else{
+                camera = Camera.open();
+                isBackCamera = true;
+            }
+            loopFocusManager.setCamera(camera);
+            initCamera();
+            startPreview();
+            return result;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new CameraBeingUsedException();
+        }
+    }
 
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		if(debugMode){
-			Log.d(logTag, "surfaceDestroyed");
-		}
-		stopPreview();
-		resumeRestore = false;
-	}
+    /**
+     * 初始化Camera
+     */
+    private void initCamera() throws IOException {
+        if(camera != null){
+            if(debugMode){
+                Log.d(LOG_TAG, "initCamera");
+            }
 
-	@Override
-	public void onAutoFocus(boolean success, Camera camera) {
-		if(debugMode){
-			Log.d(logTag, "自定对焦"+(success?"成功":"失败"));
-		}
-		if(cameraCallback != null){
-			cameraCallback.onAutoFocus(success, camera);
-		}
-	}
+            camera.setPreviewDisplay(surfaceHolder);
+
+            //设置旋转90度
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
+                setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(activity, isBackCamera ? backCameraId : frontCameraId));
+            }else if (!WindowUtils.isLandscape(activity)) {
+                setDisplayOrientation(90);
+            }
+
+            if(cameraCallback != null){
+                cameraCallback.onInitCamera(camera);	//回调初始化
+            }
+
+            Camera.Parameters parameters = camera.getParameters();
+            Camera.Size previewSize = parameters.getPreviewSize();
+            Camera.Size pictureSize = parameters.getPictureSize();
+            if(debugMode){
+                Log.d(LOG_TAG, "previewSize："+previewSize.width+"x"+previewSize.height+"; pictureSize："+pictureSize.width+"x"+pictureSize.height);
+            }
+        }
+    }
 
 	/**
 	 * 开始预览
 	 */
 	public void startPreview(){
-		if(camera != null){
+		if(!running && camera != null){
 			if(debugMode){
-				Log.d(logTag, "startPreview");
+				Log.d(LOG_TAG, "startPreview");
 			}
 			camera.startPreview();
 			if(cameraCallback != null){
 				cameraCallback.onStartPreview();
 			}
+			running = true;
 		}
 	}
 	
@@ -189,48 +174,18 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 * 停止预览
 	 */
 	public void stopPreview(){
-		if(camera != null){
+		if(running && camera != null){
 			if(debugMode){
-				Log.d(logTag, "stopPreview");
+				Log.d(LOG_TAG, "stopPreview");
 			}
 			camera.stopPreview();
 			if(cameraCallback != null){
 				cameraCallback.onStopPreview();
 			}
+			running = false;
 		}
 	}
-	
-	/**
-	 * 自动对焦
-	 */
-	public void autoFocus(){
-		if(camera != null){
-			if(debugMode){
-				Log.d(logTag, "autoFocus");
-			}
-			try{
-				camera.autoFocus(this);
-			}catch(Throwable throwable){
-				throwable.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * 拍照
-	 * @param shutter 快门回调
-	 * @param raw RAW格式图片回调
-	 * @param jpeg JPEG格式图片回调
-	 */
-	public void takePicture(ShutterCallback shutter, PictureCallback raw, PictureCallback jpeg){
-		if(camera != null){
-			if(debugMode){
-				Log.d(logTag, "takePicture");
-			}
-			camera.takePicture(shutter, raw, jpeg);
-		}
-	}
-	
+
 	/**
 	 * 设置闪光模式
 	 * @param newFlashMode
@@ -238,7 +193,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	public void setFlashMode(String newFlashMode){
 		if(camera != null){
 			if(debugMode){
-				Log.d(logTag, "setFlashMode："+newFlashMode);
+				Log.d(LOG_TAG, "setFlashMode："+newFlashMode);
 			}
 			Camera.Parameters cameraParameters = camera.getParameters();
 			cameraParameters.setFlashMode(newFlashMode);
@@ -256,13 +211,13 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			if(enable){
 				if(CameraUtils.isSupportFlashMode(getCamera(), Camera.Parameters.FLASH_MODE_TORCH)){
 					if(debugMode){
-						Log.d(logTag, "打开闪光灯");
+						Log.d(LOG_TAG, "打开闪光灯");
 					}
 					setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 					return true;
 				}else{
 					if(debugMode){
-						Log.d(logTag, "打开闪光灯失败，因为当前机器不支持闪光灯常亮");
+						Log.d(LOG_TAG, "打开闪光灯失败，因为当前机器不支持闪光灯常亮");
 					}
 					return false;
 				}
@@ -282,7 +237,7 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	public void setDisplayOrientation(int displayOrientation){
 		if(camera != null){
 			if(debugMode){
-				Log.d(logTag, "setDisplayOrientation："+displayOrientation);
+				Log.d(LOG_TAG, "setDisplayOrientation："+displayOrientation);
 			}
 			
 			this.displayOrientation = displayOrientation;
@@ -297,48 +252,12 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	}
 	
 	/**
-	 * 初始化Camera
-	 * @return true：调用成功；false：调用失败，原因是camera尚未初始化
-	 */
-	private void initCamera(){
-		if(camera != null){
-			if(debugMode){
-				Log.d(logTag, "initCamera");
-			}
-			
-			try {
-				camera.setPreviewDisplay(surfaceHolder);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			//如果是当前竖屏就将预览角度顺时针旋转90度
-			if(Build.VERSION.SDK_INT >= 9){
-				setDisplayOrientation(CameraUtils.getOptimalDisplayOrientationByWindowDisplayRotation(activity, getCurrentCameraId()));
-			}else if (!WindowUtils.isLandscape(activity)) {
-				setDisplayOrientation(90);
-			}
-			
-			if(cameraCallback != null){
-				cameraCallback.onInitCamera(camera);	//回调初始化
-			}
-			
-			Camera.Parameters parameters = camera.getParameters();
-			Camera.Size previewSize = parameters.getPreviewSize();
-			Camera.Size pictureSize = parameters.getPictureSize();
-			if(debugMode){
-				Log.d(logTag, "previewSize："+previewSize.width+"x"+previewSize.height+"; pictureSize："+pictureSize.width+"x"+pictureSize.height);
-			}
-		}
-	}
-	
-	/**
 	 * 释放
 	 */
 	public void release(){
 		if (camera != null) {
 			if(debugMode){
-				Log.d(logTag, "release");
+				Log.d(LOG_TAG, "release");
 			}
 			stopPreview();
 			try {
@@ -353,7 +272,8 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 			camera.setZoomChangeListener(null);
 			camera.release();
 			camera = null;
-			resumeRestore = true;
+			loopFocusManager.stop();
+			loopFocusManager.setCamera(null);
 		}
 	}
 	
@@ -363,14 +283,6 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public Camera getCamera() {
 		return camera;
-	}
-
-	/**
-	 * 获取当前Camera的ID
-	 * @return
-	 */
-	public int getCurrentCameraId() {
-		return currentCameraId;
 	}
 
 	/**
@@ -403,45 +315,30 @@ public class CameraManager implements SurfaceHolder.Callback, Camera.AutoFocusCa
 	 */
 	public void setDebugMode(boolean debugMode) {
 		this.debugMode = debugMode;
+		this.loopFocusManager.setDebugMode(true);
 	}
 
 	/**
-	 * 获取日志标签
-	 * @return
+	 * 获取循环对焦管理器
+	 * @return 循环对焦管理器
 	 */
-	public String getLogTag() {
-		return logTag;
+	public LoopFocusManager getLoopFocusManager() {
+		return loopFocusManager;
 	}
 
-	/**
-	 * 设置日志标签
-	 * @param logTag
-	 */
-	public void setLogTag(String logTag) {
-		this.logTag = logTag;
-	}
-	
 	/**
 	 * Camera相关事件回调
 	 */
 	public interface CameraCallback{
 		public void onInitCamera(Camera camera);
 		public void onStartPreview();
-		public void onAutoFocus(boolean success, Camera camera);
 		public void onStopPreview();
 	}
 	
 	/**
 	 * 相机被占用异常
 	 */
-	public class CamreaBeingUsedException extends Throwable{
-		private static final long serialVersionUID = -410101242781061339L;
-	}
-	
-	/**
-	 * 没有找到前置摄像头异常
-	 */
-	public class NoFoundFrontCamera extends Throwable{
+	public class CameraBeingUsedException extends Exception{
 		private static final long serialVersionUID = -410101242781061339L;
 	}
 }

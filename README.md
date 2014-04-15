@@ -243,13 +243,17 @@ public class MainActivity extends EasyFragmentActivity{
 	}
 ```
 
-
 ##Downloads
-**[android-easy-4.2.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.0.jar)**
+**[android-easy-4.2.1.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.1.jar)**
 
-**[android-easy-4.2.0-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.0-with-src.jar)**
+**[android-easy-4.2.1-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.1-with-src.jar)**
 
 ##Change log
+###4.2.1
+>* CameraManager改为延迟适用于延迟打开Camera的场景
+>* 增加LoopFocusManager，用于循环对焦，适用于扫描条码
+>* 删除AutoFocusManager
+
 ###4.2.0
 >* 增加InjectExtraJson和@InjectPreferenceJson注解，用于支持将Bundle或SharedPreference中的字符串转换成对象
 >* 优化注入部分处理逻辑
