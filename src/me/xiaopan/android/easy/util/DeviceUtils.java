@@ -37,20 +37,18 @@ public class DeviceUtils {
 
 	/**
 	 * 获取屏幕尺寸
-	 * @param context
-	 * @return 返回一个长度为2的int数组，int[0]是宽；int[1]是高
 	 */
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-	public static int[] getScreenSize(Context context){
+	public static Point getScreenSize(Context context){
 		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = windowManager.getDefaultDisplay();
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
-			return new int[]{display.getWidth(), display.getHeight()};
+			return new Point(display.getWidth(), display.getHeight());
 		}else{
 			Point point = new Point();
 			display.getSize(point);
-			return new int[]{point.x, point.y};
+			return point;
 		}
 	}
 

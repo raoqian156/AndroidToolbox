@@ -253,6 +253,7 @@ public class MainActivity extends EasyFragmentActivity{
 >* CameraManager改为延迟适用于延迟打开Camera的场景
 >* 增加LoopFocusManager，用于循环对焦，适用于扫描条码
 >* 删除AutoFocusManager
+>* 改DeviceUtils.getScreenSize()方法返回值的类型，由int[]改为Point
 
 ###4.2.0
 >* 增加InjectExtraJson和@InjectPreferenceJson注解，用于支持将Bundle或SharedPreference中的字符串转换成对象
