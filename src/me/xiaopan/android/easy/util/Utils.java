@@ -16,6 +16,10 @@
 
 package me.xiaopan.android.easy.util;
 
+import java.lang.reflect.Field;
+
+import android.content.Context;
+
 public class Utils {
 	/**
 	 * 为给定的字符串添加HTML红色标记，当使用Html.fromHtml()方式显示到TextView 的时候其将是红色的
@@ -42,5 +46,25 @@ public class Utils {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * 是否是开发包
+	 * @param context
+	 * @return true：开发包；false：正式包
+	 */
+	public static boolean isDebugPackage(Context context){
+		try {
+			Class<?> builder = Class.forName(context.getPackageName()+".BuildConfig");
+			if(builder != null){
+				Field field = builder.getDeclaredField("DEBUG");
+				return (Boolean) field.get(null);
+			}else{
+				return  false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return  false;
+		}
 	}
 }

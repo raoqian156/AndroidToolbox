@@ -249,6 +249,9 @@ public class MainActivity extends EasyFragmentActivity{
 **[android-easy-4.2.1-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.1-with-src.jar)**
 
 ##Change log
+###4.2.2
+>* Utils中增加isDebugPackage()方法，用于判断是否是开发包
+
 ###4.2.1
 >* CameraManager改为延迟适用于延迟打开Camera的场景
 >* 增加LoopFocusManager，用于循环对焦，适用于扫描条码
