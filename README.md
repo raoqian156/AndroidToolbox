@@ -249,6 +249,10 @@ public class MainActivity extends EasyFragmentActivity{
 **[android-easy-4.2.1-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.2.1-with-src.jar)**
 
 ##Change log
+###4.2.3
+>* 新增BuildConfigUtils类讲Utils中的isDebugPackage()移到BuildConfigUtils中病改名为isDebug()
+>* 新增RUtils类，用于获取R类中的字段的值
+
 ###4.2.2
 >* Utils中增加isDebugPackage()方法，用于判断是否是开发包
 
