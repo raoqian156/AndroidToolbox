@@ -27,6 +27,7 @@ import android.support.v4.app.FragmentTransaction;
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 	private FragmentManager fragmentManager;
 	private List<Fragment> fragments;
+	private GetPageTitleListener getPageTitleListener;
 	
 	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager, List<Fragment> fragments) {
 		super(fragmentManager);
@@ -61,6 +62,20 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 	public List<Fragment> getFragments() {
 		return fragments;
 	}
+	
+	@Override
+	public CharSequence getPageTitle(int position) {
+		if(getPageTitleListener != null){
+			return getPageTitleListener.onGetPageTitle(position);
+		}else{
+			Fragment fragment = fragments.get(position);
+			if(fragment instanceof TitleFragment){
+				return ((TitleFragment) fragment).pageTitle();
+			}else{
+				return super.getPageTitle(position);
+			}
+		}
+	}
 
 	public void setFragments(List<Fragment> fragmentsList){
 		if (fragments != null && fragments.size() > 0) {
@@ -74,6 +89,17 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 		}
 		
 		this.fragments = fragmentsList;
-		notifyDataSetChanged();
+	}
+	
+	public void setGetPageTitleListener(GetPageTitleListener getPageTitleListener) {
+		this.getPageTitleListener = getPageTitleListener;
+	}
+
+	public interface GetPageTitleListener{
+		public CharSequence onGetPageTitle(int position);
+	}
+	
+	public interface TitleFragment{
+		public CharSequence pageTitle();
 	}
 }

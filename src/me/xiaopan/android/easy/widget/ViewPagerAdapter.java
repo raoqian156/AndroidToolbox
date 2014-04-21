@@ -16,48 +16,68 @@
 
 package me.xiaopan.android.easy.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.android.easy.widget.SimpleFragmentPagerAdapter.GetPageTitleListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-/**
- * 滑动视图适配器
- */
 public class ViewPagerAdapter extends PagerAdapter {
-	private List<View> viewList;
+	private List<View> views;
+	private GetPageTitleListener getPageTitleListener;
 	
-	public ViewPagerAdapter(List<View> viewList){
-		setViewList(viewList);
+	public ViewPagerAdapter(List<View> views){
+		this.views = views;
+	}
+	
+	public ViewPagerAdapter(View... views){
+		this.views = new ArrayList<View>(views.length);
+		for(View view : views){
+			this.views.add(view);
+		}
 	}
 	
 	@Override
 	public void destroyItem(View container, int position, Object object) {
-		((ViewPager) container).removeView(viewList.get(position));
+		((ViewPager) container).removeView(views.get(position));
 	}
 
 	@Override
 	public Object instantiateItem(View container, int position) {
-		((ViewPager) container).addView(viewList.get(position), 0);
-		return viewList.get(position);
+		((ViewPager) container).addView(views.get(position), 0);
+		return views.get(position);
 	}
 
 	@Override
 	public int getCount() {
-		return viewList.size();
+		return views.size();
 	}
 
 	@Override
 	public boolean isViewFromObject(View arg0, Object arg1) {
 		return arg0 == arg1;
 	}
-
-	public List<View> getViewList() {
-		return viewList;
+	
+	@Override
+	public CharSequence getPageTitle(int position) {
+		if(getPageTitleListener != null){
+			return getPageTitleListener.onGetPageTitle(position);
+		}else{
+			return super.getPageTitle(position);
+		}
 	}
 
-	public void setViewList(List<View> viewList) {
-		this.viewList = viewList;
+	public List<View> getViews() {
+		return views;
+	}
+
+	public void setViews(List<View> views) {
+		this.views = views;
+	}
+	
+	public void setGetPageTitleListener(GetPageTitleListener getPageTitleListener) {
+		this.getPageTitleListener = getPageTitleListener;
 	}
 }
