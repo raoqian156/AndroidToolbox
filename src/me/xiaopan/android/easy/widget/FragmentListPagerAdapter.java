@@ -95,10 +95,6 @@ public class FragmentListPagerAdapter extends FragmentPagerAdapter {
 		this.getPageTitleListener = getPageTitleListener;
 	}
 
-	public interface GetPageTitleListener{
-		public CharSequence onGetPageTitle(int position);
-	}
-	
 	public interface TitleFragment{
 		public CharSequence pageTitle();
 	}

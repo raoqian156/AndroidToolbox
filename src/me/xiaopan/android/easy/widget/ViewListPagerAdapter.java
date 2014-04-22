@@ -19,7 +19,6 @@ package me.xiaopan.android.easy.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.android.easy.widget.FragmentListPagerAdapter.GetPageTitleListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;

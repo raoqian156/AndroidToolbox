@@ -18,8 +18,6 @@ package me.xiaopan.android.easy.widget;
 
 import java.util.List;
 
-import me.xiaopan.android.easy.widget.FragmentListPagerAdapter.GetPageTitleListener;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,10 +25,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class SimpleFragmentPagerAdapter<T> extends FragmentPagerAdapter{
     private List<T> datas;
     private Class<? extends Fragment> fragmentClass;
-    private ArgumentsFactory<T> argumentsFactory;
+    private ArgumentsFactory<? super T> argumentsFactory;
 	private GetPageTitleListener getPageTitleListener;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<T> argumentsFactory) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<? super T> argumentsFactory) {
         super(fm);
         this.datas = datas;
         this.fragmentClass = fragmentClass;
@@ -77,15 +75,11 @@ public class SimpleFragmentPagerAdapter<T> extends FragmentPagerAdapter{
 		this.fragmentClass = fragmentClass;
 	}
 
-	public void setArgumentsFactory(ArgumentsFactory<T> argumentsFactory) {
+	public void setArgumentsFactory(ArgumentsFactory<? super T> argumentsFactory) {
 		this.argumentsFactory = argumentsFactory;
 	}
 
 	public void setGetPageTitleListener(GetPageTitleListener getPageTitleListener) {
 		this.getPageTitleListener = getPageTitleListener;
 	}
-
-    public interface ArgumentsFactory<T>{
-        public Bundle onCreateArguments(T item);
-    }
 }

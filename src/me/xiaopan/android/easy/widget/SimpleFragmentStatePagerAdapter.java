@@ -18,8 +18,6 @@ package me.xiaopan.android.easy.widget;
 
 import java.util.List;
 
-import me.xiaopan.android.easy.widget.FragmentListPagerAdapter.GetPageTitleListener;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -27,10 +25,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class SimpleFragmentStatePagerAdapter<T> extends FragmentStatePagerAdapter{
     private List<T> datas;
     private Class<? extends Fragment> fragmentClass;
-    private ArgumentsFactory<T> argumentsFactory;
+    private ArgumentsFactory<? super T> argumentsFactory;
 	private GetPageTitleListener getPageTitleListener;
 
-    public SimpleFragmentStatePagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<T> argumentsFactory) {
+    public SimpleFragmentStatePagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<? super T> argumentsFactory) {
         super(fm);
         this.datas = datas;
         this.fragmentClass = fragmentClass;
@@ -65,7 +63,7 @@ public class SimpleFragmentStatePagerAdapter<T> extends FragmentStatePagerAdapte
 		}
 	}
 	
-	public List<T> getDatas() {
+	public List<? super T> getDatas() {
 		return datas;
 	}
 
@@ -77,15 +75,11 @@ public class SimpleFragmentStatePagerAdapter<T> extends FragmentStatePagerAdapte
 		this.fragmentClass = fragmentClass;
 	}
 
-	public void setArgumentsFactory(ArgumentsFactory<T> argumentsFactory) {
+	public void setArgumentsFactory(ArgumentsFactory<? super T> argumentsFactory) {
 		this.argumentsFactory = argumentsFactory;
 	}
 
 	public void setGetPageTitleListener(GetPageTitleListener getPageTitleListener) {
 		this.getPageTitleListener = getPageTitleListener;
 	}
-
-    public interface ArgumentsFactory<T>{
-        public Bundle onCreateArguments(T item);
-    }
 }
