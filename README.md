@@ -250,7 +250,7 @@ public class MainActivity extends EasyFragmentActivity{
 
 ##Change log
 ###4.2.4
->* 增加SimpleFragmentStatePagerAdapter
+>* 增加SimpleFragmentPagerAdapter.java、SimpleFragmentStatePagerAdapter.java、FragmentListPagerAdapter.java、ViewListPagerAdapter.java
 
 ###4.2.3
 >* 新增BuildConfigUtils类讲Utils中的isDebugPackage()移到BuildConfigUtils中病改名为isDebug()

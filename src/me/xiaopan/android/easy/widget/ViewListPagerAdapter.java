@@ -19,20 +19,20 @@ package me.xiaopan.android.easy.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.android.easy.widget.SimpleFragmentPagerAdapter.GetPageTitleListener;
+import me.xiaopan.android.easy.widget.FragmentListPagerAdapter.GetPageTitleListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class ViewListPagerAdapter extends PagerAdapter {
 	private List<View> views;
 	private GetPageTitleListener getPageTitleListener;
 	
-	public ViewPagerAdapter(List<View> views){
+	public ViewListPagerAdapter(List<View> views){
 		this.views = views;
 	}
 	
-	public ViewPagerAdapter(View... views){
+	public ViewListPagerAdapter(View... views){
 		this.views = new ArrayList<View>(views.length);
 		for(View view : views){
 			this.views.add(view);

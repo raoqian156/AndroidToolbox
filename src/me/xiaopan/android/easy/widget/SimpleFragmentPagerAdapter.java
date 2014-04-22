@@ -16,90 +16,76 @@
 
 package me.xiaopan.android.easy.widget;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.android.easy.widget.FragmentListPagerAdapter.GetPageTitleListener;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 
-public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
-	private FragmentManager fragmentManager;
-	private List<Fragment> fragments;
+public class SimpleFragmentPagerAdapter<T> extends FragmentPagerAdapter{
+    private List<T> datas;
+    private Class<? extends Fragment> fragmentClass;
+    private ArgumentsFactory<T> argumentsFactory;
 	private GetPageTitleListener getPageTitleListener;
-	
-	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager, List<Fragment> fragments) {
-		super(fragmentManager);
-		this.fragmentManager = fragmentManager;
-		this.fragments = fragments;
-	}
-	
-	public SimpleFragmentPagerAdapter(FragmentManager fragmentManager, Fragment... fragments) {
-		super(fragmentManager);
-		this.fragmentManager = fragmentManager;
-		this.fragments = new ArrayList<Fragment>(fragments.length);
-		for(Fragment fragment : fragments){
-			this.fragments.add(fragment);
-		}
-	}
 
-	@Override
-	public Fragment getItem(int arg0) {
-		return fragments.get(arg0);
-	}
-
-	@Override
-	public int getCount() {
-		return fragments.size();
-	}
-	
-	@Override  
-    public int getItemPosition(Object object) {  
-        return POSITION_NONE;  
+    public SimpleFragmentPagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<T> argumentsFactory) {
+        super(fm);
+        this.datas = datas;
+        this.fragmentClass = fragmentClass;
+        this.argumentsFactory = argumentsFactory;
     }
-	
-	public List<Fragment> getFragments() {
-		return fragments;
-	}
+
+    @Override
+    public Fragment getItem(int i) {
+        try {
+            Fragment fragment = fragmentClass.newInstance();
+            if(argumentsFactory != null){
+                fragment.setArguments(argumentsFactory.onCreateArguments(datas.get(i)));
+            }
+            return fragment;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return datas !=null? datas.size():0;
+    }
 	
 	@Override
 	public CharSequence getPageTitle(int position) {
 		if(getPageTitleListener != null){
 			return getPageTitleListener.onGetPageTitle(position);
 		}else{
-			Fragment fragment = fragments.get(position);
-			if(fragment instanceof TitleFragment){
-				return ((TitleFragment) fragment).pageTitle();
-			}else{
-				return super.getPageTitle(position);
-			}
+			return super.getPageTitle(position);
 		}
-	}
-
-	public void setFragments(List<Fragment> fragmentsList){
-		if (fragments != null && fragments.size() > 0) {
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-			for (Fragment f : this.fragments) {
-				ft.remove(f);
-			}
-			ft.commit();
-			ft = null;
-			fragmentManager.executePendingTransactions();
-		}
-		
-		this.fragments = fragmentsList;
 	}
 	
+	public List<T> getDatas() {
+		return datas;
+	}
+
+	public void setDatas(List<T> datas) {
+		this.datas = datas;
+	}
+
+	public void setFragmentClass(Class<? extends Fragment> fragmentClass) {
+		this.fragmentClass = fragmentClass;
+	}
+
+	public void setArgumentsFactory(ArgumentsFactory<T> argumentsFactory) {
+		this.argumentsFactory = argumentsFactory;
+	}
+
 	public void setGetPageTitleListener(GetPageTitleListener getPageTitleListener) {
 		this.getPageTitleListener = getPageTitleListener;
 	}
 
-	public interface GetPageTitleListener{
-		public CharSequence onGetPageTitle(int position);
-	}
-	
-	public interface TitleFragment{
-		public CharSequence pageTitle();
-	}
+    public interface ArgumentsFactory<T>{
+        public Bundle onCreateArguments(T item);
+    }
 }
