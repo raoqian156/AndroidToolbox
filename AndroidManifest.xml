@@ -1,17 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-    package="me.xiaopan.android.easy" 
+    package="me.xiaopan.android" 
     android:versionCode="424" 
     android:versionName="4.2.4" >
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="Easy Android">
-        <activity android:name="me.xiaopan.easy.android.sample.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name="me.xiaopan.easy.android.sample.InjectActivity"/>
-        <activity android:name="me.xiaopan.easy.android.sample.NormalActivity"/>
     </application>
 </manifest>
