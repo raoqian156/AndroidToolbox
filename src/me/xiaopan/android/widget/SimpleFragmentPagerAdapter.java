@@ -28,7 +28,7 @@ public class SimpleFragmentPagerAdapter<T> extends FragmentPagerAdapter{
     private ArgumentsFactory<? super T> argumentsFactory;
 	private GetPageTitleListener getPageTitleListener;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<? super T> argumentsFactory) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<T> argumentsFactory) {
         super(fm);
         this.datas = datas;
         this.fragmentClass = fragmentClass;

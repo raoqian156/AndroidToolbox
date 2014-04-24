@@ -25,10 +25,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class SimpleFragmentStatePagerAdapter<T> extends FragmentStatePagerAdapter{
     private List<T> datas;
     private Class<? extends Fragment> fragmentClass;
-    private ArgumentsFactory<? super T> argumentsFactory;
+    private ArgumentsFactory<T> argumentsFactory;
 	private GetPageTitleListener getPageTitleListener;
 
-    public SimpleFragmentStatePagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<? super T> argumentsFactory) {
+    public SimpleFragmentStatePagerAdapter(FragmentManager fm, Class<? extends Fragment> fragmentClass, List<T> datas, ArgumentsFactory<T> argumentsFactory) {
         super(fm);
         this.datas = datas;
         this.fragmentClass = fragmentClass;
@@ -75,7 +75,7 @@ public class SimpleFragmentStatePagerAdapter<T> extends FragmentStatePagerAdapte
 		this.fragmentClass = fragmentClass;
 	}
 
-	public void setArgumentsFactory(ArgumentsFactory<? super T> argumentsFactory) {
+	public void setArgumentsFactory(ArgumentsFactory<T> argumentsFactory) {
 		this.argumentsFactory = argumentsFactory;
 	}
 
