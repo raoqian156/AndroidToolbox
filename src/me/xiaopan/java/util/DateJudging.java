@@ -14,15 +14,6 @@ import java.util.Locale;
 public class DateJudging {
     private Calendar todayCalendar;
 
-    /**
-     * 创建一个日期判定器
-     * @param firstDayOfWeek 一星期的第一天
-     */
-    public DateJudging(int firstDayOfWeek) {
-        todayCalendar = GregorianCalendar.getInstance();
-        setFirstDayOfWeek(todayCalendar, firstDayOfWeek);
-    }
-
     public DateJudging() {
         todayCalendar = GregorianCalendar.getInstance();
     }
@@ -32,12 +23,25 @@ public class DateJudging {
      * @param calendar 待比较的日期
      * @param field 要改变的字段
      * @param value 增量
+     * @param firstDayOfWeek 一星期的第一天
      * @return 当前日期改变后同date是否一样
      * <br>注意，不同的字段比较的属性也不一样，例如：
      * <br>当field是Calendar.MONTH时将比较Calendar.YEAR和Calendar.MONTH
      * <br>当field是Calendar.DAY_OF_MONTH时将比较Calendar.YEAR、Calendar.MONTH和Calendar.DAY_OF_MONTH
      */
-    public boolean isAdd(Calendar calendar, int field, int value){
+    public boolean isAdd(Calendar calendar, int field, int value, int firstDayOfWeek){
+    	if(firstDayOfWeek >= 0){
+    		if(todayCalendar.getFirstDayOfWeek() != firstDayOfWeek){
+    			todayCalendar.setFirstDayOfWeek(firstDayOfWeek);
+    			todayCalendar.add(Calendar.MILLISECOND, 1);
+    			todayCalendar.add(Calendar.MILLISECOND, -1);
+    		}
+    		if(calendar.getFirstDayOfWeek() != firstDayOfWeek){
+    			calendar.setFirstDayOfWeek(firstDayOfWeek);
+    			calendar.add(Calendar.MILLISECOND, 1);
+    			calendar.add(Calendar.MILLISECOND, -1);
+    		}
+    	}
         if(value != 0){
             todayCalendar.add(field, value);
         }
@@ -124,6 +128,20 @@ public class DateJudging {
     }
 
     /**
+     * 将当前日期的field属性增加value后同calendar进行比较
+     * @param calendar 待比较的日期
+     * @param field 要改变的字段
+     * @param value 增量
+     * @return 当前日期改变后同date是否一样
+     * <br>注意，不同的字段比较的属性也不一样，例如：
+     * <br>当field是Calendar.MONTH时将比较Calendar.YEAR和Calendar.MONTH
+     * <br>当field是Calendar.DAY_OF_MONTH时将比较Calendar.YEAR、Calendar.MONTH和Calendar.DAY_OF_MONTH
+     */
+    public boolean isAdd(Calendar calendar, int field, int value){
+        return isAdd(calendar, field, value, -1);
+    }
+
+    /**
      * 将当前日期的field属性增加value后同date进行比较
      * @param date 待比较的日期
      * @param field 要改变的字段
@@ -134,7 +152,7 @@ public class DateJudging {
      * <br>当field是Calendar.DAY_OF_MONTH时将比较Calendar.YEAR、Calendar.MONTH和Calendar.DAY_OF_MONTH
      */
     public boolean isAdd(Date date, int field, int value){
-        Calendar calendar = new GregorianCalendar();
+        Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         return isAdd(calendar, field, value);
     }
@@ -152,9 +170,8 @@ public class DateJudging {
      */
     public boolean isAdd(Date date, int field, int value, int firstDayOfWeek){
         Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setFirstDayOfWeek(firstDayOfWeek);
         calendar.setTime(date);
-        return isAdd(calendar, field, value);
+        return isAdd(calendar, field, value, firstDayOfWeek);
     }
 
     /**
@@ -186,9 +203,8 @@ public class DateJudging {
      */
     public boolean isAdd(long milliseconds, int field, int value, int firstDayOfWeek){
         Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setFirstDayOfWeek(firstDayOfWeek);
         calendar.setTimeInMillis(milliseconds);
-        return isAdd(calendar, field, value);
+        return isAdd(calendar, field, value, firstDayOfWeek);
     }
 
     /**
@@ -221,7 +237,7 @@ public class DateJudging {
      * @throws ParseException formattedDate的格式和dateFormat所表示的格式不对照
      */
     public boolean isAdd(String formattedDate, String dateFormat, int field, int value, int firstDayOfWeek) throws ParseException {
-        return isAdd(buildCalenderByParseFormattedDate(formattedDate, dateFormat, firstDayOfWeek), field, value);
+        return isAdd(buildCalenderByParseFormattedDate(formattedDate, dateFormat), field, value, firstDayOfWeek);
     }
 
     /**
@@ -348,6 +364,16 @@ public class DateJudging {
     }
 
     /**
+     * 判断给定的日历对象是否是本周
+     * @param calendar 待判定的日历对象
+     * @param firstDayOfWeek 一星期的第一天
+     * @return true：是本周；false：不是本周
+     */
+    public boolean isThisWeek(Calendar calendar, int firstDayOfWeek){
+        return isAdd(calendar, Calendar.WEEK_OF_YEAR, 0, firstDayOfWeek);
+    }
+
+    /**
      * 判断给定的日期对象是否是本周
      * @param date 待判定的日期对象
      * @return true：是本周；false：不是本周
@@ -418,6 +444,16 @@ public class DateJudging {
     }
 
     /**
+     * 判断给定的日历对象是否是上周
+     * @param calendar 待判定的日历对象
+     * @param firstDayOfWeek 一星期的第一天
+     * @return true：是上周；false：不是上周
+     */
+    public boolean isLastWeek(Calendar calendar, int firstDayOfWeek){
+        return isAdd(calendar, Calendar.WEEK_OF_YEAR, -1, firstDayOfWeek);
+    }
+
+    /**
      * 判断给定的日期对象是否是上周
      * @param date 待判定的日期对象
      * @return true：是上周；false：不是上周
@@ -485,6 +521,16 @@ public class DateJudging {
      */
     public boolean isNextWeek(Calendar calendar){
         return isAdd(calendar, Calendar.WEEK_OF_YEAR, 1);
+    }
+
+    /**
+     * 判断给定的日历对象是否是下周
+     * @param calendar 待判定的日历对象
+     * @param firstDayOfWeek 一星期的第一天
+     * @return true：是下周；false：不是下周
+     */
+    public boolean isNextWeek(Calendar calendar, int firstDayOfWeekr){
+        return isAdd(calendar, Calendar.WEEK_OF_YEAR, 1, firstDayOfWeekr);
     }
 
     /**
@@ -785,17 +831,6 @@ public class DateJudging {
     }
 
     /**
-     * 设置一星期的第一天；例如，在美国，这一天是 SUNDAY，而在法国，这一天是 MONDAY。
-     * @param calendar 被设置的日历对象
-     * @param firstDayOfWeek 给出的一星期的第一天
-     */
-    public static void setFirstDayOfWeek(Calendar calendar, int firstDayOfWeek) {
-        calendar.setFirstDayOfWeek(firstDayOfWeek);
-        calendar.add(Calendar.MILLISECOND, 1);
-        calendar.add(Calendar.MILLISECOND, -1);
-    }
-
-    /**
      * 通过解析一个已格式化的日期字符串来创建一个Date对象
      * @param formattedDate 已格式化的日期字符串，例如：2014-05-09 10:14
      * @param dateFormat formattedDate的格式，例如：2014-05-09 10:14的格式为yyyy-MM-dd HH:mm
@@ -816,21 +851,6 @@ public class DateJudging {
     public static Calendar buildCalenderByParseFormattedDate(String formattedDate, String dateFormat) throws ParseException {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(buildDateByParseFormattedDate(formattedDate, dateFormat));
-        return calendar;
-    }
-
-    /**
-     * 通过解析一个已格式化的日期字符串来创建一个Calendar对象
-     * @param formattedDate 已格式化的日期字符串，例如：2014-05-09 10:14
-     * @param dateFormat 日期的格式，例如：2014-05-09 10:14的格式为yyyy-MM-dd HH:mm
-     * @param firstDayOfWeek 一星期的第一天
-     * @return 一个Calendar对象
-     * @throws ParseException formattedDate的格式和dateFormat所表示的格式不对照
-     */
-    public static Calendar buildCalenderByParseFormattedDate(String formattedDate, String dateFormat, int firstDayOfWeek) throws ParseException {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(buildDateByParseFormattedDate(formattedDate, dateFormat));
-        setFirstDayOfWeek(calendar, firstDayOfWeek);
         return calendar;
     }
 }
