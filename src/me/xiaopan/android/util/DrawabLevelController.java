@@ -22,8 +22,6 @@ import android.os.Handler;
 
 /**
  * 图片级别控制器，用来控制Drawable的级别
- * @author xiaopan
- *
  */
 public class DrawabLevelController {
 	private Activity activity;

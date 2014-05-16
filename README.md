@@ -12,8 +12,8 @@
 要详细了解注入功能的使用请访问[HappyInject](https://github.com/xiaopansky/Android-HappyInject)
 
 ##Downloads
->* [android-easy-4.3.2.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.3.2.jar)
->* [android-easy-4.3.2-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.3.2-with-src.jar)
+>* [android-easy-4.3.3.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.3.3.jar)
+>* [android-easy-4.3.3-with-src.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/releases/android-easy-4.3.3-with-src.jar)
 
 ##Depend
 >* [android-happy-inject.jar](https://github.com/xiaopansky/Android-HappyInject) 可选的。如果你要使用EasyInjectActivity和EasyInjectFragment就必须引入此类库
@@ -24,6 +24,9 @@
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/EasyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要引入此类库
 
 ##Change log
+###4.3.3
+>* 增加VersionManager，用来检测版本是否更新，常用来做应用初始化
+
 ###4.3.2
 >* 去除内置的SQL框架，将其独立出来作为一个新的项目[Android-HappySql](https://github.com/xiaopansky/Android-HappySql)
 
