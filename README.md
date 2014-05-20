@@ -20,7 +20,7 @@
 >* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用EasyFragmentActivity、EasyFragment、EasyListFragment、EastDialogFragment、EasyInjectFragmentActivity、EasyInjectFragment、EasyInjectListFragment、EastInjectDialogFragment就必须要引入此类库
 >* [android-support-v7-appcompat.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v7-appcompat.jar)
 可选的。如果你要使用EasyActionBarActivity、EasyInjectActionBarActivity就必须要引入此类库，值的注意的是使用此类库的时候一定要使用sdk\extras\android\support\v7\appcompat\libs目录下的android-support-v4.jar（因为这个目录下的android-support-v4.jar包含有android-support-v7-appcompat.jar需要的类）
->* [gson-2.2.2.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/gson-2.2.2.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要引入此类库
+>* [gson-2.2.4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要引入此类库
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要引入此类库
 
 ##Change log
