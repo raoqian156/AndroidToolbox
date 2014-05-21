@@ -15,7 +15,7 @@
 >* [android-happy-4.3.3.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.3.3.jar)
 >* [android-happy-4.3.3-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.3.3-with-src.jar)
 
-Depend
+Dependencies
 >* [android-happy-inject.jar](https://github.com/xiaopansky/Android-HappyInject) 可选的。如果你要使用EasyInjectActivity和EasyInjectFragment就必须引入此类库
 >* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用EasyFragmentActivity、EasyFragment、EasyListFragment、EastDialogFragment、EasyInjectFragmentActivity、EasyInjectFragment、EasyInjectListFragment、EastInjectDialogFragment就必须要引入此类库
 >* [android-support-v7-appcompat.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v7-appcompat.jar)
