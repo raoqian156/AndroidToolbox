@@ -3,11 +3,11 @@ package me.xiaopan.android.os;
 import android.os.Handler;
 import android.os.Message;
 
-public class EasyHandler extends Handler {
+public class HappyHandler extends Handler {
 	private HandleMessageListener handleMessageListener;
 	private boolean destroyed;
 	
-	public EasyHandler(HandleMessageListener onHandleMessageListener){
+	public HappyHandler(HandleMessageListener onHandleMessageListener){
 		this.handleMessageListener = onHandleMessageListener;
 	}
 	

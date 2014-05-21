@@ -18,8 +18,8 @@ package me.xiaopan.android.app;
 
 import java.util.Locale;
 
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityPool;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.DoubleClickDetector;
@@ -28,26 +28,25 @@ import me.xiaopan.android.util.ToastUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
-@SuppressWarnings("deprecation")
-public abstract class EasyTabActivity extends TabActivity implements HandleMessageListener{
+public abstract class HappyListActivity extends ListActivity implements HandleMessageListener{
 	private boolean isHaveDestroy;
 	private ActivityPool activityPool;
-	private EasyHandler handler;
+	private HappyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		handler = new EasyHandler(this);
+		handler = new HappyHandler(this);
 	}
 	
 	@Override
@@ -365,6 +364,7 @@ public abstract class EasyTabActivity extends TabActivity implements HandleMessa
 	public void showMessageDialog(final String message, final String confrimButtonName){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -407,6 +407,7 @@ public abstract class EasyTabActivity extends TabActivity implements HandleMessa
 	public void closeMessageDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{
@@ -426,6 +427,7 @@ public abstract class EasyTabActivity extends TabActivity implements HandleMessa
 	public void showProgressDialog(final String message){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -450,6 +452,7 @@ public abstract class EasyTabActivity extends TabActivity implements HandleMessa
 	public void closeProgressDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{

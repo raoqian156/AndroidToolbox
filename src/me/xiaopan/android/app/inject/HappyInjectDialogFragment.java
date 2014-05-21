@@ -16,9 +16,9 @@
 
 package me.xiaopan.android.app.inject;
 
-import me.xiaopan.android.happyinject.app.InjectFragment;
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.happyinject.app.InjectDialogFragment;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.NetworkUtils;
 import me.xiaopan.android.util.ToastUtils;
@@ -28,11 +28,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
-public class EasyInjectFragment extends InjectFragment implements HandleMessageListener{
-	private EasyHandler handler;
+public class HappyInjectDialogFragment extends InjectDialogFragment implements HandleMessageListener{
+	private HappyHandler handler;
 	
-	public EasyInjectFragment(){
-		handler = new EasyHandler(this);
+	public HappyInjectDialogFragment(){
+		handler = new HappyHandler(this);
 	}
 	
 	/**

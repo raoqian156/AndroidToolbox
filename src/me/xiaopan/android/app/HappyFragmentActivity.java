@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.app.inject;
+package me.xiaopan.android.app;
 
 import java.util.Locale;
 
-import me.xiaopan.android.app.Constant;
-import me.xiaopan.android.happyinject.app.InjectActivityGroup;
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityPool;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.DoubleClickDetector;
@@ -35,20 +33,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-@SuppressWarnings("deprecation")
-public abstract class EasyInjectActivityGroup extends InjectActivityGroup implements HandleMessageListener{
+public abstract class HappyFragmentActivity extends FragmentActivity implements HandleMessageListener{
 	private boolean isHaveDestroy;
 	private ActivityPool activityPool;
-	private EasyHandler handler;
+	private HappyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		handler = new EasyHandler(this);
+		handler = new HappyHandler(this);
 	}
 	
 	@Override
@@ -366,6 +364,7 @@ public abstract class EasyInjectActivityGroup extends InjectActivityGroup implem
 	public void showMessageDialog(final String message, final String confrimButtonName){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -408,6 +407,7 @@ public abstract class EasyInjectActivityGroup extends InjectActivityGroup implem
 	public void closeMessageDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{
@@ -427,6 +427,7 @@ public abstract class EasyInjectActivityGroup extends InjectActivityGroup implem
 	public void showProgressDialog(final String message){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -451,6 +452,7 @@ public abstract class EasyInjectActivityGroup extends InjectActivityGroup implem
 	public void closeProgressDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{

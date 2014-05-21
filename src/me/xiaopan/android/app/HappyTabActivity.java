@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.app.inject;
+package me.xiaopan.android.app;
 
 import java.util.Locale;
 
-import me.xiaopan.android.app.Constant;
-import me.xiaopan.android.happyinject.app.InjectAccountAuthenticatorActivity;
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityPool;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.DoubleClickDetector;
@@ -31,23 +29,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
-public abstract class EasyInjectAccountAuthenticatorActivity extends InjectAccountAuthenticatorActivity implements HandleMessageListener{
+@SuppressWarnings("deprecation")
+public abstract class HappyTabActivity extends TabActivity implements HandleMessageListener{
 	private boolean isHaveDestroy;
 	private ActivityPool activityPool;
-	private EasyHandler handler;
+	private HappyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		handler = new EasyHandler(this);
+		handler = new HappyHandler(this);
 	}
 	
 	@Override
@@ -365,7 +365,6 @@ public abstract class EasyInjectAccountAuthenticatorActivity extends InjectAccou
 	public void showMessageDialog(final String message, final String confrimButtonName){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -408,7 +407,6 @@ public abstract class EasyInjectAccountAuthenticatorActivity extends InjectAccou
 	public void closeMessageDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{
@@ -428,7 +426,6 @@ public abstract class EasyInjectAccountAuthenticatorActivity extends InjectAccou
 	public void showProgressDialog(final String message){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -453,7 +450,6 @@ public abstract class EasyInjectAccountAuthenticatorActivity extends InjectAccou
 	public void closeProgressDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{

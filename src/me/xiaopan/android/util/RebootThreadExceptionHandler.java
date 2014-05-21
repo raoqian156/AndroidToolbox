@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 /**
  * 重启线程异常处理器，当发生未知异常时会提示异常信息并在一秒钟后重新启动应用
- * <br>使用此功能的第一步需要你在AndroidMainfest.xml中注册me.xiaopan.easy.android.receiver.StartApplicationBrocastReceiver广播（注意不要任何的filter）
+ * <br>使用此功能的第一步需要你在AndroidMainfest.xml中注册me.xiaopan.android.content.StartApplicationBrocastReceiver广播（注意不要任何的filter）
  * <br>第二步就是在你的Application的onCreate()方法中加上new RebootThreadExceptionHandler(getBaseContext());即可
  */
 public class RebootThreadExceptionHandler implements UncaughtExceptionHandler{

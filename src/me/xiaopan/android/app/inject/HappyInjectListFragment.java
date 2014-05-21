@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.app;
+package me.xiaopan.android.app.inject;
 
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.happyinject.app.InjectListFragment;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.NetworkUtils;
 import me.xiaopan.android.util.ToastUtils;
@@ -25,14 +26,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
-public class EasyFragment extends Fragment implements HandleMessageListener{
-	private EasyHandler handler;
+public class HappyInjectListFragment extends InjectListFragment implements HandleMessageListener{
+	private HappyHandler handler;
 	
-	public EasyFragment(){
-		handler = new EasyHandler(this);
+	public HappyInjectListFragment(){
+		handler = new HappyHandler(this);
 	}
 	
 	/**

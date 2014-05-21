@@ -18,14 +18,15 @@ package me.xiaopan.android.app;
 
 import java.util.Locale;
 
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityPool;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.DoubleClickDetector;
 import me.xiaopan.android.util.NetworkUtils;
 import me.xiaopan.android.util.ToastUtils;
 import android.app.Activity;
+import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -33,20 +34,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
-public abstract class EasyActionBarActivity extends ActionBarActivity implements HandleMessageListener{
+@SuppressWarnings("deprecation")
+public abstract class HappyActivityGroup extends ActivityGroup implements HandleMessageListener{
 	private boolean isHaveDestroy;
 	private ActivityPool activityPool;
-	private EasyHandler handler;
+	private HappyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		handler = new EasyHandler(this);
+		handler = new HappyHandler(this);
 	}
 	
 	@Override
@@ -364,7 +365,6 @@ public abstract class EasyActionBarActivity extends ActionBarActivity implements
 	public void showMessageDialog(final String message, final String confrimButtonName){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -407,7 +407,6 @@ public abstract class EasyActionBarActivity extends ActionBarActivity implements
 	public void closeMessageDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{
@@ -427,7 +426,6 @@ public abstract class EasyActionBarActivity extends ActionBarActivity implements
 	public void showProgressDialog(final String message){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					Bundle bundle = new Bundle();
@@ -452,7 +450,6 @@ public abstract class EasyActionBarActivity extends ActionBarActivity implements
 	public void closeProgressDialog(){
 		if(!isHaveDestroy){
 			handler.post(new Runnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					try{

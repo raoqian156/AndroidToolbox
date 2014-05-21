@@ -18,8 +18,8 @@ package me.xiaopan.android.app;
 
 import java.util.Locale;
 
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityPool;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.DoubleClickDetector;
@@ -33,20 +33,21 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-public abstract class EasyFragmentActivity extends FragmentActivity implements HandleMessageListener{
+import com.google.android.maps.MapActivity;
+
+public abstract class HappyMapActivity extends MapActivity implements HandleMessageListener{
 	private boolean isHaveDestroy;
 	private ActivityPool activityPool;
-	private EasyHandler handler;
+	private HappyHandler handler;
 	private DoubleClickDetector doubleClickExitAcpplicationDetector;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
 		activityPool = new ActivityPool(this);
-		handler = new EasyHandler(this);
+		handler = new HappyHandler(this);
 	}
 	
 	@Override

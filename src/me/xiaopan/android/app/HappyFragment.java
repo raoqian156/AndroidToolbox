@@ -16,8 +16,8 @@
 
 package me.xiaopan.android.app;
 
-import me.xiaopan.android.os.EasyHandler;
-import me.xiaopan.android.os.EasyHandler.HandleMessageListener;
+import me.xiaopan.android.os.HappyHandler;
+import me.xiaopan.android.os.HappyHandler.HandleMessageListener;
 import me.xiaopan.android.util.ActivityUtils;
 import me.xiaopan.android.util.NetworkUtils;
 import me.xiaopan.android.util.ToastUtils;
@@ -25,14 +25,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
-public class EasyDialogFragment extends DialogFragment implements HandleMessageListener{
-	private EasyHandler handler;
+public class HappyFragment extends Fragment implements HandleMessageListener{
+	private HappyHandler handler;
 	
-	public EasyDialogFragment(){
-		handler = new EasyHandler(this);
+	public HappyFragment(){
+		handler = new HappyHandler(this);
 	}
 	
 	/**

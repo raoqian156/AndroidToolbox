@@ -3,27 +3,30 @@
 这是一个Android工具类库，旨在让Android开发变得更简单，最低兼容Android2.2
 
 ##Features
->* 提供了一系列的EasyActivity、EasyFragment超类，并且内置了toast，startActiivty，showDialog等方法，可以简化一些操作；
->* 另外提供了一系列的EasyInjectActivity和EasyInjectFragment，都继承自HappyInject中的Activity、Fragment可实现注入功能；
+>* 提供了一系列的HappyActivity、HappyFragment超类，并且内置了toast，startActiivty，showDialog等方法，可以简化一些操作；
+>* 另外提供了一系列的HappyInjectActivity和HappyInjectFragment，都继承自HappyInject中的Activity、Fragment可实现注入功能；
 >* 提供了Camera相关的工具，包括Camera管理类CameraManager、Camera最佳预览以及输出尺寸计算类CameraOptimalSizeCalculator、Camera循环对焦管理器LoopFocusManager等；
 >* 提供了Android开发中常用的工具类，例如：ActivityUtils、AndroidLogger、BitmapDecoder、AnimationUtils、NetworkUtils、IntentUtils、ViewUtils等；
 >* 提供了纯Java开发中常用的工具类，例如：ArrayUtils、FileUtils、AnnotationUtils、ReflectUtils、StringUtils等；
 
-要详细了解注入功能的使用请访问[Android-HappyInject](https://github.com/xiaopansky/Android-HappyInject)
+要详细了解注入功能的使用请访问[HappyInject](https://github.com/xiaopansky/HappyInject)
 
 ##Downloads
->* [android-happy-4.3.3.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.3.3.jar)
->* [android-happy-4.3.3-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.3.3-with-src.jar)
+>* [android-happy-4.4.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.4.0.jar)
+>* [android-happy-4.4.0-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.4.0-with-src.jar)
 
 Dependencies
->* [android-happy-inject.jar](https://github.com/xiaopansky/Android-HappyInject) 可选的。如果你要使用EasyInjectActivity和EasyInjectFragment就必须引入此类库
->* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用EasyFragmentActivity、EasyFragment、EasyListFragment、EastDialogFragment、EasyInjectFragmentActivity、EasyInjectFragment、EasyInjectListFragment、EastInjectDialogFragment就必须要引入此类库
+>* [android-happy-inject.jar](https://github.com/xiaopansky/HappyInject) 可选的。如果你要使用HappyInjectActivity和HappyInjectFragment就必须引入此类库
+>* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用HappyFragmentActivity、HappyFragment、HappyListFragment、EastDialogFragment、HappyInjectFragmentActivity、HappyInjectFragment、HappyInjectListFragment、EastInjectDialogFragment就必须要引入此类库
 >* [android-support-v7-appcompat.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v7-appcompat.jar)
-可选的。如果你要使用EasyActionBarActivity、EasyInjectActionBarActivity就必须要引入此类库，值的注意的是使用此类库的时候一定要使用sdk\extras\android\support\v7\appcompat\libs目录下的android-support-v4.jar（因为这个目录下的android-support-v4.jar包含有android-support-v7-appcompat.jar需要的类）
+可选的。如果你要使用HappyActionBarActivity、HappyInjectActionBarActivity就必须要引入此类库，值的注意的是使用此类库的时候一定要使用sdk\extras\android\support\v7\appcompat\libs目录下的android-support-v4.jar（因为这个目录下的android-support-v4.jar包含有android-support-v7-appcompat.jar需要的类）
 >* [gson-2.2.4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要引入此类库
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要引入此类库
 
 ##Change log
+###4.4.0
+>* 修改Easy系列的为Happy
+
 ###4.3.3
 >* 增加VersionManager，用来检测版本是否更新，常用来做应用初始化
 
