@@ -16,6 +16,8 @@
 
 package me.xiaopan.android.util;
 
+import me.xiaopan.android.view.animation.ViewAnimationUtils;
+import me.xiaopan.android.widget.ToastUtils;
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;

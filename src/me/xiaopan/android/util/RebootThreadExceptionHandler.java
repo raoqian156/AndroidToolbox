@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import me.xiaopan.android.content.StartAppReceiver;
-import me.xiaopan.java.util.StringUtils;
+import me.xiaopan.java.lang.StringUtils;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;

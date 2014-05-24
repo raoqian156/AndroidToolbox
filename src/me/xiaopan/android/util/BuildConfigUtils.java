@@ -1,5 +1,6 @@
 package me.xiaopan.android.util;
 
+import me.xiaopan.android.content.res.RUtils;
 import android.content.Context;
 
 public class BuildConfigUtils {

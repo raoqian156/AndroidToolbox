@@ -36,9 +36,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import me.xiaopan.java.lang.StringUtils;
 import me.xiaopan.java.util.CheckingUtils;
 import me.xiaopan.java.util.DateTimeUtils;
-import me.xiaopan.java.util.StringUtils;
 
 /**
  * <b>文件工具类，提供一些有关文件的便捷方法</b>

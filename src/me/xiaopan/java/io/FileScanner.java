@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import me.xiaopan.java.util.StringUtils;
+import me.xiaopan.java.lang.StringUtils;
 import me.xiaopan.java.util.StringVerifyMode;
 
 

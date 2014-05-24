@@ -16,6 +16,8 @@
 
 package me.xiaopan.android.app;
 
+import java.util.Locale;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -25,8 +27,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import java.util.Locale;
 
 public class MessageDialogFragment extends DialogFragment {
     public static int BEST_TIMES = 1000;

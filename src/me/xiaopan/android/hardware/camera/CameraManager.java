@@ -18,7 +18,7 @@ package me.xiaopan.android.hardware.camera;
 
 import java.io.IOException;
 
-import me.xiaopan.android.util.WindowUtils;
+import me.xiaopan.android.view.WindowUtils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.hardware.Camera;

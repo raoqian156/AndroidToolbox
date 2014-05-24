@@ -18,6 +18,8 @@ package me.xiaopan.java.util;
 
 import java.util.Stack;
 
+import me.xiaopan.java.lang.StringUtils;
+
 /**
  * <h2>数组工具类，提供一些有关数组的便捷方法</h2>
  * 

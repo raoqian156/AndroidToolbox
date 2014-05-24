@@ -21,12 +21,12 @@ package me.xiaopan.android.util;
  */
 public class DoubleClickDetector {
 	private long lastClickTime;	//上次点击的时间
-	private int doubleClickSpacingInterval;	//有效的双击间隔时间
+	private int effectiveIntervalTime;	//有效的双击间隔时间
 	private OnSingleClickListener onSingleClickListener;	//单击监听器
 	private OnDoubleClickListener onDoubleClickListener; 	//双击监听器
 	
-	public DoubleClickDetector(int doubleClickSpacingInterval, OnSingleClickListener onSingleClickListener, OnDoubleClickListener onDoubleClickListener) {
-		this.doubleClickSpacingInterval = doubleClickSpacingInterval;
+	public DoubleClickDetector(int effectiveIntervalTime, OnSingleClickListener onSingleClickListener, OnDoubleClickListener onDoubleClickListener) {
+		this.effectiveIntervalTime = effectiveIntervalTime;
 		this.onSingleClickListener = onSingleClickListener;
 		this.onDoubleClickListener = onDoubleClickListener;
 	}
@@ -40,7 +40,7 @@ public class DoubleClickDetector {
 	 */
 	public void click(){
 		long currentMillisTime = System.currentTimeMillis();
-		if(lastClickTime != 0 && (currentMillisTime - lastClickTime) < doubleClickSpacingInterval){
+		if(lastClickTime != 0 && (currentMillisTime - lastClickTime) < effectiveIntervalTime){
 			if(onDoubleClickListener != null){
 				onDoubleClickListener.onDoubleClick();
 			}
@@ -56,16 +56,16 @@ public class DoubleClickDetector {
 	 * 获取双击有效间隔时间，单位毫秒，默认2000
 	 * @return
 	 */
-	public int getDoubleClickSpacingInterval() {
-		return doubleClickSpacingInterval;
+	public int getEffectiveIntervalTime() {
+		return effectiveIntervalTime;
 	}
 
 	/**
 	 * 设置双击有效间隔时间，单位毫秒，默认2000
 	 * @param doubleClickSpacingInterval
 	 */
-	public void setDoubleClickSpacingInterval(int doubleClickSpacingInterval) {
-		this.doubleClickSpacingInterval = doubleClickSpacingInterval;
+	public void setEffectiveIntervalTime(int effectiveIntervalTime) {
+		this.effectiveIntervalTime = effectiveIntervalTime;
 	}
 
 	/**
