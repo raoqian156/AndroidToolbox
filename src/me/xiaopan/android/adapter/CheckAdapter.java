@@ -27,7 +27,7 @@ import android.widget.CheckBox;
 /**
  * <h2>选择适配器</h2>
  * <br>准备工作：
- * <br>第一步：创建你的Item并实现CheckItem接口
+ * <br>第一步：创建你的Item并实现CheckAdapter.CheckItem接口
  * <br>第二步：创建你的适配器并继承于CheckAdapter并同时通过泛型指定Item类型
  * <br>第三步：在构造函数中传给父类Item集合
  * <br>第四步：在getView()方法中调用handleCheckBox()方法处理CheckBox
@@ -42,14 +42,29 @@ import android.widget.CheckBox;
  * <br>调用getCheckedItems()方法获取全部选中的项
  * <br>调用deleteCheckedItems()方法删除全部选中的项
  */
-public abstract class CheckAdapter<T extends CheckItem> extends BaseAdapter {
+public abstract class CheckAdapter<T extends me.xiaopan.android.adapter.CheckAdapter.CheckItem> extends BaseAdapter {
 	private List<T> items;	//列表项
-	private boolean enableCheckMode;	//激活选择模式
+	private boolean enabledCheckMode;	//激活选择模式
 	private boolean singleMode;	//单选模式
 	private int currentCheckedPosition = -1;
 	
 	public CheckAdapter(List<T> items) {
 		this.items = items;
+	}
+
+	@Override
+	public int getCount() {
+		return items != null ? items.size() : 0;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return items.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
 	}
 
 	public List<T> getItems() {
@@ -84,14 +99,17 @@ public abstract class CheckAdapter<T extends CheckItem> extends BaseAdapter {
 	 */
 	public void handleCheckBox(CheckBox checkBox, T t){
 		checkBox.setChecked(t.isChecked());
-		checkBox.setVisibility(isEnableCheckMode()?View.VISIBLE:View.GONE);
+		checkBox.setVisibility(isEnabledCheckMode()?View.VISIBLE:View.GONE);
 	}
 	
 	/**
 	 * 激活选择模式
 	 */
 	public void enableCheckMode(){
-		enableCheckMode = true;
+		if(enabledCheckMode){
+			return;
+		}
+		enabledCheckMode = true;
 		notifyDataSetChanged();
 	}
 
@@ -99,7 +117,10 @@ public abstract class CheckAdapter<T extends CheckItem> extends BaseAdapter {
 	 * 取消选择模式
 	 */
 	public void cancelCheckMode(){
-		enableCheckMode = false;
+		if(!enabledCheckMode){
+			return;
+		}
+		enabledCheckMode = false;
 		for(T item : items){
 			item.setChecked(false);
 		}
@@ -107,11 +128,11 @@ public abstract class CheckAdapter<T extends CheckItem> extends BaseAdapter {
 	}
 	
 	/**
-	 * 判定是否激活选择模式
+	 * 判定是否已激活选择模式
 	 * @return
 	 */
-	public boolean isEnableCheckMode() {
-		return enableCheckMode;
+	public boolean isEnabledCheckMode() {
+		return enabledCheckMode;
 	}
 	
 	/**
@@ -120,7 +141,7 @@ public abstract class CheckAdapter<T extends CheckItem> extends BaseAdapter {
 	 * @return true：已经激活了选择模式并且设置成功；false：尚未激活选择模式并且设置失败
 	 */
 	public boolean clickItem(int postion){
-		if(isEnableCheckMode()){
+		if(isEnabledCheckMode()){
 			if(postion < items.size()){
 				if(singleMode){
 					if(currentCheckedPosition == -1 || currentCheckedPosition == postion){
@@ -174,5 +195,10 @@ public abstract class CheckAdapter<T extends CheckItem> extends BaseAdapter {
 		}
 		notifyDataSetChanged();
 		return checkedItems;
+	}
+	
+	public interface CheckItem {
+		public boolean isChecked();
+		public void setChecked(boolean checked);
 	}
 }
