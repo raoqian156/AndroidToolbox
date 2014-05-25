@@ -4,7 +4,7 @@
 
 ##Usage Guide
 me.xiaopan.android.adapter
->* CheckAdapter.java
+>* [CheckAdapter.java](https://github.com/xiaopansky/HappyAndroid/wiki/CheckAdapter.java)
 >* FragmentListPagerAdapter.java
 >* SimpleFragmentPagerAdapter.java
 >* SimpleFragmentStatePagerAdapter.java
