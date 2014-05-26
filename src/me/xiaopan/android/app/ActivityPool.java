@@ -27,6 +27,10 @@ import android.app.Activity;
 public class ActivityPool {
 	private static Map<Integer, Activity> activityMap;
 	
+	private ActivityPool(){
+		
+	}
+	
 	@SuppressLint("UseSparseArrays")
 	public static Activity put(Activity activity){
 		if(activityMap == null){
