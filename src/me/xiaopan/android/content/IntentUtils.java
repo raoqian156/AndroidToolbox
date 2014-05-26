@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.intent;
+package me.xiaopan.android.content;
 
 import java.io.File;
 

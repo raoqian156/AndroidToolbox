@@ -22,6 +22,7 @@ me.xiaopan.android.app
 me.xiaopan.android.content
 >* BroadcastUtils.java
 >* FileUtils.java
+>* IntentUtils.java
 >* StartAppReceiver.java
 >* UriUtils.java
 
@@ -52,9 +53,6 @@ me.xiaopan.android.hardware.camera
 >* CameraManager.java
 >* CameraUtils.java
 >* LoopFocusManager.java
-
-me.xiaopan.android.intent
->* IntentUtils.java
 
 me.xiaopan.android.net
 >* NetworkUtils.java

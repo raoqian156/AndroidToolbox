@@ -41,6 +41,7 @@ public class MainActivity extends FragmentActivity {
 		List<EntryItem> contentItems = new ArrayList<EntryItem>();
 		contentItems.add(new EntryItem("BroadcastUtils", null));
 		contentItems.add(new EntryItem("FileUtils", null));
+		contentItems.add(new EntryItem("IntentUtils", null));
 		contentItems.add(new EntryItem("StartAppReceiver", null));
 		contentItems.add(new EntryItem("UriUtils", null));
 		entryItems.add(new EntryItem("content", EntryFragment.class, contentItems));
@@ -78,10 +79,6 @@ public class MainActivity extends FragmentActivity {
 		hardwarecameraItems.add(new EntryItem("CameraUtils", null));
 		hardwarecameraItems.add(new EntryItem("LoopFocusManager", null));
 		entryItems.add(new EntryItem("hardware.camera", EntryFragment.class, hardwarecameraItems));
-		
-		List<EntryItem> intentItems = new ArrayList<EntryItem>();
-		intentItems.add(new EntryItem("IntentUtils", null));
-		entryItems.add(new EntryItem("intent", EntryFragment.class, intentItems));
 		
 		List<EntryItem> netItems = new ArrayList<EntryItem>();
 		netItems.add(new EntryItem("NetworkUtils", null));
