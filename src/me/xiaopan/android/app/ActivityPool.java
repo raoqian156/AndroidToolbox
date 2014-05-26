@@ -18,114 +18,38 @@ package me.xiaopan.android.app;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
 public class ActivityPool {
+	private static Map<Integer, Activity> activityMap;
+	
 	@SuppressLint("UseSparseArrays")
-	private static Map<Integer, Activity> activityMap = Collections.synchronizedMap(new HashMap<Integer, Activity>());
-	private static Set<Integer> waitFinishActivityIds = Collections.synchronizedSet(new HashSet<Integer>());
-	private Activity activity;
-	
-	public ActivityPool(Activity activity) {
-		this.activity = activity;
-		put(activity);
-	}
-	
-	public Activity put(Activity activity){
+	public static Activity put(Activity activity){
+		if(activityMap == null){
+			activityMap = Collections.synchronizedMap(new HashMap<Integer, Activity>());
+		}
 		return activityMap.put(activity.hashCode(), activity);
 	}
 	
-	public Activity get(int activityHashCode){
-		return activityMap.get(activityHashCode);
-	}
-	
-	public Activity remove(int activityHashCode){
-		waitFinishActivityIds.remove(activityHashCode);
-		return activityMap.remove(activityHashCode);
-	}
-	
-	public Activity remove(Activity activity){
-		return remove(activity.hashCode());
-	}
-	
-	public void finish(int id){
-		Activity activity = get(id);
-		if(activity != null){
-			remove(activity);
-			activity.finish();
+	public static Activity remove(Activity activity){
+		if(activityMap == null || activityMap.size() == 0){
+			return null;
 		}
+		return activityMap.remove(activity.hashCode());
 	}
 	
-	public void finish(Set<Integer> ids){
-		Iterator<Entry<Integer, Activity>> iterator = activityMap.entrySet().iterator();
-		Entry<Integer, Activity> entry = null;
-		while(iterator.hasNext()){
-			entry = iterator.next();
-			if(ids.contains(entry.getKey())){
-				ids.remove(entry.getKey());
-				if(waitFinishActivityIds != ids){
-					waitFinishActivityIds.remove(entry.getKey());
-				}
-				entry.getValue().finish();
-				iterator.remove();
-			}
+	public static void finishAll(){
+		if(activityMap == null || activityMap.size() == 0){
+			return;
 		}
-	}
-	
-	public void finishOther(int activityId){
 		Iterator<Entry<Integer, Activity>> iterator = activityMap.entrySet().iterator();
-		Entry<Integer, Activity> entry = null;
 		while(iterator.hasNext()){
-			entry = iterator.next();
-			if(entry.getKey() != activityId){
-				waitFinishActivityIds.remove(entry.getKey());
-				entry.getValue().finish();
-				iterator.remove();
-			}
-		}
-	}
-	
-	public void finishAll(){
-		waitFinishActivityIds.clear();
-		Iterator<Entry<Integer, Activity>> iterator = activityMap.entrySet().iterator();
-		Entry<Integer, Activity> entry = null;
-		while(iterator.hasNext()){
-			entry = iterator.next();
-			entry.getValue().finish();
+			iterator.next().getValue().finish();
 		}
 		activityMap.clear();
-	}
-	
-	public void clearWaitingCircle(){
-		waitFinishActivityIds.clear();
-	}
-	
-	public void finishAllWaitingActivity(){
-		if(!waitFinishActivityIds.isEmpty()){
-			finish(waitFinishActivityIds);
-		}
-	}
-	
-	public void finishOther(){
-		finishOther(activity.hashCode());
-	}
-	
-	public void removeSelf(){
-		remove(activity);
-	}
-	
-	public boolean putSelfToWaitingCircle(){
-		return waitFinishActivityIds.add(activity.hashCode());
-	}
-	
-	public boolean removeSelfFromWaitingCircle(){
-		return waitFinishActivityIds.remove(activity.hashCode());
 	}
 }
