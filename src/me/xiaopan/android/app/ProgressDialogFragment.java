@@ -23,19 +23,15 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 public class ProgressDialogFragment extends DialogFragment {
-    public static int BEST_TIMES = 1000;
     public static String MESSAGE_DEFAULT_CHINA = "请稍等片刻...";
     public static String MESSAGE_DEFAULT_OTHER = "Please wait a moment...";
     public static String FRAGMENT_TAG_PROGRESS_DIALOG = "FRAGMENT_TAG_PROGRESS_DIALOG";
 
-    private long showTime;
     private Builder builder;
 
     @Override
@@ -43,34 +39,6 @@ public class ProgressDialogFragment extends DialogFragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         applyParams(progressDialog);
         return progressDialog;
-    }
-
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        showTime = System.currentTimeMillis();
-        super.show(manager, tag);
-    }
-
-    @Override
-    public int show(FragmentTransaction transaction, String tag) {
-        showTime = System.currentTimeMillis();
-        return super.show(transaction, tag);
-    }
-
-    @Override
-    public void dismiss() {
-        long dismissTime = System.currentTimeMillis();
-        int useTime = (int) (dismissTime - showTime);
-        if(useTime < BEST_TIMES){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ProgressDialogFragment.super.dismiss();
-                }
-            }, BEST_TIMES - useTime);
-        }else{
-            super.dismiss();
-        }
     }
 
     /**
@@ -88,15 +56,15 @@ public class ProgressDialogFragment extends DialogFragment {
     private void applyParams(ProgressDialog progressDialog){
         if(builder == null) throw new IllegalArgumentException("builder 为null 你需要调用setBuilder()方法设置Builder");
 
-        progressDialog.setTitle(builder.getTitle());
-        progressDialog.setMessage(builder.getMessage() != null?builder.getMessage():(Locale.CHINA.equals(Locale.getDefault())?MESSAGE_DEFAULT_CHINA:MESSAGE_DEFAULT_OTHER));
-        progressDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.getConfirmButtonName(), builder.getConfirmButtonClickListener());
-        progressDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.getCancelButtonName(), builder.getCancelButtonClickListener());
-        progressDialog.setOnCancelListener(builder.getOnCancelListener());
-        progressDialog.setOnDismissListener(builder.getOnDismissListener());
-        progressDialog.setOnKeyListener(builder.getOnKeyListener());
-        progressDialog.setOnShowListener(builder.getOnShowListener());
-        setCancelable(builder.isCancelable());
+        progressDialog.setTitle(builder.title);
+        progressDialog.setMessage(builder.message != null?builder.message:(Locale.CHINA.equals(Locale.getDefault())?MESSAGE_DEFAULT_CHINA:MESSAGE_DEFAULT_OTHER));
+        progressDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName, builder.confirmButtonClickListener);
+        progressDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName, builder.cancelButtonClickListener);
+        progressDialog.setOnCancelListener(builder.onCancelListener);
+        progressDialog.setOnDismissListener(builder.onDismissListener);
+        progressDialog.setOnKeyListener(builder.onKeyListener);
+        progressDialog.setOnShowListener(builder.onShowListener);
+        setCancelable(builder.cancelable);
     }
 
     /**
@@ -141,17 +109,17 @@ public class ProgressDialogFragment extends DialogFragment {
     }
 
     public static class Builder{
-        private String title;
-        private String message;
-        private String confirmButtonName;
-        private String cancelButtonName;
-        private boolean cancelable = false;
-        private DialogInterface.OnClickListener confirmButtonClickListener;
-        private DialogInterface.OnClickListener cancelButtonClickListener;
-        private DialogInterface.OnShowListener onShowListener;
-        private DialogInterface.OnDismissListener onDismissListener;
-        private DialogInterface.OnCancelListener onCancelListener;
-        private DialogInterface.OnKeyListener onKeyListener;
+        String title;
+        String message;
+        String confirmButtonName;
+        String cancelButtonName;
+        boolean cancelable = false;
+        DialogInterface.OnClickListener confirmButtonClickListener;
+        DialogInterface.OnClickListener cancelButtonClickListener;
+        DialogInterface.OnShowListener onShowListener;
+        DialogInterface.OnDismissListener onDismissListener;
+        DialogInterface.OnCancelListener onCancelListener;
+        DialogInterface.OnKeyListener onKeyListener;
 
         public Builder(String message) {
             this.message = message;
@@ -228,92 +196,36 @@ public class ProgressDialogFragment extends DialogFragment {
         }
 
         /**
-         * 获取标题
-         * @return 标题
+         * 设置显示监听器
+         * @param onShowListener 显示监听器
          */
-        public String getTitle() {
-            return title;
-        }
-
-        /**
-         * 获取消息
-         * @return 消息
-         */
-        public String getMessage() {
-            return message;
-        }
-
-        /**
-         * 获取确定按钮名称
-         * @return 确定按钮名称
-         */
-        public String getConfirmButtonName() {
-            return confirmButtonName;
-        }
-
-        /**
-         * 获取取消按钮名称
-         * @return 取消按钮名称
-         */
-        public String getCancelButtonName() {
-            return cancelButtonName;
-        }
-
-        /**
-         * 是否可以取消
-         * @return 是否可以取消
-         */
-        public boolean isCancelable() {
-            return cancelable;
-        }
-
-        /**
-         * 获取确定按钮点击监听器
-         * @return 确定按钮点击监听器
-         */
-        public DialogInterface.OnClickListener getConfirmButtonClickListener() {
-            return confirmButtonClickListener;
-        }
-
-        /**
-         * 获取取消按钮点击监听器
-         * @return 取消按钮点击监听器
-         */
-        public DialogInterface.OnClickListener getCancelButtonClickListener() {
-            return cancelButtonClickListener;
-        }
-
-        public DialogInterface.OnShowListener getOnShowListener() {
-            return onShowListener;
-        }
-
         public Builder setOnShowListener(DialogInterface.OnShowListener onShowListener) {
             this.onShowListener = onShowListener;
             return this;
         }
 
-        public DialogInterface.OnDismissListener getOnDismissListener() {
-            return onDismissListener;
-        }
-
+        /**
+         * 设置解除监听器
+         * @param onShowListener 解除监听器
+         */
         public Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
             this.onDismissListener = onDismissListener;
             return this;
         }
 
-        public DialogInterface.OnCancelListener getOnCancelListener() {
-            return onCancelListener;
-        }
-
+        /**
+         * 设置取消监听器
+         * @param onShowListener 取消监听器
+         */
         public Builder setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
             this.onCancelListener = onCancelListener;
             return this;
         }
 
-        public DialogInterface.OnKeyListener getOnKeyListener() {
-            return onKeyListener;
-        }
-
+        /**
+         * 设置按键监听器
+         * @param onShowListener 按键监听器
+         */
         public Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
             this.onKeyListener = onKeyListener;
             return this;

@@ -22,19 +22,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 public class MessageDialogFragment extends DialogFragment {
-    public static int BEST_TIMES = 1000;
     public static String FRAGMENT_TAG_MESSAGE_DIALOG = "FRAGMENT_TAG_MESSAGE_DIALOG";
     public static String DEFAULT_CONFIRM_BUTTON_NAME_CHINA = "确定";
     public static String DEFAULT_CONFIRM_BUTTON_NAME_OTHER = "Confirm";
 
-    private long showTime;
     private Builder builder;
 
     @Override
@@ -42,34 +38,6 @@ public class MessageDialogFragment extends DialogFragment {
         AlertDialog messageDialog = new AlertDialog.Builder(getActivity()).create();
         applyParams(messageDialog);
         return messageDialog;
-    }
-
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        showTime = System.currentTimeMillis();
-        super.show(manager, tag);
-    }
-
-    @Override
-    public int show(FragmentTransaction transaction, String tag) {
-        showTime = System.currentTimeMillis();
-        return super.show(transaction, tag);
-    }
-
-    @Override
-    public void dismiss() {
-        long dismissTime = System.currentTimeMillis();
-        int useTime = (int) (dismissTime - showTime);
-        if(useTime < BEST_TIMES){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MessageDialogFragment.super.dismiss();
-                }
-            }, BEST_TIMES - useTime);
-        }else{
-            super.dismiss();
-        }
     }
 
     /**
@@ -86,17 +54,17 @@ public class MessageDialogFragment extends DialogFragment {
      */
     private void applyParams(AlertDialog messageDialog){
         if(builder == null) throw new IllegalArgumentException("builder 为null 你需要调用setBuilder()方法设置Builder");
-        if(builder.getMessage() == null) throw new IllegalArgumentException("请调用Builder.setMessage()设置消息");
+        if(builder.message == null) throw new IllegalArgumentException("请调用Builder.setMessage()设置消息");
 
-        messageDialog.setTitle(builder.getTitle());
-        messageDialog.setMessage(builder.getMessage());
-        messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.getConfirmButtonName()!=null?builder.getConfirmButtonName():(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CONFIRM_BUTTON_NAME_CHINA:DEFAULT_CONFIRM_BUTTON_NAME_OTHER), builder.getConfirmButtonClickListener());
-        messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.getCancelButtonName(), builder.getCancelButtonClickListener());
-        messageDialog.setOnCancelListener(builder.getOnCancelListener());
-        messageDialog.setOnDismissListener(builder.getOnDismissListener());
-        messageDialog.setOnKeyListener(builder.getOnKeyListener());
-        messageDialog.setOnShowListener(builder.getOnShowListener());
-        setCancelable(builder.isCancelable());
+        messageDialog.setTitle(builder.title);
+        messageDialog.setMessage(builder.message);
+        messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName!=null?builder.confirmButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CONFIRM_BUTTON_NAME_CHINA:DEFAULT_CONFIRM_BUTTON_NAME_OTHER), builder.confirmButtonClickListener);
+        messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName, builder.cancelButtonClickListener);
+        messageDialog.setOnCancelListener(builder.onCancelListener);
+        messageDialog.setOnDismissListener(builder.onDismissListener);
+        messageDialog.setOnKeyListener(builder.onKeyListener);
+        messageDialog.setOnShowListener(builder.onShowListener);
+        setCancelable(builder.cancelable);
     }
 
     /**
@@ -141,17 +109,17 @@ public class MessageDialogFragment extends DialogFragment {
     }
 
     public static class Builder{
-        private String title;
-        private String message;
-        private String confirmButtonName;
-        private String cancelButtonName;
-        private boolean cancelable = true;
-        private DialogInterface.OnClickListener confirmButtonClickListener;
-        private DialogInterface.OnClickListener cancelButtonClickListener;
-        private DialogInterface.OnShowListener onShowListener;
-        private DialogInterface.OnDismissListener onDismissListener;
-        private DialogInterface.OnCancelListener onCancelListener;
-        private DialogInterface.OnKeyListener onKeyListener;
+        String title;
+        String message;
+        String confirmButtonName;
+        String cancelButtonName;
+        boolean cancelable = true;
+        DialogInterface.OnClickListener confirmButtonClickListener;
+        DialogInterface.OnClickListener cancelButtonClickListener;
+        DialogInterface.OnShowListener onShowListener;
+        DialogInterface.OnDismissListener onDismissListener;
+        DialogInterface.OnCancelListener onCancelListener;
+        DialogInterface.OnKeyListener onKeyListener;
 
         public Builder(String message) {
             this.message = message;
@@ -228,92 +196,36 @@ public class MessageDialogFragment extends DialogFragment {
         }
 
         /**
-         * 获取标题
-         * @return 标题
+         * 设置显示监听器
+         * @param onShowListener 显示监听器
          */
-        public String getTitle() {
-            return title;
-        }
-
-        /**
-         * 获取消息
-         * @return 消息
-         */
-        public String getMessage() {
-            return message;
-        }
-
-        /**
-         * 获取确定按钮名称
-         * @return 确定按钮名称
-         */
-        public String getConfirmButtonName() {
-            return confirmButtonName;
-        }
-
-        /**
-         * 获取取消按钮名称
-         * @return 取消按钮名称
-         */
-        public String getCancelButtonName() {
-            return cancelButtonName;
-        }
-
-        /**
-         * 是否可以取消
-         * @return 是否可以取消
-         */
-        public boolean isCancelable() {
-            return cancelable;
-        }
-
-        /**
-         * 获取确定按钮点击监听器
-         * @return 确定按钮点击监听器
-         */
-        public DialogInterface.OnClickListener getConfirmButtonClickListener() {
-            return confirmButtonClickListener;
-        }
-
-        /**
-         * 获取取消按钮点击监听器
-         * @return 取消按钮点击监听器
-         */
-        public DialogInterface.OnClickListener getCancelButtonClickListener() {
-            return cancelButtonClickListener;
-        }
-
-        public DialogInterface.OnShowListener getOnShowListener() {
-            return onShowListener;
-        }
-
         public Builder setOnShowListener(DialogInterface.OnShowListener onShowListener) {
             this.onShowListener = onShowListener;
             return this;
         }
 
-        public DialogInterface.OnDismissListener getOnDismissListener() {
-            return onDismissListener;
-        }
-
+        /**
+         * 设置解除监听器
+         * @param onShowListener 解除监听器
+         */
         public Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
             this.onDismissListener = onDismissListener;
             return this;
         }
 
-        public DialogInterface.OnCancelListener getOnCancelListener() {
-            return onCancelListener;
-        }
-
+        /**
+         * 设置取消监听器
+         * @param onShowListener 取消监听器
+         */
         public Builder setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
             this.onCancelListener = onCancelListener;
             return this;
         }
 
-        public DialogInterface.OnKeyListener getOnKeyListener() {
-            return onKeyListener;
-        }
-
+        /**
+         * 设置按键监听器
+         * @param onShowListener 按键监听器
+         */
         public Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
             this.onKeyListener = onKeyListener;
             return this;

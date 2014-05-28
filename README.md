@@ -103,8 +103,8 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-4.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.0.jar)
->* [android-happy-4.5.0-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.0-with-src.jar)
+>* [android-happy-4.5.1.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.1.jar)
+>* [android-happy-4.5.1-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.1-with-src.jar)
 
 Dependencies
 >* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
