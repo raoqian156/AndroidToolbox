@@ -2,7 +2,7 @@
 
 这是一个Android工具类库，其包含大量在Android开发中经常用到的工具类或方法，旨在让Android开发变得更简单、更随意、更舒心！
 
-##Usage Guide
+##Usage guide
 me.xiaopan.android.adapter
 >* [CheckAdapter.java](https://github.com/xiaopansky/HappyAndroid/wiki/CheckAdapter.java)
 >* FragmentListPagerAdapter.java
@@ -103,8 +103,8 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-4.5.1.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.1.jar)
->* [android-happy-4.5.1-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.1-with-src.jar)
+>* [android-happy-4.5.2.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.2.jar)
+>* [android-happy-4.5.2-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.2-with-src.jar)
 
 Dependencies
 >* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
@@ -120,6 +120,10 @@ Dependencies
 >* [gson-2.2.4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要导入此类库
 
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
+
+## Change log
+#### 4.5.2
+>* 修复BimtapDecoder在4.4上调用decodeFromAssets()或decodeFromStream()方法解码失败，返回null的BUG，原因是同一个InputStream用了两次
 
 ##License
 ```java

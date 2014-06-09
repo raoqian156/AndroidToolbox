@@ -192,47 +192,85 @@ public class BitmapDecoder {
 	 * 从资源文件流中解码位图
 	 * @param resource
 	 * @param value
-	 * @param is
+	 * @param inputStreamCreator
 	 * @param pad
 	 * @param options
 	 * @return
 	 */
-	public Bitmap decodeResourceStream(Resources resource, TypedValue value, InputStream is, Rect pad, Options options){
+	public Bitmap decodeResourceStream(Resources resource, TypedValue value, InputStreamCreator inputStreamCreator, Rect pad, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeResourceStream(resource, value, is, pad, options);
+		
+		InputStream inputStream = inputStreamCreator.onCreateInputStream();
+		if(inputStream == null) return null;
+		BitmapFactory.decodeResourceStream(resource, value, inputStream, pad, options);
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeResourceStream(resource, value, is, pad, options);
+		
+		inputStream = inputStreamCreator.onCreateInputStream();
+		if(inputStream == null) return null;
+		Bitmap bitmap = BitmapFactory.decodeResourceStream(resource, value, inputStream, pad, options);
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return bitmap;
 	}
 	
 	/**
 	 * 从流中解码位图
-	 * @param inputStream
+	 * @param inputStreamCreator
 	 * @param outPadding
 	 * @param options
 	 * @return
 	 */
-	public Bitmap decodeStream(InputStream inputStream, Rect outPadding, Options options){
+	public Bitmap decodeStream(InputStreamCreator inputStreamCreator, Rect outPadding, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
+		
+		InputStream inputStream = inputStreamCreator.onCreateInputStream();
+		if(inputStream == null) return null;
 		BitmapFactory.decodeStream(inputStream, outPadding, options);
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		options.inSampleSize = computeSampleSize(options, minSlideLength, maxNumOfPixels);
 		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeStream(inputStream, outPadding, options);
+		
+		inputStream = inputStreamCreator.onCreateInputStream();
+		if(inputStream == null) return null;
+		Bitmap bitmap = BitmapFactory.decodeStream(inputStream, outPadding, options);
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return bitmap;
 	}
 	
 	/**
 	 * 从流中解码位图
-	 * @param inputStream
+	 * @param inputStreamCreator
 	 * @return
 	 */
-	public Bitmap decodeStream(InputStream inputStream){
-		return decodeStream(inputStream, null, null);
+	public Bitmap decodeStream(InputStreamCreator inputStreamCreator){
+		return decodeStream(inputStreamCreator, null, null);
 	}
 	
 	/**
@@ -243,24 +281,18 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public Bitmap decodeFromAssets(Context context, String fileName, Rect outPadding, Options options){
-		Bitmap bitmap = null;
-		InputStream inputStream = null;
-		try {
-			inputStream = context.getAssets().open(fileName);
-			bitmap = decodeStream(inputStream, outPadding, options);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			if(inputStream != null){
+	public Bitmap decodeFromAssets(final Context context, final String fileName, Rect outPadding, Options options){
+		return decodeStream(new InputStreamCreator() {
+			@Override
+			public InputStream onCreateInputStream() {
 				try {
-					inputStream.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					return context.getAssets().open(fileName);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
 				}
 			}
-		}
-		return bitmap;
+		}, outPadding, options);
 	}
 	
 	/**
@@ -416,45 +448,59 @@ public class BitmapDecoder {
 	 * 从资源流中解码位图的尺寸
 	 * @param resource
 	 * @param value
-	 * @param is
+	 * @param inputStreamCreator
 	 * @param pad
 	 * @param options
 	 * @return
 	 */
-	public static Options decodeSizeFromResourceStream(Resources resource, TypedValue value, InputStream is, Rect pad, Options options){
+	public static Options decodeSizeFromResourceStream(Resources resource, TypedValue value, InputStreamCreator inputStreamCreator, Rect pad, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeResourceStream(resource, value, is, pad, options);
+		InputStream inputStream = inputStreamCreator.onCreateInputStream();
+		if(inputStream == null) return options;
+		BitmapFactory.decodeResourceStream(resource, value, inputStream, pad, options);
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		options.inJustDecodeBounds = false;
 		return options;
 	}
 	
 	/**
 	 * 从流中解码位图的尺寸
-	 * @param inputStream
+	 * @param inputStreamCreator
 	 * @param outPadding
 	 * @param options
 	 * @return
 	 */
-	public static Options decodeSizeFromStream(InputStream inputStream, Rect outPadding, Options options){
+	public static Options decodeSizeFromStream(InputStreamCreator inputStreamCreator, Rect outPadding, Options options){
 		if(options == null){
 			options = new Options();
 		}
 		options.inJustDecodeBounds = true;
+		InputStream inputStream = inputStreamCreator.onCreateInputStream();
+		if(inputStream == null) return options;
 		BitmapFactory.decodeStream(inputStream, outPadding, options);
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		options.inJustDecodeBounds = false;
 		return options;
 	}
 	
 	/**
 	 * 从流中解码位图的尺寸
-	 * @param inputStream
+	 * @param inputStreamCreator
 	 * @return
 	 */
-	public static Options decodeSizeFromStream(InputStream inputStream){
-		return decodeSizeFromStream(inputStream, null, null);
+	public static Options decodeSizeFromStream(InputStreamCreator inputStreamCreator){
+		return decodeSizeFromStream(inputStreamCreator, null, null);
 	}
 	
 	/**
@@ -465,29 +511,18 @@ public class BitmapDecoder {
 	 * @param options
 	 * @return
 	 */
-	public static Options decodeSizeFromAssets(Context context, String fileName, Rect outPadding, Options options){
-		InputStream inputStream = null;
-		try {
-			if(options == null){
-				options = new Options();
-			}
-			options.inJustDecodeBounds = true;
-			inputStream = context.getAssets().open(fileName);
-			BitmapFactory.decodeStream(inputStream, outPadding, options);
-			options.inJustDecodeBounds = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			options = null;
-		}finally{
-			if(inputStream != null){
+	public static Options decodeSizeFromAssets(final Context context, final String fileName, Rect outPadding, Options options){
+		return decodeSizeFromStream(new InputStreamCreator() {
+			@Override
+			public InputStream onCreateInputStream() {
 				try {
-					inputStream.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					return context.getAssets().open(fileName);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
 				}
 			}
-		}
-		return options;
+		}, outPadding, options);
 	}
 	
 	/**
@@ -540,21 +575,6 @@ public class BitmapDecoder {
 	    }
 	}
 	
-	/**
-	 * 私有默认BitmapDecoder实例持有器
-	 */
-	private static class BitmapDecoderHolder{
-		private static final BitmapDecoder INSTANCE = new BitmapDecoder();
-	}
-	
-	/**
-	 * 获取默认的实例，默认实例的最大像素数限制就是虚拟机最大内存的八分之一再除以4
-	 * @return
-	 */
-	public static final BitmapDecoder getInstance(){
-		return BitmapDecoderHolder.INSTANCE;
-	}
-	
 	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 	    // Raw height and width of image
 	    final int height = options.outHeight;
@@ -574,5 +594,9 @@ public class BitmapDecoder {
 	    }
 	
 	    return inSampleSize;
+	}
+	
+	public interface InputStreamCreator{
+		public InputStream onCreateInputStream();
 	}
 }

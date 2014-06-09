@@ -78,7 +78,7 @@ public class AssetsUtils {
 	 * @return
 	 */
 	public static Bitmap getBitmap(Context context, String fileName, Rect outPadding, BitmapFactory.Options options){
-		return BitmapDecoder.getInstance().decodeFromAssets(context, fileName, outPadding, options);
+		return new BitmapDecoder().decodeFromAssets(context, fileName, outPadding, options);
 	}
 	
 	/**
@@ -88,6 +88,6 @@ public class AssetsUtils {
 	 * @return
 	 */
 	public static Bitmap getBitmap(Context context, String fileName){
-		return BitmapDecoder.getInstance().decodeFromAssets(context, fileName);
+		return new BitmapDecoder().decodeFromAssets(context, fileName);
 	}
 }
