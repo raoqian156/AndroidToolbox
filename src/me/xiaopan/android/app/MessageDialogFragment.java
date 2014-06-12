@@ -51,7 +51,7 @@ public class MessageDialogFragment extends DialogFragment {
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
-		if(builder.onDismissListener != null){
+		if(builder.onCancelListener != null){
 			builder.onCancelListener.onCancel(dialog);
 		}
 	}
