@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.adapter;
+package me.xiaopan.android.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.android.app.GetPageTitleListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;

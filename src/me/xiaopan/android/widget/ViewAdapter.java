@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.adapter;
+package me.xiaopan.android.widget;
 
 import java.util.List;
 

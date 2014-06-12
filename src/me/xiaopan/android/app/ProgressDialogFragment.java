@@ -41,6 +41,22 @@ public class ProgressDialogFragment extends DialogFragment {
         return progressDialog;
     }
 
+    @Override
+	public void onDismiss(DialogInterface dialog) {
+		super.onDismiss(dialog);
+		if(builder.onDismissListener != null){
+			builder.onDismissListener.onDismiss(dialog);
+		}
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		if(builder.onDismissListener != null){
+			builder.onCancelListener.onCancel(dialog);
+		}
+	}
+
     /**
      * 设置Builder
      * @param builder Builder
@@ -60,8 +76,6 @@ public class ProgressDialogFragment extends DialogFragment {
         progressDialog.setMessage(builder.message != null?builder.message:(Locale.CHINA.equals(Locale.getDefault())?MESSAGE_DEFAULT_CHINA:MESSAGE_DEFAULT_OTHER));
         progressDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName, builder.confirmButtonClickListener);
         progressDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName, builder.cancelButtonClickListener);
-        progressDialog.setOnCancelListener(builder.onCancelListener);
-        progressDialog.setOnDismissListener(builder.onDismissListener);
         progressDialog.setOnKeyListener(builder.onKeyListener);
         progressDialog.setOnShowListener(builder.onShowListener);
         setCancelable(builder.cancelable);
@@ -206,7 +220,7 @@ public class ProgressDialogFragment extends DialogFragment {
 
         /**
          * 设置解除监听器
-         * @param onShowListener 解除监听器
+         * @param onDismissListener 解除监听器
          */
         public Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
             this.onDismissListener = onDismissListener;
@@ -215,7 +229,7 @@ public class ProgressDialogFragment extends DialogFragment {
 
         /**
          * 设置取消监听器
-         * @param onShowListener 取消监听器
+         * @param onCancelListener 取消监听器
          */
         public Builder setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
             this.onCancelListener = onCancelListener;
@@ -224,7 +238,7 @@ public class ProgressDialogFragment extends DialogFragment {
 
         /**
          * 设置按键监听器
-         * @param onShowListener 按键监听器
+         * @param onKeyListener 按键监听器
          */
         public Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
             this.onKeyListener = onKeyListener;

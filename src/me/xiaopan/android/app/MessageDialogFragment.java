@@ -40,7 +40,23 @@ public class MessageDialogFragment extends DialogFragment {
         return messageDialog;
     }
 
-    /**
+    @Override
+	public void onDismiss(DialogInterface dialog) {
+		super.onDismiss(dialog);
+		if(builder.onDismissListener != null){
+			builder.onDismissListener.onDismiss(dialog);
+		}
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		if(builder.onDismissListener != null){
+			builder.onCancelListener.onCancel(dialog);
+		}
+	}
+
+	/**
      * 设置Builder
      * @param builder Builder
      */
@@ -60,8 +76,6 @@ public class MessageDialogFragment extends DialogFragment {
         messageDialog.setMessage(builder.message);
         messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName!=null?builder.confirmButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CONFIRM_BUTTON_NAME_CHINA:DEFAULT_CONFIRM_BUTTON_NAME_OTHER), builder.confirmButtonClickListener);
         messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName, builder.cancelButtonClickListener);
-        messageDialog.setOnCancelListener(builder.onCancelListener);
-        messageDialog.setOnDismissListener(builder.onDismissListener);
         messageDialog.setOnKeyListener(builder.onKeyListener);
         messageDialog.setOnShowListener(builder.onShowListener);
         setCancelable(builder.cancelable);
@@ -206,7 +220,7 @@ public class MessageDialogFragment extends DialogFragment {
 
         /**
          * 设置解除监听器
-         * @param onShowListener 解除监听器
+         * @param onDismissListener 解除监听器
          */
         public Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
             this.onDismissListener = onDismissListener;
@@ -215,7 +229,7 @@ public class MessageDialogFragment extends DialogFragment {
 
         /**
          * 设置取消监听器
-         * @param onShowListener 取消监听器
+         * @param onCancelListener 取消监听器
          */
         public Builder setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
             this.onCancelListener = onCancelListener;
@@ -224,7 +238,7 @@ public class MessageDialogFragment extends DialogFragment {
 
         /**
          * 设置按键监听器
-         * @param onShowListener 按键监听器
+         * @param onKeyListener 按键监听器
          */
         public Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
             this.onKeyListener = onKeyListener;

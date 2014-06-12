@@ -20,22 +20,17 @@ public class MainActivity extends FragmentActivity {
 		
 		List<EntryItem> entryItems = new ArrayList<EntryItem>();
 		
-		List<EntryItem> adapterItems = new ArrayList<EntryItem>();
-		adapterItems.add(new EntryItem("CheckAdapter", CheckAdapterSampleFragment.class));
-		adapterItems.add(new EntryItem("FragmentListPagerAdapter", null));
-		adapterItems.add(new EntryItem("SimpleFragmentPagerAdapter", null));
-		adapterItems.add(new EntryItem("SimpleFragmentStatePagerAdapter", null));
-		adapterItems.add(new EntryItem("ViewAdapter", null));
-		adapterItems.add(new EntryItem("ViewListPagerAdapter", null));
-		entryItems.add(new EntryItem("adapter", EntryFragment.class, adapterItems));
-		
 		List<EntryItem> appItems = new ArrayList<EntryItem>();
 		appItems.add(new EntryItem("ActivityPool", null));
 		appItems.add(new EntryItem("ActivityUtils", null));
 		appItems.add(new EntryItem("DialogUtils", null));
 		appItems.add(new EntryItem("DownloadManagerUtils", null));
+		appItems.add(new EntryItem("FragmentBuilder", null));
+		appItems.add(new EntryItem("FragmentListPagerAdapter", null));
 		appItems.add(new EntryItem("MessageDialogFragment", null));
 		appItems.add(new EntryItem("ProgressDialogFragment", null));
+		appItems.add(new EntryItem("SimpleFragmentPagerAdapter", null));
+		appItems.add(new EntryItem("SimpleFragmentStatePagerAdapter", null));
 		entryItems.add(new EntryItem("app", EntryFragment.class, appItems));
 		
 		List<EntryItem> contentItems = new ArrayList<EntryItem>();
@@ -110,6 +105,7 @@ public class MainActivity extends FragmentActivity {
 		entryItems.add(new EntryItem("util", EntryFragment.class, utilItems));
 		
 		List<EntryItem> viewItems = new ArrayList<EntryItem>();
+		viewItems.add(new EntryItem("ViewListPagerAdapter", null));
 		viewItems.add(new EntryItem("ViewRefreshHandler", null));
 		viewItems.add(new EntryItem("ViewUtils", null));
 		viewItems.add(new EntryItem("WindowUtils", null));
@@ -129,10 +125,12 @@ public class MainActivity extends FragmentActivity {
 		entryItems.add(new EntryItem("webkit", EntryFragment.class, webkitItems));
 		
 		List<EntryItem> widgetItems = new ArrayList<EntryItem>();
+		widgetItems.add(new EntryItem("CheckAdapter", CheckAdapterSampleFragment.class));
 		widgetItems.add(new EntryItem("DepthPageTransformer", null));
 		widgetItems.add(new EntryItem("NestedGridView", null));
 		widgetItems.add(new EntryItem("NestedListView", null));
 		widgetItems.add(new EntryItem("ToastUtils", null));
+		widgetItems.add(new EntryItem("ViewAdapter", null));
 		widgetItems.add(new EntryItem("ZoomOutPageTransformer", null));
 		entryItems.add(new EntryItem("widget", EntryFragment.class, widgetItems));
 		

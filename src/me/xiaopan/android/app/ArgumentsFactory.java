@@ -1,4 +1,4 @@
-package me.xiaopan.android.adapter;
+package me.xiaopan.android.app;
 
 import android.os.Bundle;
 

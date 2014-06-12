@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.adapter;
+package me.xiaopan.android.widget;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 /**
  * <h2>选择适配器</h2>
@@ -42,7 +42,7 @@ import android.widget.CheckBox;
  * <br>调用getCheckedItems()方法获取全部选中的项
  * <br>调用deleteCheckedItems()方法删除全部选中的项
  */
-public abstract class CheckAdapter<T extends me.xiaopan.android.adapter.CheckAdapter.CheckItem> extends BaseAdapter {
+public abstract class CheckAdapter<T extends me.xiaopan.android.widget.CheckAdapter.CheckItem> extends BaseAdapter {
 	private List<T> items;	//列表项
 	private boolean enabledCheckMode;	//激活选择模式
 	private boolean singleMode;	//单选模式
@@ -94,12 +94,12 @@ public abstract class CheckAdapter<T extends me.xiaopan.android.adapter.CheckAda
 
 	/**
 	 * 处理复选框
-	 * @param checkBox
+	 * @param compoundButton
 	 * @param t
 	 */
-	public void handleCheckBox(CheckBox checkBox, T t){
-		checkBox.setChecked(t.isChecked());
-		checkBox.setVisibility(isEnabledCheckMode()?View.VISIBLE:View.GONE);
+	public void handleCompoundButton(CompoundButton compoundButton, T t){
+		compoundButton.setChecked(t.isChecked());
+		compoundButton.setVisibility(isEnabledCheckMode()?View.VISIBLE:View.GONE);
 	}
 	
 	/**

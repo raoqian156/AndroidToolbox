@@ -3,9 +3,9 @@ package me.xiaopan.android.happy.sample;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xiaopan.android.adapter.CheckAdapter;
-import me.xiaopan.android.adapter.CheckAdapter.CheckItem;
 import me.xiaopan.android.happy.R;
+import me.xiaopan.android.widget.CheckAdapter;
+import me.xiaopan.android.widget.CheckAdapter.CheckItem;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -100,7 +100,7 @@ public class CheckAdapterSampleFragment extends Fragment {
 			viewHolder.titleTextView.setText(item.title);
 			viewHolder.checkBox.setChecked(item.checked);
 			
-			handleCheckBox(viewHolder.checkBox, item);
+			handleCompoundButton(viewHolder.checkBox, item);
 			
 			return convertView;
 		}
