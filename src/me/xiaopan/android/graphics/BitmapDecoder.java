@@ -17,6 +17,7 @@
 package me.xiaopan.android.graphics;
 
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.util.TypedValue;
 
 /**
@@ -303,6 +305,38 @@ public class BitmapDecoder {
 	 */
 	public Bitmap decodeFromAssets(Context context, String fileName){
 		return decodeFromAssets(context, fileName, null, null);
+	}
+	
+	/**
+	 * 从Uri中解码位图
+	 * @param context
+	 * @param uri
+	 * @param outPadding
+	 * @param options
+	 * @return
+	 */
+	public Bitmap decodeUri(final Context context, final Uri uri, Rect outPadding, Options options){
+		return decodeStream(new InputStreamCreator() {
+			@Override
+			public InputStream onCreateInputStream() {
+				try {
+                    return context.getContentResolver().openInputStream(uri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+			}
+		}, outPadding, options);
+	}
+	
+	/**
+	 * 从Uri中解码位图
+	 * @param context
+	 * @param uri
+	 * @return
+	 */
+	public Bitmap decodeUri(final Context context, final Uri uri){
+		return decodeUri(context, uri, null, null);
 	}
 	
 	/**

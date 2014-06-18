@@ -124,6 +124,7 @@ Dependencies
 ## Change log
 #### 4.5.4
 >* 增加ContentUtils.java
+>* BimtapDecoder增加decodeUri()方法，方便读取 Uri指定的图片
 
 #### 4.5.3
 >* 删除me.xiaopan.android.adapter包，并将其中的类 移至其它包中
