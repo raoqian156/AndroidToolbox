@@ -18,6 +18,7 @@ public class ContentUtils {
         InputStream inputStream = null;
         try {
             inputStream = context.getContentResolver().openInputStream(uri);
+            if(inputStream == null) return null;
             return IOUtils.read(inputStream);
         } catch (Exception e) {
             e.printStackTrace();

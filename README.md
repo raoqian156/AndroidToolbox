@@ -17,6 +17,7 @@ me.xiaopan.android.app
 
 me.xiaopan.android.content
 >* BroadcastUtils.java
+>* ContentUtils.java
 >* FileUtils.java
 >* IntentUtils.java
 >* StartAppReceiver.java
@@ -102,8 +103,8 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-4.5.3.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.3.jar)
->* [android-happy-4.5.3-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.3-with-src.jar)
+>* [android-happy-4.5.4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.4.jar)
+>* [android-happy-4.5.4-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.4-with-src.jar)
 
 Dependencies
 >* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
@@ -121,6 +122,9 @@ Dependencies
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
 
 ## Change log
+#### 4.5.4
+>* 增加ContentUtils.java
+
 #### 4.5.3
 >* 删除me.xiaopan.android.adapter包，并将其中的类 移至其它包中
 >* 修复MessageDialogFragment和ProgressDialogFragment的OnDismissListener以及OnCancelListener事件不起作用的BUG

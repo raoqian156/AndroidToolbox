@@ -35,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 		
 		List<EntryItem> contentItems = new ArrayList<EntryItem>();
 		contentItems.add(new EntryItem("BroadcastUtils", null));
+		contentItems.add(new EntryItem("ContentUtils", null));
 		contentItems.add(new EntryItem("FileUtils", null));
 		contentItems.add(new EntryItem("IntentUtils", null));
 		contentItems.add(new EntryItem("StartAppReceiver", null));
