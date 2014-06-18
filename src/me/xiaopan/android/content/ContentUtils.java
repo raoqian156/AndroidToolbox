@@ -14,7 +14,7 @@ public class ContentUtils {
 	 * @param uri
 	 * @return
 	 */
-	public byte[] readData(Context context, Uri uri){
+	public static byte[] readData(Context context, Uri uri){
         InputStream inputStream = null;
         try {
             inputStream = context.getContentResolver().openInputStream(uri);
