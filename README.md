@@ -90,9 +90,6 @@ me.xiaopan.android.view.animation
 me.xiaopan.android.view.inputmethod
 >* InputMethodUtils.java
 
-me.xiaopan.android.webkit
->* WebViewManager.java
-
 me.xiaopan.android.widget
 >* [CheckAdapter.java](https://github.com/xiaopansky/HappyAndroid/wiki/CheckAdapter.java)
 >* DepthPageTransformer.java
@@ -103,8 +100,8 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-4.5.4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.4.jar)
->* [android-happy-4.5.4-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.4-with-src.jar)
+>* [android-happy-4.5.5.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.5.jar)
+>* [android-happy-4.5.5-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.5-with-src.jar)
 
 Dependencies
 >* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
@@ -122,6 +119,9 @@ Dependencies
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
 
 ## Change log
+#### 4.5.5
+>* 删除WebViewManager
+
 #### 4.5.4
 >* 增加ContentUtils.java
 >* BimtapDecoder增加decodeUri()方法，方便读取 Uri指定的图片

@@ -121,10 +121,6 @@ public class MainActivity extends FragmentActivity {
 		viewinputmethodItems.add(new EntryItem("InputMethodUtils", null));
 		entryItems.add(new EntryItem("view.inputmethod", EntryFragment.class, viewinputmethodItems));
 		
-		List<EntryItem> webkitItems = new ArrayList<EntryItem>();
-		webkitItems.add(new EntryItem("WebViewManager", null));
-		entryItems.add(new EntryItem("webkit", EntryFragment.class, webkitItems));
-		
 		List<EntryItem> widgetItems = new ArrayList<EntryItem>();
 		widgetItems.add(new EntryItem("CheckAdapter", CheckAdapterSampleFragment.class));
 		widgetItems.add(new EntryItem("DepthPageTransformer", null));
