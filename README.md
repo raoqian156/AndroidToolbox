@@ -10,6 +10,7 @@ me.xiaopan.android.app
 >* DownloadManagerUtils.java
 >* FragmentBuilder.java
 >* FragmentListPagerAdapter.java
+>* FragmentUtils
 >* MessageDialogFragment.java
 >* ProgressDialogFragment.java
 >* SimpleFragmentPagerAdapter.java
@@ -122,6 +123,9 @@ Dependencies
 >* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
 
 ## Change log
+#### 4.5.7
+>* 增加FragmentUtils，方便查找Fragment
+
 #### 4.5.6
 >* 恢复并升级WebViewManager
 

@@ -27,6 +27,7 @@ public class MainActivity extends FragmentActivity {
 		appItems.add(new EntryItem("DownloadManagerUtils", null));
 		appItems.add(new EntryItem("FragmentBuilder", null));
 		appItems.add(new EntryItem("FragmentListPagerAdapter", null));
+		appItems.add(new EntryItem("FragmentUtils", null));
 		appItems.add(new EntryItem("MessageDialogFragment", null));
 		appItems.add(new EntryItem("ProgressDialogFragment", null));
 		appItems.add(new EntryItem("SimpleFragmentPagerAdapter", null));
