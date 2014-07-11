@@ -16,8 +16,6 @@
 
 package me.xiaopan.android.app;
 
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,10 +26,6 @@ import android.support.v4.app.FragmentManager;
 
 public class MessageDialogFragment extends DialogFragment {
     public static String FRAGMENT_TAG_MESSAGE_DIALOG = "FRAGMENT_TAG_MESSAGE_DIALOG";
-    public static String DEFAULT_CONFIRM_BUTTON_NAME_CHINA = "确定";
-    public static String DEFAULT_CONFIRM_BUTTON_NAME_OTHER = "Confirm";
-    public static String DEFAULT_CANCEL_BUTTON_NAME_CHINA = "取消";
-    public static String DEFAULT_CANCEL_BUTTON_NAME_OTHER = "Cancel";
 
     private Builder builder;
 
@@ -76,13 +70,13 @@ public class MessageDialogFragment extends DialogFragment {
 
         messageDialog.setTitle(builder.title);
         messageDialog.setMessage(builder.message);
-        if(builder.confirmButtonName != null || builder.confirmButtonClickListener != null){
-        	messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName!=null?builder.confirmButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CONFIRM_BUTTON_NAME_CHINA:DEFAULT_CONFIRM_BUTTON_NAME_OTHER), builder.confirmButtonClickListener);
+        if(builder.confirmButtonName != null){
+        	messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName, builder.confirmButtonClickListener);
         }
-        if(builder.cancelButtonName != null || builder.cancelButtonClickListener != null){
-        	messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName!=null?builder.cancelButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CANCEL_BUTTON_NAME_CHINA:DEFAULT_CANCEL_BUTTON_NAME_OTHER), builder.cancelButtonClickListener);
+        if(builder.cancelButtonName != null){
+        	messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName, builder.cancelButtonClickListener);
         }
-        if(builder.neutralButtonName != null || builder.neutralButtonClickListener != null){
+        if(builder.neutralButtonName != null){
         	messageDialog.setButton(AlertDialog.BUTTON_NEUTRAL, builder.neutralButtonName, builder.neutralButtonClickListener);
         }
         messageDialog.setOnKeyListener(builder.onKeyListener);
@@ -183,6 +177,16 @@ public class MessageDialogFragment extends DialogFragment {
         /**
          * 设置确定按钮
          * @param name 按钮名称
+         * @return Builder
+         */
+        public Builder setConfirmButton(String name) {
+            this.confirmButtonName = name;
+            return this;
+        }
+
+        /**
+         * 设置确定按钮
+         * @param name 按钮名称
          * @param clickListener 点击监听器
          * @return Builder
          */
@@ -193,12 +197,12 @@ public class MessageDialogFragment extends DialogFragment {
         }
 
         /**
-         * 设置确定按钮，按钮名称当地区为CHINA是显示“确定”，否则显示“Cancel”
-         * @param clickListener 点击监听器
+         * 设置取消按钮
+         * @param name 按钮名称
          * @return Builder
          */
-        public Builder setConfirmButton(DialogInterface.OnClickListener clickListener) {
-            this.confirmButtonClickListener = clickListener;
+        public Builder setCancelButton(String name) {
+            this.cancelButtonName = name;
             return this;
         }
 
@@ -215,12 +219,12 @@ public class MessageDialogFragment extends DialogFragment {
         }
 
         /**
-         * 设置取消按钮，按钮名称当地区 为CHINA是显示“确定”，否则显示“Cancel”
-         * @param clickListener 点击监听器
+         * 设置中立按钮
+         * @param name 按钮名称
          * @return Builder
          */
-        public Builder setCancelButton(DialogInterface.OnClickListener clickListener) {
-            this.cancelButtonClickListener = clickListener;
+        public Builder setNeutralButton(String name) {
+            this.neutralButtonName = name;
             return this;
         }
 
