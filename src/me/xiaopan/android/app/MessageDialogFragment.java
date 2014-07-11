@@ -30,6 +30,8 @@ public class MessageDialogFragment extends DialogFragment {
     public static String FRAGMENT_TAG_MESSAGE_DIALOG = "FRAGMENT_TAG_MESSAGE_DIALOG";
     public static String DEFAULT_CONFIRM_BUTTON_NAME_CHINA = "确定";
     public static String DEFAULT_CONFIRM_BUTTON_NAME_OTHER = "Confirm";
+    public static String DEFAULT_CANCEL_BUTTON_NAME_CHINA = "取消";
+    public static String DEFAULT_CANCEL_BUTTON_NAME_OTHER = "Cancel";
 
     private Builder builder;
 
@@ -74,8 +76,15 @@ public class MessageDialogFragment extends DialogFragment {
 
         messageDialog.setTitle(builder.title);
         messageDialog.setMessage(builder.message);
-        messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName!=null?builder.confirmButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CONFIRM_BUTTON_NAME_CHINA:DEFAULT_CONFIRM_BUTTON_NAME_OTHER), builder.confirmButtonClickListener);
-        messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName, builder.cancelButtonClickListener);
+        if(builder.confirmButtonName != null || builder.confirmButtonClickListener != null){
+        	messageDialog.setButton(AlertDialog.BUTTON_POSITIVE, builder.confirmButtonName!=null?builder.confirmButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CONFIRM_BUTTON_NAME_CHINA:DEFAULT_CONFIRM_BUTTON_NAME_OTHER), builder.confirmButtonClickListener);
+        }
+        if(builder.cancelButtonName != null || builder.cancelButtonClickListener != null){
+        	messageDialog.setButton(AlertDialog.BUTTON_NEGATIVE, builder.cancelButtonName!=null?builder.cancelButtonName:(Locale.CHINA.equals(Locale.getDefault())?DEFAULT_CANCEL_BUTTON_NAME_CHINA:DEFAULT_CANCEL_BUTTON_NAME_OTHER), builder.cancelButtonClickListener);
+        }
+        if(builder.neutralButtonName != null || builder.neutralButtonClickListener != null){
+        	messageDialog.setButton(AlertDialog.BUTTON_NEUTRAL, builder.neutralButtonName, builder.neutralButtonClickListener);
+        }
         messageDialog.setOnKeyListener(builder.onKeyListener);
         messageDialog.setOnShowListener(builder.onShowListener);
         setCancelable(builder.cancelable);
@@ -127,9 +136,11 @@ public class MessageDialogFragment extends DialogFragment {
         String message;
         String confirmButtonName;
         String cancelButtonName;
+        String neutralButtonName;
         boolean cancelable = true;
         DialogInterface.OnClickListener confirmButtonClickListener;
         DialogInterface.OnClickListener cancelButtonClickListener;
+        DialogInterface.OnClickListener neutralButtonClickListener;
         DialogInterface.OnShowListener onShowListener;
         DialogInterface.OnDismissListener onDismissListener;
         DialogInterface.OnCancelListener onCancelListener;
@@ -160,26 +171,6 @@ public class MessageDialogFragment extends DialogFragment {
         }
 
         /**
-         * 设置确定按钮名称
-         * @param confirmButtonName 确定按钮名称
-         * @return Builder
-         */
-        public Builder setConfirmButtonName(String confirmButtonName) {
-            this.confirmButtonName = confirmButtonName;
-            return this;
-        }
-
-        /**
-         * 设置取消按钮名称
-         * @param cancelButtonName 取消按钮名称
-         * @return Builder
-         */
-        public Builder setCancelButtonName(String cancelButtonName) {
-            this.cancelButtonName = cancelButtonName;
-            return this;
-        }
-
-        /**
          * 设置是否可以取消
          * @param cancelable 是否可以取消
          * @return Builder
@@ -190,22 +181,58 @@ public class MessageDialogFragment extends DialogFragment {
         }
 
         /**
-         * 设置确定按钮点击监听器
-         * @param confirmButtonClickListener 确定按钮点击监听器
+         * 设置确定按钮
+         * @param name 按钮名称
+         * @param clickListener 点击监听器
          * @return Builder
          */
-        public Builder setConfirmButtonClickListener(DialogInterface.OnClickListener confirmButtonClickListener) {
-            this.confirmButtonClickListener = confirmButtonClickListener;
+        public Builder setConfirmButton(String name, DialogInterface.OnClickListener clickListener) {
+            this.confirmButtonName = name;
+            this.confirmButtonClickListener = clickListener;
             return this;
         }
 
         /**
-         * 设置取消按钮点击监听器
-         * @param cancelButtonClickListener 取消按钮点击监听器
+         * 设置确定按钮，按钮名称当地区为CHINA是显示“确定”，否则显示“Cancel”
+         * @param clickListener 点击监听器
          * @return Builder
          */
-        public Builder setCancelButtonClickListener(DialogInterface.OnClickListener cancelButtonClickListener) {
-            this.cancelButtonClickListener = cancelButtonClickListener;
+        public Builder setConfirmButton(DialogInterface.OnClickListener clickListener) {
+            this.confirmButtonClickListener = clickListener;
+            return this;
+        }
+
+        /**
+         * 设置取消按钮
+         * @param name 按钮名称
+         * @param clickListener 点击监听器
+         * @return Builder
+         */
+        public Builder setCancelButton(String name, DialogInterface.OnClickListener clickListener) {
+            this.cancelButtonName = name;
+            this.cancelButtonClickListener = clickListener;
+            return this;
+        }
+
+        /**
+         * 设置取消按钮，按钮名称当地区 为CHINA是显示“确定”，否则显示“Cancel”
+         * @param clickListener 点击监听器
+         * @return Builder
+         */
+        public Builder setCancelButton(DialogInterface.OnClickListener clickListener) {
+            this.cancelButtonClickListener = clickListener;
+            return this;
+        }
+
+        /**
+         * 设置中立按钮
+         * @param name 按钮名称
+         * @param clickListener 点击监听器
+         * @return Builder
+         */
+        public Builder setNeutralButton(String name, DialogInterface.OnClickListener clickListener) {
+            this.neutralButtonName = name;
+            this.neutralButtonClickListener = clickListener;
             return this;
         }
 

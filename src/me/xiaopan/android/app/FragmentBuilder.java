@@ -1,5 +1,8 @@
 package me.xiaopan.android.app;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,8 +10,6 @@ import android.os.IBinder;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Fragment构建器
