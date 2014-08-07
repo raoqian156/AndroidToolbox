@@ -102,6 +102,7 @@ public class MainActivity extends FragmentActivity {
 		utilItems.add(new EntryItem("GeometryUtils", null));
 		utilItems.add(new EntryItem("InputVerifyUtils", null));
 		utilItems.add(new EntryItem("LoopTimer", null));
+		utilItems.add(new EntryItem("MessageDigestUtils", null));
 		utilItems.add(new EntryItem("OtherUtils", null));
 		utilItems.add(new EntryItem("RebootThreadExceptionHandler", null));
 		entryItems.add(new EntryItem("util", EntryFragment.class, utilItems));
