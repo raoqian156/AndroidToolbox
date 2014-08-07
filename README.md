@@ -126,6 +126,7 @@ Dependencies
 ## Change log
 #### 4.5.9
 >* 增加MessageDigestUtils.java 方便计算文件MD5或SHA-1摘要信息
+>* MessageDialogFragment和ProgressDialogFragment中Builder的成员变量改为私有的
 
 #### 4.5.8
 >* 优化MessageDialogFragment和ProgressDialogFragment的按钮设置方法，并增加中立按钮（NeutralButton）

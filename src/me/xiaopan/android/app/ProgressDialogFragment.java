@@ -130,19 +130,19 @@ public class ProgressDialogFragment extends DialogFragment {
     }
 
     public static class Builder{
-        String title;
-        String message;
-        String confirmButtonName;
-        String cancelButtonName;
-        String neutralButtonName;
-        boolean cancelable = false;
-        DialogInterface.OnClickListener confirmButtonClickListener;
-        DialogInterface.OnClickListener cancelButtonClickListener;
-        DialogInterface.OnClickListener neutralButtonClickListener;
-        DialogInterface.OnShowListener onShowListener;
-        DialogInterface.OnDismissListener onDismissListener;
-        DialogInterface.OnCancelListener onCancelListener;
-        DialogInterface.OnKeyListener onKeyListener;
+    	private String title;
+    	private String message;
+    	private String confirmButtonName;
+    	private String cancelButtonName;
+    	private String neutralButtonName;
+    	private boolean cancelable = false;
+    	private DialogInterface.OnClickListener confirmButtonClickListener;
+    	private DialogInterface.OnClickListener cancelButtonClickListener;
+    	private DialogInterface.OnClickListener neutralButtonClickListener;
+    	private DialogInterface.OnShowListener onShowListener;
+    	private DialogInterface.OnDismissListener onDismissListener;
+    	private DialogInterface.OnCancelListener onCancelListener;
+    	private DialogInterface.OnKeyListener onKeyListener;
 
         public Builder(String message) {
             this.message = message;
