@@ -1,0 +1,315 @@
+package me.xiaopan.android.widget;
+
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+/**
+ * ListView加载更多管理器
+ * <br>
+ * <br>首先你需要创建一个实现了LoadMoreListFooter接口的View，然后在创建LoadMore的时候new一个实例并通过LoadMore的构造函数传进来并设置OnLoadMoreListener
+ * <br>
+ * <br>然后在加载完数据后你需要调用ListViewLoadMoreManager的setAdapter()方法来设置Adapter，因为ListViewLoadMoreManager要在设置Adapter之前添加FooterView
+ * <br>
+ * <br>最后你需要在OnLoadMoreListener的onLoadMore()方法里分页加载更多的数据并加载结果调用loadFinished()或loadFailed()或end()方法来结束加载
+ * <br>
+ * <br>
+ * <br>另外
+ * <br>默认开启了滚动到底部自动加载的功能，你可以通过setScrollToBottomAutoLoad()方法关闭
+ * <br>
+ * <br>由于需要设置OnScrollListener才能实现功能，你也要设置OnScrollListener的话就需要调用ListViewLoadMoreManager的setOnScrollListener来设置
+ * <br>
+ * <br>如果在使用之前已经设置了OnScrollListener的话也不用担心，ListViewLoadMoreManager会先拿到已存在的OnScrollListener并回调它
+ */
+public class ListViewLoadMoreManager implements OnScrollListener{
+	private static final String NAME = ListViewLoadMoreManager.class.getSimpleName();
+	
+	private boolean end;	// 是否已经结束加载（已经结束的话就不再处理任何事件或操作）
+	private boolean loading;	// 表示是否正在加载（正在加载的时候就不再处理滚动事件）
+	private boolean allowClickLoad;	// 是否允许通过点击Footer加载（只有加载失败的时候才允许）
+	private boolean debugMode;	// 开启DEBUG模式，开启后会在控制台输出追踪LOG
+	private boolean needRollback;	// 表示是否需要回滚
+	private boolean scrollToBottomAutoLoad;	// 滚动到底部自动加载
+	private View footerView;
+	private ListView listView;
+	private OnScrollListener onScrollListener;
+	private LoadMoreListFooter loadMoreListFooter;
+	private OnLoadMoreListener onLoadMoreListener;
+	
+	public ListViewLoadMoreManager(ListView listView, LoadMoreListFooter footer, OnLoadMoreListener onLoadMoreListener) {
+		this.listView = listView;
+		this.onLoadMoreListener = onLoadMoreListener;
+		this.listView.setOnScrollListener(this);
+		this.loadMoreListFooter = footer; 
+		this.footerView = (View) footer;
+		this.scrollToBottomAutoLoad = true;
+		this.footerView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(allowClickLoad){
+					load();
+				}
+			}
+		});
+		try {
+			Object object = ListView.class.getField("mOnScrollListener").get(listView);
+			if(object != null && object instanceof OnScrollListener){
+				this.onScrollListener = (OnScrollListener) object;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if(onScrollListener != null){
+			onScrollListener.onScrollStateChanged(view, scrollState);
+		}
+	}
+	
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if(onScrollListener != null){
+			onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+		}
+		
+		if(!scrollToBottomAutoLoad){
+			if(debugMode){
+				Log.i(NAME, "onScroll：滚动到底部自动加载功能已关闭，你可以通过setScrollToBottomAutoLoad()方法开启");
+			}
+			return;
+		}
+		
+		int lastVisibleItem = firstVisibleItem + visibleItemCount;	// 当前最后一个显示的Item
+		
+		// 如果已经结束加载就直接结束不再处理
+		if(end){
+			if(debugMode){
+				Log.i(NAME, "onScroll：已加载完毕："+lastVisibleItem);
+			}
+			return;
+		}
+		
+		// 如果正在加载中就直接结束不再处理
+		if(loading){
+			if(debugMode){
+				Log.i(NAME, "onScroll：正在加载中："+lastVisibleItem);
+			}
+			return;
+		}
+		
+		// 如果内容尚未充满就直接结束不再处理
+		if(visibleItemCount == totalItemCount){
+			if(debugMode){
+				Log.i(NAME, "onScroll：内容尚未充满："+lastVisibleItem);
+			}
+			return;
+		}
+
+		int triggerItem = totalItemCount - 1;
+		
+		// 如果需要回滚
+		if(needRollback){
+			// 如果当前滚动位置依然大于等于触发位置就直接结束不再处理
+			if(lastVisibleItem >= triggerItem){
+				if(debugMode){
+					Log.d(NAME, "onScroll：需要回滚："+lastVisibleItem);
+				}
+				return;
+			// 如果已经回滚完毕了就设置不需要回滚
+			}else{
+				if(debugMode){
+					Log.w(NAME, "onScroll：回滚完毕："+lastVisibleItem);
+				}
+				needRollback = false;
+			}
+		}
+		
+		// 如果滚动到了最后一项，就启动加载
+		if(lastVisibleItem == triggerItem){
+			if(onLoadMoreListener != null){
+				load();
+			}
+		}
+	}
+	
+	/**
+	 * 设置适配器
+	 * @param listAdapter 适配器
+	 * @param end true：已全部加载完毕，将回调LoadMoreListFooter.end()方法显示加载完毕；false：尚未加载完毕，将回调LoadMoreListFooter.clockLoad()方法显示点击加载
+	 */
+	public void setAdapter(ListAdapter listAdapter, boolean end){
+		listView.removeFooterView(footerView);
+		listView.addFooterView((View) footerView);
+		listView.setAdapter(listAdapter);
+		if(end){
+			loadMoreListFooter.end();
+		}else{
+			loadMoreListFooter.clickLoad();
+		}
+	}
+	
+	/**
+	 * 开始加载
+	 */
+	private void load(){
+		if(end){
+			if(debugMode){
+				Log.i(NAME, "load：已加载完毕");
+			}
+			return;
+		}
+		if(loading){
+			if(debugMode){
+				Log.i(NAME, "load：正在加载中");
+			}
+			return;
+		}
+
+		if(debugMode){
+			Log.w(NAME, "load：开始加载");
+		}
+		loading = true;
+		needRollback = true;
+		allowClickLoad = false;
+		loadMoreListFooter.loading();
+		onLoadMoreListener.onLoadMore(this);
+	}
+	
+	/**
+	 * 加载完成
+	 */
+	public void loadFinished(){
+		if(end){
+			if(debugMode){
+				Log.i(NAME, "loadFinished：已加载完毕");
+			}
+			return;
+		}
+		if(!loading){
+			if(debugMode){
+				Log.i(NAME, "loadFinished：尚未加载");
+			}
+			return;
+		}
+
+		if(debugMode){
+			Log.w(NAME, "loadFinished：加载完成");
+		}
+		loading = false;
+		allowClickLoad = true;
+		loadMoreListFooter.clickLoad();
+	}
+	
+	/**
+	 * 加载失败
+	 */
+	public void loadFailed(){
+		if(end){
+			if(debugMode){
+				Log.i(NAME, "loadFailed：已加载完毕");
+			}
+			return;
+		}
+		if(!loading){
+			if(debugMode){
+				Log.i(NAME, "loadFailed：尚未加载");
+			}
+			return;
+		}
+
+		if(debugMode){
+			Log.e(NAME, "loadFailed：加载失败");
+		}
+		loading = false;
+		allowClickLoad = true;
+		loadMoreListFooter.failed();
+	}
+	
+	/**
+	 * 已全部加载完毕
+	 */
+	public void end(){
+		if(debugMode){
+			Log.w(NAME, "end：已全部加载完毕");
+		}
+		end = true;
+		loading = false;
+		allowClickLoad = false;
+		loadMoreListFooter.end();
+	}
+	
+	/**
+	 * 设置滚动监听器
+	 * @param onScrollListener
+	 */
+	public void setOnScrollListener(OnScrollListener onScrollListener) {
+		this.onScrollListener = onScrollListener;
+		listView.setOnScrollListener(this);
+	}
+
+	/**
+	 * 设置DEBUG模式
+	 * @param debugMode
+	 */
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
+	}
+
+	/**
+	 * 设置加载更多监听器
+	 * @param onLoadMoreListener
+	 */
+	public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+		this.onLoadMoreListener = onLoadMoreListener;
+	}
+
+	/**
+	 * 设置是否滚动到底部自动加载，默认true
+	 * @param scrollToBottomAutoLoad
+	 */
+	public void setScrollToBottomAutoLoad(boolean scrollToBottomAutoLoad) {
+		this.scrollToBottomAutoLoad = scrollToBottomAutoLoad;
+	}
+
+	/**
+	 * 加载更多监听器
+	 */
+	public interface OnLoadMoreListener{
+		/**
+		 * 加载更多
+		 * @param loadMore
+		 */
+		public void onLoadMore(ListViewLoadMoreManager loadMore);
+	}
+	
+	/**
+	 * 加载更多列表尾接口
+	 */
+	public interface LoadMoreListFooter{
+		/**
+		 * 点击加载
+		 */
+		public void clickLoad();
+		
+		/**
+		 * 加载中
+		 */
+		public void loading();
+		
+		/**
+		 * 加载失败
+		 */
+		public void failed();
+		
+		/**
+		 * 已全部加载完毕
+		 */
+		public void end();
+	}
+}
