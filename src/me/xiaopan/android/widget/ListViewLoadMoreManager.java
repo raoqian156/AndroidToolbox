@@ -1,29 +1,36 @@
 package me.xiaopan.android.widget;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**
  * ListView加载更多管理器
  * <br>
- * <br>首先你需要创建一个实现了LoadMoreListFooter接口的View，然后在创建LoadMore的时候new一个实例并通过LoadMore的构造函数传进来并设置OnLoadMoreListener
+ * <br>首先你需要使用ListViewLoadMoreManager(ListView, OnLoadMoreListener)构造函数来创建一个ListViewLoadMoreManager
  * <br>
- * <br>然后在加载完数据后你需要调用ListViewLoadMoreManager的setAdapter()方法来设置Adapter，因为ListViewLoadMoreManager要在设置Adapter之前添加FooterView
+ * <br>然后在加载完数据后调用ListViewLoadMoreManager的setAdapter()方法来设置Adapter，因为ListViewLoadMoreManager要在设置Adapter之前添加FooterView
  * <br>
- * <br>最后你需要在OnLoadMoreListener的onLoadMore()方法里分页加载更多的数据并加载结果调用loadFinished()或loadFailed()或end()方法来结束加载
+ * <br>最后你需要在OnLoadMoreListener的onLoadMore()方法里分页加载更多的数据并根据加载结果调用loadFinished()或loadFailed()或end()方法来结束加载
  * <br>
  * <br>
  * <br>另外
+ * <br>
+ * <br>如果你想自定义ListFooterView那么你需要自定义一个View并实现LoadMoreListFooter接口，然后在创建ListViewLoadMoreManager的时候使用ListViewLoadMoreManager(ListView, LoadMoreListFooter, OnLoadMoreListener)构造函数并传入你自定义的ListFooterView
+ * <br>
  * <br>默认开启了滚动到底部自动加载的功能，你可以通过setScrollToBottomAutoLoad()方法关闭
  * <br>
- * <br>由于需要设置OnScrollListener才能实现功能，你也要设置OnScrollListener的话就需要调用ListViewLoadMoreManager的setOnScrollListener来设置
- * <br>
- * <br>如果在使用之前已经设置了OnScrollListener的话也不用担心，ListViewLoadMoreManager会先拿到已存在的OnScrollListener并回调它
+ * <br>由于需要设置OnScrollListener才能实现功能，所以你也要设置OnScrollListener的话就需要调用ListViewLoadMoreManager的setOnScrollListener来设置，如果在之前已经设置了OnScrollListener的话也不用担心，ListViewLoadMoreManager会先拿到已存在的OnScrollListener并回调它
  */
 public class ListViewLoadMoreManager implements OnScrollListener{
 	private static final String NAME = ListViewLoadMoreManager.class.getSimpleName();
@@ -40,12 +47,19 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 	private LoadMoreListFooter loadMoreListFooter;
 	private OnLoadMoreListener onLoadMoreListener;
 	
+	/**
+	 * 
+	 * @param listView 需要添加加载更多功能的列表
+	 * @param footer 列表尾视图
+	 * @param onLoadMoreListener 加载监听器
+	 */
 	public ListViewLoadMoreManager(ListView listView, LoadMoreListFooter footer, OnLoadMoreListener onLoadMoreListener) {
 		this.listView = listView;
-		this.onLoadMoreListener = onLoadMoreListener;
 		this.listView.setOnScrollListener(this);
 		this.loadMoreListFooter = footer; 
 		this.footerView = (View) footer;
+		this.onLoadMoreListener = onLoadMoreListener;
+		
 		this.scrollToBottomAutoLoad = true;
 		this.footerView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -63,6 +77,15 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 将会采用默认的列表尾视图
+	 * @param listView 需要添加加载更多功能的列表
+	 * @param onLoadMoreListener 加载监听器
+	 */
+	public ListViewLoadMoreManager(ListView listView, OnLoadMoreListener onLoadMoreListener){
+		this(listView, new DefaultLoadMoreListFooterView(listView.getContext(), -1), onLoadMoreListener);
 	}
 	
 	@Override
@@ -311,5 +334,65 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 		 * 已全部加载完毕
 		 */
 		public void end();
+	}
+	
+	/**
+	 * 默认的加载更多列表尾视图
+	 */
+	public static class DefaultLoadMoreListFooterView extends LinearLayout implements LoadMoreListFooter{
+		private ProgressBar progressBar;
+		private TextView textView;
+		
+		public DefaultLoadMoreListFooterView(Context context, int textColor) {
+			super(context);
+			setGravity(Gravity.CENTER);
+			setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp2px(getContext(), 50)));
+			
+			int progressWidth = dp2px(getContext(), 30);
+			progressBar = new ProgressBar(getContext());
+			addView(progressBar, new LinearLayout.LayoutParams(progressWidth, progressWidth));
+			
+			textView = new TextView(getContext());
+			if(textColor > 0){
+				textView.setTextColor(textColor);
+			}
+			LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			textViewParams.leftMargin = dp2px(getContext(), 8);
+			addView(textView, textViewParams);
+		}
+		
+		/**
+		 * dp单位转换为px
+		 * @param context 上下文，需要通过上下文获取到当前屏幕的像素密度
+		 * @param dpValue dp值
+		 * @return px值
+		 */
+		private int dp2px(Context context, float dpValue){
+			return (int)(dpValue * (context.getResources().getDisplayMetrics().density) + 0.5f);
+		}
+
+		@Override
+		public void loading() {
+			progressBar.setVisibility(View.VISIBLE);
+			textView.setText("正在加载更多，请稍后…");
+		}
+
+		@Override
+		public void failed() {
+			progressBar.setVisibility(View.GONE);
+			textView.setText("加载更多失败，点击重新加载");
+		}
+
+		@Override
+		public void end() {
+			progressBar.setVisibility(View.GONE);
+			textView.setText("THE END");
+		}
+
+		@Override
+		public void clickLoad() {
+			progressBar.setVisibility(View.GONE);
+			textView.setText("点击加载更多");
+		}
 	}
 }
