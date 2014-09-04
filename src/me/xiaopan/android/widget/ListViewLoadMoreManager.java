@@ -1,5 +1,7 @@
 package me.xiaopan.android.widget;
 
+import java.lang.reflect.Field;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.Gravity;
@@ -55,12 +57,10 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 	 */
 	public ListViewLoadMoreManager(ListView listView, LoadMoreListFooter footer, OnLoadMoreListener onLoadMoreListener) {
 		this.listView = listView;
-		this.listView.setOnScrollListener(this);
 		this.loadMoreListFooter = footer; 
 		this.footerView = (View) footer;
 		this.onLoadMoreListener = onLoadMoreListener;
 		
-		this.scrollToBottomAutoLoad = true;
 		this.footerView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -70,13 +70,17 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 			}
 		});
 		try {
-			Object object = ListView.class.getField("mOnScrollListener").get(listView);
+			Field field = ListView.class.getSuperclass().getDeclaredField("mOnScrollListener");
+			field.setAccessible(true);
+			Object object = field.get(listView);
 			if(object != null && object instanceof OnScrollListener){
 				this.onScrollListener = (OnScrollListener) object;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		this.listView.setOnScrollListener(this);
+		this.scrollToBottomAutoLoad = true;
 	}
 	
 	/**
