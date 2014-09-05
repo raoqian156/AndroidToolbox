@@ -21,9 +21,10 @@ import android.widget.TextView;
  * <br>
  * <br>首先你需要使用ListViewLoadMoreManager(ListView, OnLoadMoreListener)构造函数来创建一个ListViewLoadMoreManager
  * <br>
- * <br>然后在加载完数据后调用ListViewLoadMoreManager的setAdapter()方法来设置Adapter，因为ListViewLoadMoreManager要在设置Adapter之前添加FooterView
+ * <br>然后在加载完数据后调用ListViewLoadMoreManager的setAdapter(ListAdapter, boolean)方法来设置Adapter，第二个参数的意思是是否已全部加载完毕，如果为true将切换到end状态，并且永远不会再触发加载
  * <br>
- * <br>最后你需要在OnLoadMoreListener的onLoadMore()方法里分页加载更多的数据并根据加载结果调用loadFinished()或loadFailed()或end()方法来结束加载
+ * <br>最后你需要在OnLoadMoreListener的onLoadMore()方法里分页加载更多的数据并根据加载结果调用loadFinished(boolean)或loadFailed()方法来结束加载
+ * <br>值的注意的是loadFinished(boolean)方法的参数，意思是是否已全部加载完毕，如果为true将切换到end状态，并且永远不会再触发加载
  * <br>
  * <br>
  * <br>另外
@@ -211,7 +212,7 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 	/**
 	 * 加载完成
 	 */
-	public void loadFinished(){
+	public void loadFinished(boolean end){
 		if(end){
 			if(debugMode){
 				Log.i(NAME, "loadFinished：已加载完毕");
@@ -225,12 +226,23 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 			return;
 		}
 
-		if(debugMode){
-			Log.w(NAME, "loadFinished：加载完成");
+		
+		if(end){
+			if(debugMode){
+				Log.w(NAME, "loadFinished：已全部加载完毕");
+			}
+			end = true;
+			loading = false;
+			allowClickLoad = false;
+			loadMoreListFooter.end();
+		}else{
+			if(debugMode){
+				Log.w(NAME, "loadFinished：加载完成");
+			}
+			loading = false;
+			allowClickLoad = true;
+			loadMoreListFooter.clickLoad();
 		}
-		loading = false;
-		allowClickLoad = true;
-		loadMoreListFooter.clickLoad();
 	}
 	
 	/**
@@ -256,19 +268,6 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 		loading = false;
 		allowClickLoad = true;
 		loadMoreListFooter.failed();
-	}
-	
-	/**
-	 * 已全部加载完毕
-	 */
-	public void end(){
-		if(debugMode){
-			Log.w(NAME, "end：已全部加载完毕");
-		}
-		end = true;
-		loading = false;
-		allowClickLoad = false;
-		loadMoreListFooter.end();
 	}
 	
 	/**
