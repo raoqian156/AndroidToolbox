@@ -40,7 +40,7 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 	
 	private boolean end;	// 是否已经结束加载（已经结束的话就不再处理任何事件或操作）
 	private boolean loading;	// 表示是否正在加载（正在加载的时候就不再处理滚动事件）
-	private boolean allowClickLoad;	// 是否允许通过点击Footer加载（只有加载失败的时候才允许）
+	private boolean allowClickLoad;	// 是否允许通过点击Footer触发加载
 	private boolean debugMode;	// 开启DEBUG模式，开启后会在控制台输出追踪LOG
 	private boolean needRollback;	// 表示是否需要回滚
 	private boolean scrollToBottomAutoLoad;	// 滚动到底部自动加载
@@ -175,10 +175,12 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 		listView.removeFooterView(footerView);
 		listView.addFooterView((View) footerView);
 		listView.setAdapter(listAdapter);
+		this.end = end;
 		if(end){
-			this.end = true;
+			allowClickLoad = false;
 			loadMoreListFooter.end();
 		}else{
+			allowClickLoad = true;
 			loadMoreListFooter.clickLoad();
 		}
 	}
