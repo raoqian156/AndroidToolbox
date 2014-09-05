@@ -176,6 +176,7 @@ public class ListViewLoadMoreManager implements OnScrollListener{
 		listView.addFooterView((View) footerView);
 		listView.setAdapter(listAdapter);
 		if(end){
+			this.end = true;
 			loadMoreListFooter.end();
 		}else{
 			loadMoreListFooter.clickLoad();
