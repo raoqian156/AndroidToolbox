@@ -106,7 +106,7 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-5.0.5.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0.jar)
+>* [android-happy-5.0.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0.jar)
 >* [android-happy-5.0.0-with-src.zip](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0-with-src.zip)
 
 Dependencies
