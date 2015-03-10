@@ -110,7 +110,7 @@ me.xiaopan.android.widget
 >* [android-happy-5.0.0-with-src.zip](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-toolbox-5.0.0-with-src.zip)
 
 Dependencies
->* [android-support-v4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/library/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
+>* android-support-v4.jar
     1. FragmentListPagerAdapter.java
     2. SimpleFragmentPagerAdapter.java
     3. SimpleFragmentStatePagerAdapter.java
