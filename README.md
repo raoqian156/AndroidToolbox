@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/xiaopansky/AndroidToolbox/raw/master/sample/src/main/res/mipmap-dpi/ic_launcher.png) AndroidToolbox
+# ![Logo](https://github.com/xiaopansky/AndroidToolbox/raw/master/sample/src/main/res/mipmap-mdpi/ic_launcher.png) AndroidToolbox
 
 这是一个Android工具类库，其包含大量在Android开发中经常用到的工具类或方法，旨在让Android开发变得更简单、更随意、更舒心！
 
@@ -106,11 +106,11 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-5.0.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0.jar)
->* [android-happy-5.0.0-with-src.zip](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0-with-src.zip)
+>* [android-happy-5.0.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-toolbox-5.0.0.jar)
+>* [android-happy-5.0.0-with-src.zip](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-toolbox-5.0.0-with-src.zip)
 
 Dependencies
->* [android-support-v4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
+>* [android-support-v4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/library/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
     1. FragmentListPagerAdapter.java
     2. SimpleFragmentPagerAdapter.java
     3. SimpleFragmentStatePagerAdapter.java
@@ -120,9 +120,9 @@ Dependencies
     7. DepthPageTransformer.java
     8. ZoomOutPageTransformer.java
     
->* [gson-2.2.4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要导入此类库
+>* [gson-2.2.4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/library/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要导入此类库
 
->* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
+>* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/library/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
 
 ## Change log
 #### 5.0.0
