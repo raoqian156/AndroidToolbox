@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/xiaopansky/HappyAndroid/raw/master/res/drawable-mdpi/ic_launcher.png) HappyAndroid
+# ![Logo](https://github.com/xiaopansky/AndroidToolbox/raw/master/sample/src/main/res/mipmap-dpi/ic_launcher.png) AndroidToolbox
 
 这是一个Android工具类库，其包含大量在Android开发中经常用到的工具类或方法，旨在让Android开发变得更简单、更随意、更舒心！
 
@@ -97,7 +97,7 @@ me.xiaopan.android.webkit
 >* WebViewManager.java
 
 me.xiaopan.android.widget
->* [CheckAdapter.java](https://github.com/xiaopansky/HappyAndroid/wiki/CheckAdapter.java)
+>* [CheckAdapter.java](https://github.com/xiaopansky/AndroidToolbox/wiki/CheckAdapter.java)
 >* DepthPageTransformer.java
 >* NestedGridView.java
 >* NestedListView.java
@@ -106,11 +106,11 @@ me.xiaopan.android.widget
 >* ZoomOutPageTransformer.java
 
 ##Downloads
->* [android-happy-4.5.9.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.9.jar)
->* [android-happy-4.5.9-with-src.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/releases/android-happy-4.5.9-with-src.jar)
+>* [android-happy-5.0.5.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0.jar)
+>* [android-happy-5.0.0-with-src.zip](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-happy-5.0.0-with-src.zip)
 
 Dependencies
->* [android-support-v4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
+>* [android-support-v4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/libs/android-support-v4.jar) 可选的。如果你要使用以下类的话就必须导入此类库
     1. FragmentListPagerAdapter.java
     2. SimpleFragmentPagerAdapter.java
     3. SimpleFragmentStatePagerAdapter.java
@@ -120,11 +120,16 @@ Dependencies
     7. DepthPageTransformer.java
     8. ZoomOutPageTransformer.java
     
->* [gson-2.2.4.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要导入此类库
+>* [gson-2.2.4.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/libs/gson-2.2.4.jar) 可选的。如果你要使用PreferenceUtils的putObject()和getObject()方法的话就必须要导入此类库
 
->* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/HappyAndroid/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
+>* [pinyin4j-2.5.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/libs/pinyin4j-2.5.0.jar) 可选的。此类库用于实现为中文匹配拼音或者比较两个中文的大小，所以如果你要使用CharUtils的getPinyin系列方法或者StringUtils的compare()方法的话就必须要导入此类库
 
 ## Change log
+#### 5.0.0
+>* 更改项目结构为Gradle
+>* 删掉了一些多余的工具方法、类
+>* 优化了一些方法的命名以及组织结构
+
 #### 4.5.9
 >* 增加MessageDigestUtils.java 方便计算文件MD5或SHA-1摘要信息
 >* MessageDialogFragment和ProgressDialogFragment中Builder的成员变量改为私有的

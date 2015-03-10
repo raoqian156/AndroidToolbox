@@ -7,14 +7,18 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 500
+        versionName "5.0.0"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions{
+        abortOnError false
     }
 }
 
