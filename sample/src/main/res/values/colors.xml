@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主题相关 -->
+    <color name="colorPrimary">#A2B01D</color>
+    <color name="colorPrimaryDark">#819832</color>
+</resources>

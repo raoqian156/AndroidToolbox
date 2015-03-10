@@ -1,0 +1,10 @@
+<resources>
+    <style name="page">
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:clipToPadding">true</item>
+    </style>
+
+    <style name="page_body">
+        <item name="android:background">@android:color/white</item>
+    </style>
+</resources>
