@@ -1,4 +1,4 @@
-package com.yingyonghui.market.util;
+package me.xiaopan.android.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,7 @@ public class InputMethodUtils {
         editText.requestFocus();
 
         InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 
         // 定位光标到已输入文本的最后
         Editable editable = editText.getEditableText();
