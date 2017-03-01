@@ -22,9 +22,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-/**
- * 位图工具箱
- */
+@SuppressWarnings("unused")
 public class BitmapUtils {
     /**
      * Drawable转换成Bitmap
