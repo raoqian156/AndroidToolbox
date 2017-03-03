@@ -11,7 +11,23 @@ import android.widget.EditText;
 
 public class InputMethodUtils {
 
-    public static void showSoftInput(EditText editText) {
+    /**
+     * 移动光标到已输入文本的最后
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void moveCursorToEnd(EditText editText) {
+        Editable editable = editText.getEditableText();
+        Selection.setSelection(editable, editable.toString().length());
+    }
+
+    /**
+     * 显示输入法并将焦点定位到指定的输入框，并可指定是否移动光标到已输入文本的最后
+     *
+     * @param editText        输入框
+     * @param moveCursorToEnd 是否移动光标到已输入文本的最后
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void showSoftInput(EditText editText, boolean moveCursorToEnd) {
         // 这一步是必须的，且必须在前
         editText.requestFocus();
 
@@ -19,10 +35,38 @@ public class InputMethodUtils {
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 
         // 定位光标到已输入文本的最后
-        Editable editable = editText.getEditableText();
-        Selection.setSelection(editable, editable.toString().length());
+        if (moveCursorToEnd) {
+            moveCursorToEnd(editText);
+        }
     }
 
+    /**
+     * 显示输入法并将焦点定位到指定的输入框，最后移动光标到已输入文本的最后
+     *
+     * @param editText 输入框
+     */
+    public static void showSoftInput(EditText editText) {
+        showSoftInput(editText, true);
+    }
+
+    /**
+     * 延迟100毫秒显示输入法并将焦点定位到指定的输入框，最后移动光标到已输入文本的最后
+     */
+    public static void delayShowSoftInput(final EditText editText) {
+        // 定位光标到已输入文本的最后，定位光标不能延迟，要不然页面上看上去会有光标的跳动
+        moveCursorToEnd(editText);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodUtils.showSoftInput(editText, false);
+            }
+        }, 100);
+    }
+
+    /**
+     * 隐藏软键盘
+     */
     public static void hideSoftInput(EditText editText) {
         if (editText == null || editText.getWindowToken() == null) {
             return;
@@ -32,6 +76,9 @@ public class InputMethodUtils {
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
+    /**
+     * 隐藏软键盘
+     */
     public static void hideSoftInput(Activity activity) {
         View currentFocusView = activity != null ? activity.getCurrentFocus() : null;
         if (currentFocusView == null) {
@@ -42,6 +89,9 @@ public class InputMethodUtils {
         imm.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0);
     }
 
+    /**
+     * 隐藏软键盘
+     */
     @SuppressWarnings("unused")
     public static void hideSoftInput(Fragment fragment) {
         hideSoftInput(fragment != null ? fragment.getActivity() : null);
