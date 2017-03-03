@@ -4,110 +4,104 @@
 
 ##Usage guide
 me.xiaopan.android.app
->* DialogUtils.java
->* DownloadManagerUtils.java
->* FragmentBuilder.java
->* FragmentListPagerAdapter.java
->* FragmentUtils
->* MessageDialogFragment.java
->* ProgressDialogFragment.java
->* SimpleFragmentPagerAdapter.java
->* SimpleFragmentStatePagerAdapter.java
+>* [DialogUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/DialogUtils.java)
+>* [DownloadManagerUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/DownloadManagerUtils.java)
+>* [FragmentBuilder.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/FragmentBuilder.java)
+>* [FragmentListPagerAdapter.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/FragmentListPagerAdapter.java)
+>* [FragmentUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/FragmentUtils.java)
+>* [MessageDialogFragment.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/MessageDialogFragment.java)
+>* [ProgressDialogFragment.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/ProgressDialogFragment.java)
+>* [SimpleFragmentPagerAdapter.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/SimpleFragmentPagerAdapter.java)
+>* [SimpleFragmentStatePagerAdapter.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/app/SimpleFragmentStatePagerAdapter.java)
 
 me.xiaopan.android.content
->* BroadcastUtils.java
->* ContentUtils.java
->* FileUtils.java
->* IntentUtils.java
->* LaunchAppReceiver.java
->* UriUtils.java
+>* [BroadcastUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/BroadcastUtils.java)
+>* [ContentUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/ContentUtils.java)
+>* [FileUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/FileUtils.java)
+>* [IntentUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/IntentUtils.java)
+>* [LaunchAppReceiver.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/LaunchAppReceiver.java)
+>* [UriUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/UriUtils.java)
 
 me.xiaopan.android.content.pm
->* VersionManager.java
+>* [VersionManager.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/pm/VersionManager.java)
 
 me.xiaopan.android.content.res
->* AssetUtils.java
->* DimenUtils.java
+>* [AssetUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/res/AssetUtils.java)
+>* [DimenUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/content/res/DimenUtils.java)
 
 me.xiaopan.android.graphics
->* BitmapDecoder.java
->* BitmapUtils.java
->* Colors.java
->* ImageProcessor.java
->* RectUtils.java
->* TextUtils.java
+>* [BitmapDecoder.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/BitmapDecoder.java)
+>* [BitmapUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/BitmapUtils.java)
+>* [Colors.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/Colors.java)
+>* [ImageProcessor.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/ImageProcessor.java)
+>* [RectUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/RectUtils.java)
+>* [TextUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/TextUtils.java)
 
-me.xiaopan.android.graphics.drawble
->* DrawableLevelController.java
+me.xiaopan.android.graphics.drawable
+>* [DrawableLevelController.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/graphics/drawable/DrawableLevelController.java)
 
 me.xiaopan.android.hardware
->* DeviceUtils.java
+>* [DeviceUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/hardware/DeviceUtils.java)
 
 me.xiaopan.android.hardware.camera
->* BasePreviewAndPictureSizeCalculator.java
->* BestPreviewSizeCalculator.java
->* CameraManager.java
->* CameraUtils.java
->* LoopFocusManager.java
+>* [BasePreviewAndPictureSizeCalculator.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/hardware/camera/BasePreviewAndPictureSizeCalculator.java)
+>* [BestPreviewSizeCalculator.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/hardware/camera/BestPreviewSizeCalculator.java)
+>* [CameraManager.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/hardware/camera/CameraManager.java)
+>* [CameraUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/hardware/camera/CameraUtils.java)
+>* [LoopFocusManager.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/hardware/camera/LoopFocusManager.java)
 
 me.xiaopan.android.net
->* NetworkUtils.java
+>* [NetworkUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/net/NetworkUtils.java)
 
 me.xiaopan.android.os
->* OSUtils.java
->* SDCardUtils.java
->* StatFsCompat.java
+>* [OSUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/os/OSUtils.java)
+>* [SDCardUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/os/SDCardUtils.java)
+>* [StatFsCompat.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/os/StatFsCompat.java)
 
 me.xiaopan.android.os.storage
->* StorageUtils.java
+>* [StorageUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/os/storage/StorageUtils.java)
 
 me.xiaopan.android.preference
->* PreferencesUtils.java
+>* [PreferencesUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/preference/PreferencesUtils.java)
 
 me.xiaopan.android.provider
->* PhoneUtils.java
->* SettingsUtils.java
+>* [PhoneUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/provider/PhoneUtils.java)
+>* [SettingsUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/provider/SettingsUtils.java)
 
 me.xiaopan.android.util
->* ALog.java
->* BuildConfigUtils.java
->* Countdown.java
->* DoubleClickDetector.java
->* DoubleClickExitDetector.java
->* InputVerifyUtils.java
->* LoopTimer.java
->* MessageDigestUtils.java
->* OtherUtils.java
->* RebootThreadExceptionHandler.java
+>* [ALog.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/ALog.java)
+>* [BuildConfigUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/BuildConfigUtils.java)
+>* [Countdown.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/Countdown.java)
+>* [DoubleClickDetector.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/DoubleClickDetector.java)
+>* [DoubleClickExitDetector.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/DoubleClickExitDetector.java)
+>* [InputMethodUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/InputMethodUtils.java)
+>* [InputVerifyUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/InputVerifyUtils.java)
+>* [LoopTimer.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/LoopTimer.java)
+>* [MessageDigestUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/MessageDigestUtils.java)
+>* [OtherUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/OtherUtils.java)
+>* [RebootThreadExceptionHandler.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/util/RebootThreadExceptionHandler.java)
 
 me.xiaopan.android.view
->* ViewListPagerAdapter.java
->* ViewRefreshHandler.java
->* ViewUtils.java
->* WindowUtils.java
+>* [ViewListPagerAdapter.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/view/ViewListPagerAdapter.java)
+>* [ViewRefreshHandler.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/view/ViewRefreshHandler.java)
+>* [ViewUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/view/ViewUtils.java)
+>* [WindowUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/view/WindowUtils.java)
 
 me.xiaopan.android.view.animation
->* AnimationUtils.java
->* ViewAnimationUtils.java
-
-me.xiaopan.android.view.inputmethod
->* InputMethodUtils.java
+>* [AnimationUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/view/animation/AnimationUtils.java)
+>* [ViewAnimationUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/view/animation/ViewAnimationUtils.java)
 
 me.xiaopan.android.webkit
->* WebViewManager.java
+>* [WebViewManager.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/webkit/WebViewManager.java)
 
 me.xiaopan.android.widget
->* [CheckAdapter.java](https://github.com/xiaopansky/AndroidToolbox/wiki/CheckAdapter.java)
->* DepthPageTransformer.java
->* NestedGridView.java
->* NestedListView.java
->* ToastUtils.java
->* ViewAdapter.java
->* ZoomOutPageTransformer.java
-
-##Downloads
->* [android-happy-5.0.0.jar](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-toolbox-5.0.0.jar)
->* [android-happy-5.0.0-with-src.zip](https://github.com/xiaopansky/AndroidToolbox/raw/master/releases/android-toolbox-5.0.0-with-src.zip)
+>* [CheckAdapter.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/CheckAdapter.java) [Learn More](https://github.com/xiaopansky/AndroidToolbox/wiki/CheckAdapter.java)
+>* [DepthPageTransformer.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/DepthPageTransformer.java)
+>* [NestedGridView.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/NestedGridView.java)
+>* [NestedListView.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/NestedListView.java)
+>* [ToastUtils.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/ToastUtils.java)
+>* [ViewAdapter.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/ViewAdapter.java)
+>* [ZoomOutPageTransformer.java](https://github.com/xiaopansky/AndroidToolbox/blob/master/androidtoolbox/src/main/java/me/xiaopan/android/widget/ZoomOutPageTransformer.java)
 
 Dependencies
 >* android-support-v4.jar

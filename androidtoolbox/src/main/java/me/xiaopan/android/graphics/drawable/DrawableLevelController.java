@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.xiaopan.android.graphics.drawble;
+package me.xiaopan.android.graphics.drawable;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
