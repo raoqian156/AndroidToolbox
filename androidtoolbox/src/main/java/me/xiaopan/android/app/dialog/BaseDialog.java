@@ -153,12 +153,12 @@ public abstract class BaseDialog extends Dialog implements View.OnClickListener 
                 }
             }
         }
-        this.setCancelable(mCancelAble);
-        this.setCanceledOnTouchOutside(mCancelAble);
+        this.setCancelable(isCancelAble());
+        this.setCanceledOnTouchOutside(isCancelAble());
         if (getAnimRes() > 0) {
             this.getWindow().setWindowAnimations(getAnimRes());
         }
-        this.getWindow().setGravity(Gravity.CENTER);
+        this.getWindow().setGravity(getGravity());
         this.getWindow().getAttributes().dimAmount = isNeedBackground() ? 0.7f : 0.0f;
     }
 
