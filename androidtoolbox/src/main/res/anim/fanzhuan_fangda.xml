@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--翻转-->
+    <scale
+        android:duration="250"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:startOffset="0"
+        android:toXScale="-1.0"
+        android:toYScale="1.0" />
+    <scale
+        android:duration="250"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:startOffset="250"
+        android:toXScale="-1.0"
+        android:toYScale="1.0" />
+
+    <scale
+        android:duration="250"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:startOffset="500"
+        android:toXScale="-1.0"
+        android:toYScale="1.0" />
+
+    <scale
+        android:duration="250"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:startOffset="750"
+        android:toXScale="-1.0"
+        android:toYScale="1.0" />
+
+    <!--&lt;!&ndash;旋转&ndash;&gt;-->
+    <!--<rotate-->
+        <!--android:duration="250"-->
+        <!--android:fromDegrees="0"-->
+        <!--android:pivotX="50%"-->
+        <!--android:pivotY="50%"-->
+        <!--android:startOffset="0"-->
+        <!--android:toDegrees="-360" />-->
+    <!--<rotate-->
+        <!--android:duration="250"-->
+        <!--android:fromDegrees="0"-->
+        <!--android:pivotX="50%"-->
+        <!--android:pivotY="50%"-->
+        <!--android:startOffset="250"-->
+        <!--android:toDegrees="-360" />-->
+    <!--<rotate-->
+        <!--android:duration="250"-->
+        <!--android:fromDegrees="0"-->
+        <!--android:pivotX="50%"-->
+        <!--android:pivotY="50%"-->
+        <!--android:startOffset="500"-->
+        <!--android:toDegrees="-360" />-->
+    <!--<rotate-->
+        <!--android:duration="250"-->
+        <!--android:fromDegrees="0"-->
+        <!--android:pivotX="50%"-->
+        <!--android:pivotY="50%"-->
+        <!--android:startOffset="750"-->
+        <!--android:toDegrees="-360" />-->
+    <!--放大-->
+    <scale
+        android:duration="1000"
+        android:fromXScale="0.0"
+        android:fromYScale="0.0"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+</set>
