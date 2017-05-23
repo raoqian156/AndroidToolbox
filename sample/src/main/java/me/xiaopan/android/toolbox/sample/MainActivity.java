@@ -63,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
 
     private EntryItem generateAppEntry(){
         List<EntryItem> appItems = new ArrayList<EntryItem>();
-        appItems.add(new EntryItem("DialogUtils", null));
         appItems.add(new EntryItem("DownloadManagerUtils", null));
         appItems.add(new EntryItem("FragmentBuilder", null));
         appItems.add(new EntryItem("FragmentListPagerAdapter", null));
