@@ -16,7 +16,7 @@
 
     <style name="default_dialog_style_dialog">
         <item name="android:windowEnterAnimation">@anim/fanzhuan_fangda</item>
-        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+        <item name="android:windowExitAnimation">@anim/fanzhuan_fangda</item>
     </style>
 
 </resources>

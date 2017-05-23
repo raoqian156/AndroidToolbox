@@ -13,29 +13,30 @@ import java.util.List;
 
 import me.xiaopan.android.toolbox.sample.EntryFragment.EntryItem;
 import me.xiaopan.android.toolbox.sample.android.widget.CheckAdapterSampleFragment;
+import me.xiaopan.android.toolbox.sample.show.DownLoadTest;
 
 public class MainActivity extends ActionBarActivity {
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null){
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
         toolbar.setLogo(R.mipmap.ic_launcher);
 
-		Fragment fragment = new EntryFragment();
-		Bundle bundle = new Bundle();
-		bundle.putString(EntryFragment.PARAM_STRING_JSON_ENTRY_ITEM, new Gson().toJson(generateMainEntryItem()));
-		fragment.setArguments(bundle);
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		transaction.replace(R.id.frame_main_content, fragment);
-		transaction.commitAllowingStateLoss();
-	}
+        Fragment fragment = new EntryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(EntryFragment.PARAM_STRING_JSON_ENTRY_ITEM, new Gson().toJson(generateMainEntryItem()));
+        fragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_main_content, fragment);
+        transaction.commitAllowingStateLoss();
+    }
 
-    private EntryItem generateMainEntryItem(){
+    private EntryItem generateMainEntryItem() {
         List<EntryItem> entryItems = new ArrayList<EntryItem>();
 
         entryItems.add(generateAppEntry());
@@ -61,9 +62,9 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem(getResources().getString(R.string.app_name), null, entryItems);
     }
 
-    private EntryItem generateAppEntry(){
+    private EntryItem generateAppEntry() {
         List<EntryItem> appItems = new ArrayList<EntryItem>();
-        appItems.add(new EntryItem("DownloadManagerUtils", null));
+        appItems.add(new EntryItem("DownloadManagerUtils", DownLoadTest.class));
         appItems.add(new EntryItem("FragmentBuilder", null));
         appItems.add(new EntryItem("FragmentListPagerAdapter", null));
         appItems.add(new EntryItem("FragmentUtils", null));
@@ -74,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("app", EntryFragment.class, appItems);
     }
 
-    private EntryItem generateContentEntry(){
+    private EntryItem generateContentEntry() {
         List<EntryItem> contentItems = new ArrayList<EntryItem>();
         contentItems.add(new EntryItem("BroadcastUtils", null));
         contentItems.add(new EntryItem("ContentUtils", null));
@@ -85,20 +86,20 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("content", EntryFragment.class, contentItems);
     }
 
-    private EntryItem generateContentPmEntry(){
+    private EntryItem generateContentPmEntry() {
         List<EntryItem> contentPmItems = new ArrayList<EntryItem>();
         contentPmItems.add(new EntryItem("VersionManager", null));
         return new EntryItem("content.pm", EntryFragment.class, contentPmItems);
     }
 
-    private EntryItem generateContentResEntry(){
+    private EntryItem generateContentResEntry() {
         List<EntryItem> contentResItems = new ArrayList<EntryItem>();
         contentResItems.add(new EntryItem("AssetUtils", null));
         contentResItems.add(new EntryItem("DimenUtils", null));
         return new EntryItem("content.res", EntryFragment.class, contentResItems);
     }
 
-    private EntryItem generateGraphicsEntry(){
+    private EntryItem generateGraphicsEntry() {
         List<EntryItem> graphicsItems = new ArrayList<EntryItem>();
         graphicsItems.add(new EntryItem("BitmapDecoder", null));
         graphicsItems.add(new EntryItem("BitmapUtils", null));
@@ -109,20 +110,20 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("graphics", EntryFragment.class, graphicsItems);
     }
 
-    private EntryItem generateGraphicsDrawableEntry(){
+    private EntryItem generateGraphicsDrawableEntry() {
         List<EntryItem> graphicsDrawableItems = new ArrayList<EntryItem>();
         graphicsDrawableItems.add(new EntryItem("DrawableLevelController", null));
         return new EntryItem("graphics.drawable", EntryFragment.class, graphicsDrawableItems);
 
     }
 
-    private EntryItem generateHardwareEntry(){
+    private EntryItem generateHardwareEntry() {
         List<EntryItem> hardwareItems = new ArrayList<EntryItem>();
         hardwareItems.add(new EntryItem("DeviceUtils", null));
         return new EntryItem("hardware", EntryFragment.class, hardwareItems);
     }
 
-    private EntryItem generateHardwareCameraEntry(){
+    private EntryItem generateHardwareCameraEntry() {
         List<EntryItem> hardwareCameraItems = new ArrayList<EntryItem>();
         hardwareCameraItems.add(new EntryItem("BasePreviewAndPictureSizeCalculator", null));
         hardwareCameraItems.add(new EntryItem("BestPreviewSizeCalculator", null));
@@ -132,13 +133,13 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("hardware.camera", EntryFragment.class, hardwareCameraItems);
     }
 
-    private EntryItem generateNetEntry(){
+    private EntryItem generateNetEntry() {
         List<EntryItem> netItems = new ArrayList<EntryItem>();
         netItems.add(new EntryItem("NetworkUtils", null));
         return new EntryItem("net", EntryFragment.class, netItems);
     }
 
-    private EntryItem generateOsEntry(){
+    private EntryItem generateOsEntry() {
         List<EntryItem> osItems = new ArrayList<EntryItem>();
         osItems.add(new EntryItem("OSUtils", null));
         osItems.add(new EntryItem("SDCardUtils", null));
@@ -146,26 +147,26 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("os", EntryFragment.class, osItems);
     }
 
-    private EntryItem generateOsStorageEntry(){
+    private EntryItem generateOsStorageEntry() {
         List<EntryItem> osItems = new ArrayList<EntryItem>();
         osItems.add(new EntryItem("StorageUtils", null));
         return new EntryItem("os.storage", EntryFragment.class, osItems);
     }
 
-    private EntryItem generatePreferenceEntry(){
+    private EntryItem generatePreferenceEntry() {
         List<EntryItem> preferenceItems = new ArrayList<EntryItem>();
         preferenceItems.add(new EntryItem("PreferencesUtils", null));
         return new EntryItem("preference", EntryFragment.class, preferenceItems);
     }
 
-    private EntryItem generateProviderEntry(){
+    private EntryItem generateProviderEntry() {
         List<EntryItem> providerItems = new ArrayList<EntryItem>();
         providerItems.add(new EntryItem("PhoneUtils", null));
         providerItems.add(new EntryItem("SettingsUtils", null));
         return new EntryItem("provider", EntryFragment.class, providerItems);
     }
 
-    private EntryItem generateUtilEntry(){
+    private EntryItem generateUtilEntry() {
         List<EntryItem> utilItems = new ArrayList<EntryItem>();
         utilItems.add(new EntryItem("ALog", null));
         utilItems.add(new EntryItem("Countdown", null));
@@ -178,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("util", EntryFragment.class, utilItems);
     }
 
-    private EntryItem generateViewEntry(){
+    private EntryItem generateViewEntry() {
         List<EntryItem> viewItems = new ArrayList<EntryItem>();
         viewItems.add(new EntryItem("ViewListPagerAdapter", null));
         viewItems.add(new EntryItem("ViewRefreshHandler", null));
@@ -187,7 +188,7 @@ public class MainActivity extends ActionBarActivity {
         return new EntryItem("view", EntryFragment.class, viewItems);
     }
 
-    private EntryItem generateViewAnimationEntry(){
+    private EntryItem generateViewAnimationEntry() {
         List<EntryItem> viewanimationItems = new ArrayList<EntryItem>();
         viewanimationItems.add(new EntryItem("AnimationUtils", null));
         viewanimationItems.add(new EntryItem("ViewAnimationUtils", null));
@@ -195,19 +196,19 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private EntryItem generateViewInputmethodEntry(){
+    private EntryItem generateViewInputmethodEntry() {
         List<EntryItem> viewInputmethodItems = new ArrayList<EntryItem>();
         viewInputmethodItems.add(new EntryItem("InputMethodUtils", null));
         return new EntryItem("view.inputmethod", EntryFragment.class, viewInputmethodItems);
     }
 
-    private EntryItem generateWebkitEntry(){
+    private EntryItem generateWebkitEntry() {
         List<EntryItem> webkitItems = new ArrayList<EntryItem>();
         webkitItems.add(new EntryItem("WebViewManager", null));
         return new EntryItem("webkit", EntryFragment.class, webkitItems);
     }
 
-    private EntryItem generateWidgetEntry(){
+    private EntryItem generateWidgetEntry() {
         List<EntryItem> widgetItems = new ArrayList<EntryItem>();
         widgetItems.add(new EntryItem("CheckAdapter", CheckAdapterSampleFragment.class));
         widgetItems.add(new EntryItem("DepthPageTransformer", null));
